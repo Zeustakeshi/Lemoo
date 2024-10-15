@@ -5,5 +5,13 @@
  * */
 
 
-package com.lemoo.auth.dto.response;public class OtpResponse {
+package com.lemoo.auth.dto.response;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+@Data
+@AllArgsConstructor
+public class OtpResponse {
+    private String code;
 }

@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.lemoo</groupId>
-    <artifactId>User</artifactId>
+    <artifactId>Auth</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>User</name>
-    <description>User</description>
+    <name>Auth</name>
+    <description>Auth</description>
     <url/>
     <licenses>
         <license/>
@@ -40,17 +40,17 @@
         </dependency>
 
         <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
             <groupId>com.aventrix.jnanoid</groupId>
             <artifactId>jnanoid</artifactId>
             <version>2.0.0</version>
         </dependency>
 
-
-        <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <scope>runtime</scope>
-        </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>

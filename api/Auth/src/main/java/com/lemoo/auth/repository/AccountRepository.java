@@ -4,7 +4,6 @@
  *  @created 10/15/2024 10:19 PM
  * */
 
-
 package com.lemoo.auth.repository;
 
 import com.lemoo.auth.entity.Account;
@@ -19,4 +18,6 @@ public interface AccountRepository extends JpaRepository<Account, String> {
 
     @Query("select a from Account  a where  a.phone = :accountNam or a.email = :accountName")
     Optional<Account> findByEmailOrPhone(String accountName);
+
+    boolean existsByPhoneOrEmail(String phone, String email);
 }

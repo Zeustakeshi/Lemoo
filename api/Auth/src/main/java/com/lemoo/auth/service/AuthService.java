@@ -6,6 +6,20 @@
 
 package com.lemoo.auth.service;
 
+import com.lemoo.auth.dto.request.CreateAccountRequest;
+import com.lemoo.auth.dto.response.OtpResponse;
+
 public interface AuthService {
+    OtpResponse createAccount(CreateAccountRequest request);
+
+    // create account resend otp
+
+    // validate create account otp
+
+    // login with email and password
+
+    // mfa resend otp
+
+    // validate mfa otp
     
 }

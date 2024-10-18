@@ -11,6 +11,7 @@ import com.aventrix.jnanoid.jnanoid.NanoIdUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lemoo.auth.common.enums.OtpType;
 import com.lemoo.auth.domain.Otp;
+import com.lemoo.auth.exception.ForbiddenException;
 import com.lemoo.auth.exception.InvalidOtpCodeException;
 import com.lemoo.auth.service.OtpService;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,10 @@ import java.util.concurrent.TimeUnit;
 @Service
 @RequiredArgsConstructor
 public class OtpServiceImpl implements OtpService {
+    private static final Integer MAXIMUM_NUMBER_OF_SEND_OTP_REQUEST = 5;
+    private static final Integer OTP_SIZE = 6;
+    private static final Long OTP_EXPIRED_TIME = TimeUnit.MINUTES.toSeconds(3);
+
 
     private final ObjectMapper objectMapper;
     private final PasswordEncoder passwordEncoder;
@@ -36,41 +41,50 @@ public class OtpServiceImpl implements OtpService {
     @Override
     @SneakyThrows
     public String sendOtp(OtpType type) {
+        return sendOtpWithResendCount(type, 0);
+    }
 
+    @SneakyThrows
+    public String resendOtp(String otpCode, OtpType type) {
+        String otpString = jedis.get(otpCode);
+
+        int resendCount = 0;
+
+        if (otpString != null) {
+            Otp existingOtp = objectMapper.readValue(otpString, Otp.class);
+            if (!existingOtp.getType().equals(type)) {
+                throw new InvalidOtpCodeException("OTP code does not match the requested type.");
+            }
+
+            if (existingOtp.getResendCount() >= MAXIMUM_NUMBER_OF_SEND_OTP_REQUEST) {
+                throw new ForbiddenException("You have reached the limit for OTP resend attempts. Please try again later.");
+            }
+
+            resendCount = existingOtp.getResendCount() + 1;
+        }
+
+        jedis.del(otpCode);
+
+        return sendOtpWithResendCount(type, resendCount);
+    }
+
+    @SneakyThrows
+    private String sendOtpWithResendCount(OtpType type, int resendCount) {
         String plainOtp = generateOtp();
 
-        Otp otp = Otp
-                .builder()
+        Otp otp = Otp.builder()
                 .type(type)
                 .value(passwordEncoder.encode(plainOtp))
+                .resendCount(resendCount)
                 .build();
 
-        // save hash otp to redis
-        jedis.setex(otp.getCode(), TimeUnit.MINUTES.toSeconds(3), objectMapper.writeValueAsString(otp));
+        jedis.setex(otp.getCode(), OTP_EXPIRED_TIME, objectMapper.writeValueAsString(otp));
 
-        // send otp
-        log.info("otp {}: send to notification >>-> {}", type, plainOtp);
+        log.info("OTP {}: send to notification >>-> {}", otp.getType(), plainOtp);
+
         return otp.getCode();
     }
 
-    @Override
-    @SneakyThrows
-    public String resendOtp(String otpCode, OtpType type) {
-        // validate otpCode and type
-        String otpString = jedis.get(otpCode);
-
-        if (otpString == null) throw new InvalidOtpCodeException("Invalid otp code");
-
-        Otp otp = objectMapper.readValue(otpString, Otp.class);
-
-        if (!otp.getType().equals(type)) throw new InvalidOtpCodeException("Invalid otp code");
-
-        // delete old otp
-        jedis.del(otpCode);
-
-        // send new otp
-        return sendOtp(type);
-    }
 
     @Override
     @SneakyThrows
@@ -86,9 +100,10 @@ public class OtpServiceImpl implements OtpService {
         jedis.del(otpCode);
     }
 
+
     private String generateOtp() {
         return NanoIdUtils.randomNanoId(
-                new Random(), new char[]{'1', '2', '3', '4', '5', '6', '7', '8', '9', '0'}, 6);
+                new Random(), new char[]{'1', '2', '3', '4', '5', '6', '7', '8', '9', '0'}, OTP_SIZE);
     }
 
 }

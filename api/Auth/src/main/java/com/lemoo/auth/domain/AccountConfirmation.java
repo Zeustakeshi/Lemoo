@@ -7,13 +7,13 @@
 
 package com.lemoo.auth.domain;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 @Data
 @Builder
 @EqualsAndHashCode(callSuper = true)
+@AllArgsConstructor
+@NoArgsConstructor
 public class AccountConfirmation extends AccountOtpInformation {
     private String email;
     private String password;

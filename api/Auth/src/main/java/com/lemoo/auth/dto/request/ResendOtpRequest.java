@@ -13,5 +13,5 @@ import lombok.Data;
 @Data
 public class ResendOtpRequest {
     @NotEmpty
-    private String otpCode;
+    private String code;
 }

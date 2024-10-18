@@ -34,7 +34,8 @@ public class AuthController {
     public ApiResponse<?> resendCreateAccountOtp(
             @RequestBody @Valid ResendOtpRequest request
     ) {
-        return ApiResponse.success("oke");
+        authService.resendCreateAccountOtp(request);
+        return ApiResponse.success(true);
     }
 
 }

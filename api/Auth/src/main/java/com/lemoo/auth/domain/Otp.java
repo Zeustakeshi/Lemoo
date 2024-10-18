@@ -22,4 +22,7 @@ public class Otp {
     private String code = NanoIdUtils.randomNanoId();
     private String value;
     private OtpType type;
+
+    @Builder.Default
+    private Integer resendCount = 0;
 }

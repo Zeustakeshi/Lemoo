@@ -1,0 +1,48 @@
+spring:
+  application:
+    name: auth-service
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    open-in-view: false
+    database: postgresql
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+        globally_quoted_identifiers: true
+        globally_quoted_identifiers_skip_column_definitions: true
+  jackson:
+    default-property-inclusion: non_null
+    serialization:
+      fail-on-empty-beans: false
+      close-closeable: true
+      flush-after-write-value: true
+      write-date-keys-as-timestamps: false
+    deserialization:
+      fail-on-unknown-properties: false
+server:
+  port: 8080
+  servlet:
+    context-path: /api/v1/auth
+
+jwt:
+  key:
+    access-token:
+      public-key: ${ACCESS_TOKEN_PUBLIC_KEY_PATH}
+      private-key: ${ACCESS_TOKEN_PRIVATE_KEY_PATH}
+      expireIn: 2 # hour
+    refresh-token:
+      public-key: ${REFRESH_TOKEN_PUBLIC_KEY_PATH}
+      private-key: ${REFRESH_TOKEN_PRIVATE_KEY_PATH}
+      expireIn: 120 # hour == 5 days
+cache:
+  redis_url: ${REDIS_URL}
+assets:
+  default-avatar-man: ${USER_DEFAULT_AVATAR_MAN}

@@ -11,8 +11,10 @@ import com.lemoo.auth.AccountMapper;
 import com.lemoo.auth.common.enums.OtpType;
 import com.lemoo.auth.common.enums.Role;
 import com.lemoo.auth.domain.AccountConfirmation;
+import com.lemoo.auth.domain.AccountMfa;
 import com.lemoo.auth.domain.AccountOtpInformation;
 import com.lemoo.auth.dto.request.CreateAccountRequest;
+import com.lemoo.auth.dto.request.LoginRequest;
 import com.lemoo.auth.dto.request.ResendOtpRequest;
 import com.lemoo.auth.dto.request.VerifyOtpRequest;
 import com.lemoo.auth.dto.response.OtpResponse;
@@ -21,6 +23,7 @@ import com.lemoo.auth.entity.Account;
 import com.lemoo.auth.exception.BadRequestException;
 import com.lemoo.auth.exception.ConflictException;
 import com.lemoo.auth.exception.ForbiddenException;
+import com.lemoo.auth.exception.NotfoundException;
 import com.lemoo.auth.repository.AccountRepository;
 import com.lemoo.auth.service.AuthService;
 import com.lemoo.auth.service.OtpService;
@@ -62,13 +65,12 @@ public class AuthServiceImpl implements AuthService {
 
         AccountConfirmation accountConfirmation = accountMapper.createAccountRequestToAccountConfirmation(request);
         accountConfirmation.setPassword(passwordEncoder.encode(accountConfirmation.getPassword()));
-        accountConfirmation.setPassword(passwordEncoder.encode(accountConfirmation.getPassword()));
 
         String otpCode = otpService.sendOtp(OtpType.ACCOUNT_CREATION);
 
         accountConfirmation.setOtpCode(otpCode);
 
-        jedis.setex(accountConfirmation.getCode(), TimeUnit.MINUTES.toSeconds(15), objectMapper.writeValueAsString(accountConfirmation));
+        jedis.setex(accountConfirmation.getCode(), TimeUnit.MINUTES.toSeconds(5), objectMapper.writeValueAsString(accountConfirmation));
 
         return new OtpResponse(accountConfirmation.getCode());
     }
@@ -112,6 +114,70 @@ public class AuthServiceImpl implements AuthService {
         account.setAvatar(defaultAvatarMan);
 
         return tokenService.generateTokenPair(accountRepository.save(account));
+    }
+
+    @Override
+    public Object login(LoginRequest request) {
+        Account account = accountRepository.findByEmailOrPhone(request.getAccountName())
+                .orElseThrow(() -> new BadRequestException("Wrong account name or password"));
+
+        // check account password
+        if (!passwordEncoder.matches(request.getPassword(), account.getPassword())) {
+            throw new BadRequestException("Wrong account name or password");
+        }
+
+        if (account.getActiveMfa()) return mfaLogin(account);
+
+        return tokenService.generateTokenPair(account);
+    }
+
+    @Override
+    @SneakyThrows
+    public void resendMfaOtp(ResendOtpRequest request) {
+        // validate account mfa code
+        String accountMfaString = jedis.get(request.getCode());
+
+        if (accountMfaString == null) {
+            throw new BadRequestException("Invalid otp code.");
+        }
+
+        AccountMfa accountMfa = objectMapper.readValue(accountMfaString, AccountMfa.class);
+
+        String otpCode = otpService.resendOtp(accountMfa.getOtpCode(), OtpType.MFA);
+
+        // update account mfa
+        accountMfa.setOtpCode(otpCode);
+
+        jedis.setex(
+                accountMfa.getCode(),
+                jedis.ttl(accountMfa.getCode()),
+                objectMapper.writeValueAsString(accountMfa)
+        );
+    }
+
+    @Override
+    public TokenResponse verifyMfaOtp(VerifyOtpRequest request) {
+        // verify otp and get account mfa
+        AccountMfa accountMfa = verifyOtpAndRetrieveData(request, AccountMfa.class);
+
+        Account account = accountRepository.findById(accountMfa.getAccountId())
+                .orElseThrow(() -> new NotfoundException("Account not found"));
+
+        return tokenService.generateTokenPair(account);
+    }
+
+    @SneakyThrows
+    private OtpResponse mfaLogin(Account account) {
+        String otpCode = otpService.sendOtp(OtpType.MFA);
+
+        AccountMfa accountMfa = AccountMfa.builder()
+                .accountId(account.getId())
+                .otpCode(otpCode)
+                .build();
+
+        jedis.setex(accountMfa.getCode(), TimeUnit.MINUTES.toSeconds(5), objectMapper.writeValueAsString(accountMfa));
+
+        return new OtpResponse(accountMfa.getCode());
     }
 
     @SneakyThrows

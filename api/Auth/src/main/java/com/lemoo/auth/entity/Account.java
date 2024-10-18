@@ -35,6 +35,9 @@ public class Account extends BaseEntity implements UserDetails {
     @Column(unique = true, nullable = false)
     private String email;
 
+    @Builder.Default
+    private Boolean activeMfa = false;
+
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
     @Builder.Default

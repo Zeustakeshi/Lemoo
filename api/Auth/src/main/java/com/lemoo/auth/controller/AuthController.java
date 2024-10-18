@@ -7,6 +7,7 @@
 package com.lemoo.auth.controller;
 
 import com.lemoo.auth.dto.request.CreateAccountRequest;
+import com.lemoo.auth.dto.request.LoginRequest;
 import com.lemoo.auth.dto.request.ResendOtpRequest;
 import com.lemoo.auth.dto.request.VerifyOtpRequest;
 import com.lemoo.auth.dto.response.ApiResponse;
@@ -46,5 +47,31 @@ public class AuthController {
     ) {
         return ApiResponse.success(authService.verifyCreateAccountOtp(request));
     }
+
+    @PostMapping("/login")
+    @ResponseStatus(HttpStatus.OK)
+    public ApiResponse<?> login(
+            @RequestBody @Valid LoginRequest request
+    ) {
+        return ApiResponse.success(authService.login(request));
+    }
+
+    @PostMapping("/login/mfa/resend")
+    @ResponseStatus(HttpStatus.OK)
+    public ApiResponse<?> resendMfaOtp(
+            @RequestBody @Valid ResendOtpRequest request
+    ) {
+        authService.resendMfaOtp(request);
+        return ApiResponse.success(true);
+    }
+
+    @PostMapping("/login/mfa/verify")
+    @ResponseStatus(HttpStatus.OK)
+    public ApiResponse<?> verifyMfaOtp(
+            @RequestBody @Valid VerifyOtpRequest request
+    ) {
+        return ApiResponse.success(authService.verifyMfaOtp(request));
+    }
+
 
 }

@@ -7,6 +7,7 @@
 package com.lemoo.auth.service;
 
 import com.lemoo.auth.dto.request.CreateAccountRequest;
+import com.lemoo.auth.dto.request.LoginRequest;
 import com.lemoo.auth.dto.request.ResendOtpRequest;
 import com.lemoo.auth.dto.request.VerifyOtpRequest;
 import com.lemoo.auth.dto.response.OtpResponse;
@@ -23,11 +24,12 @@ public interface AuthService {
     // verify create account otp
     TokenResponse verifyCreateAccountOtp(VerifyOtpRequest request);
 
-
     // login with email and password
+    Object login(LoginRequest request);
 
     // mfa resend otp
+    void resendMfaOtp(ResendOtpRequest request);
 
-    // validate mfa otp
-
+    // verify mfa otp
+    TokenResponse verifyMfaOtp(VerifyOtpRequest request);
 }

@@ -4,7 +4,6 @@
  *  @created 10/18/2024 4:34 PM
  * */
 
-
 package com.lemoo.auth.domain;
 
 import lombok.*;
@@ -15,10 +14,9 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AccountConfirmation extends AccountOtpInformation {
-    private String email;
-    private String password;
-    private String username;
-    private String phone;
-    private String otpCode;
-    
+	private String email;
+	private String password;
+	private String username;
+	private String phone;
+	private String otpCode;
 }

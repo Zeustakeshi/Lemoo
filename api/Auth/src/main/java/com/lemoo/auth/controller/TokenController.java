@@ -4,7 +4,6 @@
  *  @created 10/18/2024 10:14 PM
  * */
 
-
 package com.lemoo.auth.controller;
 
 import com.lemoo.auth.dto.request.RefreshTokenRequest;
@@ -19,14 +18,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/token")
 @RequiredArgsConstructor
 public class TokenController {
-    private final TokenService tokenService;
+	private final TokenService tokenService;
 
-    @PostMapping("/refresh")
-    @ResponseStatus(HttpStatus.CREATED)
-    public ApiResponse<?> refreshToken(
-            @RequestBody @Valid RefreshTokenRequest request
-    ) {
-        return ApiResponse.success(tokenService.refreshToken(request));
-    }
-
+	@PostMapping("/refresh")
+	@ResponseStatus(HttpStatus.CREATED)
+	public ApiResponse<?> refreshToken(@RequestBody @Valid RefreshTokenRequest request) {
+		return ApiResponse.success(tokenService.refreshToken(request));
+	}
 }

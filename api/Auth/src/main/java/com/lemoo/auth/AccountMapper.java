@@ -15,8 +15,8 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface AccountMapper {
 
-    @Mapping(target = "otpCode", ignore = true)
-    AccountConfirmation createAccountRequestToAccountConfirmation(CreateAccountRequest accountRequest);
+	@Mapping(target = "otpCode", ignore = true)
+	AccountConfirmation createAccountRequestToAccountConfirmation(CreateAccountRequest accountRequest);
 
-    Account accountConfirmationToAccount(AccountConfirmation accountConfirmation);
+	Account accountConfirmationToAccount(AccountConfirmation accountConfirmation);
 }

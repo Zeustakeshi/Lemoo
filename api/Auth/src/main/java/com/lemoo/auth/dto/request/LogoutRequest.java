@@ -1,7 +1,7 @@
 /*
- *  LoginRequest
+ *  LogoutRequest
  *  @author: Minhhieuano
- *  @created 10/18/2024 9:36 PM
+ *  @created 10/19/2024 12:31 AM
  * */
 
 package com.lemoo.auth.dto.request;
@@ -10,11 +10,7 @@ import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 
 @Data
-public class LoginRequest {
-
+public class LogoutRequest {
 	@NotEmpty
-	private String accountName;
-
-	@NotEmpty
-	private String password;
+	private String token;
 }

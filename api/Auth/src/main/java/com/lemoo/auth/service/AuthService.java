@@ -6,33 +6,30 @@
 
 package com.lemoo.auth.service;
 
-import com.lemoo.auth.dto.request.CreateAccountRequest;
-import com.lemoo.auth.dto.request.LoginRequest;
-import com.lemoo.auth.dto.request.ResendOtpRequest;
-import com.lemoo.auth.dto.request.VerifyOtpRequest;
+import com.lemoo.auth.dto.request.*;
 import com.lemoo.auth.dto.response.OtpResponse;
 import com.lemoo.auth.dto.response.TokenResponse;
 
 public interface AuthService {
 
-    // create account
-    OtpResponse createAccount(CreateAccountRequest request);
+	// create account
+	OtpResponse createAccount(CreateAccountRequest request);
 
-    // create account resend otp
-    void resendCreateAccountOtp(ResendOtpRequest request);
+	// create account resend otp
+	void resendCreateAccountOtp(ResendOtpRequest request);
 
-    // verify create account otp
-    TokenResponse verifyCreateAccountOtp(VerifyOtpRequest request);
+	// verify create account otp
+	TokenResponse verifyCreateAccountOtp(VerifyOtpRequest request);
 
-    // login with email and password
-    Object login(LoginRequest request);
+	// login with email and password
+	Object login(LoginRequest request);
 
-    // mfa resend otp
-    void resendMfaOtp(ResendOtpRequest request);
+	// mfa resend otp
+	void resendMfaOtp(ResendOtpRequest request);
 
-    // verify mfa otp
-    TokenResponse verifyMfaOtp(VerifyOtpRequest request);
+	// verify mfa otp
+	TokenResponse verifyMfaOtp(VerifyOtpRequest request);
 
-    // logout
-//    void logout();
+	// logout
+	void logout(LogoutRequest request);
 }

@@ -4,11 +4,10 @@
  *  @created 10/19/2024 12:07 AM
  * */
 
-
 package com.lemoo.auth.exception;
 
 public class TokenException extends RuntimeException {
-    public TokenException(String message) {
-        super(message);
-    }
+	public TokenException(String message) {
+		super(message);
+	}
 }

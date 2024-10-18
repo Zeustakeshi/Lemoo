@@ -12,5 +12,5 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class OtpResponse {
-    private String code;
+	private String code;
 }

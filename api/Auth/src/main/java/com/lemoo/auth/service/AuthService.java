@@ -32,4 +32,7 @@ public interface AuthService {
 
     // verify mfa otp
     TokenResponse verifyMfaOtp(VerifyOtpRequest request);
+
+    // logout
+//    void logout();
 }

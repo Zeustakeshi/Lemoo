@@ -20,5 +20,5 @@ public class AccountConfirmation extends AccountOtpInformation {
     private String username;
     private String phone;
     private String otpCode;
-    private int resendCount;
+    
 }

@@ -44,3 +44,5 @@ jwt:
       expireIn: 120 # hour == 5 days
 cache:
   redis_url: ${REDIS_URL}
+assets:
+  default-avatar-man: ${USER_DEFAULT_AVATAR_MAN}

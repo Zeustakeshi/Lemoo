@@ -8,6 +8,7 @@ package com.lemoo.auth;
 
 import com.lemoo.auth.domain.AccountConfirmation;
 import com.lemoo.auth.dto.request.CreateAccountRequest;
+import com.lemoo.auth.entity.Account;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -16,4 +17,6 @@ public interface AccountMapper {
 
     @Mapping(target = "otpCode", ignore = true)
     AccountConfirmation createAccountRequestToAccountConfirmation(CreateAccountRequest accountRequest);
+
+    Account accountConfirmationToAccount(AccountConfirmation accountConfirmation);
 }

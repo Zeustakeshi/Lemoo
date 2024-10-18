@@ -8,6 +8,7 @@ package com.lemoo.auth.controller;
 
 import com.lemoo.auth.dto.request.CreateAccountRequest;
 import com.lemoo.auth.dto.request.ResendOtpRequest;
+import com.lemoo.auth.dto.request.VerifyOtpRequest;
 import com.lemoo.auth.dto.response.ApiResponse;
 import com.lemoo.auth.service.AuthService;
 import jakarta.validation.Valid;
@@ -36,6 +37,14 @@ public class AuthController {
     ) {
         authService.resendCreateAccountOtp(request);
         return ApiResponse.success(true);
+    }
+
+    @PostMapping("/register/otp/verify")
+    @ResponseStatus(HttpStatus.OK)
+    public ApiResponse<?> verifyCreateAccountOtp(
+            @RequestBody @Valid VerifyOtpRequest request
+    ) {
+        return ApiResponse.success(authService.verifyCreateAccountOtp(request));
     }
 
 }

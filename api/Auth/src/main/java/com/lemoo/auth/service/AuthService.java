@@ -8,7 +8,9 @@ package com.lemoo.auth.service;
 
 import com.lemoo.auth.dto.request.CreateAccountRequest;
 import com.lemoo.auth.dto.request.ResendOtpRequest;
+import com.lemoo.auth.dto.request.VerifyOtpRequest;
 import com.lemoo.auth.dto.response.OtpResponse;
+import com.lemoo.auth.dto.response.TokenResponse;
 
 public interface AuthService {
 
@@ -18,8 +20,9 @@ public interface AuthService {
     // create account resend otp
     void resendCreateAccountOtp(ResendOtpRequest request);
 
-    // validate create account otp
-    
+    // verify create account otp
+    TokenResponse verifyCreateAccountOtp(VerifyOtpRequest request);
+
 
     // login with email and password
 

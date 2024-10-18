@@ -16,6 +16,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
+@Data
 public abstract class AccountOtpInformation {
 
     @Builder.Default
@@ -25,6 +26,6 @@ public abstract class AccountOtpInformation {
     private String otpCode;
 
     @Builder.Default
-    private Integer validateCount = 0;
+    private Integer validationCount = 0;
 }
 

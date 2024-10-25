@@ -23,13 +23,11 @@ jobs:
           distribution: 'temurin'
           cache: maven
       - name: Setup token key
-        run: |
-          cd ./keys
-          bash key_generator.sh
+        working-directory: ./keys
+        run: bash key_generator.sh
       - name: Build with Maven
-        run: |
-          cd ../api/Auth
-          mvn clean package
+        working-directory: ./api/Auth
+        run: mvn clean package
       - name: Build the Docker image
         run: docker build . --file Dockerfile --tag zeustakeshi/lemoo-auth-service:latest
       - name: login Dockerhub

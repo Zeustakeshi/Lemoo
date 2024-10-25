@@ -32,7 +32,6 @@
         <org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
         <spotless.version>2.43.0</spotless.version>
 
-             
     </properties>
     <dependencies>
         <dependency>

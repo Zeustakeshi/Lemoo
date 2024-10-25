@@ -35,11 +35,11 @@ jwt:
   key:
     access-token:
       public-key: ${ACCESS_TOKEN_PUBLIC_KEY_PATH:../../keys/accessToken/publicKey.pem}
-      private-key: ${ACCESS_TOKEN_PRIVATE_KEY_PATH:../../keys/accessToken/private.pem}
+      private-key: ${ACCESS_TOKEN_PRIVATE_KEY_PATH:../../keys/accessToken/privateKey.pem}
       expireIn: 2 # hour
     refresh-token:
       public-key: ${REFRESH_TOKEN_PUBLIC_KEY_PATH:../../keys/refreshToken/publicKey.pem}
-      private-key: ${REFRESH_TOKEN_PRIVATE_KEY_PATH:../../keys/accessToken/refreshToken.pem}
+      private-key: ${REFRESH_TOKEN_PRIVATE_KEY_PATH:../../keys/refreshToken/privateKey.pem}
       expireIn: 120 # hour == 5 days
 cache:
   redis_url: ${REDIS_URL}

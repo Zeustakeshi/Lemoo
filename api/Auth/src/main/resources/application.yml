@@ -31,18 +31,17 @@ server:
   port: 8080
   servlet:
     context-path: /api/v1/auth
-
 jwt:
   key:
     access-token:
-      public-key: ${ACCESS_TOKEN_PUBLIC_KEY_PATH}
-      private-key: ${ACCESS_TOKEN_PRIVATE_KEY_PATH}
+      public-key: ${ACCESS_TOKEN_PUBLIC_KEY_PATH:../../keys/accessToken/publicKey.pem}
+      private-key: ${ACCESS_TOKEN_PRIVATE_KEY_PATH:../../keys/accessToken/privateKey.pem}
       expireIn: 2 # hour
     refresh-token:
-      public-key: ${REFRESH_TOKEN_PUBLIC_KEY_PATH}
-      private-key: ${REFRESH_TOKEN_PRIVATE_KEY_PATH}
+      public-key: ${REFRESH_TOKEN_PUBLIC_KEY_PATH:../../keys/refreshToken/publicKey.pem}
+      private-key: ${REFRESH_TOKEN_PRIVATE_KEY_PATH:../../keys/refreshToken/privateKey.pem}
       expireIn: 120 # hour == 5 days
 cache:
   redis_url: ${REDIS_URL}
 assets:
-  default-avatar-man: ${USER_DEFAULT_AVATAR_MAN}
+  default-avatar-man: ${USER_DEFAULT_AVATAR_MAN:https://res.cloudinary.com/dvo9krira/image/upload/v1729261457/Lemoo/user/avatar/default-avatar-man.jpg}

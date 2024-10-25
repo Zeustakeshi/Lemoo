@@ -29,6 +29,7 @@ jobs:
         working-directory: ./api/Auth
         run: mvn clean package
       - name: Build the Docker image
+        working-directory: ./api/Auth
         run: docker build . --file Dockerfile --tag zeustakeshi/lemoo-auth-service:latest
       - name: login Dockerhub
         run: |

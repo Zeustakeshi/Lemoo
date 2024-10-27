@@ -4,7 +4,7 @@
  *  @created 9/15/2024 3:59 PM
  * */
 
-package com.vibio.gateway.config;
+package com.lemoo.gateway.config;
 
 import java.util.List;
 import org.springframework.context.annotation.Bean;

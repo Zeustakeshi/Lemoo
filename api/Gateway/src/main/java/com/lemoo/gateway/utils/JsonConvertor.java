@@ -4,7 +4,7 @@
  *  @created 9/14/2024 12:42 AM
  * */
 
-package com.vibio.gateway.utils;
+package com.lemoo.gateway.utils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;

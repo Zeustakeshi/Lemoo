@@ -4,7 +4,7 @@
  *  @created 9/14/2024 12:53 AM
  * */
 
-package com.vibio.gateway.dto.request;
+package com.lemoo.gateway.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

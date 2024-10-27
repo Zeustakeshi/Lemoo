@@ -4,7 +4,7 @@
  *  @created 9/8/2024 9:04 PM
  * */
 
-package com.vibio.gateway.exception;
+package com.lemoo.gateway.dto.exception;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

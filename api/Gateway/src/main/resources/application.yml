@@ -1,0 +1,42 @@
+server:
+  port: 8080
+api:
+  prefix: /api/v1
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      globalcors:
+        cors-configurations:
+          "[/**]":
+            allowedOrigins: "*"
+            allowed-origin-patterns: "*"
+            allowedHeaders: "*"
+            allowedMethods: "*"
+      routes:
+        #============================  Auth route ============================#
+        - id: auth_route
+          uri: ${services.auth-service}
+          predicates:
+            - Path= ${api.prefix}/auth/**
+          filters:
+            - StripPrefix=2
+        #============================  Token route ============================#
+        - id: token_route
+          uri: ${services.auth-service}
+          predicates:
+            - Path= ${api.prefix}/token/**
+          filters:
+            - StripPrefix=2
+            - RewritePath=/token/, /auth/token/
+        #============================  User route ============================#
+        - id: user_route
+          uri: ${services.user-service}
+          predicates:
+            - Path= ${api.prefix}/users/**
+          filters:
+            - StripPrefix=2
+services:
+  auth-service: ${AUTH_SERVICE_URL:http://localhost:8082}
+  user-service: ${USER_SERVICE_URL:http://localhost:8082}

@@ -4,13 +4,13 @@
  *  @created 9/14/2024 1:02 AM
  * */
 
-package com.vibio.gateway.filters;
+package com.lemoo.gateway.filters;
 
-import com.vibio.gateway.common.ServiceEndpointProperties;
-import com.vibio.gateway.dto.request.IntrospectTokenRequest;
-import com.vibio.gateway.dto.response.ApiResponse;
-import com.vibio.gateway.exception.ForbiddenException;
-import com.vibio.gateway.exception.UnauthorizedException;
+import com.lemoo.gateway.common.ServiceEndpointProperties;
+import com.lemoo.gateway.dto.exception.ForbiddenException;
+import com.lemoo.gateway.dto.exception.UnauthorizedException;
+import com.lemoo.gateway.dto.request.IntrospectTokenRequest;
+import com.lemoo.gateway.dto.response.ApiResponse;
 import io.micrometer.common.util.StringUtils;
 import java.util.List;
 import java.util.Objects;

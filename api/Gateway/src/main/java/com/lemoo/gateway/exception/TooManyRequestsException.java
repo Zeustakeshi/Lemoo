@@ -4,12 +4,12 @@
  *  @created 9/8/2024 9:06 PM
  * */
 
-package com.lemoo.gateway.dto.exception;
+package com.lemoo.gateway.exception;
 
 import org.springframework.http.HttpStatus;
 
 public class TooManyRequestsException extends ApiException {
-	public TooManyRequestsException(String message) {
-		super(HttpStatus.TOO_MANY_REQUESTS, message);
-	}
+    public TooManyRequestsException(String message) {
+        super(HttpStatus.TOO_MANY_REQUESTS, message);
+    }
 }

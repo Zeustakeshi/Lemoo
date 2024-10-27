@@ -4,12 +4,12 @@
  *  @created 9/8/2024 9:06 PM
  * */
 
-package com.lemoo.gateway.dto.exception;
+package com.lemoo.gateway.exception;
 
 import org.springframework.http.HttpStatus;
 
 public class UnauthorizedException extends ApiException {
-	public UnauthorizedException(String message) {
-		super(HttpStatus.UNAUTHORIZED, message);
-	}
+    public UnauthorizedException(String message) {
+        super(HttpStatus.UNAUTHORIZED, message);
+    }
 }

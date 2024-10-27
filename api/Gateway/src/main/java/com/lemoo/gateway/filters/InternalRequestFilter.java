@@ -6,7 +6,7 @@
 
 package com.lemoo.gateway.filters;
 
-import com.lemoo.gateway.dto.exception.ForbiddenException;
+import com.lemoo.gateway.exception.ForbiddenException;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
@@ -17,20 +17,20 @@ import reactor.core.publisher.Mono;
 
 @Component
 public class InternalRequestFilter implements GlobalFilter, Ordered {
-	@Override
-	public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-		ServerHttpRequest request = exchange.getRequest();
+    @Override
+    public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
+        ServerHttpRequest request = exchange.getRequest();
 
-		String path = request.getURI().getPath();
+        String path = request.getURI().getPath();
 
-		if (path.contains("/internal")) {
-			throw new ForbiddenException("Forbidden!!");
-		}
-		return chain.filter(exchange);
-	}
+        if (path.contains("/internal")) {
+            throw new ForbiddenException("Forbidden!!");
+        }
+        return chain.filter(exchange);
+    }
 
-	@Override
-	public int getOrder() {
-		return -2;
-	}
+    @Override
+    public int getOrder() {
+        return -2;
+    }
 }

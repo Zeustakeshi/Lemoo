@@ -40,8 +40,6 @@ spring:
         spring.json.trusted.packages: '*'
 server:
   port: 8082
-  servlet:
-    context-path: /
 jwt:
   key:
     access-token:

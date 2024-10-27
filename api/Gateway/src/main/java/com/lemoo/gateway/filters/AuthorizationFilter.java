@@ -7,13 +7,11 @@
 package com.lemoo.gateway.filters;
 
 import com.lemoo.gateway.common.ServiceEndpointProperties;
-import com.lemoo.gateway.dto.exception.ForbiddenException;
-import com.lemoo.gateway.dto.exception.UnauthorizedException;
 import com.lemoo.gateway.dto.request.IntrospectTokenRequest;
 import com.lemoo.gateway.dto.response.ApiResponse;
+import com.lemoo.gateway.exception.ForbiddenException;
+import com.lemoo.gateway.exception.UnauthorizedException;
 import io.micrometer.common.util.StringUtils;
-import java.util.List;
-import java.util.Objects;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.core.ParameterizedTypeReference;
@@ -22,60 +20,65 @@ import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.List;
+import java.util.Objects;
+
 @Component
 public class AuthorizationFilter extends AbstractGatewayFilterFactory<AuthorizationFilter.Config> {
 
-	private final ServiceEndpointProperties serviceEndpoints;
-	private final RestTemplate restTemplate;
+    private final ServiceEndpointProperties serviceEndpoints;
+    private final RestTemplate restTemplate;
 
-	public AuthorizationFilter(ServiceEndpointProperties serviceEndpoints, RestTemplate restTemplate) {
-		super(Config.class);
-		this.serviceEndpoints = serviceEndpoints;
-		this.restTemplate = restTemplate;
-	}
+    public AuthorizationFilter(ServiceEndpointProperties serviceEndpoints, RestTemplate restTemplate) {
+        super(Config.class);
+        this.serviceEndpoints = serviceEndpoints;
+        this.restTemplate = restTemplate;
+    }
 
-	@Override
-	public GatewayFilter apply(Config config) {
-		return ((exchange, chain) -> {
-			ServerHttpRequest request = exchange.getRequest();
-			List<String> headers = request.getHeaders().get(HttpHeaders.AUTHORIZATION);
+    @Override
+    public GatewayFilter apply(Config config) {
+        return ((exchange, chain) -> {
+            ServerHttpRequest request = exchange.getRequest();
+            List<String> headers = request.getHeaders().get(HttpHeaders.AUTHORIZATION);
 
-			if (headers == null) throw new UnauthorizedException("Missing Authorization Header!");
+            if (headers == null) throw new UnauthorizedException("Missing Authorization Header!");
 
-			String authHeader = headers.get(0);
+            String authHeader = headers.get(0);
 
-			if (StringUtils.isEmpty(authHeader) || !authHeader.startsWith("Bearer ")) {
-				throw new UnauthorizedException("The Authorization header must be in the format 'Bearer <token>'.");
-			}
+            if (StringUtils.isEmpty(authHeader) || !authHeader.startsWith("Bearer ")) {
+                throw new UnauthorizedException("The Authorization header must be in the format 'Bearer <token>'.");
+            }
 
-			String token = authHeader.substring(7);
+            String token = authHeader.substring(7);
 
-			if (!introspectToken(token)) {
-				throw new ForbiddenException("The provided token is invalid or expired.");
-			}
+            if (!introspectToken(token)) {
+                throw new ForbiddenException("The provided token is invalid or expired.");
+            }
 
-			return chain.filter(exchange);
-		});
-	}
+            return chain.filter(exchange);
+        });
+    }
 
-	private Boolean introspectToken(String token) {
-		HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(MediaType.APPLICATION_JSON);
+    private Boolean introspectToken(String token) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
 
-		HttpEntity<IntrospectTokenRequest> requestEntity = new HttpEntity<>(new IntrospectTokenRequest(token), headers);
+        HttpEntity<IntrospectTokenRequest> requestEntity = new HttpEntity<>(new IntrospectTokenRequest(token), headers);
 
-		ResponseEntity<ApiResponse<Boolean>> response = restTemplate.exchange(
-				serviceEndpoints.userService() + "/user/token/introspect",
-				HttpMethod.POST,
-				requestEntity,
-				new ParameterizedTypeReference<ApiResponse<Boolean>>() {});
+        ResponseEntity<ApiResponse<Boolean>> response = restTemplate.exchange(
+                serviceEndpoints.userService() + "/user/token/introspect",
+                HttpMethod.POST,
+                requestEntity,
+                new ParameterizedTypeReference<ApiResponse<Boolean>>() {
+                });
 
-		if (response.getStatusCode() == HttpStatus.OK) {
-			return Objects.requireNonNull(response.getBody()).getData();
-		} else {
-			throw new ForbiddenException("Invalid token");
-		}
-	}
+        if (response.getStatusCode() == HttpStatus.OK) {
+            return Objects.requireNonNull(response.getBody()).getData();
+        } else {
+            throw new ForbiddenException("Invalid token");
+        }
+    }
 
-	public static class Config {}
+    public static class Config {
+    }
 }

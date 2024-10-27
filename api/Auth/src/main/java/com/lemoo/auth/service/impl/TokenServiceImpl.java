@@ -29,6 +29,7 @@ import redis.clients.jedis.Jedis;
 public class TokenServiceImpl implements TokenService {
 	private static final String TOKEN_ID_KEY = "token_id";
 	private static final String TOKEN_TYPE_KEY = "type";
+	private static final String USER_ID_KEY = "user_id";
 
 	private final AccessTokenProperties accessTokenProperties;
 	private final RefreshTokenProperties refreshTokenProperties;
@@ -79,6 +80,8 @@ public class TokenServiceImpl implements TokenService {
 		Account account =
 				accountRepository.findById(accountId).orElseThrow(() -> new NotfoundException("Account not found."));
 
+		String userId = jwt.getClaim(USER_ID_KEY);
+
 		return generateTokenPair(account);
 	}
 
@@ -100,8 +103,8 @@ public class TokenServiceImpl implements TokenService {
 		JwtClaimsSet claimsSet = JwtClaimsSet.builder()
 				.subject(account.getId())
 				.claim("email", account.getEmail())
-				.claim("avatar", account.getAvatar())
 				.claim("scope", account.getAuthorities())
+				.claim(USER_ID_KEY, account.getProfileId())
 				.claim(TOKEN_TYPE_KEY, TokenType.ACCESS_TOKEN)
 				.claim(TOKEN_ID_KEY, tokenId)
 				.expiresAt(expireTime.toInstant(ZoneOffset.UTC))
@@ -128,8 +131,8 @@ public class TokenServiceImpl implements TokenService {
 		JwtClaimsSet claimsSet = JwtClaimsSet.builder()
 				.subject(account.getId())
 				.claim("email", account.getEmail())
-				.claim("avatar", account.getAvatar())
 				.claim("scope", account.getAuthorities())
+				.claim(USER_ID_KEY, account.getProfileId())
 				.claim(TOKEN_TYPE_KEY, TokenType.REFRESH_TOKEN)
 				.claim(TOKEN_ID_KEY, tokenId)
 				.expiresAt(expireTime.toInstant(ZoneOffset.UTC))

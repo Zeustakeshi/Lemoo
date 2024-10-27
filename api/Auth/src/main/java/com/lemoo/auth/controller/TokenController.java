@@ -15,7 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/token")
+@RequestMapping("/auth/token")
 @RequiredArgsConstructor
 public class TokenController {
 	private final TokenService tokenService;

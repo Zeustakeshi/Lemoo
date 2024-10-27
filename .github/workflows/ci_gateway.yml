@@ -1,0 +1,33 @@
+name: auth_service_build_check
+on:
+  pull_request:
+    branches:
+      - dev
+    paths:
+      - 'api/Auth/**'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      DB_URL: ${{ secrets.AUTH_DATABASE_URL }}
+      DB_USER: ${{ secrets.AUTH_DB_USER }}
+      DB_PASSWORD: ${{ secrets.AUTH_DB_PASSWORD }}
+      REDIS_URL: ${{ secrets.AUTH_REDIS_URL }}
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+      - name: Setup token key
+        working-directory: ./keys
+        run: bash key_generator.sh
+      - name: Build with Maven
+        working-directory: ./api/Auth
+        run: mvn clean package
+
+          
+          

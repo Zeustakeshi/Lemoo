@@ -6,6 +6,7 @@
 
 package com.lemoo.auth.entity;
 
+import com.aventrix.jnanoid.jnanoid.NanoIdUtils;
 import com.lemoo.auth.common.enums.Role;
 import jakarta.persistence.*;
 import java.util.Collection;
@@ -25,6 +26,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 @EqualsAndHashCode(callSuper = true)
 public class Account extends BaseEntity implements UserDetails {
 
+	@Builder.Default
+	@Column(nullable = false, unique = true, updatable = false)
+	private String profileId = NanoIdUtils.randomNanoId();
+
 	@Column(nullable = false)
 	private String username;
 
@@ -41,8 +46,6 @@ public class Account extends BaseEntity implements UserDetails {
 	@Enumerated(EnumType.STRING)
 	@Builder.Default
 	private Set<Role> authorities = new HashSet<>();
-
-	private String avatar;
 
 	@Column(nullable = false)
 	private String password;

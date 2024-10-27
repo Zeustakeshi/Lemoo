@@ -4,9 +4,9 @@
  *  @created 9/13/2024 11:50 PM
  * */
 
-package com.vibio.gateway.filters;
+package com.lemoo.gateway.filters;
 
-import com.vibio.gateway.exception.ForbiddenException;
+import com.lemoo.gateway.dto.exception.ForbiddenException;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;

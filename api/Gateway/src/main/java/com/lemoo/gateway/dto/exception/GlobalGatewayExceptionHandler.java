@@ -4,10 +4,11 @@
  *  @created 9/14/2024 12:01 AM
  * */
 
-package com.vibio.gateway.exception;
+package com.lemoo.gateway.dto.exception;
 
-import com.vibio.gateway.dto.response.ApiResponse;
-import com.vibio.gateway.utils.JsonConvertor;
+import com.lemoo.gateway.dto.response.ApiResponse;
+import com.lemoo.gateway.utils.JsonConvertor;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,8 +28,7 @@ public class GlobalGatewayExceptionHandler implements ErrorWebExceptionHandler {
 	private final JsonConvertor jsonConvertor;
 
 	@Override
-	public Mono<Void> handle(ServerWebExchange exchange, Throwable ex) {
-
+	@NonNull public Mono<Void> handle(ServerWebExchange exchange, Throwable ex) {
 		log.error("Prefix= {} error: {}", exchange.getRequest().getPath(), ex.getMessage());
 
 		HttpStatus status;

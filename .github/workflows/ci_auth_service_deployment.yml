@@ -1,4 +1,4 @@
-name: api_deployment
+name: auth_service_deployment
 on:
   push:
     branches:

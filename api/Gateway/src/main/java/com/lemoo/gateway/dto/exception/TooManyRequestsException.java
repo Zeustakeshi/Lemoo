@@ -4,7 +4,7 @@
  *  @created 9/8/2024 9:06 PM
  * */
 
-package com.vibio.gateway.exception;
+package com.lemoo.gateway.dto.exception;
 
 import org.springframework.http.HttpStatus;
 

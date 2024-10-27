@@ -1,18 +1,16 @@
-name: auth_service_build_check
+name: gateway_build_check
 on:
   pull_request:
     branches:
       - dev
     paths:
-      - 'api/Auth/**'
+      - 'api/Gateway/**'
 jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      DB_URL: ${{ secrets.AUTH_DATABASE_URL }}
-      DB_USER: ${{ secrets.AUTH_DB_USER }}
-      DB_PASSWORD: ${{ secrets.AUTH_DB_PASSWORD }}
-      REDIS_URL: ${{ secrets.AUTH_REDIS_URL }}
+      AUTH_SERVICE_URL: ${{ secrets.AUTH_SERVICE_URL }}
+      USER_SERVICE_URL: ${{ secrets.USER_SERVICE_URL }}
     steps:
       - name: checkout
         uses: actions/checkout@v4
@@ -22,11 +20,8 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           cache: maven
-      - name: Setup token key
-        working-directory: ./keys
-        run: bash key_generator.sh
       - name: Build with Maven
-        working-directory: ./api/Auth
+        working-directory: ./api/Gateway
         run: mvn clean package
 
           

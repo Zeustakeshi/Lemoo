@@ -4,7 +4,7 @@
  *  @created 9/8/2024 9:00 PM
  * */
 
-package com.vibio.gateway.dto.response;
+package com.lemoo.gateway.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import java.time.LocalDateTime;

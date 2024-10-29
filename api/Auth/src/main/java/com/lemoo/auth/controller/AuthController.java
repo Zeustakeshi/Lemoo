@@ -12,56 +12,58 @@ import com.lemoo.auth.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/auth")
 @RequiredArgsConstructor
 public class AuthController {
-	private final AuthService authService;
+    private final AuthService authService;
 
-	@PostMapping("/register")
-	@ResponseStatus(HttpStatus.OK)
-	public ApiResponse<?> register(@RequestBody @Valid CreateAccountRequest request) {
-		return ApiResponse.success(authService.createAccount(request));
-	}
+    @PostMapping("/register")
+    @ResponseStatus(HttpStatus.OK)
+    public ApiResponse<?> register(@RequestBody @Valid CreateAccountRequest request) {
+        return ApiResponse.success(authService.createAccount(request));
+    }
 
-	@PostMapping("/register/otp/resend")
-	@ResponseStatus(HttpStatus.OK)
-	public ApiResponse<?> resendCreateAccountOtp(@RequestBody @Valid ResendOtpRequest request) {
-		authService.resendCreateAccountOtp(request);
-		return ApiResponse.success(true);
-	}
+    @PostMapping("/register/otp/resend")
+    @ResponseStatus(HttpStatus.OK)
+    public ApiResponse<?> resendCreateAccountOtp(@RequestBody @Valid ResendOtpRequest request) {
+        authService.resendCreateAccountOtp(request);
+        return ApiResponse.success(true);
+    }
 
-	@PostMapping("/register/otp/verify")
-	@ResponseStatus(HttpStatus.OK)
-	public ApiResponse<?> verifyCreateAccountOtp(@RequestBody @Valid VerifyOtpRequest request) {
-		return ApiResponse.success(authService.verifyCreateAccountOtp(request));
-	}
+    @PostMapping("/register/otp/verify")
+    @ResponseStatus(HttpStatus.OK)
+    public ApiResponse<?> verifyCreateAccountOtp(@RequestBody @Valid VerifyOtpRequest request) {
+        return ApiResponse.success(authService.verifyCreateAccountOtp(request));
+    }
 
-	@PostMapping("/login")
-	@ResponseStatus(HttpStatus.OK)
-	public ApiResponse<?> login(@RequestBody @Valid LoginRequest request) {
-		return ApiResponse.success(authService.login(request));
-	}
+    @PostMapping("/login")
+    @ResponseStatus(HttpStatus.OK)
+    public ApiResponse<?> login(@RequestBody @Valid LoginRequest request) {
+        return ApiResponse.success(authService.login(request));
+    }
 
-	@PostMapping("/login/mfa/resend")
-	@ResponseStatus(HttpStatus.OK)
-	public ApiResponse<?> resendMfaOtp(@RequestBody @Valid ResendOtpRequest request) {
-		authService.resendMfaOtp(request);
-		return ApiResponse.success(true);
-	}
+    @PostMapping("/login/mfa/resend")
+    @ResponseStatus(HttpStatus.OK)
+    public ApiResponse<?> resendMfaOtp(@RequestBody @Valid ResendOtpRequest request) {
+        authService.resendMfaOtp(request);
+        return ApiResponse.success(true);
+    }
 
-	@PostMapping("/login/mfa/verify")
-	@ResponseStatus(HttpStatus.OK)
-	public ApiResponse<?> verifyMfaOtp(@RequestBody @Valid VerifyOtpRequest request) {
-		return ApiResponse.success(authService.verifyMfaOtp(request));
-	}
+    @PostMapping("/login/mfa/verify")
+    @ResponseStatus(HttpStatus.OK)
+    public ApiResponse<?> verifyMfaOtp(@RequestBody @Valid VerifyOtpRequest request) {
+        return ApiResponse.success(authService.verifyMfaOtp(request));
+    }
 
-	@PostMapping("/exit")
-	@ResponseStatus(HttpStatus.OK)
-	public ApiResponse<?> logout(@RequestBody @Valid LogoutRequest request) {
-		authService.logout(request);
-		return ApiResponse.success(true);
-	}
+    @PostMapping("/exit")
+    @ResponseStatus(HttpStatus.OK)
+    public ApiResponse<?> logout(@RequestBody @Valid LogoutRequest request) {
+        authService.logout(request);
+        return ApiResponse.success(true);
+    }
 }

@@ -1,6 +1,6 @@
 spring:
   application:
-    name: auth-service
+    name: user-service
   datasource:
     url: ${DB_URL}
     username: ${DB_USER}
@@ -27,6 +27,7 @@ spring:
       write-date-keys-as-timestamps: false
     deserialization:
       fail-on-unknown-properties: false
+
   kafka:
     producer:
       bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVER:127.0.0.1:9092}
@@ -34,24 +35,18 @@ spring:
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
     consumer:
       bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVER:127.0.0.1:9092}
-      group-id: auth_group
+      group-id: user_group
       auto-offset-reset: earliest
       properties:
         spring.json.trusted.packages: '*'
 server:
-  port: 8082
+  port: 8084
   servlet:
-    context-path: /auth
-jwt:
-  key:
-    access-token:
-      public-key: ${ACCESS_TOKEN_PUBLIC_KEY_PATH:../../keys/accessToken/publicKey.pem}
-      private-key: ${ACCESS_TOKEN_PRIVATE_KEY_PATH:../../keys/accessToken/privateKey.pem}
-      expireIn: 2 # hour
-    refresh-token:
-      public-key: ${REFRESH_TOKEN_PUBLIC_KEY_PATH:../../keys/refreshToken/publicKey.pem}
-      private-key: ${REFRESH_TOKEN_PRIVATE_KEY_PATH:../../keys/refreshToken/privateKey.pem}
-      expireIn: 120 # hour == 5 days
-cache:
-  redis_url: ${REDIS_URL}
+    context-path: /users
+
+services:
+  auth-service: ${AUTH_SERVICE_URL:http://localhost:8082}
+
+assets:
+  default-avatar: ${USER_DEFAULT_AVATAR:https://res.cloudinary.com/dvo9krira/image/upload/v1729261457/Lemoo/user/avatar/default-avatar-man.jpg}
 

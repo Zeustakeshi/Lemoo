@@ -22,12 +22,7 @@ const CreateAcountForm = ({}: Props) => {
         watch,
     } = useForm<z.infer<typeof createAccountSchema>>({
         resolver: zodResolver(createAccountSchema),
-        defaultValues: {
-            email: "hieu@gmail.com",
-            password: "ABCabc123@",
-            phone: "0916561442",
-            username: "Minh Hiếu",
-        },
+        defaultValues: {},
     });
 
     const { mutateAsync: createAccountMutation, isPending } = useMutation({

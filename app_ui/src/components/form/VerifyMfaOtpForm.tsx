@@ -1,4 +1,4 @@
-import { resendCreateAccountOtp, verifyCreateAccountOtp } from "@/api/auth.api";
+import { resendMfaOtp, verifyMfaOtp } from "@/api/auth.api";
 import { useAuth } from "@/context/AuthContext";
 import { otpSchema } from "@/schema/auth.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -16,7 +16,7 @@ type Props = {
     otpCode: string;
 };
 
-const VerifyAccountOtpForm = ({ otpCode }: Props) => {
+const VerifyMfaOtpForm = ({ otpCode }: Props) => {
     const { login } = useAuth();
 
     const {
@@ -32,15 +32,14 @@ const VerifyAccountOtpForm = ({ otpCode }: Props) => {
 
     const { mutateAsync: verifyOtpMuation, isPending: isVerifyPending } =
         useMutation({
-            mutationKey: ["verify-create-account", otpCode],
-            mutationFn: (data: z.infer<typeof otpSchema>) =>
-                verifyCreateAccountOtp(data),
+            mutationKey: ["verify-mfa", otpCode],
+            mutationFn: (data: z.infer<typeof otpSchema>) => verifyMfaOtp(data),
         });
 
     const { mutateAsync: resendOtpMuation, isPending: isResendPending } =
         useMutation({
-            mutationKey: ["resend-create-account-otp", otpCode],
-            mutationFn: () => resendCreateAccountOtp(otpCode),
+            mutationKey: ["resend-mfa-otp", otpCode],
+            mutationFn: () => resendMfaOtp(otpCode),
         });
 
     const onSubmit = async (value: z.infer<typeof otpSchema>) => {
@@ -112,4 +111,4 @@ const VerifyAccountOtpForm = ({ otpCode }: Props) => {
     );
 };
 
-export default VerifyAccountOtpForm;
+export default VerifyMfaOtpForm;

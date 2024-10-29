@@ -45,7 +45,7 @@ const refreshToken = async () => {
     try {
         const data: any = await api({
             method: "POST",
-            url: "/auth/token/refresh",
+            url: "/token/refresh",
             data: {
                 refreshToken: refreshToken,
             },

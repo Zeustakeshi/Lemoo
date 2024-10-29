@@ -1,22 +1,12 @@
 import Button from "@/components/ui/Button";
 import AppWrapper from "@/components/wrapper/AppWrapper";
-import { useAuth } from "@/context/AuthContext";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { useRouter } from "expo-router";
-import React, { useEffect } from "react";
-import { Image, Text, View } from "react-native";
+import React from "react";
+import { Image, StyleSheet, Text, View } from "react-native";
 
-const index = () => {
+const Welcome = () => {
     const router = useRouter();
-    const { user, isAuthenticated, authLoading } = useAuth();
-
-    useEffect(() => {
-        if (authLoading) return;
-        console.log({ user, isAuthenticated });
-        if (user != null && isAuthenticated) {
-            router.replace("/(tabs)/home");
-        }
-    }, [user, isAuthenticated, authLoading]);
 
     return (
         <AppWrapper className="flex-1 ">
@@ -64,4 +54,18 @@ const index = () => {
     );
 };
 
-export default index;
+const styles = StyleSheet.create({
+    logoShadow: {
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 0.22,
+        shadowRadius: 2.22,
+
+        elevation: 3,
+    },
+});
+
+export default Welcome;

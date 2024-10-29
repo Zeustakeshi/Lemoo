@@ -1,3 +1,4 @@
+import { AuthProvider } from "@/context/AuthContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Stack } from "expo-router";
 import React from "react";
@@ -18,21 +19,38 @@ const RootLayout = () => {
     return (
         <SafeAreaView className="flex-1 bg-white">
             <QueryClientProvider client={queryClient}>
-                <Stack>
-                    <Stack.Screen
-                        name="index"
-                        options={{
-                            headerShown: false,
-                        }}
-                    ></Stack.Screen>
-                    <Stack.Screen
-                        options={{
-                            headerShown: false,
-                        }}
-                        name="auth"
-                    ></Stack.Screen>
-                </Stack>
-                <StatusBar />
+                <AuthProvider>
+                    <Stack>
+                        <Stack.Screen
+                            name="index"
+                            options={{
+                                headerShown: false,
+                            }}
+                        ></Stack.Screen>
+
+                        <Stack.Screen
+                            name="welcome"
+                            options={{
+                                headerShown: false,
+                            }}
+                        ></Stack.Screen>
+
+                        <Stack.Screen
+                            options={{
+                                headerShown: false,
+                            }}
+                            name="auth"
+                        ></Stack.Screen>
+
+                        <Stack.Screen
+                            name="(tabs)"
+                            options={{
+                                headerShown: false,
+                            }}
+                        ></Stack.Screen>
+                    </Stack>
+                    <StatusBar />
+                </AuthProvider>
             </QueryClientProvider>
             <Toast />
         </SafeAreaView>

@@ -1,9 +1,14 @@
+import { login as loginApi } from "@/api/auth.api";
+import { useAuth } from "@/context/AuthContext";
 import { loginSchema } from "@/schema/auth.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import { router } from "expo-router";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Text, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import Toast from "react-native-toast-message";
 import { z } from "zod";
 import Button from "../ui/Button";
 import Input from "../ui/Input";
@@ -11,17 +16,43 @@ import Input from "../ui/Input";
 type Props = {};
 
 const LoginForm = (props: Props) => {
+    const { login } = useAuth();
+
     const {
         control,
         formState: { errors },
         handleSubmit,
-        watch,
     } = useForm<z.infer<typeof loginSchema>>({
         resolver: zodResolver(loginSchema),
+        defaultValues: {},
+    });
+
+    const { mutateAsync: loginMutation, isPending } = useMutation({
+        mutationKey: ["login"],
+        mutationFn: (data: z.infer<typeof loginSchema>) => loginApi(data),
     });
 
     const onSubmit = async (value: z.infer<typeof loginSchema>) => {
-        console.log({ value });
+        try {
+            const data = await loginMutation(value);
+            if (data.code) {
+                router.push({
+                    pathname: "auth/mfa-otp",
+                    params: {
+                        otpCode: data.code,
+                    },
+                });
+            } else {
+                await login(data);
+                router.replace("/(tabs)/home");
+            }
+        } catch (error: any) {
+            Toast.show({
+                type: "error",
+                text1: "Đăng nhập thất bại",
+                text2: error,
+            });
+        }
     };
 
     return (
@@ -70,8 +101,10 @@ const LoginForm = (props: Props) => {
                     </Button>
                 </View>
 
-                <Button onPress={handleSubmit(onSubmit)}>
-                    <Text className="text-white">Đăng nhập</Text>
+                <Button disabled={isPending} onPress={handleSubmit(onSubmit)}>
+                    <Text className="text-white">
+                        {isPending ? "Đang đăng nhập" : "Đăng nhập"}
+                    </Text>
                 </Button>
             </View>
         </KeyboardAwareScrollView>

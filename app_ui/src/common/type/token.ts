@@ -6,3 +6,8 @@ export type Token = {
     type: TokenType;
     expiresIn: number;
 };
+
+export type TokenPair = {
+    accessToken: Token;
+    refreshToken: Token;
+};

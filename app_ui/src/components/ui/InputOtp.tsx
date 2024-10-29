@@ -42,6 +42,7 @@ const InputOtp = ({ onChange, error }: Props) => {
             <View className="flex flex-row gap-2">
                 {otp.map((_, index) => (
                     <Input
+                        autoFocus={index === 0}
                         maxLength={1}
                         className="rounded-xl text-center p-3"
                         key={index}

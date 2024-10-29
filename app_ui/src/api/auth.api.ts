@@ -1,4 +1,7 @@
+import { TokenType } from "@/common/enum/token";
+import { TokenPair } from "@/common/type/token";
 import { api } from "@/lib/api";
+import { getTokenValue } from "@/lib/tokenStore";
 import {
     createAccountSchema,
     loginSchema,
@@ -18,19 +21,33 @@ export const resendCreateAccountOtp = async (code: string) => {
 
 export const verifyCreateAccountOtp = async (
     data: z.infer<typeof otpSchema>
-) => {
-    console.log({ data });
+): Promise<TokenPair> => {
     return api.post(`/auth/register/otp/verify`, data);
 };
 
-export const login = async (data: z.infer<typeof loginSchema>) => {
+export const login = async (
+    data: z.infer<typeof loginSchema>
+): Promise<any> => {
     return await api.post(`/auth/login`, data);
 };
 
 export const resendMfaOtp = async (code: string) => {
-    return api.post(`/auth/login/mfa/resend`, { code });
+    return await api.post(`/auth/login/mfa/resend`, { code });
 };
 
-export const verifyMfaOtp = async (data: z.infer<typeof otpSchema>) => {
-    return api.post(`auth/login/mfa/verify`, data);
+export const verifyMfaOtp = async (
+    data: z.infer<typeof otpSchema>
+): Promise<TokenPair> => {
+    return await api.post(`auth/login/mfa/verify`, data);
+};
+
+export const logout = async () => {
+    const token = await getTokenValue(TokenType.REFRESH_TOKEN);
+    if (!token) return;
+    try {
+        await api.post(`/auth/exit`, { token });
+    } catch (error: any) {
+        console.log({ error });
+    }
+    return "oke";
 };

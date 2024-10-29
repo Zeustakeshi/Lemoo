@@ -1,0 +1,109 @@
+import { resendCreateAccountOtp, verifyCreateAccountOtp } from "@/api/auth.api";
+import { otpSchema } from "@/schema/auth.schema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import React from "react";
+import { Controller, useForm } from "react-hook-form";
+import { Text, View } from "react-native";
+import Toast from "react-native-toast-message";
+import { z } from "zod";
+import Button from "../ui/Button";
+import InputOtp from "../ui/InputOtp";
+
+type Props = {
+    otpCode: string;
+};
+
+const VerifyAccountOtpForm = ({ otpCode }: Props) => {
+    const {
+        control,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<z.infer<typeof otpSchema>>({
+        resolver: zodResolver(otpSchema),
+        defaultValues: {
+            code: otpCode,
+        },
+    });
+
+    const { mutateAsync: verifyOtpMuation, isPending: isVerifyPending } =
+        useMutation({
+            mutationKey: ["verify-create-account", otpCode],
+            mutationFn: (data: z.infer<typeof otpSchema>) =>
+                verifyCreateAccountOtp(data),
+        });
+
+    const { mutateAsync: resendOtpMuation, isPending: isResendPending } =
+        useMutation({
+            mutationKey: ["resend-create-account-otp", otpCode],
+            mutationFn: () => resendCreateAccountOtp(otpCode),
+        });
+
+    const onSubmit = async (value: z.infer<typeof otpSchema>) => {
+        try {
+            const data = await verifyOtpMuation(value);
+        } catch (error: any) {
+            Toast.show({
+                type: "error",
+                text1: "Xác thực thất bại",
+                text2: error,
+            });
+        }
+    };
+
+    const handleResendOtp = async () => {
+        try {
+            await resendOtpMuation();
+            Toast.show({
+                type: "success",
+                text1: "Gửi lại thành công",
+                text2: "Mã otp mới đã được gửi thành công đến địa chỉ email của bạn.",
+            });
+        } catch (error: any) {
+            Toast.show({
+                type: "error",
+                text1: "Gửi lại thất bại",
+                text2: error,
+            });
+        }
+    };
+
+    return (
+        <View className="my-10 w-full flex justify-center items-center">
+            <Controller
+                control={control}
+                rules={{
+                    maxLength: 100,
+                }}
+                render={({ field: { onChange } }) => (
+                    <InputOtp
+                        onChange={onChange}
+                        error={errors.otp?.message}
+                    ></InputOtp>
+                )}
+                name="otp"
+            />
+            <View className="flex justify-center items-center flex-row my-6 space-x-2">
+                <Text>Bạn chưa nhận được mã?</Text>
+                <Button
+                    disabled={isResendPending}
+                    onPress={handleResendOtp}
+                    variant="link"
+                >
+                    <Text className="text-primary">Gửi lại</Text>
+                </Button>
+            </View>
+            <Button
+                disabled={isVerifyPending}
+                onPress={handleSubmit(onSubmit)}
+                className="w-full"
+            >
+                <Text className="text-white">
+                    {isVerifyPending ? "Đang xác thực" : "Xác nhận"}
+                </Text>
+            </Button>
+        </View>
+    );
+};
+
+export default VerifyAccountOtpForm;

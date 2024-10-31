@@ -34,12 +34,14 @@ spring:
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
     consumer:
       bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVER:127.0.0.1:9092}
-      group-id: user_group
+      group-id: auth_group
       auto-offset-reset: earliest
       properties:
         spring.json.trusted.packages: '*'
 server:
   port: 8082
+  servlet:
+    context-path: /auth
 jwt:
   key:
     access-token:
@@ -52,6 +54,4 @@ jwt:
       expireIn: 120 # hour == 5 days
 cache:
   redis_url: ${REDIS_URL}
-assets:
-  default-avatar-man: ${USER_DEFAULT_AVATAR_MAN:https://res.cloudinary.com/dvo9krira/image/upload/v1729261457/Lemoo/user/avatar/default-avatar-man.jpg}
 

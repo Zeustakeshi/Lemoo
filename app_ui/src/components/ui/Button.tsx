@@ -3,7 +3,13 @@ import { useRouter } from "expo-router";
 import React, { ReactNode } from "react";
 import { Pressable, PressableProps, View } from "react-native";
 
-type ButtonVariant = "default" | "secondary" | "outline" | "ghost" | "link";
+type ButtonVariant =
+    | "default"
+    | "secondary"
+    | "outline"
+    | "ghost"
+    | "link"
+    | "destructive";
 type ButtonSize = "lg" | "md" | "sm" | "icon";
 
 type Props = {
@@ -27,12 +33,16 @@ const Button = ({
     return (
         <Pressable
             className={cn(
-                "rounded-xl px-3 py-5 w-min justify-center items-center",
+                "rounded-xl px-5 py-4 w-min justify-center items-center",
                 {
                     "bg-primary ": variant === "default",
-                    "bg-secondary": variant === "secondary",
+                    "bg-destructive": variant === "destructive",
+                    "bg-primary/5": variant === "secondary",
+                    "border-primary border": variant === "outline",
                     "!px-1 !py-1": size === "icon" || variant === "link",
                     "!bg-primary/70": disabled,
+                    "px-3 py-2": size === "sm",
+                    "p-2": size === "icon",
                 },
                 className
             )}

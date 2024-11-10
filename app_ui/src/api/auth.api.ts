@@ -38,7 +38,7 @@ export const resendMfaOtp = async (code: string) => {
 export const verifyMfaOtp = async (
     data: z.infer<typeof otpSchema>
 ): Promise<TokenPair> => {
-    return await api.post(`auth/login/mfa/verify`, data);
+    return await api.post(`/auth/login/mfa/verify`, data);
 };
 
 export const logout = async () => {

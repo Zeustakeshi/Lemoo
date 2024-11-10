@@ -13,6 +13,7 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as VietImport } from './routes/Viet'
 import { Route as HoangImport } from './routes/Hoang'
 
 // Create Virtual Routes
@@ -27,6 +28,12 @@ const AboutLazyRoute = AboutLazyImport.update({
   path: '/about',
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/about.lazy').then((d) => d.Route))
+
+const VietRoute = VietImport.update({
+  id: '/Viet',
+  path: '/Viet',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const HoangRoute = HoangImport.update({
   id: '/Hoang',
@@ -58,6 +65,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HoangImport
       parentRoute: typeof rootRoute
     }
+    '/Viet': {
+      id: '/Viet'
+      path: '/Viet'
+      fullPath: '/Viet'
+      preLoaderRoute: typeof VietImport
+      parentRoute: typeof rootRoute
+    }
     '/about': {
       id: '/about'
       path: '/about'
@@ -73,12 +87,14 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
   '/Hoang': typeof HoangRoute
+  '/Viet': typeof VietRoute
   '/about': typeof AboutLazyRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
   '/Hoang': typeof HoangRoute
+  '/Viet': typeof VietRoute
   '/about': typeof AboutLazyRoute
 }
 
@@ -86,27 +102,30 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexLazyRoute
   '/Hoang': typeof HoangRoute
+  '/Viet': typeof VietRoute
   '/about': typeof AboutLazyRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/Hoang' | '/about'
+  fullPaths: '/' | '/Hoang' | '/Viet' | '/about'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/Hoang' | '/about'
-  id: '__root__' | '/' | '/Hoang' | '/about'
+  to: '/' | '/Hoang' | '/Viet' | '/about'
+  id: '__root__' | '/' | '/Hoang' | '/Viet' | '/about'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
   HoangRoute: typeof HoangRoute
+  VietRoute: typeof VietRoute
   AboutLazyRoute: typeof AboutLazyRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
   HoangRoute: HoangRoute,
+  VietRoute: VietRoute,
   AboutLazyRoute: AboutLazyRoute,
 }
 
@@ -122,6 +141,7 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/Hoang",
+        "/Viet",
         "/about"
       ]
     },
@@ -130,6 +150,9 @@ export const routeTree = rootRoute
     },
     "/Hoang": {
       "filePath": "Hoang.tsx"
+    },
+    "/Viet": {
+      "filePath": "Viet.tsx"
     },
     "/about": {
       "filePath": "about.lazy.tsx"

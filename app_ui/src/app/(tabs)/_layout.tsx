@@ -28,21 +28,6 @@ const TabLayout = (props: Props) => {
                 }}
             >
                 <Tabs.Screen
-                    name="home"
-                    options={{
-                        headerTitle: "Trang chủ",
-                        tabBarIcon: (props) => (
-                            <TabIcon
-                                Icon={Octicons}
-                                iconName="home"
-                                label="Trang chủ"
-                                {...props}
-                            />
-                        ),
-                    }}
-                />
-
-                <Tabs.Screen
                     name="friend"
                     options={{
                         headerTitle: "Bạn bè",
@@ -51,6 +36,21 @@ const TabLayout = (props: Props) => {
                                 Icon={Feather}
                                 iconName="users"
                                 label="Bạn bè"
+                                {...props}
+                            />
+                        ),
+                    }}
+                />
+
+                <Tabs.Screen
+                    name="home"
+                    options={{
+                        headerTitle: "Trang chủ",
+                        tabBarIcon: (props) => (
+                            <TabIcon
+                                Icon={Octicons}
+                                iconName="home"
+                                label="Trang chủ"
                                 {...props}
                             />
                         ),

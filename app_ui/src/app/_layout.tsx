@@ -21,7 +21,7 @@ const RootLayout = () => {
             <QueryClientProvider client={queryClient}>
                 <AuthProvider>
                     <Stack>
-                        <Stack.Screen
+                        {/* <Stack.Screen
                             name="index"
                             options={{
                                 headerShown: false,
@@ -40,7 +40,7 @@ const RootLayout = () => {
                                 headerShown: false,
                             }}
                             name="auth"
-                        ></Stack.Screen>
+                        ></Stack.Screen> */}
 
                         <Stack.Screen
                             name="(tabs)"

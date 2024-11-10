@@ -1,6 +1,6 @@
 package com.lemoo.user.common.enums;
 
-public enum FriendRequestStatus {
+public enum FriendInvitationStatus {
     PENDING,
     ACCEPTED
 }

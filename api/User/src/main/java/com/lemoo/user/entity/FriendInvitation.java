@@ -1,11 +1,10 @@
 package com.lemoo.user.entity;
 
-import com.lemoo.user.common.enums.FriendRequestStatus;
+import com.lemoo.user.common.enums.FriendInvitationStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 
@@ -16,7 +15,7 @@ import org.hibernate.annotations.DynamicInsert;
 @Builder
 @EqualsAndHashCode(callSuper = true)
 @DynamicInsert
-public class FriendRequest extends BaseEntity{
+public class FriendInvitation extends BaseEntity{
 
     @Column(nullable = false)
     private String senderId;
@@ -25,7 +24,7 @@ public class FriendRequest extends BaseEntity{
     private String receiverId;
 
     @Enumerated(EnumType.STRING)
-    private FriendRequestStatus status;
+    private FriendInvitationStatus status;
 
     private String UpdatedBy;
 

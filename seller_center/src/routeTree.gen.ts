@@ -13,7 +13,9 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as VietImport } from './routes/Viet'
+import { Route as VietSettingAccountImport } from './routes/Viet/SettingAccount'
+import { Route as VietProductPageImport } from './routes/Viet/ProductPage'
+import { Route as VietBannerUIImport } from './routes/Viet/BannerUI'
 
 // Create Virtual Routes
 
@@ -28,17 +30,29 @@ const AboutLazyRoute = AboutLazyImport.update({
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/about.lazy').then((d) => d.Route))
 
-const VietRoute = VietImport.update({
-  id: '/Viet',
-  path: '/Viet',
-  getParentRoute: () => rootRoute,
-} as any)
-
 const IndexLazyRoute = IndexLazyImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
+
+const VietSettingAccountRoute = VietSettingAccountImport.update({
+  id: '/Viet/SettingAccount',
+  path: '/Viet/SettingAccount',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const VietProductPageRoute = VietProductPageImport.update({
+  id: '/Viet/ProductPage',
+  path: '/Viet/ProductPage',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const VietBannerUIRoute = VietBannerUIImport.update({
+  id: '/Viet/BannerUI',
+  path: '/Viet/BannerUI',
+  getParentRoute: () => rootRoute,
+} as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -51,18 +65,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexLazyImport
       parentRoute: typeof rootRoute
     }
-    '/Viet': {
-      id: '/Viet'
-      path: '/Viet'
-      fullPath: '/Viet'
-      preLoaderRoute: typeof VietImport
-      parentRoute: typeof rootRoute
-    }
     '/about': {
       id: '/about'
       path: '/about'
       fullPath: '/about'
       preLoaderRoute: typeof AboutLazyImport
+      parentRoute: typeof rootRoute
+    }
+    '/Viet/BannerUI': {
+      id: '/Viet/BannerUI'
+      path: '/Viet/BannerUI'
+      fullPath: '/Viet/BannerUI'
+      preLoaderRoute: typeof VietBannerUIImport
+      parentRoute: typeof rootRoute
+    }
+    '/Viet/ProductPage': {
+      id: '/Viet/ProductPage'
+      path: '/Viet/ProductPage'
+      fullPath: '/Viet/ProductPage'
+      preLoaderRoute: typeof VietProductPageImport
+      parentRoute: typeof rootRoute
+    }
+    '/Viet/SettingAccount': {
+      id: '/Viet/SettingAccount'
+      path: '/Viet/SettingAccount'
+      fullPath: '/Viet/SettingAccount'
+      preLoaderRoute: typeof VietSettingAccountImport
       parentRoute: typeof rootRoute
     }
   }
@@ -72,42 +100,68 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
-  '/Viet': typeof VietRoute
   '/about': typeof AboutLazyRoute
+  '/Viet/BannerUI': typeof VietBannerUIRoute
+  '/Viet/ProductPage': typeof VietProductPageRoute
+  '/Viet/SettingAccount': typeof VietSettingAccountRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
-  '/Viet': typeof VietRoute
   '/about': typeof AboutLazyRoute
+  '/Viet/BannerUI': typeof VietBannerUIRoute
+  '/Viet/ProductPage': typeof VietProductPageRoute
+  '/Viet/SettingAccount': typeof VietSettingAccountRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexLazyRoute
-  '/Viet': typeof VietRoute
   '/about': typeof AboutLazyRoute
+  '/Viet/BannerUI': typeof VietBannerUIRoute
+  '/Viet/ProductPage': typeof VietProductPageRoute
+  '/Viet/SettingAccount': typeof VietSettingAccountRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/Viet' | '/about'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/Viet/BannerUI'
+    | '/Viet/ProductPage'
+    | '/Viet/SettingAccount'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/Viet' | '/about'
-  id: '__root__' | '/' | '/Viet' | '/about'
+  to:
+    | '/'
+    | '/about'
+    | '/Viet/BannerUI'
+    | '/Viet/ProductPage'
+    | '/Viet/SettingAccount'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/Viet/BannerUI'
+    | '/Viet/ProductPage'
+    | '/Viet/SettingAccount'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
-  VietRoute: typeof VietRoute
   AboutLazyRoute: typeof AboutLazyRoute
+  VietBannerUIRoute: typeof VietBannerUIRoute
+  VietProductPageRoute: typeof VietProductPageRoute
+  VietSettingAccountRoute: typeof VietSettingAccountRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
-  VietRoute: VietRoute,
   AboutLazyRoute: AboutLazyRoute,
+  VietBannerUIRoute: VietBannerUIRoute,
+  VietProductPageRoute: VietProductPageRoute,
+  VietSettingAccountRoute: VietSettingAccountRoute,
 }
 
 export const routeTree = rootRoute
@@ -123,18 +177,26 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/Viet",
-        "/about"
+        "/about",
+        "/Viet/BannerUI",
+        "/Viet/ProductPage",
+        "/Viet/SettingAccount"
       ]
     },
     "/": {
       "filePath": "index.lazy.tsx"
     },
-    "/Viet": {
-      "filePath": "Viet.tsx"
-    },
     "/about": {
       "filePath": "about.lazy.tsx"
+    },
+    "/Viet/BannerUI": {
+      "filePath": "Viet/BannerUI.tsx"
+    },
+    "/Viet/ProductPage": {
+      "filePath": "Viet/ProductPage.tsx"
+    },
+    "/Viet/SettingAccount": {
+      "filePath": "Viet/SettingAccount.tsx"
     }
   }
 }

@@ -1,9 +1,8 @@
-import imgAddProduct from '../assets/images/timkiem.png' 
+import imgAddProduct from '../assets/images/timkiem.png';
 import Button from '@mui/material/Button';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import React, { useState } from 'react';
+import React from 'react';
 import { ClickAwayListener, Grow, MenuList, Paper, Popper } from '@mui/material';
 function ProductPage() {
 
@@ -44,7 +43,7 @@ function ProductPage() {
       prevOpen.current = open;
     }, [open]);
   
-  
+
   return (
     <>
     <div className="w-screen h-screen bg-gray-100 p-[10px] " >
@@ -105,7 +104,7 @@ function ProductPage() {
             </div>
    </div>
 
-<div className="body w-screen h-max bg-[#E9F2FF] p-[10px] rounded-[8px] " >
+<div className="body w-full mx-auto my-0 leading-relaxed tracking-wide h-max bg-[#E9F2FF] p-5 rounded-[8px] " >
   
  <p>Bắt đầu từ ngày 30 tháng 8 năm 2024, Lazada sẽ xem xét và xóa tất cả các thuộc tỉnh và giá trị danh mục. 
   Vui lòng xem lại sản phẩm của bạn và đảm bảo các thuộc tính sản phẩm của bạn đầy đủ, chính xác và cập nhật.
@@ -117,10 +116,11 @@ function ProductPage() {
 </div>
 <div className="listProduct flex items-center justify-center flex-col  w-screen h-[400px] bg-white rounded-[20px] mt-5 shadow-lg shadow-indigo-100/50">
 
-<img src="{imgAddProduct}" className='w-[100px] h-[100px]' />
+<img src={imgAddProduct} className='w-[100px] h-auto object-cover' />
 <p className='text-[25px] font-bold'>Bạn hiện chưa có sản phẩm nào </p>
 <p>Đây là nơi giúp bạn quản lý sản phẩm của mình. Hãy đăng sản phẩm và bắt đầu kinh doanh trên Lazada ngay từ bây giờ.</p>
 <Button variant="contained">Thêm sản phẩm</Button>
+
 </div>
 
 <div className="footer flex justify-between mt-[40px] text-gray-500 text-[10px]">

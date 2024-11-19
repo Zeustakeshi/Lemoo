@@ -66,7 +66,7 @@ public class AuthorizationFilter extends AbstractGatewayFilterFactory<Authorizat
         HttpEntity<IntrospectTokenRequest> requestEntity = new HttpEntity<>(new IntrospectTokenRequest(token), headers);
 
         ResponseEntity<ApiResponse<Boolean>> response = restTemplate.exchange(
-                serviceEndpoints.userService() + "/auth/token/introspect",
+                serviceEndpoints.authService() + "/auth/token/introspect",
                 HttpMethod.POST,
                 requestEntity,
                 new ParameterizedTypeReference<ApiResponse<Boolean>>() {

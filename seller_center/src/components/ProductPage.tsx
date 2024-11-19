@@ -1,8 +1,9 @@
-import imgAddProduct from '../assets/images/timkiem.png';
+import imgAddProduct from '../assets/images/timkiem.png' 
 import Button from '@mui/material/Button';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import React from 'react';
+import React, { useState } from 'react';
 import { ClickAwayListener, Grow, MenuList, Paper, Popper } from '@mui/material';
 function ProductPage() {
 
@@ -43,7 +44,6 @@ function ProductPage() {
       prevOpen.current = open;
     }, [open]);
   
-
   return (
     <>
     <div className="w-screen h-screen bg-gray-100 p-[10px] " >

@@ -35,8 +35,7 @@ public class SecurityConfig {
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(handler -> handler.authenticationEntryPoint(authenticationEntryPoint)
                         .accessDeniedHandler(accessDeniedHandler))
-                .authorizeHttpRequests(request -> request.requestMatchers("/users/**").authenticated()
-                        .anyRequest().permitAll())
+                .authorizeHttpRequests(request -> request.anyRequest().permitAll())
                 .oauth2ResourceServer(
                         oauth -> oauth.jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter))
                                 .authenticationEntryPoint(authenticationEntryPoint));

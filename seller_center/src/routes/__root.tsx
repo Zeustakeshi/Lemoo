@@ -1,3 +1,4 @@
+//__root.tsx
 import { createRootRoute, Link, Outlet } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 
@@ -23,6 +24,12 @@ export const Route = createRootRoute({
         Banner 
       </Link>
 
+        <Link to="/Hoang" className="[&.active]:font-bold">
+          HomePageUI
+        </Link>
+        <Link to="/Viet" className="[&.active]:font-bold">
+          Quản lý sản phẩm
+        </Link>
       </div>
       <hr />
       <Outlet />

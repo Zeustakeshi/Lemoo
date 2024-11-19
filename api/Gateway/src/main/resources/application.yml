@@ -37,6 +37,7 @@ spring:
             - Path= ${api.prefix}/users/**
           filters:
             - StripPrefix=2
+            - AuthorizationFilter
 services:
   auth-service: ${AUTH_SERVICE_URL:http://localhost:8082}
-  user-service: ${USER_SERVICE_URL:http://localhost:8082}
+  user-service: ${USER_SERVICE_URL:http://localhost:8084}

@@ -1,8 +1,8 @@
 import { AuthProvider } from "@/context/AuthContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Stack } from "expo-router";
+import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { StatusBar } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Toast from "react-native-toast-message";
 import "../global.css";
@@ -21,7 +21,14 @@ const RootLayout = () => {
             <QueryClientProvider client={queryClient}>
                 <AuthProvider>
                     <Stack>
-                        {/* <Stack.Screen
+                        <Stack.Screen
+                            name="chats/[id]"
+                            options={{
+                                headerShown: false,
+                            }}
+                        ></Stack.Screen>
+
+                        <Stack.Screen
                             name="index"
                             options={{
                                 headerShown: false,
@@ -40,7 +47,7 @@ const RootLayout = () => {
                                 headerShown: false,
                             }}
                             name="auth"
-                        ></Stack.Screen> */}
+                        ></Stack.Screen>
 
                         <Stack.Screen
                             name="(tabs)"
@@ -49,10 +56,10 @@ const RootLayout = () => {
                             }}
                         ></Stack.Screen>
                     </Stack>
-                    <StatusBar />
                 </AuthProvider>
             </QueryClientProvider>
             <Toast />
+            <StatusBar style="auto" />
         </SafeAreaView>
     );
 };

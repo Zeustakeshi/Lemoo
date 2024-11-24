@@ -11,18 +11,14 @@ import java.time.LocalDateTime;
 @Data
 public class FriendInvitationResponse {
 
-    private String id;
+    private String userId;
 
-    private String senderId;
+    private String avatar;
 
-    private String receiverId;
+    private String username;
 
-    private FriendInvitationStatus status;
+    private LocalDateTime timestamp;
 
-    private String updateBy;
-
-    private LocalDateTime createdAt;
-
-    private LocalDateTime updatedAt;
+    private String requestId;
 
 }

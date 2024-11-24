@@ -13,9 +13,15 @@ import com.lemoo.user.service.FriendService;
 import com.lemoo.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -63,17 +69,23 @@ public class FriendServiceImpl implements FriendService {
 
     }
 
-//    @Override
-//    public Page<FriendResponse> getRecommendFriendList(String user, int page, int limit) {
-//        Page<Friend> recommendFriends = friendRepository.findRecommendList(user.getId(),PageRequest.of(page,limit));
-//
-//        return recommendFriends.map(friend -> {
-//
-//            UserResponse friendInfo = userService.getUserProfile()
-//            return mapper.friendToResponse(friend);
-//        });
-//
-//    }
+    @Override
+    public Page<UserResponse> getRecommendFriendList(String userId, int page, int limit) {
+        List<String> recommendFriends = friendRepository.findNonFriendUserIds(userId);
 
+        List<UserResponse> friendResponses = new ArrayList<>();
+
+        for (String recommendFriend : recommendFriends) {
+            friendResponses.add(userService.getUserProfile(recommendFriend));
+        }
+
+        return new PageImpl<>(friendResponses, PageRequest.of(page, limit), recommendFriends.size());
+    }
+
+    @Override
+    public boolean isExistingFriend(String user1Id, String user2Id) {
+        return friendRepository
+                .existsFriendByUser1IdAndUser2Id(user1Id, user2Id);
+    }
 
 }

@@ -9,8 +9,9 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface FriendMapper {
 
-    @Mapping(source = "userResponse.displayName", target = "friendName")
-    @Mapping(source = "userResponse.avatar", target = "friendAvatar")
+    @Mapping(source = "userResponse.id", target = "id")
+    @Mapping(source = "userResponse.displayName", target = "username")
+    @Mapping(source = "userResponse.avatar", target = "avatar")
     FriendResponse friendToResponse(Friend friend, UserResponse userResponse);
 
 }

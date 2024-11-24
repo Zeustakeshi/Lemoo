@@ -35,9 +35,9 @@ public class FriendInvitationController {
         return ApiResponse.success(friendInvitationService.getCurrentFriendRequestList(user.getUserId(), page,limit));
     }
 
-    @PutMapping("/accept")
+    @PostMapping("/accept")
     public ApiResponse<?> acceptFriendRequest(@AuthenticationPrincipal AuthenticatedAccount user,
-                                              @RequestBody UpdateFriendInvitationRequest request){
+                                              @RequestBody @Valid UpdateFriendInvitationRequest request){
         friendInvitationService.acceptFriendRequest(request.getRequestId());
 
         return ApiResponse.success("Accepted friend request");
@@ -45,7 +45,7 @@ public class FriendInvitationController {
 
     @DeleteMapping("/reject")
     public ApiResponse<?> rejectFriendRequest(@AuthenticationPrincipal AuthenticatedAccount user,
-                                              @RequestBody UpdateFriendInvitationRequest request)
+                                              @RequestBody @Valid UpdateFriendInvitationRequest request)
     {
         friendInvitationService.rejectFriendRequest(request.getRequestId());
         return ApiResponse.success("Rejected friend request");

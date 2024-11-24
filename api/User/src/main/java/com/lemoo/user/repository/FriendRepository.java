@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+
 public interface FriendRepository extends JpaRepository<Friend, String> {
 
     @Query("SELECT f FROM Friend f WHERE (f.user1Id = :userId OR f.user2Id = :userId)")
@@ -18,9 +20,13 @@ public interface FriendRepository extends JpaRepository<Friend, String> {
                                    @Param("userId2") String userId2,
                                    Pageable pageable);
 
-    @Query("SELECT f FROM Friend f WHERE f.user1Id != :userId AND f.user2Id != :userId " +
-            "AND (f.user1Id NOT IN (SELECT fr.user1Id FROM Friend fr WHERE fr.user2Id = :userId) " +
-            "AND f.user2Id NOT IN (SELECT fr.user2Id FROM Friend fr WHERE fr.user1Id = :userId))")
-    Page<Friend> findRecommendList(@Param("userId") String userId, Pageable pageable);
+    @Query("SELECT u.id FROM User u WHERE u.id != :userId AND u.id NOT IN (" +
+            "SELECT CASE " +
+            "WHEN f.user1Id = :userId THEN f.user2Id " +
+            "ELSE f.user1Id END " +
+            "FROM Friend f WHERE f.user1Id = :userId OR f.user2Id = :userId)")
+    List<String> findNonFriendUserIds(@Param("userId") String userId);
 
+    @Query(value = "select case when count(f) > 0 then true else false end from Friend  f where (f.user1Id = ?1 and f.user2Id = ?2) or (f.user2Id = ?1 and f.user1Id = ?2)")
+    boolean existsFriendByUser1IdAndUser2Id(String user1Id, String user2Id);
 }

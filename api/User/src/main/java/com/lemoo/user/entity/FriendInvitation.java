@@ -26,6 +26,6 @@ public class FriendInvitation extends BaseEntity{
     @Enumerated(EnumType.STRING)
     private FriendInvitationStatus status;
 
-    private String UpdatedBy;
+    private String updatedBy;
 
 }

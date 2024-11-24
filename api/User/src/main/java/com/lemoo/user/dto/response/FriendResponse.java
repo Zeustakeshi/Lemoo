@@ -9,10 +9,10 @@ import lombok.Data;
 @Builder
 public class FriendResponse {
 
-    private String friendId;
+    private String id;
 
-    private String  friendName;
+    private String avatar;
 
-    private String friendAvatar;
+    private String  username;
 
 }

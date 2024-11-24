@@ -10,6 +10,7 @@ import com.lemoo.user.entity.FriendInvitation;
 import com.lemoo.user.entity.User;
 import com.lemoo.user.event.eventModel.NewFriendRequestEvent;
 import com.lemoo.user.event.producer.FriendProducer;
+import com.lemoo.user.exception.BadRequestException;
 import com.lemoo.user.exception.NotfoundException;
 import com.lemoo.user.mapper.FriendInvitationMapper;
 import com.lemoo.user.repository.FriendInvitationRepository;
@@ -44,7 +45,8 @@ public class FriendInvitationServiceImpl implements FriendInvitationService {
                 .status(FriendInvitationStatus.PENDING)
                 .build();
         System.out.println(invitation.getReceiverId());
-
+        if(friendService.isExistingFriend(account.getUserId(),request.getTarget()))
+            throw new BadRequestException("This Friend Relationship had been existed!");
         FriendInvitation friendInvitation = friendInvitationRepository.save(invitation);
 
         UserResponse user = userService.getUserProfile(account.getUserId());
@@ -58,16 +60,22 @@ public class FriendInvitationServiceImpl implements FriendInvitationService {
                         .build()
         );
 
-        return friendInvitationMapper.invitationToResponse(friendInvitation);
+        return friendInvitationMapper.invitationToResponse(friendInvitation,user);
     }
 
     @Override
     public Page<FriendInvitationResponse> getCurrentFriendRequestList(String userId, int page, int limit) {
 
-        Page<FriendInvitation> invitations = friendInvitationRepository.getRequestListByReceiverId(userId, FriendInvitationStatus.PENDING , PageRequest.of(page,limit, Sort.by("createdAt").descending()));
+        Page<FriendInvitation> invitations = friendInvitationRepository.findByReceiverIdAndStatus(
+                userId,
+                FriendInvitationStatus.PENDING,
+                PageRequest.of(page, limit, Sort.by("createdAt").descending())
+        );
 
-        return invitations.map(friendInvitationMapper::invitationToResponse);
-
+        return invitations.map(invitation -> {
+            UserResponse userResponse = userService.getUserProfile(invitation.getSenderId());
+            return friendInvitationMapper.invitationToResponse(invitation, userResponse);
+        });
     }
 
     @Override

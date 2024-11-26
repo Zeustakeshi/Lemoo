@@ -1,16 +1,19 @@
-import { AccessAlarm, ThreeDRotation } from "@mui/icons-material";
-import { Button } from "@mui/material";
+import { RouterProvider, createRouter } from "@tanstack/react-router";
+
+import { routeTree } from "./routeTree.gen";
+
+const router = createRouter({ routeTree });
+
+declare module "@tanstack/react-router" {
+  interface Register {
+    router: typeof router;
+  }
+}
 
 function App() {
   return (
-    <div className="ml-10 my-10 flex-col items-center justify-center space-y-8 ">
-      <Button variant="contained">Hello world !!!</Button>
-      <h1>icon Demo...</h1>
-      <AccessAlarm />
-
-      <ThreeDRotation />
-      <h1>Custom Icon với Tailwind CSS</h1>
-      <ThreeDRotation className="text-red-500" />
+    <div>
+      <RouterProvider router={router} />
     </div>
   );
 }

@@ -12,7 +12,7 @@ const Input = ({ className, error, ...props }: Props, ref: any) => {
         <View>
             <TextInput
                 className={cn(
-                    "border border-transparent p-5 py-4 rounded-full bg-slate-50 caret-primary  placeholder:text-muded",
+                    "block border border-transparent p-5 py-4 rounded-full bg-slate-50 caret-primary  placeholder:text-muded",
                     {
                         " border-destructive": error,
                     },

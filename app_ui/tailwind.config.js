@@ -12,6 +12,7 @@ module.exports = {
                 secondary: "#EC4E4E",
                 muded: "#94a3b8",
                 destructive: "#e11d48",
+                ["slate-message"]: "#E5EBFC",
             },
         },
     },

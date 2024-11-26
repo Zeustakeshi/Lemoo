@@ -7,7 +7,15 @@
         <option value="$PROJECT_DIR$/api/User/pom.xml" />
         <option value="$PROJECT_DIR$/api/Auth/pom.xml" />
         <option value="$PROJECT_DIR$/api/Gateway/pom.xml" />
+        <option value="$PROJECT_DIR$/api/Chat/pom.xml" />
+        <option value="$PROJECT_DIR$/api/Chats/pom.xml" />
+        <option value="$PROJECT_DIR$/api/Store/pom.xml" />
       </list>
+    </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/api/Chats/pom.xml" />
+      </set>
     </option>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="jbrsdk-17" project-jdk-type="JavaSDK">

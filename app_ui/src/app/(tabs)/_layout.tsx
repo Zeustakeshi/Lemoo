@@ -1,9 +1,8 @@
 import TabIcon from "@/components/ui/TabIcon";
-import { Feather, Octicons } from "@expo/vector-icons";
+import { Feather, MaterialIcons, Octicons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
 import React from "react";
 import { View } from "react-native";
-
 type Props = {};
 
 const TabLayout = (props: Props) => {
@@ -28,6 +27,21 @@ const TabLayout = (props: Props) => {
                 }}
             >
                 <Tabs.Screen
+                    name="home"
+                    options={{
+                        headerTitle: "Trang chủ",
+                        tabBarIcon: (props) => (
+                            <TabIcon
+                                Icon={Octicons}
+                                iconName="home"
+                                label="Trang chủ"
+                                {...props}
+                            />
+                        ),
+                    }}
+                />
+
+                <Tabs.Screen
                     name="friend"
                     options={{
                         headerTitle: "Bạn bè",
@@ -43,14 +57,14 @@ const TabLayout = (props: Props) => {
                 />
 
                 <Tabs.Screen
-                    name="home"
+                    name="chats"
                     options={{
-                        headerTitle: "Trang chủ",
+                        headerTitle: "Trò chuyện",
                         tabBarIcon: (props) => (
                             <TabIcon
-                                Icon={Octicons}
-                                iconName="home"
-                                label="Trang chủ"
+                                Icon={MaterialIcons}
+                                iconName="chat-bubble-outline"
+                                label="Trò chuyện"
                                 {...props}
                             />
                         ),

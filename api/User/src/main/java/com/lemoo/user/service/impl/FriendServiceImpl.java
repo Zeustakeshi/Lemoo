@@ -4,8 +4,6 @@ import com.lemoo.user.common.enums.FriendStatus;
 import com.lemoo.user.dto.response.FriendResponse;
 import com.lemoo.user.dto.response.UserResponse;
 import com.lemoo.user.entity.Friend;
-import com.lemoo.user.event.eventModel.AcceptFriendRequestEvent;
-import com.lemoo.user.event.producer.FriendProducer;
 import com.lemoo.user.mapper.FriendMapper;
 import com.lemoo.user.repository.FriendRepository;
 import com.lemoo.user.service.FriendService;
@@ -29,7 +27,6 @@ public class FriendServiceImpl implements FriendService {
 
 	private final UserService userService;
 
-	private final FriendProducer friendProducer;
 
 	@Override
 	public Page<FriendResponse> getCurrentFriendList(String userId, int page, int limit) {
@@ -56,12 +53,12 @@ public class FriendServiceImpl implements FriendService {
 		friendRepository.save(friend);
 		UserResponse user = userService.getUserProfile(user1Id);
 
-		friendProducer.acceptFriendRequest(AcceptFriendRequestEvent.builder()
-				.senderId(user1Id)
-				.receiverId(user.getId())
-				.receiverAvatar(user.getAvatar())
-				.receiverName(user.getDisplayName())
-				.build());
+//		friendProducer.acceptFriendRequest(AcceptFriendRequestEvent.builder()
+//				.senderId(user1Id)
+//				.receiverId(user.getId())
+//				.receiverAvatar(user.getAvatar())
+//				.receiverName(user.getDisplayName())
+//				.build());
 	}
 
 	@Override

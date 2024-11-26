@@ -6,8 +6,6 @@ import com.lemoo.user.dto.request.NewFriendInvitationRequest;
 import com.lemoo.user.dto.response.FriendInvitationResponse;
 import com.lemoo.user.dto.response.UserResponse;
 import com.lemoo.user.entity.FriendInvitation;
-import com.lemoo.user.event.eventModel.NewFriendRequestEvent;
-import com.lemoo.user.event.producer.FriendProducer;
 import com.lemoo.user.exception.BadRequestException;
 import com.lemoo.user.exception.NotfoundException;
 import com.lemoo.user.mapper.FriendInvitationMapper;
@@ -33,8 +31,6 @@ public class FriendInvitationServiceImpl implements FriendInvitationService {
 
 	private final FriendService friendService;
 
-	private final FriendProducer friendProducer;
-
 	@Override
 	public FriendInvitationResponse newFriendInvitation(
 			AuthenticatedAccount account, NewFriendInvitationRequest request) {
@@ -50,12 +46,12 @@ public class FriendInvitationServiceImpl implements FriendInvitationService {
 
 		UserResponse user = userService.getUserProfile(account.getUserId());
 
-		friendProducer.newFriendRequest(NewFriendRequestEvent.builder()
-				.invitationId(friendInvitation.getId())
-				.receiverId(user.getId())
-				.senderAvatar(user.getAvatar())
-				.senderName(user.getDisplayName())
-				.build());
+//		friendProducer.newFriendRequest(NewFriendRequestEvent.builder()
+//				.invitationId(friendInvitation.getId())
+//				.receiverId(user.getId())
+//				.senderAvatar(user.getAvatar())
+//				.senderName(user.getDisplayName())
+//				.build());
 
 		return friendInvitationMapper.invitationToResponse(friendInvitation, user);
 	}

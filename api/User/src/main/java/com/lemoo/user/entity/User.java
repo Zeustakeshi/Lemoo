@@ -4,19 +4,16 @@
  *  @created 10/29/2024 2:26 PM
  * */
 
-
 package com.lemoo.user.entity;
-
 
 import com.lemoo.user.common.enums.Gender;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import java.time.LocalDate;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
-
-import java.time.LocalDate;
 
 @Entity
 @Data
@@ -27,18 +24,18 @@ import java.time.LocalDate;
 @DynamicInsert
 public class User extends BaseEntity {
 
-    private String avatar;
+	private String avatar;
 
-    @Column(nullable = false)
-    private String displayName;
+	@Column(nullable = false)
+	private String displayName;
 
-    @Column(nullable = false, unique = true)
-    private String accountId;
+	@Column(nullable = false, unique = true)
+	private String accountId;
 
-    private LocalDate dateOfBirth;
+	private LocalDate dateOfBirth;
 
-    private String address;
+	private String address;
 
-    @Enumerated(EnumType.STRING)
-    private Gender gender;
+	@Enumerated(EnumType.STRING)
+	private Gender gender;
 }

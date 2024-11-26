@@ -26,7 +26,9 @@ public class FriendInvitationController {
 
 	@GetMapping("/request")
 	public ApiResponse<?> getCurrentFriendRequest(
-			@AuthenticationPrincipal AuthenticatedAccount user, @RequestParam int page, @RequestParam int limit) {
+			@AuthenticationPrincipal AuthenticatedAccount user,
+			@RequestParam(name = "page", required = false, defaultValue = "0") int page,
+			@RequestParam(name = "limit", required = false, defaultValue = "10") int limit) {
 		return ApiResponse.success(friendInvitationService.getCurrentFriendRequestList(user.getUserId(), page, limit));
 	}
 

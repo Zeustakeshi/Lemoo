@@ -4,7 +4,6 @@
  *  @created 10/29/2024 2:43 PM
  * */
 
-
 package com.lemoo.user.mapper;
 
 import com.lemoo.user.dto.response.UserResponse;
@@ -13,5 +12,5 @@ import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
-    UserResponse userToUserResponse(User user);
+	UserResponse userToUserResponse(User user);
 }

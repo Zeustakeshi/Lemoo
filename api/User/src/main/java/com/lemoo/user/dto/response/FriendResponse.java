@@ -1,7 +1,5 @@
 package com.lemoo.user.dto.response;
 
-
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
@@ -9,10 +7,9 @@ import lombok.Data;
 @Builder
 public class FriendResponse {
 
-    private String id;
+	private String id;
 
-    private String avatar;
+	private String avatar;
 
-    private String  username;
-
+	private String username;
 }

@@ -5,6 +5,5 @@ import lombok.Data;
 @Data
 public class NewFriendInvitationRequest {
 
-    private String target;
-
+	private String target;
 }

@@ -15,17 +15,16 @@ import org.hibernate.annotations.DynamicInsert;
 @Builder
 @EqualsAndHashCode(callSuper = true)
 @DynamicInsert
-public class FriendInvitation extends BaseEntity{
+public class FriendInvitation extends BaseEntity {
 
-    @Column(nullable = false)
-    private String senderId;
+	@Column(nullable = false)
+	private String senderId;
 
-    @Column(nullable = false)
-    private String receiverId;
+	@Column(nullable = false)
+	private String receiverId;
 
-    @Enumerated(EnumType.STRING)
-    private FriendInvitationStatus status;
+	@Enumerated(EnumType.STRING)
+	private FriendInvitationStatus status;
 
-    private String updatedBy;
-
+	private String updatedBy;
 }

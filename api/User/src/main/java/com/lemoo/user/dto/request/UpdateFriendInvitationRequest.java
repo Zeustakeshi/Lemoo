@@ -6,7 +6,6 @@ import lombok.Data;
 @Data
 public class UpdateFriendInvitationRequest {
 
-    @NotEmpty
-    private String requestId;
-
+	@NotEmpty
+	private String requestId;
 }

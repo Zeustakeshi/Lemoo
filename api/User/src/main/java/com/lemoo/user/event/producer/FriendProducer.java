@@ -10,14 +10,13 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class FriendProducer {
 
-    private final KafkaTemplate<String, Object> friendTemplate;
+	private final KafkaTemplate<String, Object> friendTemplate;
 
+	public void acceptFriendRequest(AcceptFriendRequestEvent event) {
+		friendTemplate.send("accept_friend_request", event);
+	}
 
-    public void acceptFriendRequest(AcceptFriendRequestEvent event){ friendTemplate.send("accept_friend_request", event); }
-
-    public void newFriendRequest(NewFriendRequestEvent event){
-        friendTemplate.send("new_friend_request", event);
-    }
-
-
+	public void newFriendRequest(NewFriendRequestEvent event) {
+		friendTemplate.send("new_friend_request", event);
+	}
 }

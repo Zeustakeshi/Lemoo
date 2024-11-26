@@ -15,12 +15,12 @@ import lombok.*;
 @NoArgsConstructor
 public class NewUserEvent extends Event {
 
-    private String displayName;
-    private String accountId;
-    private String userId;
+	private String displayName;
+	private String accountId;
+	private String userId;
 
-    @Override
-    protected void setGroupId(String groupId) {
-        this.groupId = "E_001";
-    }
+	@Override
+	protected void setGroupId(String groupId) {
+		this.groupId = "E_001";
+	}
 }

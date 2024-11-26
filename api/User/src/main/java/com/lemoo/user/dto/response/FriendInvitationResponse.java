@@ -1,24 +1,20 @@
 package com.lemoo.user.dto.response;
 
-import com.lemoo.user.common.enums.FriendInvitationStatus;
+import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Data;
-
-import java.time.LocalDateTime;
-
 
 @Builder
 @Data
 public class FriendInvitationResponse {
 
-    private String userId;
+	private String userId;
 
-    private String avatar;
+	private String avatar;
 
-    private String username;
+	private String username;
 
-    private LocalDateTime timestamp;
+	private LocalDateTime timestamp;
 
-    private String requestId;
-
+	private String requestId;
 }

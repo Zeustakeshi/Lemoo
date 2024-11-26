@@ -4,7 +4,6 @@
  *  @created 10/29/2024 2:51 PM
  * */
 
-
 package com.lemoo.user.controller;
 
 import com.lemoo.user.dto.common.AuthenticatedAccount;
@@ -23,11 +22,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final UserService userService;
+	private final UserService userService;
 
-    @GetMapping("me")
-    @ResponseStatus(HttpStatus.OK)
-    public ApiResponse<?> getUserProfile(@AuthenticationPrincipal AuthenticatedAccount account) {
-        return ApiResponse.success(userService.getUserProfile(account.getUserId()));
-    }
+	@GetMapping("me")
+	@ResponseStatus(HttpStatus.OK)
+	public ApiResponse<?> getUserProfile(@AuthenticationPrincipal AuthenticatedAccount account) {
+		return ApiResponse.success(userService.getUserProfile(account.getUserId()));
+	}
 }

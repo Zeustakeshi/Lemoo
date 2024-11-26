@@ -7,6 +7,6 @@
 package com.lemoo.user.common.enums;
 
 public enum Gender {
-    MALE,
-    FEMALE
+	MALE,
+	FEMALE
 }

@@ -7,7 +7,7 @@
 package com.lemoo.user.exception;
 
 public class TokenException extends RuntimeException {
-    public TokenException(String message) {
-        super(message);
-    }
+	public TokenException(String message) {
+		super(message);
+	}
 }

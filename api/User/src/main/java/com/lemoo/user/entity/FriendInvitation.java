@@ -1,17 +1,10 @@
-/*
- *  User
- *  @author: Minhhieuano
- *  @created 10/29/2024 2:26 PM
- * */
-
 package com.lemoo.user.entity;
 
-import com.lemoo.user.common.enums.Gender;
+import com.lemoo.user.common.enums.FriendInvitationStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import java.time.LocalDate;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 
@@ -22,20 +15,16 @@ import org.hibernate.annotations.DynamicInsert;
 @Builder
 @EqualsAndHashCode(callSuper = true)
 @DynamicInsert
-public class User extends BaseEntity {
-
-	private String avatar;
+public class FriendInvitation extends BaseEntity {
 
 	@Column(nullable = false)
-	private String displayName;
+	private String senderId;
 
-	@Column(nullable = false, unique = true)
-	private String accountId;
-
-	private LocalDate dateOfBirth;
-
-	private String address;
+	@Column(nullable = false)
+	private String receiverId;
 
 	@Enumerated(EnumType.STRING)
-	private Gender gender;
+	private FriendInvitationStatus status;
+
+	private String updatedBy;
 }

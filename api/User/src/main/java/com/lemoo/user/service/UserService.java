@@ -9,7 +9,7 @@ package com.lemoo.user.service;
 import com.lemoo.user.dto.response.UserResponse;
 
 public interface UserService {
-    void createUser(String accountId, String userId, String displayName);
+	void createUser(String accountId, String userId, String displayName);
 
-    UserResponse getUserProfile(String userId);
+	UserResponse getUserProfile(String userId);
 }

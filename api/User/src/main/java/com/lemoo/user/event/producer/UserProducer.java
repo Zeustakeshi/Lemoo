@@ -14,9 +14,9 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class UserProducer {
-    private final KafkaTemplate<String, Object> userTemplate;
+	private final KafkaTemplate<String, Object> userTemplate;
 
-    public void createUserProfile(NewUserEvent event) {
-        userTemplate.send("new_user", event);
-    }
+	public void createUserProfile(NewUserEvent event) {
+		userTemplate.send("new_user", event);
+	}
 }

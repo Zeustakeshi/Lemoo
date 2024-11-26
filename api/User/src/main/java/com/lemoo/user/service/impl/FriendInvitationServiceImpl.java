@@ -4,11 +4,13 @@ import com.lemoo.user.common.enums.FriendInvitationStatus;
 import com.lemoo.user.dto.common.AuthenticatedAccount;
 import com.lemoo.user.dto.request.NewFriendInvitationRequest;
 import com.lemoo.user.dto.response.FriendInvitationResponse;
+import com.lemoo.user.dto.response.PageableResponse;
 import com.lemoo.user.dto.response.UserResponse;
 import com.lemoo.user.entity.FriendInvitation;
 import com.lemoo.user.exception.BadRequestException;
 import com.lemoo.user.exception.NotfoundException;
 import com.lemoo.user.mapper.FriendInvitationMapper;
+import com.lemoo.user.mapper.PageMapper;
 import com.lemoo.user.repository.FriendInvitationRepository;
 import com.lemoo.user.service.FriendInvitationService;
 import com.lemoo.user.service.FriendService;
@@ -30,6 +32,7 @@ public class FriendInvitationServiceImpl implements FriendInvitationService {
 	private final UserService userService;
 
 	private final FriendService friendService;
+	private final PageMapper pageMapper;
 
 	@Override
 	public FriendInvitationResponse newFriendInvitation(
@@ -46,28 +49,28 @@ public class FriendInvitationServiceImpl implements FriendInvitationService {
 
 		UserResponse user = userService.getUserProfile(account.getUserId());
 
-//		friendProducer.newFriendRequest(NewFriendRequestEvent.builder()
-//				.invitationId(friendInvitation.getId())
-//				.receiverId(user.getId())
-//				.senderAvatar(user.getAvatar())
-//				.senderName(user.getDisplayName())
-//				.build());
+		//		friendProducer.newFriendRequest(NewFriendRequestEvent.builder()
+		//				.invitationId(friendInvitation.getId())
+		//				.receiverId(user.getId())
+		//				.senderAvatar(user.getAvatar())
+		//				.senderName(user.getDisplayName())
+		//				.build());
 
 		return friendInvitationMapper.invitationToResponse(friendInvitation, user);
 	}
 
 	@Override
-	public Page<FriendInvitationResponse> getCurrentFriendRequestList(String userId, int page, int limit) {
+	public PageableResponse<FriendInvitationResponse> getCurrentFriendRequestList(String userId, int page, int limit) {
 
 		Page<FriendInvitation> invitations = friendInvitationRepository.findByReceiverIdAndStatus(
 				userId,
 				FriendInvitationStatus.PENDING,
 				PageRequest.of(page, limit, Sort.by("createdAt").descending()));
 
-		return invitations.map(invitation -> {
+		return pageMapper.toPageableResponse(invitations.map(invitation -> {
 			UserResponse userResponse = userService.getUserProfile(invitation.getSenderId());
 			return friendInvitationMapper.invitationToResponse(invitation, userResponse);
-		});
+		}));
 	}
 
 	@Override

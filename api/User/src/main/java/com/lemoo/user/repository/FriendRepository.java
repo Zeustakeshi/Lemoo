@@ -1,7 +1,6 @@
 package com.lemoo.user.repository;
 
 import com.lemoo.user.entity.Friend;
-import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -22,7 +21,7 @@ public interface FriendRepository extends JpaRepository<Friend, String> {
 			+ "WHEN f.user1Id = :userId THEN f.user2Id "
 			+ "ELSE f.user1Id END "
 			+ "FROM Friend f WHERE f.user1Id = :userId OR f.user2Id = :userId)")
-	List<String> findNonFriendUserIds(@Param("userId") String userId);
+	Page<String> findNonFriendUserIds(@Param("userId") String userId, Pageable pageable);
 
 	@Query(
 			value =

@@ -4,7 +4,7 @@
  *  @created 9/27/2024 9:10 PM
  * */
 
-package com.lemoo.chat.config;
+package com.lemoo.store.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

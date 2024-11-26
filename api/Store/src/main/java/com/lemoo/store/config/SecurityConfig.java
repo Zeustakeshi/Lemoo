@@ -4,9 +4,9 @@
  *  @created 10/16/2024 12:32 AM
  * */
 
-package com.lemoo.chat.config;
+package com.lemoo.store.config;
 
-import com.lemoo.chat.security.JwtAuthenticationConverter;
+import com.lemoo.store.security.JwtAuthenticationConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

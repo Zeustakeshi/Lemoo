@@ -5,5 +5,15 @@
  * */
 
 
-package com.lemoo.store.repository;public class StoreRepository {
+package com.lemoo.store.repository;
+
+import com.lemoo.store.entity.Store;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
+
+@Repository
+public interface StoreRepository extends JpaRepository<Store, String> {
+    Optional<Store> findByOwnerId(String ownerId);
 }

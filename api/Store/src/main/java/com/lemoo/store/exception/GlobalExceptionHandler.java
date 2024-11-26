@@ -4,9 +4,9 @@
  *  @created 10/16/2024 12:29 AM
  * */
 
-package com.lemoo.chat.exception;
+package com.lemoo.store.exception;
 
-import com.lemoo.chat.dto.response.ApiResponse;
+import com.lemoo.store.dto.response.ApiResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

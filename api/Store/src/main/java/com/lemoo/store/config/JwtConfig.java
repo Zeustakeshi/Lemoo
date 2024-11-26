@@ -5,10 +5,10 @@
  * */
 
 
-package com.lemoo.chat.config;
+package com.lemoo.store.config;
 
 
-import com.lemoo.chat.common.properties.ServiceUrl;
+import com.lemoo.store.common.properties.ServiceUrl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

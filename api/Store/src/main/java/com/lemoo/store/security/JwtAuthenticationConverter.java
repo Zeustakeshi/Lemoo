@@ -4,10 +4,10 @@
  *  @created 10/16/2024 12:35 AM
  * */
 
-package com.lemoo.chat.security;
+package com.lemoo.store.security;
 
 
-import com.lemoo.chat.dto.common.AuthenticatedAccount;
+import com.lemoo.store.dto.common.AuthenticatedAccount;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

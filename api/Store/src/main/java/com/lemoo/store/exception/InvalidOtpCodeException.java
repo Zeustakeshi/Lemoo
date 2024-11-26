@@ -4,7 +4,7 @@
  *  @created 10/18/2024 4:29 PM
  * */
 
-package com.lemoo.chat.exception;
+package com.lemoo.store.exception;
 
 public class InvalidOtpCodeException extends RuntimeException {
 

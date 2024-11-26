@@ -4,7 +4,7 @@
  *  @created 10/16/2024 12:25 AM
  * */
 
-package com.lemoo.chat.exception;
+package com.lemoo.store.exception;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

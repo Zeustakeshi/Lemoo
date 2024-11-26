@@ -5,7 +5,7 @@
  * */
 
 
-package com.lemoo.chat.common.properties;
+package com.lemoo.store.common.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

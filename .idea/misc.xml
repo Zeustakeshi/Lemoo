@@ -9,6 +9,7 @@
         <option value="$PROJECT_DIR$/api/Gateway/pom.xml" />
         <option value="$PROJECT_DIR$/api/Chat/pom.xml" />
         <option value="$PROJECT_DIR$/api/Chats/pom.xml" />
+        <option value="$PROJECT_DIR$/api/Store/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">

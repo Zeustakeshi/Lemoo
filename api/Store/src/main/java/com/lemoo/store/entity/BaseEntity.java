@@ -4,7 +4,7 @@
  *  @created 10/15/2024 10:11 PM
  * */
 
-package com.lemoo.user.entity;
+package com.lemoo.store.entity;
 
 import com.aventrix.jnanoid.jnanoid.NanoIdUtils;
 import jakarta.persistence.Id;

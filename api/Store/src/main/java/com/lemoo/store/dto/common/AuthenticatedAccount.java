@@ -5,7 +5,7 @@
  * */
 
 
-package com.lemoo.chat.dto.common;
+package com.lemoo.store.dto.common;
 
 import lombok.Builder;
 import lombok.Data;

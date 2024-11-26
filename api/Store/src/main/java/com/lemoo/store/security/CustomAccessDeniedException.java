@@ -4,7 +4,7 @@
  *  @created 10/16/2024 12:39 AM
  * */
 
-package com.lemoo.chat.security;
+package com.lemoo.store.security;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

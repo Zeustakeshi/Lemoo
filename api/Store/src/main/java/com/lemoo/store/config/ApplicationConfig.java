@@ -4,9 +4,10 @@
  *  @created 10/16/2024 12:51 AM
  * */
 
-package com.lemoo.user.config;
+package com.lemoo.store.config;
 
-import com.lemoo.user.common.properties.ServiceUrl;
+
+import com.lemoo.store.common.properties.ServiceUrl;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 

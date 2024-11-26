@@ -7,10 +7,10 @@ type Props = {};
 
 const InputMessage = (props: Props) => {
     return (
-        <View className="justify-start items-center gap-x-2 flex-row py-2 ">
+        <View className="justify-start items-center gap-x-2 flex-row py-2  border-t border-t-primary">
             <View className="flex-1">
                 <TextInput
-                    className="max-h-[200] border-t border-t-primary"
+                    className="max-h-[200]"
                     textAlignVertical="top"
                     style={{ maxHeight: 100 }}
                     multiline

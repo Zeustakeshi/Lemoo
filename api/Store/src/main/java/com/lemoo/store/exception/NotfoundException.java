@@ -4,7 +4,7 @@
  *  @created 9/8/2024 9:06 PM
  * */
 
-package com.lemoo.chat.exception;
+package com.lemoo.store.exception;
 
 import org.springframework.http.HttpStatus;
 

@@ -4,7 +4,7 @@
  *  @created 10/15/2024 11:10 PM
  * */
 
-package com.lemoo.chat.dto.response;
+package com.lemoo.store.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;

@@ -90,10 +90,20 @@ const Login = () => {
       );
       // lưu lại userinfo trong session
       console.log("Người dùng: ", userResponse.data.data);
+      if (userResponse.status === 404) {
+        console.error("Bạn chưa có cửa hàng, hãy tạo cửa hàng ngay!.");
+        navigate({ to: "/Store/CreatStore" });
+      }
+
+      if (userResponse.status === 200) {
+        console.error("Bạn chưa có cửa hàng, hãy tạo cửa hàng ngay!.");
+        navigate({ to: "/" });
+      }
 
       const userData = userResponse.data.data;
       setUser(userData);
       setSuccessAlert(true);
+      // Gọi check store
       navigate({ to: "/" });
     } catch (error) {
       console.error("Lỗi khi xác thực OTP:", error);

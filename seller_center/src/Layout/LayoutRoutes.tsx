@@ -34,7 +34,7 @@ const LayoutRoutes = () => {
           </div>
         )}
         <NavItem to="/Accout/AccoutSetting" primaryText="Tài Khoản" />
-
+        <NavItem to="/Store/CreatStore" primaryText="Creat Store" />
         <NavItem to="/Hoang" primaryText="HomePageUI" />
       </List>
       <Divider />

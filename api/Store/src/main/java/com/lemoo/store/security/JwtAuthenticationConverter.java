@@ -34,6 +34,7 @@ public class JwtAuthenticationConverter implements Converter<Jwt, AbstractAuthen
         AuthenticatedAccount account = AuthenticatedAccount.builder()
                 .id(jwt.getSubject())
                 .email(jwt.getClaim("email"))
+                .phone(jwt.getClaim("phone"))
                 .userId(jwt.getClaim("user_id"))
                 .build();
         return new UsernamePasswordAuthenticationToken(account, null, getAuthorities(jwt));

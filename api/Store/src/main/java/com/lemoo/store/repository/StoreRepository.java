@@ -16,4 +16,8 @@ import java.util.Optional;
 @Repository
 public interface StoreRepository extends JpaRepository<Store, String> {
     Optional<Store> findByOwnerId(String ownerId);
+
+    boolean existsByName(String name);
+
+    boolean existsByNameOrOwnerId(String name, String ownerId);
 }

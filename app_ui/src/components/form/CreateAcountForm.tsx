@@ -3,7 +3,7 @@ import { createAccountSchema } from "@/schema/auth.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { router } from "expo-router";
-import React from "react";
+import React, { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Text, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -14,16 +14,54 @@ import Input from "../ui/Input";
 
 type Props = {};
 
+function getRandomInt(min: number, max: number) {
+    min = Math.ceil(min); // Làm tròn lên để bao gồm min
+    max = Math.floor(max); // Làm tròn xuống để bao gồm max
+    return Math.floor(Math.random() * (max - min + 1)) + min; // Công thức random
+}
+
+function randomPhoneNumber() {
+    const prefix = "09"; // Phần đầu của số điện thoại
+    const rest = Math.floor(Math.random() * 90000000 + 10000000); // Random 8 chữ số tiếp theo
+    return prefix + rest;
+}
+
 const CreateAcountForm = ({}: Props) => {
     const {
         control,
         formState: { errors },
         handleSubmit,
         watch,
+        setValue,
     } = useForm<z.infer<typeof createAccountSchema>>({
         resolver: zodResolver(createAccountSchema),
         defaultValues: {},
     });
+
+    useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                const response = await fetch("https://randomuser.me/api/");
+                const data = await response.json();
+
+                const userInfo = {
+                    email: data.results[0].email,
+                    phone: randomPhoneNumber(),
+                    username: data.results[0].login.username,
+                    password: "ABCabc123@",
+                };
+
+                setValue("email", userInfo.email);
+                setValue("phone", userInfo.phone);
+                setValue("password", userInfo.password);
+                setValue("username", userInfo.username);
+            } catch (error) {
+                console.error("Error fetching user:", error);
+            }
+        };
+
+        fetchUser(); // Gọi hàm khi component được render
+    }, []);
 
     const { mutateAsync: createAccountMutation, isPending } = useMutation({
         mutationKey: ["create-account"],

@@ -11,7 +11,7 @@ spring:
     database: postgresql
     generate-ddl: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     properties:
       hibernate:
         format_sql: true
@@ -38,6 +38,11 @@ spring:
       auto-offset-reset: earliest
       properties:
         spring.json.trusted.packages: '*'
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 20MB
 server:
   port: 8088
   servlet:
@@ -45,3 +50,12 @@ server:
 services:
   auth-service: ${AUTH_SERVICE_URL:http://localhost:8082/auth}
 
+cloudinary:
+  cloud-name: ${CLOUDINARY_NAME}
+  api-key: ${CLOUDINARY_API_KEY}
+  api-secret: ${CLOUDINARY_API_SECRET}
+  dir-prefix: "lemoo/store"
+  secure-url-expire-in: 2 # 2 hour
+
+assets:
+  default-avatar: https://res.cloudinary.com/dymmvrufy/image/upload/v1734085007/Lemoo/store/avatar/default-avatar.jpg

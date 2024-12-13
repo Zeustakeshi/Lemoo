@@ -15,7 +15,7 @@ const home = (props: Props) => {
         <AppWrapper>
             <HeaderProfile></HeaderProfile>
             <Text className="text-3xl font-semibold my-3">
-                Xin chào, Minh Hiếu
+                Xin chào, {user?.displayName}
             </Text>
 
             {/*  */}

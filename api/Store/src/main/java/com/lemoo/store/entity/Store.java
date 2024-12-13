@@ -7,8 +7,11 @@
 
 package com.lemoo.store.entity;
 
-import jakarta.persistence.Entity;
+import com.lemoo.store.common.enums.StoreType;
+import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.Set;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -17,10 +20,37 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class Store extends BaseEntity {
+    @Column(unique = true, nullable = false)
     private String name;
+
     private String avatar;
+
+    @Column(unique = true, nullable = false)
     private String phone;
+
+    @Column(unique = true, nullable = false)
     private String email;
+
+    @Column(unique = true, nullable = false)
     private String ownerId;
 
+    private StoreType type;
+
+    @ElementCollection(fetch = FetchType.LAZY)
+    private Set<String> Banners;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private CitizenIdVerification citizenIdVerification;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private BusinessRegistration businessRegistration;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private BankInformation bankInformation;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private TaxInformation taxInformation;
+
+    @Builder.Default
+    private boolean isVerified = false;
 }

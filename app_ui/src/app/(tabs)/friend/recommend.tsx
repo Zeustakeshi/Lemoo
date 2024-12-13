@@ -1,4 +1,4 @@
-import FriendRecommendList from "@/components/friend/recommend/FriendRecommendList";
+import FriendRecommendList2 from "@/components/friend/recommend/FriendRecommendList2";
 import React from "react";
 import { View } from "react-native";
 
@@ -7,7 +7,7 @@ type Props = {};
 const recommend = (props: Props) => {
     return (
         <View>
-            <FriendRecommendList></FriendRecommendList>
+            <FriendRecommendList2></FriendRecommendList2>
         </View>
     );
 };

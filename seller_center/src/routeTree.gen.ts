@@ -13,6 +13,7 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as StoreCreatStoreImport } from './routes/Store/CreatStore'
 import { Route as ProductProductManagementImport } from './routes/Product/ProductManagement'
 import { Route as ProductBennerProductsImport } from './routes/Product/BennerProducts'
 import { Route as AuthRegisterImport } from './routes/Auth/Register'
@@ -30,6 +31,12 @@ const IndexLazyRoute = IndexLazyImport.update({
   path: '/',
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
+
+const StoreCreatStoreRoute = StoreCreatStoreImport.update({
+  id: '/Store/CreatStore',
+  path: '/Store/CreatStore',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const ProductProductManagementRoute = ProductProductManagementImport.update({
   id: '/Product/ProductManagement',
@@ -107,6 +114,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductProductManagementImport
       parentRoute: typeof rootRoute
     }
+    '/Store/CreatStore': {
+      id: '/Store/CreatStore'
+      path: '/Store/CreatStore'
+      fullPath: '/Store/CreatStore'
+      preLoaderRoute: typeof StoreCreatStoreImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -119,6 +133,7 @@ export interface FileRoutesByFullPath {
   '/Auth/Register': typeof AuthRegisterRoute
   '/Product/BennerProducts': typeof ProductBennerProductsRoute
   '/Product/ProductManagement': typeof ProductProductManagementRoute
+  '/Store/CreatStore': typeof StoreCreatStoreRoute
 }
 
 export interface FileRoutesByTo {
@@ -128,6 +143,7 @@ export interface FileRoutesByTo {
   '/Auth/Register': typeof AuthRegisterRoute
   '/Product/BennerProducts': typeof ProductBennerProductsRoute
   '/Product/ProductManagement': typeof ProductProductManagementRoute
+  '/Store/CreatStore': typeof StoreCreatStoreRoute
 }
 
 export interface FileRoutesById {
@@ -138,6 +154,7 @@ export interface FileRoutesById {
   '/Auth/Register': typeof AuthRegisterRoute
   '/Product/BennerProducts': typeof ProductBennerProductsRoute
   '/Product/ProductManagement': typeof ProductProductManagementRoute
+  '/Store/CreatStore': typeof StoreCreatStoreRoute
 }
 
 export interface FileRouteTypes {
@@ -149,6 +166,7 @@ export interface FileRouteTypes {
     | '/Auth/Register'
     | '/Product/BennerProducts'
     | '/Product/ProductManagement'
+    | '/Store/CreatStore'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -157,6 +175,7 @@ export interface FileRouteTypes {
     | '/Auth/Register'
     | '/Product/BennerProducts'
     | '/Product/ProductManagement'
+    | '/Store/CreatStore'
   id:
     | '__root__'
     | '/'
@@ -165,6 +184,7 @@ export interface FileRouteTypes {
     | '/Auth/Register'
     | '/Product/BennerProducts'
     | '/Product/ProductManagement'
+    | '/Store/CreatStore'
   fileRoutesById: FileRoutesById
 }
 
@@ -175,6 +195,7 @@ export interface RootRouteChildren {
   AuthRegisterRoute: typeof AuthRegisterRoute
   ProductBennerProductsRoute: typeof ProductBennerProductsRoute
   ProductProductManagementRoute: typeof ProductProductManagementRoute
+  StoreCreatStoreRoute: typeof StoreCreatStoreRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -184,6 +205,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRegisterRoute: AuthRegisterRoute,
   ProductBennerProductsRoute: ProductBennerProductsRoute,
   ProductProductManagementRoute: ProductProductManagementRoute,
+  StoreCreatStoreRoute: StoreCreatStoreRoute,
 }
 
 export const routeTree = rootRoute
@@ -201,7 +223,8 @@ export const routeTree = rootRoute
         "/Auth/Login",
         "/Auth/Register",
         "/Product/BennerProducts",
-        "/Product/ProductManagement"
+        "/Product/ProductManagement",
+        "/Store/CreatStore"
       ]
     },
     "/": {
@@ -221,6 +244,9 @@ export const routeTree = rootRoute
     },
     "/Product/ProductManagement": {
       "filePath": "Product/ProductManagement.tsx"
+    },
+    "/Store/CreatStore": {
+      "filePath": "Store/CreatStore.tsx"
     }
   }
 }

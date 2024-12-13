@@ -12,4 +12,5 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @EnableConfigurationProperties({ServiceEndpointProperties.class})
-public class AppConfig {}
+public class AppConfig {
+}

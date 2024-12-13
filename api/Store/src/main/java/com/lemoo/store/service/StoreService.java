@@ -6,11 +6,18 @@
 
 package com.lemoo.store.service;
 
+import com.lemoo.store.common.enums.DocumentType;
+import com.lemoo.store.dto.common.AuthenticatedAccount;
+import com.lemoo.store.dto.request.CreateCorporateStoreRequest;
 import com.lemoo.store.dto.request.CreateIndividualStoreRequest;
 import com.lemoo.store.dto.response.StoreResponse;
 
 public interface StoreService {
-    StoreResponse getStoreInfo(String ownerId);
+    StoreResponse getStoreInfo(AuthenticatedAccount account);
 
-    StoreResponse createIndividualStore(String ownerId, CreateIndividualStoreRequest request);
+    StoreResponse createCorporateStore(AuthenticatedAccount account, CreateCorporateStoreRequest request);
+
+    StoreResponse createIndividualStore(AuthenticatedAccount account, CreateIndividualStoreRequest request);
+
+    void updateStoreDocument(String storeId, DocumentType type, String documentUrl);
 }

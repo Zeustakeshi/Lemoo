@@ -31,7 +31,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponse<?>> handleException(Exception exception) {
         ApiResponse<?> response = ApiResponse.error(exception.getMessage());
-        log.error(exception.getMessage());
+        log.error(exception.toString());
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 

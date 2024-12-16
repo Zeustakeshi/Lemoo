@@ -15,6 +15,7 @@ const FriendLayout = (props: Props) => {
             <View className="p-2">
                 <Slot></Slot>
             </View>
+            <View>Hello world</View>
         </AppWrapper>
     );
 };

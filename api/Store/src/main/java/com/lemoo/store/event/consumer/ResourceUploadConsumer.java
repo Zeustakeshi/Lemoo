@@ -4,7 +4,6 @@
  *  @created 12/13/2024 5:22 PM
  * */
 
-
 package com.lemoo.store.event.consumer;
 
 import com.lemoo.store.event.eventModel.UploadDocumentEvent;
@@ -16,12 +15,12 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class ResourceUploadConsumer {
-    private final StoreDocumentService storeDocumentService;
+	private final StoreDocumentService storeDocumentService;
 
-    @EventListener
-    public void handleUpdateDocument(UploadDocumentEvent event) {
+	@EventListener
+	public void handleUpdateDocument(UploadDocumentEvent event) {
 
-        System.out.println("update document " + event.getType());
-        storeDocumentService.uploadDocument(event.getStoreId(), event.getType(), event.getImage());
-    }
+		System.out.println("update document " + event.getType());
+		storeDocumentService.uploadDocument(event.getStoreId(), event.getType(), event.getImage());
+	}
 }

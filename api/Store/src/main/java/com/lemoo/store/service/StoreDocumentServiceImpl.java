@@ -4,13 +4,14 @@
  *  @created 12/13/2024 5:27 PM
  * */
 
-
 package com.lemoo.store.service;
 
 import com.lemoo.store.common.enums.DocumentType;
+import com.lemoo.store.common.enums.StoreStatus;
 import com.lemoo.store.common.lock.UpdateLockManager;
 import com.lemoo.store.entity.BankInformation;
 import com.lemoo.store.entity.BusinessRegistration;
+import com.lemoo.store.entity.Store;
 import com.lemoo.store.entity.TaxInformation;
 import com.lemoo.store.exception.NotfoundException;
 import com.lemoo.store.repository.*;
@@ -34,7 +35,8 @@ public class StoreDocumentServiceImpl implements StoreDocumentService {
     @Async
     public void uploadDocument(String storeId, DocumentType type, byte[] image) {
         try {
-            var response = resourceService.uploadImage(image, generateDocumentPublicId(type, storeId), getDocumentPath(storeId));
+            var response = resourceService.uploadImage(
+                    image, generateDocumentPublicId(type, storeId), getDocumentPath(storeId));
             String documentUrl = response.getSecureUrl();
             switch (type) {
                 case BANK_DOCUMENT -> updateBankDocument(storeId, documentUrl);
@@ -46,14 +48,23 @@ public class StoreDocumentServiceImpl implements StoreDocumentService {
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
-
     }
 
     private void updateBankDocument(String storeId, String url) {
-        BankInformation bankInformation = bankInformationRepository.findByStoreId(storeId)
-                .orElseThrow(() -> new NotfoundException("Bank information not found"));
-        bankInformation.setDocument(url);
-        bankInformationRepository.save(bankInformation);
+        try {
+            BankInformation bankInformation = bankInformationRepository
+                    .findByStoreId(storeId)
+                    .orElseThrow(() -> new NotfoundException("Bank information not found"));
+            bankInformation.setDocument(url);
+            bankInformationRepository.save(bankInformation);
+        } catch (Exception exception) {
+            Store store = storeRepository.findById(storeId)
+                    .orElseThrow(() -> new RuntimeException("Update store status to verify_error failed because: " + exception.getMessage()));
+            store.setStatus(StoreStatus.VERIFY_FAILED);
+            store.getVerifyFailedMessages().add("Verify BankDocument fail with message: " + exception.getMessage());
+            storeRepository.save(store);
+        }
+
     }
 
     private void updateCitizenIdDocument(String storeId, String url, boolean isFrontSide) {
@@ -61,33 +72,62 @@ public class StoreDocumentServiceImpl implements StoreDocumentService {
         Object lock = lockManager.getLock(storeId);
 
         synchronized (lock) {
-            System.out.println("====================================================LOCK=================================================");
+            System.out.println(
+                    "====================================================LOCK=================================================");
             try {
-                var citizenId = citizenIdVerificationRepository.findByStoreId(storeId)
+                var citizenId = citizenIdVerificationRepository
+                        .findByStoreId(storeId)
                         .orElseThrow(() -> new NotfoundException("CitizenId not found"));
 
                 if (isFrontSide) citizenId.setDocumentFrontSide(url);
                 else citizenId.setDocumentBackSide(url);
                 citizenIdVerificationRepository.save(citizenId);
+            } catch (Exception exception) {
+                Store store = storeRepository.findById(storeId)
+                        .orElseThrow(() -> new RuntimeException("Update store status to verify_error failed because: " + exception.getMessage()));
+                store.setStatus(StoreStatus.VERIFY_FAILED);
+                store.getVerifyFailedMessages().add("Verify CitizenId fail with message: " + exception.getMessage());
+                storeRepository.save(store);
             } finally {
-                System.out.println("===================================================UNLOCK==================================================");
+                System.out.println(
+                        "===================================================UNLOCK==================================================");
                 lockManager.releaseLock(storeId);
             }
         }
     }
 
     private void updateTaxDocument(String storeId, String url) {
-        TaxInformation taxInformation = taxInformationRepository.findByStoreId(storeId)
-                .orElseThrow(() -> new NotfoundException("Bank information not found"));
-        taxInformation.setDocument(url);
-        taxInformationRepository.save(taxInformation);
+        try {
+            TaxInformation taxInformation = taxInformationRepository
+                    .findByStoreId(storeId)
+                    .orElseThrow(() -> new NotfoundException("Bank information not found"));
+            taxInformation.setDocument(url);
+            taxInformationRepository.save(taxInformation);
+        } catch (Exception exception) {
+            Store store = storeRepository.findById(storeId)
+                    .orElseThrow(() -> new RuntimeException("Update store status to verify_error failed because: " + exception.getMessage()));
+            store.setStatus(StoreStatus.VERIFY_FAILED);
+            store.getVerifyFailedMessages().add("Verify TaxDocument fail with message: " + exception.getMessage());
+            storeRepository.save(store);
+        }
+
     }
 
     private void updateBusinessDocument(String storeId, String url) {
-        BusinessRegistration businessRegistration = businessRegistrationRepository.findByStoreId(storeId)
-                .orElseThrow(() -> new NotfoundException("Business document not found"));
-        businessRegistration.setBusinessRegistrationCertificate(url);
-        businessRegistrationRepository.save(businessRegistration);
+        try {
+            BusinessRegistration businessRegistration = businessRegistrationRepository
+                    .findByStoreId(storeId)
+                    .orElseThrow(() -> new NotfoundException("Business document not found"));
+            businessRegistration.setBusinessRegistrationCertificate(url);
+            businessRegistrationRepository.save(businessRegistration);
+        } catch (Exception exception) {
+            Store store = storeRepository.findById(storeId)
+                    .orElseThrow(() -> new RuntimeException("Update store status to verify_error failed because: " + exception.getMessage()));
+            store.setStatus(StoreStatus.VERIFY_FAILED);
+            store.getVerifyFailedMessages().add("Verify BusinessDocument fail with message: " + exception.getMessage());
+            storeRepository.save(store);
+        }
+
     }
 
     private String generateDocumentPublicId(DocumentType type, String storeId) {

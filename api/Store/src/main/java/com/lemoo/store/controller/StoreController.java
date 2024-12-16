@@ -4,7 +4,6 @@
  *  @created 11/12/2024 10:34 PM
  * */
 
-
 package com.lemoo.store.controller;
 
 import com.lemoo.store.dto.common.AuthenticatedAccount;
@@ -22,32 +21,27 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("")
 @RequiredArgsConstructor
 public class StoreController {
-    private final StoreService storeService;
+	private final StoreService storeService;
 
-    @GetMapping("/info")
-    @ResponseStatus(HttpStatus.OK)
-    public ApiResponse<?> getStoreInfo(
-            @AuthenticationPrincipal AuthenticatedAccount account
-    ) {
-        return ApiResponse.success(storeService.getStoreInfo(account));
-    }
+	@GetMapping("/info")
+	@ResponseStatus(HttpStatus.OK)
+	public ApiResponse<?> getStoreInfo(@AuthenticationPrincipal AuthenticatedAccount account) {
+		return ApiResponse.success(storeService.getStoreInfo(account));
+	}
 
-    @PostMapping("/individual")
-    @ResponseStatus(HttpStatus.CREATED)
-    public ApiResponse<?> createIndividualStore(
-            @AuthenticationPrincipal AuthenticatedAccount account,
-            @Valid @ModelAttribute("request") CreateIndividualStoreRequest request
-    ) {
-        return ApiResponse.success(storeService.createIndividualStore(account, request));
-    }
+	@PostMapping("/individual")
+	@ResponseStatus(HttpStatus.CREATED)
+	public ApiResponse<?> createIndividualStore(
+			@AuthenticationPrincipal AuthenticatedAccount account,
+			@Valid @ModelAttribute("request") CreateIndividualStoreRequest request) {
+		return ApiResponse.success(storeService.createIndividualStore(account, request));
+	}
 
-    @PostMapping("/corporate")
-    @ResponseStatus(HttpStatus.CREATED)
-    public ApiResponse<?> createCorporateStore(
-            @AuthenticationPrincipal AuthenticatedAccount account,
-            @Valid @ModelAttribute("request") CreateCorporateStoreRequest request
-    ) {
-        return ApiResponse.success(storeService.createCorporateStore(account, request));
-    }
-
+	@PostMapping("/corporate")
+	@ResponseStatus(HttpStatus.CREATED)
+	public ApiResponse<?> createCorporateStore(
+			@AuthenticationPrincipal AuthenticatedAccount account,
+			@Valid @ModelAttribute("request") CreateCorporateStoreRequest request) {
+		return ApiResponse.success(storeService.createCorporateStore(account, request));
+	}
 }

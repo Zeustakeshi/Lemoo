@@ -12,5 +12,5 @@ import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface StoreMapper {
-    StoreResponse storeToStoreResponse(Store store);
+	StoreResponse storeToStoreResponse(Store store);
 }

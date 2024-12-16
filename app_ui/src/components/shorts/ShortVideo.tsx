@@ -1,6 +1,6 @@
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 import { useVideoPlayer, VideoView } from "expo-video";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Dimensions, Text, View } from "react-native";
 import Avatar, { AvatarImage } from "../ui/Avatar";
 import CommentList from "./Comment/CommentList";
@@ -17,7 +17,7 @@ const videoSource =
 
 const ShortVideo = ({ play }: Props) => {
     const bottomSheetRef = useRef<BottomSheet>(null);
-
+    const [showComment, setShowComment] = useState<boolean>(false);
     const player = useVideoPlayer(videoSource, (player) => {
         player.loop = true;
     });
@@ -32,11 +32,15 @@ const ShortVideo = ({ play }: Props) => {
 
     useEffect(() => {
         handleCloseComment();
-    }, [bottomSheetRef?.current]);
+    }, []);
 
-    const handleCloseComment = () => bottomSheetRef?.current?.close();
+    const handleCloseComment = () => {
+        bottomSheetRef?.current?.close();
+        setShowComment(false);
+    };
     const handleShowComment = () => {
         bottomSheetRef?.current?.expand();
+        setShowComment(true);
     };
 
     return (
@@ -86,9 +90,12 @@ const ShortVideo = ({ play }: Props) => {
                 style={{ zIndex: 20 }}
                 containerStyle={{ zIndex: 20 }}
             >
-                <BottomSheetView className="pb-5">
-                    <CommentList></CommentList>
-                </BottomSheetView>
+                {showComment && (
+                    <BottomSheetView className="pb-5 ">
+                        <CommentList></CommentList>
+                    </BottomSheetView>
+                )}
+                {!showComment && <></>}
             </BottomSheet>
         </View>
     );

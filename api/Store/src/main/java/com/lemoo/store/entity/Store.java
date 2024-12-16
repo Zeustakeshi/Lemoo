@@ -4,9 +4,9 @@
  *  @created 11/13/2024 8:20 PM
  * */
 
-
 package com.lemoo.store.entity;
 
+import com.lemoo.store.common.enums.StoreStatus;
 import com.lemoo.store.common.enums.StoreType;
 import jakarta.persistence.*;
 import lombok.*;
@@ -34,6 +34,13 @@ public class Store extends BaseEntity {
     @Column(unique = true, nullable = false)
     private String ownerId;
 
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    private StoreStatus status = StoreStatus.INACTIVE;
+
+    @ElementCollection
+    private Set<String> verifyFailedMessages;
+
     private StoreType type;
 
     @ElementCollection(fetch = FetchType.LAZY)
@@ -51,6 +58,4 @@ public class Store extends BaseEntity {
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private TaxInformation taxInformation;
 
-    @Builder.Default
-    private boolean isVerified = false;
 }

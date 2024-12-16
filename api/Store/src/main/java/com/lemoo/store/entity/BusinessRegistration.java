@@ -4,7 +4,6 @@
  *  @created 12/10/2024 1:46 PM
  * */
 
-
 package com.lemoo.store.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -20,21 +19,22 @@ import lombok.*;
 @Builder
 public class BusinessRegistration extends BaseEntity {
 
-    @Column(nullable = false)
-    private String companyLegalName;
+	@Column(nullable = false)
+	private String companyLegalName;
 
-    @Column(nullable = false)
-    private String businessOwnerName;
+	@Column(nullable = false)
+	private String businessOwnerName;
 
-    @Column(nullable = false)
-    private String businessRegistrationNumber;
-    private String businessRegistrationCertificate;
+	@Column(nullable = false)
+	private String businessRegistrationNumber;
 
-    @Enumerated(EnumType.STRING)
-    @Builder.Default
-    private BusinessType type = BusinessType.COMPANY;
+	private String businessRegistrationCertificate;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
-    private Store store;
+	@Enumerated(EnumType.STRING)
+	@Builder.Default
+	private BusinessType type = BusinessType.COMPANY;
+
+	@OneToOne(fetch = FetchType.LAZY)
+	@JsonIgnore
+	private Store store;
 }

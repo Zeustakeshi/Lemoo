@@ -7,6 +7,6 @@
 package com.lemoo.store.common.enums;
 
 public enum BusinessType {
-    COMPANY,
-    HOUSEHOLD
+	COMPANY,
+	HOUSEHOLD
 }

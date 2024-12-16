@@ -4,7 +4,6 @@
  *  @created 12/10/2024 1:42 PM
  * */
 
-
 package com.lemoo.store.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -22,21 +21,19 @@ import lombok.*;
 @Builder
 public class BankInformation extends BaseEntity {
 
-    private String document;
+	private String document;
 
-    @Column(nullable = false)
-    private String accountName;
+	@Column(nullable = false)
+	private String accountName;
 
-    @Column(nullable = false)
-    private String name;
+	@Column(nullable = false)
+	private String name;
 
-    private String code;
+	private String code;
 
-    private String bin;
+	private String bin;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
-    private Store store;
-
-
+	@OneToOne(fetch = FetchType.LAZY)
+	@JsonIgnore
+	private Store store;
 }

@@ -6,7 +6,6 @@ import { StatusBar } from "expo-status-bar";
 import { useCallback, useEffect, useState } from "react";
 import { Image, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { SafeAreaView } from "react-native-safe-area-context";
 import Toast from "react-native-toast-message";
 import "../global.css";
 
@@ -50,7 +49,7 @@ const RootLayout = () => {
     }
 
     return (
-        <SafeAreaView onLayout={onLayoutRootView} className="flex-1 bg-white">
+        <View onLayout={onLayoutRootView} className="flex-1 bg-white">
             <GestureHandlerRootView>
                 <QueryClientProvider client={queryClient}>
                     <AuthProvider>
@@ -109,7 +108,7 @@ const RootLayout = () => {
                 <Toast />
                 <StatusBar style="auto" />
             </GestureHandlerRootView>
-        </SafeAreaView>
+        </View>
     );
 };
 

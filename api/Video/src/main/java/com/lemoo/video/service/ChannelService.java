@@ -11,13 +11,19 @@ import com.lemoo.video.dto.request.ChannelRequest;
 import com.lemoo.video.dto.response.ChannelResponse;
 
 public interface ChannelService {
-    ChannelResponse createChannel(ChannelRequest request, AuthenticatedAccount account);
+	ChannelResponse createChannel(ChannelRequest request, AuthenticatedAccount account);
 
-    ChannelResponse updateChannel(ChannelRequest request, AuthenticatedAccount account);
+	ChannelResponse updateChannel(ChannelRequest request, AuthenticatedAccount account);
 
-    ChannelResponse getChannelDetail(String channelId, AuthenticatedAccount account);
+	ChannelResponse getChannelDetail(String channelId, AuthenticatedAccount account);
 
-    void followChannel(String channelId, AuthenticatedAccount account);
+	void followChannel(String channelId, AuthenticatedAccount account);
 
-    void unfollowChannel(String channelId, AuthenticatedAccount account);
+	void unfollowChannel(String channelId, AuthenticatedAccount account);
+
+	boolean canCreateVideo(String channelId, String userId);
+
+	boolean isChannelOwner(String channelId, String userId);
+
+	boolean isExistedChannel(String channelId);
 }

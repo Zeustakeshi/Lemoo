@@ -4,12 +4,14 @@
  *  @created 12/16/2024 9:49 PM
  * */
 
-
 package com.lemoo.video.entity;
 
-
 import com.lemoo.video.common.enums.ReactionType;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -18,17 +20,15 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
+@SuperBuilder
 @Data
 @CompoundIndex(def = "{commentId: 1, userId: 1}")
 public class VideoCommentReaction extends BaseEntity {
 
-    @Indexed
-    private String commentId;
+	@Indexed
+	private String commentId;
 
-    private ReactionType type;
+	private ReactionType type;
 
-    private String userId;
-
-    
+	private String userId;
 }

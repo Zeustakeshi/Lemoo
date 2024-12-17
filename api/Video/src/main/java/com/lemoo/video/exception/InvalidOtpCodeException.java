@@ -8,7 +8,7 @@ package com.lemoo.video.exception;
 
 public class InvalidOtpCodeException extends RuntimeException {
 
-    public InvalidOtpCodeException(String message) {
-        super(message);
-    }
+	public InvalidOtpCodeException(String message) {
+		super(message);
+	}
 }

@@ -7,7 +7,8 @@
 package com.lemoo.video.common.enums;
 
 public enum VideoStatus {
-    BLOCK,
-    PRIVATE,
-    PUBLIC
+	BLOCK,
+	PRIVATE,
+	PUBLIC,
+	DRAFT
 }

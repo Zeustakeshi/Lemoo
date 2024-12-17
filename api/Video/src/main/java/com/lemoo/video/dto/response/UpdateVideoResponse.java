@@ -1,10 +1,10 @@
 /*
- *  Product
+ *  UploadVideoResponse
  *  @author: Minhhieuano
- *  @created 12/16/2024 9:46 PM
+ *  @created 12/17/2024 7:39 PM
  * */
 
-package com.lemoo.video.entity;
+package com.lemoo.video.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,9 +15,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Product {
+public class UpdateVideoResponse {
 	private String id;
-	private String name;
-	private String image;
-	private Long price;
 }

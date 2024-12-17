@@ -4,7 +4,6 @@
  *  @created 12/16/2024 10:00 PM
  * */
 
-
 package com.lemoo.video.controller;
 
 import com.lemoo.video.dto.common.AuthenticatedAccount;
@@ -20,44 +19,36 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class ChannelController {
 
+	private final ChannelService channelService;
+	private final AuthenticatedAccount fakeAccount = AuthenticatedAccount.builder()
+			.email("test-user@gmail.com")
+			.id("62616d246f3f77054670a456")
+			.build();
 
-    private final ChannelService channelService;
-    private final AuthenticatedAccount fakeAccount = AuthenticatedAccount.builder()
-            .email("test-user@gmail.com")
-            .id("62616d246f3f77054670a456")
-            .build();
+	@PostMapping()
+	public ApiResponse<?> createChannel(@RequestBody @Valid ChannelRequest request) {
+		return ApiResponse.success(channelService.createChannel(request, fakeAccount));
+	}
 
+	@PutMapping
+	public ApiResponse<?> updateChannel(@RequestBody @Valid ChannelRequest request) {
+		return ApiResponse.success(channelService.updateChannel(request, fakeAccount));
+	}
 
-    @PostMapping()
-    public ApiResponse<?> createChannel(
-            @RequestBody @Valid ChannelRequest request
-    ) {
-        return ApiResponse.success(channelService.createChannel(request, fakeAccount));
-    }
+	@GetMapping("{channelId}")
+	public ApiResponse<?> getChannelDetail(@PathVariable("channelId") String channelId) {
+		return ApiResponse.success(channelService.getChannelDetail(channelId, fakeAccount));
+	}
 
-    @PutMapping
-    public ApiResponse<?> updateChannel(@RequestBody @Valid ChannelRequest request) {
-        return ApiResponse.success(channelService.updateChannel(request, fakeAccount));
-    }
+	@PostMapping("{channelId}/follow")
+	public ApiResponse<?> followChannel(@PathVariable("channelId") String channelId) {
+		channelService.followChannel(channelId, fakeAccount);
+		return ApiResponse.success(true);
+	}
 
-    @GetMapping("{channelId}")
-    public ApiResponse<?> getChannelDetail(@PathVariable("channelId") String channelId) {
-        return ApiResponse.success(channelService.getChannelDetail(channelId, fakeAccount));
-    }
-
-    @PostMapping("{channelId}/follow")
-    public ApiResponse<?> followChannel(
-            @PathVariable("channelId") String channelId
-    ) {
-        channelService.followChannel(channelId, fakeAccount);
-        return ApiResponse.success(true);
-    }
-
-    @DeleteMapping("{channelId}/follow")
-    public ApiResponse<?> unfollowChannel(
-            @PathVariable("channelId") String channelId
-    ) {
-        channelService.unfollowChannel(channelId, fakeAccount);
-        return ApiResponse.success(true);
-    }
+	@DeleteMapping("{channelId}/follow")
+	public ApiResponse<?> unfollowChannel(@PathVariable("channelId") String channelId) {
+		channelService.unfollowChannel(channelId, fakeAccount);
+		return ApiResponse.success(true);
+	}
 }

@@ -4,32 +4,41 @@
  *  @created 12/16/2024 9:49 PM
  * */
 
-
 package com.lemoo.video.entity;
 
-
 import com.lemoo.video.common.enums.VideoStatus;
+import java.util.Set;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Document
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
+@SuperBuilder
 @Data
+@CompoundIndex(unique = true, def = "{channelId: 1, name: 1}")
 public class Video extends BaseEntity {
 
-    @Indexed
-    private String channelId;
-    private String url;
-    private List<String> tags;
-    private VideoStatus status;
-    private String name;
-    private String description;
-    private List<Product> products;
-    private Integer views;
+	@Indexed
+	private String channelId;
+
+	private String name;
+
+	private String url;
+
+	private Set<String> tags;
+
+	@Builder.Default
+	private VideoStatus status = VideoStatus.DRAFT;
+
+	private String description;
+
+	private Set<Product> products;
+
+	@Builder.Default
+	private Long views = 0L;
 }

@@ -4,7 +4,6 @@
  *  @created 12/10/2024 1:39 PM
  * */
 
-
 package com.lemoo.store.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -20,17 +19,17 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class TaxInformation extends BaseEntity {
-    /**
-     * Represents tax-related information, including a Tax Identification Number (TIN).
-     */
-    private String TIN;
+	/**
+	 * Represents tax-related information, including a Tax Identification Number (TIN).
+	 */
+	private String TIN;
 
-    /**
-     * Tax document image url
-     */
-    private String document;
+	/**
+	 * Tax document image url
+	 */
+	private String document;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
-    private Store store;
+	@OneToOne(fetch = FetchType.LAZY)
+	@JsonIgnore
+	private Store store;
 }

@@ -4,10 +4,10 @@
  *  @created 11/13/2024 8:26 PM
  * */
 
-
 package com.lemoo.store.service.impl;
 
 import com.lemoo.store.common.enums.DocumentType;
+import com.lemoo.store.common.enums.StoreStatus;
 import com.lemoo.store.dto.common.AuthenticatedAccount;
 import com.lemoo.store.dto.request.CreateCorporateStoreRequest;
 import com.lemoo.store.dto.request.CreateIndividualStoreRequest;
@@ -32,13 +32,15 @@ public class StoreServiceImpl implements StoreService {
     private final StoreRepository storeRepository;
     private final StoreMapper storeMapper;
     private final ApplicationEventPublisher eventPublisher;
+
     @Value("${assets.default-avatar}")
     private String defaultAvatar;
 
     @Override
     public StoreResponse getStoreInfo(AuthenticatedAccount account) {
-        Store store = storeRepository.findByOwnerId(account.getId())
-                .orElseThrow(() -> new NotfoundException("Store doesn't exist "));
+        Store store = storeRepository
+                .findVerifiedStore(account.getId())
+                .orElseThrow(() -> new NotfoundException("Store doesn't exist or is not verified."));
         return storeMapper.storeToStoreResponse(store);
     }
 
@@ -49,31 +51,25 @@ public class StoreServiceImpl implements StoreService {
             throw new ConflictException("Store name " + request.getName() + " already existed.");
         }
 
-        Store store = Store
-                .builder()
+        Store store = Store.builder()
                 .avatar(defaultAvatar)
                 .email(account.getEmail())
                 .phone(account.getPhone())
                 .name(request.getName())
                 .ownerId(account.getId())
-                .isVerified(false)
+                .status(StoreStatus.ACTIVE)
                 .build();
 
-        CitizenIdVerification citizenIdVerification = CitizenIdVerification
-                .builder()
+        CitizenIdVerification citizenIdVerification = CitizenIdVerification.builder()
                 .cardName(request.getIdentityCardName())
                 .cardNumber(request.getIdentityCardNumber())
                 .store(store)
                 .build();
 
-        TaxInformation taxInformation = TaxInformation
-                .builder()
-                .TIN(request.getTIN())
-                .store(store)
-                .build();
+        TaxInformation taxInformation =
+                TaxInformation.builder().TIN(request.getTIN()).store(store).build();
 
-        BankInformation bankInformation = BankInformation
-                .builder()
+        BankInformation bankInformation = BankInformation.builder()
                 .name(request.getBankName())
                 .bin(request.getBankBin())
                 .code(request.getBankCode())
@@ -121,29 +117,24 @@ public class StoreServiceImpl implements StoreService {
             throw new ConflictException("Store already existed.");
         }
 
-        BusinessRegistration businessRegistration = BusinessRegistration
-                .builder()
+        BusinessRegistration businessRegistration = BusinessRegistration.builder()
                 .businessOwnerName(request.getBusinessOwnerName())
                 .businessRegistrationNumber(request.getBusinessRegistrationNumber())
                 .companyLegalName(request.getCompanyLegalName())
                 .type(request.getBusinessType())
                 .build();
 
-        TaxInformation taxInformation = TaxInformation
-                .builder()
-                .TIN(request.getTIN())
-                .build();
+        TaxInformation taxInformation =
+                TaxInformation.builder().TIN(request.getTIN()).build();
 
-        BankInformation bankInformation = BankInformation
-                .builder()
+        BankInformation bankInformation = BankInformation.builder()
                 .name(request.getBankName())
                 .bin(request.getBankBin())
                 .code(request.getBankCode())
                 .accountName(request.getBankAccountName())
                 .build();
 
-        Store store = storeRepository.save(Store
-                .builder()
+        Store store = storeRepository.save(Store.builder()
                 .avatar(defaultAvatar)
                 .bankInformation(bankInformation)
                 .businessRegistration(businessRegistration)
@@ -152,7 +143,7 @@ public class StoreServiceImpl implements StoreService {
                 .phone(account.getPhone())
                 .name(request.getName())
                 .ownerId(account.getId())
-                .isVerified(false)
+                .status(StoreStatus.ACTIVE)
                 .build());
 
         eventPublisher.publishEvent(UploadDocumentEvent.builder()
@@ -160,7 +151,6 @@ public class StoreServiceImpl implements StoreService {
                 .storeId(store.getId())
                 .type(DocumentType.BUSINESS_REGISTRATION_CERTIFICATE)
                 .build());
-
 
         eventPublisher.publishEvent(UploadDocumentEvent.builder()
                 .image(request.getTaxRegistrationDocument().getBytes())
@@ -177,12 +167,5 @@ public class StoreServiceImpl implements StoreService {
         return storeMapper.storeToStoreResponse(store);
     }
 
-    @Override
-    public void updateStoreDocument(String storeId, DocumentType type, String documentUrl) {
-        Store store = storeRepository.findById(storeId)
-                .orElseThrow(() -> new NotfoundException("Store " + storeId + " not found"));
-
-
-    }
-
+    
 }

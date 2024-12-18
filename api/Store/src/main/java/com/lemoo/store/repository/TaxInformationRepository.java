@@ -7,12 +7,11 @@
 package com.lemoo.store.repository;
 
 import com.lemoo.store.entity.TaxInformation;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
-
 @Repository
 public interface TaxInformationRepository extends JpaRepository<TaxInformation, String> {
-    Optional<TaxInformation> findByStoreId(String storeId);
+	Optional<TaxInformation> findByStoreId(String storeId);
 }

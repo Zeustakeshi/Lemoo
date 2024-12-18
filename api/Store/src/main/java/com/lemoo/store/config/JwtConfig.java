@@ -4,9 +4,7 @@
  *  @created 10/29/2024 1:58 PM
  * */
 
-
 package com.lemoo.store.config;
-
 
 import com.lemoo.store.common.properties.ServiceUrl;
 import lombok.RequiredArgsConstructor;
@@ -18,11 +16,11 @@ import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 @Configuration
 @RequiredArgsConstructor
 public class JwtConfig {
-    private final ServiceUrl serviceUrl;
+	private final ServiceUrl serviceUrl;
 
-    @Bean
-    JwtDecoder jwtDecoder() {
-        String jwkSetUrl = serviceUrl.authService() + "/internal/token/.well-known/jwks.json";
-        return NimbusJwtDecoder.withJwkSetUri(jwkSetUrl).build();
-    }
+	@Bean
+	JwtDecoder jwtDecoder() {
+		String jwkSetUrl = serviceUrl.authService() + "/internal/token/.well-known/jwks.json";
+		return NimbusJwtDecoder.withJwkSetUri(jwkSetUrl).build();
+	}
 }

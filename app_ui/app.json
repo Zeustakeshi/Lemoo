@@ -4,20 +4,15 @@
         "slug": "lemoo",
         "version": "1.0.0",
         "orientation": "portrait",
-        "icon": "./src/assets/images/icon.png",
+        "icon": "./src/assets/images/Android/ic_launcher_google_play.png",
         "scheme": "lemoo",
         "userInterfaceStyle": "automatic",
-        "splash": {
-            "image": "./src/assets/images/splash.png",
-            "resizeMode": "contain",
-            "backgroundColor": "#ffffff"
-        },
         "ios": {
             "supportsTablet": true
         },
         "android": {
             "adaptiveIcon": {
-                "foregroundImage": "./src/assets/images/adaptive-icon.png",
+                "foregroundImage": "./src/assets/images/Android/ic_launcher_google_play.png",
                 "backgroundColor": "#ffffff"
             }
         },
@@ -30,7 +25,14 @@
             "expo-router",
             "expo-secure-store",
             "expo-font",
-            "expo-video"
+            "expo-video",
+            [
+                "expo-splash-screen",
+                {
+                    "backgroundColor": "#ffffff",
+                    "image": "./src/assets/images/Android/ic_launcher_google_play.png"
+                }
+            ]
         ],
         "experiments": {
             "typedRoutes": true

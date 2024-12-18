@@ -4,7 +4,6 @@
  *  @created 12/10/2024 8:53 PM
  * */
 
-
 package com.lemoo.store.event.eventModel;
 
 import com.lemoo.store.common.enums.DocumentType;
@@ -17,12 +16,12 @@ import lombok.*;
 @NoArgsConstructor
 public class UploadDocumentEvent extends Event {
 
-    private DocumentType type;
-    private byte[] image;
-    private String storeId;
+	private DocumentType type;
+	private byte[] image;
+	private String storeId;
 
-    @Override
-    protected void setGroupId(String groupId) {
-        this.groupId = "LE_001";
-    }
+	@Override
+	protected void setGroupId(String groupId) {
+		this.groupId = "LE_001";
+	}
 }

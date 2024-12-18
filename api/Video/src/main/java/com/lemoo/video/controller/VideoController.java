@@ -20,34 +20,49 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("{channelId}/shorts")
 @RequiredArgsConstructor
 public class VideoController {
-	private final AuthenticatedAccount fakeAccount = AuthenticatedAccount.builder()
-			.email("test-user@gmail.com")
-			.id("62616d246f3f77054670a456")
-			.userId("user-2")
-			.build();
 
-	private final VideoService videoService;
+    private final VideoService videoService;
 
-	@GetMapping()
-	public ApiResponse<?> getAllVideoByChannelId(
-			@PathVariable("channelId") String channelId,
-			@RequestParam(value = "page", required = false, defaultValue = "0") int page,
-			@RequestParam(value = "limit", required = false, defaultValue = "10") int limit) {
-		return ApiResponse.success(videoService.getAllByChannelId(channelId, page, limit, fakeAccount));
-	}
 
-	@PostMapping("upload")
-	@ResponseStatus(HttpStatus.CREATED)
-	public ApiResponse<?> uploadVideo(
-			@PathVariable("channelId") String channelId, @ModelAttribute @Valid UploadVideoRequest request) {
-		return ApiResponse.success(videoService.uploadVideo(request, channelId, fakeAccount));
-	}
+    @GetMapping()
+    public ApiResponse<?> getAllVideoByChannelId(
+            @PathVariable("channelId") String channelId,
+            @RequestParam(value = "page", required = false, defaultValue = "0") int page,
+            @RequestParam(value = "limit", required = false, defaultValue = "10") int limit) {
+        return ApiResponse.success(videoService.getAllByChannelId(channelId, page, limit, fakeAccount()));
+    }
 
-	@PutMapping("{videoId}/metadata")
-	public ApiResponse<?> updateVideoMetadata(
-			@PathVariable("channelId") String channelId,
-			@PathVariable("videoId") String videoId,
-			@RequestBody @Valid UpdateVideoMetadataRequest request) {
-		return ApiResponse.success(videoService.updateVideoMetadata(request, videoId, channelId, fakeAccount));
-	}
+    @PostMapping("upload")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ApiResponse<?> uploadVideo(
+            @PathVariable("channelId") String channelId, @ModelAttribute @Valid UploadVideoRequest request) {
+        return ApiResponse.success(videoService.uploadVideo(request, channelId, fakeAccount()));
+    }
+
+    @PutMapping("{videoId}/metadata")
+    public ApiResponse<?> updateVideoMetadata(
+            @PathVariable("channelId") String channelId,
+            @PathVariable("videoId") String videoId,
+            @RequestBody @Valid UpdateVideoMetadataRequest request) {
+        return ApiResponse.success(videoService.updateVideoMetadata(request, videoId, channelId, fakeAccount()));
+    }
+
+
+    private AuthenticatedAccount fakeAccount() {
+        String userId = System.getenv("TEST_USER");
+
+        System.out.println();
+        System.out.println("===================================");
+
+        System.out.println("request with fake-userId= " + userId);
+
+        System.out.println("===================================");
+        System.out.println();
+        System.out.println();
+        return AuthenticatedAccount.builder()
+                .email("test-user@gmail.com")
+                .id("62616d246f3f77054670a456")
+                .userId(userId)
+                .build();
+    }
 }

@@ -14,6 +14,7 @@ import com.lemoo.video.service.VideoService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -23,46 +24,32 @@ public class VideoController {
 
     private final VideoService videoService;
 
-
     @GetMapping()
     public ApiResponse<?> getAllVideoByChannelId(
             @PathVariable("channelId") String channelId,
             @RequestParam(value = "page", required = false, defaultValue = "0") int page,
-            @RequestParam(value = "limit", required = false, defaultValue = "10") int limit) {
-        return ApiResponse.success(videoService.getAllByChannelId(channelId, page, limit, fakeAccount()));
+            @RequestParam(value = "limit", required = false, defaultValue = "10") int limit,
+            @AuthenticationPrincipal AuthenticatedAccount account
+    ) {
+        return ApiResponse.success(videoService.getAllByChannelId(channelId, page, limit, account));
     }
 
     @PostMapping("upload")
     @ResponseStatus(HttpStatus.CREATED)
     public ApiResponse<?> uploadVideo(
-            @PathVariable("channelId") String channelId, @ModelAttribute @Valid UploadVideoRequest request) {
-        return ApiResponse.success(videoService.uploadVideo(request, channelId, fakeAccount()));
+            @PathVariable("channelId") String channelId, @ModelAttribute @Valid UploadVideoRequest request,
+            @AuthenticationPrincipal AuthenticatedAccount account) {
+        return ApiResponse.success(videoService.uploadVideo(request, channelId, account));
     }
 
     @PutMapping("{videoId}/metadata")
     public ApiResponse<?> updateVideoMetadata(
             @PathVariable("channelId") String channelId,
             @PathVariable("videoId") String videoId,
-            @RequestBody @Valid UpdateVideoMetadataRequest request) {
-        return ApiResponse.success(videoService.updateVideoMetadata(request, videoId, channelId, fakeAccount()));
+            @RequestBody @Valid UpdateVideoMetadataRequest request,
+            @AuthenticationPrincipal AuthenticatedAccount account
+    ) {
+        return ApiResponse.success(videoService.updateVideoMetadata(request, videoId, channelId, account));
     }
 
-
-    private AuthenticatedAccount fakeAccount() {
-        String userId = System.getenv("TEST_USER");
-
-        System.out.println();
-        System.out.println("===================================");
-
-        System.out.println("request with fake-userId= " + userId);
-
-        System.out.println("===================================");
-        System.out.println();
-        System.out.println();
-        return AuthenticatedAccount.builder()
-                .email("test-user@gmail.com")
-                .id("62616d246f3f77054670a456")
-                .userId(userId)
-                .build();
-    }
 }

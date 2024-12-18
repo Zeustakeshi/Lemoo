@@ -4,7 +4,6 @@
  *  @created 12/18/2024 3:05 PM
  * */
 
-
 package com.lemoo.video.service.impl;
 
 import com.lemoo.video.common.enums.ReactionType;
@@ -48,13 +47,14 @@ public class VideoViewServiceImpl implements VideoViewService {
     public PageableResponse<VideoViewResponse> getRecommendVideo(int page, int limit, AuthenticatedAccount account) {
         PageRequest request = PageRequest.of(page, limit, Sort.by(Sort.Direction.DESC, "updatedAt"));
 
-        Channel channel = channelRepository.findByUserId(account.getUserId())
+        Channel channel = channelRepository
+                .findByUserId(account.getUserId())
                 .orElse(Channel.builder().id(null).build());
 
         Page<Video> videos = videoRepository.findAllByStatusAndChannelIdNotLike(VideoStatus.PUBLIC, channel.getId(), request);
+
         return pageMapper.toPageableResponse(mapPageVideoToPageViewResponse(videos));
     }
-
 
     @Override
     public PageableResponse<VideoViewResponse> getFollowingVideo(int page, int limit, AuthenticatedAccount account) {
@@ -67,7 +67,6 @@ public class VideoViewServiceImpl implements VideoViewService {
         return pageMapper.toPageableResponse(mapPageVideoToPageViewResponse(videos));
     }
 
-
     @Override
     public ReactionResponse getVideoReaction(String videoId, AuthenticatedAccount account) {
         if (!videoRepository.existsByIdAndStatus(videoId, VideoStatus.PUBLIC)) {
@@ -79,7 +78,8 @@ public class VideoViewServiceImpl implements VideoViewService {
                 .dislike(videoReactionRepository.countByVideoIdAndType(videoId, ReactionType.DISLIKE))
                 .build();
 
-        videoReactionRepository.findByUserIdAndVideoId(account.getUserId(), videoId)
+        videoReactionRepository
+                .findByUserIdAndVideoId(account.getUserId(), videoId)
                 .ifPresent((reaction) -> {
                     response.setLiked(reaction.getType().equals(ReactionType.LIKE));
                     response.setDisliked(reaction.getType().equals(ReactionType.DISLIKE));
@@ -135,7 +135,8 @@ public class VideoViewServiceImpl implements VideoViewService {
     private Page<VideoViewResponse> mapPageVideoToPageViewResponse(Page<Video> videos) {
         return videos.map(video -> {
             var response = videoMapper.toVideoViewResponse(video);
-            Channel channel = channelRepository.findByActiveChannelById(video.getChannelId())
+            Channel channel = channelRepository
+                    .findByActiveChannelById(video.getChannelId())
                     .orElseThrow(() -> new NotfoundException("Channel " + video.getChannelId() + " not found"));
             response.setChannel(channelMapper.toChannelBasicInfoResponse(channel));
             return response;

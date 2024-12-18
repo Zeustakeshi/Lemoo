@@ -15,8 +15,8 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface ChannelMapper {
 
-    @Mapping(target = "isFollowed", ignore = true)
-    ChannelResponse toChannelResponse(Channel channel);
+	@Mapping(target = "isFollowed", ignore = true)
+	ChannelResponse toChannelResponse(Channel channel);
 
-    ChannelBasicInfoResponse toChannelBasicInfoResponse(Channel channel);
+	ChannelBasicInfoResponse toChannelBasicInfoResponse(Channel channel);
 }

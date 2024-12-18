@@ -17,14 +17,13 @@ import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
 public interface VideoMapper {
-    UpdateVideoResponse toUpdateVideoResponse(Video video);
+	UpdateVideoResponse toUpdateVideoResponse(Video video);
 
-    VideoResponse toVideoResponse(Video video);
+	VideoResponse toVideoResponse(Video video);
 
-    @Mapping(target = "channel", ignore = true)
-    VideoViewResponse toVideoViewResponse(Video video);
+	@Mapping(target = "channel", ignore = true)
+	VideoViewResponse toVideoViewResponse(Video video);
 
-    @Mapping(target = "products", ignore = true)
-    void updateVideoByMetadata(UpdateVideoMetadataRequest request, @MappingTarget Video video);
-
+	@Mapping(target = "products", ignore = true)
+	void updateVideoByMetadata(UpdateVideoMetadataRequest request, @MappingTarget Video video);
 }

@@ -14,13 +14,11 @@ import com.lemoo.video.dto.response.UpdateVideoResponse;
 import com.lemoo.video.dto.response.VideoResponse;
 
 public interface VideoService {
-    UpdateVideoResponse uploadVideo(UploadVideoRequest request, String channelId, AuthenticatedAccount account);
+	UpdateVideoResponse uploadVideo(UploadVideoRequest request, String channelId, AuthenticatedAccount account);
 
-    UpdateVideoResponse updateVideoMetadata(
-            UpdateVideoMetadataRequest request, String videoId, String channelId, AuthenticatedAccount account);
+	UpdateVideoResponse updateVideoMetadata(
+			UpdateVideoMetadataRequest request, String videoId, String channelId, AuthenticatedAccount account);
 
-    PageableResponse<VideoResponse> getAllByChannelId(
-            String channelId, int page, int limit, AuthenticatedAccount account);
-
-
+	PageableResponse<VideoResponse> getAllByChannelId(
+			String channelId, int page, int limit, AuthenticatedAccount account);
 }

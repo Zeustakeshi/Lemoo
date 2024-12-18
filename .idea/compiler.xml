@@ -24,7 +24,7 @@
         <module name="User" />
         <module name="Auth" />
       </profile>
-      <profile name="Annotation profile for Video" enabled="true">
+      <profile name="Annotation profile for Product" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
@@ -35,11 +35,16 @@
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
         </processorPath>
         <module name="Product" />
-        <module name="Video" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="Chats" target="17" />
+      <module name="Auth" target="17" />
+      <module name="Chat" target="17" />
+      <module name="Gateway" target="17" />
+      <module name="Product" target="17" />
+      <module name="Store" target="17" />
+      <module name="User" target="17" />
+      <module name="Video" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
@@ -51,7 +56,6 @@
       <module name="Product" options="-parameters -Amapstruct.defaultComponentModel=spring" />
       <module name="Store" options="-parameters -Amapstruct.defaultComponentModel=spring" />
       <module name="User" options="-parameters -Amapstruct.defaultComponentModel=spring" />
-      <module name="Video" options="-parameters -Amapstruct.defaultComponentModel=spring" />
     </option>
   </component>
 </project>

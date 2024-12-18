@@ -9,7 +9,7 @@ const ShortItem = (props: Props) => {
     return (
         <Pressable
             onPress={() => router.push("/shorts/videos/trending/1")}
-            className="relative mx-2 w-[110] aspect-[9/16]  rounded-xl overflow-hidden"
+            className="relative mx-2 w-[100] aspect-[9/16]  rounded-xl overflow-hidden"
         >
             <View className="abs-center bg-slate-900/20 size-full"></View>
             <Button

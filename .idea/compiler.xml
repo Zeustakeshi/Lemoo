@@ -38,7 +38,13 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="Chats" target="17" />
+      <module name="Auth" target="17" />
+      <module name="Chat" target="17" />
+      <module name="Gateway" target="17" />
+      <module name="Product" target="17" />
+      <module name="Store" target="17" />
+      <module name="User" target="17" />
+      <module name="Video" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">

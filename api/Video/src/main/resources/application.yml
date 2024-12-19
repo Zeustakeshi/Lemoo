@@ -21,9 +21,9 @@ spring:
       enabled: true
       max-file-size: 8MB
 server:
-  port: 8080
+  port: 8092
   servlet:
-    context-path: /api/v1/videos
+    context-path: /videos
 services:
   auth-service: ${AUTH_SERVICE_URL:http://localhost:8082/auth}
 

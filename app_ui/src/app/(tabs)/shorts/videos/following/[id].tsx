@@ -8,7 +8,8 @@ const { height } = Dimensions.get("window");
 const index = (props: Props) => {
     return (
         <FlatList
-            data={new Array(3).fill(0)}
+            className=" bg-blue-300 flex-1"
+            data={new Array(1).fill(0)}
             renderItem={() => <ShortVideo />}
             keyExtractor={(_, index) => index.toString()}
             showsVerticalScrollIndicator={false}

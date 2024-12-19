@@ -22,7 +22,7 @@ const index = (props: Props) => {
 
     return (
         <FlatList
-            data={new Array(3).fill(0)}
+            data={new Array(1).fill(0)}
             renderItem={({ item, index }) => (
                 <ShortVideo play={currentIndex === index} />
             )}

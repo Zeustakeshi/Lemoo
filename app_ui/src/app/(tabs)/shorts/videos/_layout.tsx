@@ -1,16 +1,16 @@
 import ShortVideoHeader from "@/components/shorts/ShortVideoHeader";
-import AppWrapper from "@/components/wrapper/AppWrapper";
 import { Slot } from "expo-router";
 import React from "react";
+import { View } from "react-native";
 
 type Props = {};
 
 const _layout = (props: Props) => {
     return (
-        <AppWrapper className="!p-0">
+        <View className="flex-1 bg-yellow-500">
             <ShortVideoHeader></ShortVideoHeader>
             <Slot></Slot>
-        </AppWrapper>
+        </View>
     );
 };
 

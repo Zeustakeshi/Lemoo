@@ -1,0 +1,15 @@
+import { Slot } from "expo-router";
+import React from "react";
+import { View } from "react-native";
+
+type Props = {};
+
+const _layout = (props: Props) => {
+    return (
+        <View className="relative flex-1 bg-green-100">
+            <Slot initialRouteName="videos"></Slot>
+        </View>
+    );
+};
+
+export default _layout;

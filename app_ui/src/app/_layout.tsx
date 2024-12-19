@@ -1,4 +1,5 @@
 import { AuthProvider } from "@/context/AuthContext";
+import { store } from "@/store/store";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
@@ -6,6 +7,7 @@ import { StatusBar } from "expo-status-bar";
 import { useCallback, useEffect, useState } from "react";
 import { Image, View } from "react-native";
 import Toast from "react-native-toast-message";
+import { Provider } from "react-redux";
 import "../global.css";
 
 export const unstable_settings = {
@@ -48,64 +50,60 @@ const RootLayout = () => {
     }
 
     return (
-        <View onLayout={onLayoutRootView} className="flex-1 bg-white">
-            <QueryClientProvider client={queryClient}>
-                <AuthProvider>
-                    <Stack>
-                        <Stack.Screen
-                            name="chats/[id]"
-                            options={{
-                                headerShown: false,
-                            }}
-                        ></Stack.Screen>
+        <Provider store={store}>
+            <View onLayout={onLayoutRootView} className="flex-1 bg-white">
+                <QueryClientProvider client={queryClient}>
+                    <AuthProvider>
+                        <Stack>
+                            <Stack.Screen
+                                name="chats/[id]"
+                                options={{
+                                    headerShown: false,
+                                }}
+                            ></Stack.Screen>
 
-                        <Stack.Screen
-                            name="shorts/videos"
-                            options={{
-                                headerShown: false,
-                            }}
-                        ></Stack.Screen>
+                            <Stack.Screen
+                                name="index"
+                                options={{
+                                    headerShown: false,
+                                }}
+                            ></Stack.Screen>
 
-                        <Stack.Screen
-                            name="shorts/channel/[channelId]"
-                            options={{
-                                headerShown: false,
-                            }}
-                        ></Stack.Screen>
+                            <Stack.Screen
+                                options={{
+                                    headerShown: false,
+                                }}
+                                name="shorts"
+                            ></Stack.Screen>
 
-                        <Stack.Screen
-                            name="index"
-                            options={{
-                                headerShown: false,
-                            }}
-                        ></Stack.Screen>
+                            <Stack.Screen
+                                name="welcome"
+                                options={{
+                                    headerShown: false,
+                                }}
+                            ></Stack.Screen>
 
-                        <Stack.Screen
-                            name="welcome"
-                            options={{
-                                headerShown: false,
-                            }}
-                        ></Stack.Screen>
+                            <Stack.Screen
+                                options={{
+                                    headerShown: false,
+                                }}
+                                name="auth"
+                            ></Stack.Screen>
 
-                        <Stack.Screen
-                            options={{
-                                headerShown: false,
-                            }}
-                            name="auth"
-                        ></Stack.Screen>
-
-                        <Stack.Screen
-                            name="(tabs)"
-                            options={{
-                                headerShown: false,
-                            }}
-                        ></Stack.Screen>
-                    </Stack>
-                </AuthProvider>
-            </QueryClientProvider>
-            <Toast />
-            <StatusBar style="auto" />
-        </View>
+                            <Stack.Screen
+                                name="(tabs)"
+                                options={{
+                                    freezeOnBlur: false,
+                                    headerShown: false,
+                                }}
+                            ></Stack.Screen>
+                        </Stack>
+                    </AuthProvider>
+                </QueryClientProvider>
+                <Toast />
+                <StatusBar style="auto" />
+            </View>
+        </Provider>
     );
 };
 

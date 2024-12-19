@@ -2,7 +2,7 @@ import { AntDesign, Feather } from "@expo/vector-icons";
 import { router } from "expo-router";
 import React from "react";
 import { View } from "react-native";
-import Button from "../ui/Button";
+import Button from "../../ui/Button";
 
 type Props = {};
 
@@ -12,7 +12,7 @@ const ShortVideoHeader = (props: Props) => {
             <View className="flex flex-row justify-start items-center gap-4">
                 <Button
                     variant="link"
-                    onPress={() => router.push("/(tabs)/shorts/channel/1")}
+                    onPress={() => router.push("/shorts/channel/1")}
                 >
                     <AntDesign name="user" size={22} color="white" />
                 </Button>

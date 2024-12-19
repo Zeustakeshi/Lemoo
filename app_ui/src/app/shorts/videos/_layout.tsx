@@ -1,4 +1,4 @@
-import ShortVideoHeader from "@/components/shorts/ShortVideoHeader";
+import ShortVideoHeader from "@/components/shorts/video/ShortVideoHeader";
 import { Slot } from "expo-router";
 import React from "react";
 import { View } from "react-native";
@@ -7,9 +7,9 @@ type Props = {};
 
 const _layout = (props: Props) => {
     return (
-        <View className="flex-1 bg-yellow-500">
+        <View className="flex-1 bg-black">
             <ShortVideoHeader></ShortVideoHeader>
-            <Slot></Slot>
+            <Slot initialRouteName="following"></Slot>
         </View>
     );
 };

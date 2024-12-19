@@ -21,10 +21,6 @@ const CommentItem = (props: Props) => {
                 </View>
                 <Text className="my-2 max-w-[90%]">
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                    Dolorum perspiciatis delectus dolore quisquam repudiandae
-                    dolores repellendus eligendi, sint molestiae consectetur
-                    beatae quis totam architecto amet quas doloremque autem
-                    incidunt. Cupiditate.
                 </Text>
                 <View className="flex flex-row justify-start items-center gap-x-4">
                     <Button variant="ghost" size="icon">

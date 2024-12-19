@@ -6,15 +6,13 @@ import {
     MaterialIcons,
     Octicons,
 } from "@expo/vector-icons";
-import { Tabs, useSegments } from "expo-router";
+import { Tabs } from "expo-router";
 import React from "react";
 import { View } from "react-native";
 
 type Props = {};
 
 const TabLayout = (props: Props) => {
-    const segment = useSegments();
-
     return (
         <View className="flex-1 bg-white">
             <Tabs
@@ -24,7 +22,7 @@ const TabLayout = (props: Props) => {
                     tabBarActiveTintColor: "#004CFF",
                     tabBarInactiveTintColor: "#94a3b81",
                     tabBarStyle: {
-                        height: segment[2] == "videos" ? 0 : 65,
+                        height: 65,
                         alignItems: "center",
                         justifyContent: "center",
                         borderWidth: 0,
@@ -69,6 +67,7 @@ const TabLayout = (props: Props) => {
                 <Tabs.Screen
                     name="shorts"
                     options={{
+                        href: "/shorts/videos/following",
                         tabBarIcon: (props) => (
                             <TabIcon
                                 Icon={FontAwesome5}

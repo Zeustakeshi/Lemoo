@@ -4,15 +4,16 @@ import {
     Fontisto,
     MaterialIcons,
 } from "@expo/vector-icons";
+import { router } from "expo-router";
 import React from "react";
 import { Text, View } from "react-native";
-import Avatar, { AvatarImage } from "../ui/Avatar";
-import Button from "../ui/Button";
+import Avatar, { AvatarImage } from "../../ui/Avatar";
+import Button from "../../ui/Button";
 type Props = {};
 
 const ShortVideoAction = ({}: Props) => {
     return (
-        <View className="absolute justify-center items-center bottom-[20%] left-[82%] gap-y-3 z-10">
+        <View className="absolute justify-center items-center top-[38%] right-2 gap-y-3 z-10">
             <View className="relative">
                 <Avatar size={50}>
                     <AvatarImage
@@ -32,7 +33,10 @@ const ShortVideoAction = ({}: Props) => {
             </View>
 
             <View className=" justify-center items-center flex-1">
-                <Button variant="ghost">
+                <Button
+                    onPress={() => router.push("/shorts/comments/[id]")}
+                    variant="ghost"
+                >
                     <MaterialIcons name="comment" size={32} color="white" />
                 </Button>
                 <Text className="text-white text-sm font-semibold">2</Text>

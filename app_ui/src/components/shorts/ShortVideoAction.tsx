@@ -8,11 +8,9 @@ import React from "react";
 import { Text, View } from "react-native";
 import Avatar, { AvatarImage } from "../ui/Avatar";
 import Button from "../ui/Button";
-type Props = {
-    showComment: () => void;
-};
+type Props = {};
 
-const ShortVideoAction = ({ showComment }: Props) => {
+const ShortVideoAction = ({}: Props) => {
     return (
         <View className="absolute justify-center items-center bottom-[20%] left-[82%] gap-y-3 z-10">
             <View className="relative">
@@ -34,7 +32,7 @@ const ShortVideoAction = ({ showComment }: Props) => {
             </View>
 
             <View className=" justify-center items-center flex-1">
-                <Button onPress={showComment} variant="ghost">
+                <Button variant="ghost">
                     <MaterialIcons name="comment" size={32} color="white" />
                 </Button>
                 <Text className="text-white text-sm font-semibold">2</Text>

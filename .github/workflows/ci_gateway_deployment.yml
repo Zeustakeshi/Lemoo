@@ -8,9 +8,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      AUTH_SERVICE_URL: ${{ secrets.AUTH_SERVICE_URL }}
-      USER_SERVICE_URL: ${{ secrets.USER_SERVICE_URL }}
     steps:
       - name: checkout
         uses: actions/checkout@v4

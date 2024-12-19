@@ -8,11 +8,11 @@ type Props = {};
 
 const ShortVideoHeader = (props: Props) => {
     return (
-        <View className="absolute z-20 px-5 flex-row justify-between items-center gap-3 w-full">
+        <View className="absolute top-[50] left-[5] z-20 px-5 flex-row justify-between items-center gap-3 w-full">
             <View className="flex flex-row justify-start items-center gap-4">
                 <Button
                     variant="link"
-                    onPress={() => router.push("/shorts/channel/1")}
+                    onPress={() => router.push("/(tabs)/shorts/channel/1")}
                 >
                     <AntDesign name="user" size={22} color="white" />
                 </Button>

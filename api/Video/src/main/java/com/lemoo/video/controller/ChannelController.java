@@ -35,8 +35,10 @@ public class ChannelController {
     }
 
     @GetMapping("/me")
-    public ApiResponse<?> getChannelInfo() {
-        return ApiResponse.success("oke");
+    public ApiResponse<?> getChannelInfo(
+            @AuthenticationPrincipal AuthenticatedAccount account
+    ) {
+        return ApiResponse.success(channelService.getChannelInfo(account));
     }
 
     @GetMapping("{channelId}")

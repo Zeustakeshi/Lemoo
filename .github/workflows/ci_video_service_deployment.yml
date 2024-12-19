@@ -1,11 +1,12 @@
-name: user_service_deployment
+name: video_service_deployment
 on:
   push:
     branches:
       - dev
       - test-ci-deployment
     paths:
-      - 'api/User/**'
+      - 'api/Video/**'
+      - '.github/workflows/ci_video_service_deployment.yml'
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -25,15 +26,15 @@ jobs:
           distribution: 'temurin'
           cache: maven
       - name: Build with Maven
-        working-directory: ./api/User
+        working-directory: ./api/Video
         run: mvn clean package
       - name: Build the Docker image
-        working-directory: ./api/User
-        run: docker build . --file Dockerfile --tag zeustakeshi/lemoo-user-service:latest
+        working-directory: ./api/Video
+        run: docker build . --file Dockerfile --tag zeustakeshi/lemoo-video-service:latest
       - name: login Dockerhub
         run: |
           docker login -u "zeustakeshi" -p ${{ secrets.DOCKER_HUB_TOKEN }}
-          docker push zeustakeshi/lemoo-user-service:latest
+          docker push zeustakeshi/lemoo-video-service:latest
           
           
           

@@ -1,4 +1,4 @@
-name: user_service_deployment
+name: product_service_deployment
 on:
   push:
     branches:
@@ -6,6 +6,7 @@ on:
       - test-ci-deployment
     paths:
       - 'api/Product/**'
+      - '.github/workflows/ci_product_service_deployment.yml'
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -25,15 +26,15 @@ jobs:
           distribution: 'temurin'
           cache: maven
       - name: Build with Maven
-        working-directory: ./api/User
+        working-directory: ./api/Product
         run: mvn clean package
       - name: Build the Docker image
-        working-directory: ./api/User
-        run: docker build . --file Dockerfile --tag zeustakeshi/lemoo-user-service:latest
+        working-directory: ./api/Product
+        run: docker build . --file Dockerfile --tag zeustakeshi/lemoo-product-service:latest
       - name: login Dockerhub
         run: |
           docker login -u "zeustakeshi" -p ${{ secrets.DOCKER_HUB_TOKEN }}
-          docker push zeustakeshi/lemoo-user-service:latest
+          docker push zeustakeshi/lemoo-product-service:latest
           
           
           

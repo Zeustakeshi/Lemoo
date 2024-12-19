@@ -6,6 +6,7 @@ on:
       - test-ci-deployment
     paths:
       - 'api/User/**'
+      - '.github/workflows/ci_user_service_deployment.yml'
 jobs:
   build:
     runs-on: ubuntu-latest

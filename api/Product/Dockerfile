@@ -1,5 +1,5 @@
 FROM openjdk:17-jdk-alpine
 LABEL authors="Minhhieuano"
-LABEL description="Gateway service v1"
 COPY target/*.jar app.jar
+LABEL description="Product service v1"
 ENTRYPOINT ["java","-jar","/app.jar"]

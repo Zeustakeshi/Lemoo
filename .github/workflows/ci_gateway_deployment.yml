@@ -3,8 +3,10 @@ on:
   push:
     branches:
       - dev
+      - test-ci-deployment
     paths:
       - 'api/Gateway/**'
+      - '.github/workflows/ci_gateway_deployment.yml'
 jobs:
   build:
     runs-on: ubuntu-latest

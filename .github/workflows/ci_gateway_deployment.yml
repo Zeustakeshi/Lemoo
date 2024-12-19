@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - dev
+      - test-ci-deployment
     paths:
       - 'api/Gateway/**'
 jobs:

@@ -6,7 +6,7 @@ type Props = {};
 
 const _layout = (props: Props) => {
     return (
-        <View className="relative flex-1 bg-green-100">
+        <View className="relative flex-1 ">
             <Slot initialRouteName="videos"></Slot>
         </View>
     );

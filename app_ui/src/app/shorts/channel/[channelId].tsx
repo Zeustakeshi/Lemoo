@@ -4,8 +4,7 @@ import AppWrapper from "@/components/wrapper/AppWrapper";
 import { AntDesign } from "@expo/vector-icons";
 import { router } from "expo-router";
 import React from "react";
-import { Image, Text, View } from "react-native";
-import { FlatList } from "react-native-gesture-handler";
+import { FlatList, Image, Text, View } from "react-native";
 
 type Props = {};
 

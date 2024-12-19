@@ -9,24 +9,27 @@ package com.lemoo.video.service;
 import com.lemoo.video.dto.common.AuthenticatedAccount;
 import com.lemoo.video.dto.request.ChannelRequest;
 import com.lemoo.video.dto.response.ChannelResponse;
+
 import java.util.List;
 
 public interface ChannelService {
-	ChannelResponse createChannel(ChannelRequest request, AuthenticatedAccount account);
+    ChannelResponse createChannel(ChannelRequest request, AuthenticatedAccount account);
 
-	ChannelResponse updateChannel(ChannelRequest request, AuthenticatedAccount account);
+    ChannelResponse updateChannel(ChannelRequest request, AuthenticatedAccount account);
 
-	ChannelResponse getChannelDetail(String channelId, AuthenticatedAccount account);
+    ChannelResponse getChannelInfo(AuthenticatedAccount account);
 
-	List<String> getAllFollowingChannel(String userId);
+    ChannelResponse getChannelDetail(String channelId, AuthenticatedAccount account);
 
-	void followChannel(String channelId, AuthenticatedAccount account);
+    List<String> getAllFollowingChannel(String userId);
 
-	void unfollowChannel(String channelId, AuthenticatedAccount account);
+    void followChannel(String channelId, AuthenticatedAccount account);
 
-	boolean canCreateVideo(String channelId, String userId);
+    void unfollowChannel(String channelId, AuthenticatedAccount account);
 
-	boolean isChannelOwner(String channelId, String userId);
+    boolean canCreateVideo(String channelId, String userId);
 
-	boolean isExistedChannel(String channelId);
+    boolean isChannelOwner(String channelId, String userId);
+
+    boolean isExistedChannel(String channelId);
 }

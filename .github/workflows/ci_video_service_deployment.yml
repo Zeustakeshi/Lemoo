@@ -3,7 +3,7 @@ on:
   push:
     branches:
       - dev
-      - test-ci-deployment
+      - test
     paths:
       - 'api/Video/**'
       - '.github/workflows/ci_video_service_deployment.yml'

@@ -3,6 +3,7 @@ import {
     CreateChannelSchema,
     CreateChannelType,
 } from "@/schema/channel.schema";
+import { setChannel } from "@/store/shorts/ChannelSlice";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { router } from "expo-router";
@@ -11,6 +12,7 @@ import { Controller, useForm } from "react-hook-form";
 import { Text, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import Toast from "react-native-toast-message";
+import { useDispatch } from "react-redux";
 import Button from "../ui/Button";
 import Input from "../ui/Input";
 
@@ -25,6 +27,8 @@ const CreateChannelForm = (props: Props) => {
         resolver: zodResolver(CreateChannelSchema),
     });
 
+    const dispatch = useDispatch();
+
     const { mutateAsync: createChannelMutate, isPending } = useMutation({
         mutationKey: ["create-shorts-channel"],
         mutationFn: async (data: CreateChannelType) =>
@@ -38,6 +42,7 @@ const CreateChannelForm = (props: Props) => {
                 pathname: "/shorts/channel/[channelId]",
                 params: { channelId: data.id },
             });
+            dispatch(setChannel(data));
         } catch (error: any) {
             console.log({ error });
             Toast.show({

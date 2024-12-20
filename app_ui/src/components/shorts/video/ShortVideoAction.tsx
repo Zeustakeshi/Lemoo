@@ -48,7 +48,14 @@ const ShortVideoAction = ({ video }: Props) => {
 
             <View className=" justify-center items-center flex-1">
                 <Button
-                    onPress={() => router.push("/shorts/comments/[id]")}
+                    onPress={() =>
+                        router.push({
+                            pathname: "/shorts/comments/[id]",
+                            params: {
+                                id: "1",
+                            },
+                        })
+                    }
                     variant="ghost"
                 >
                     <MaterialIcons name="comment" size={32} color="white" />

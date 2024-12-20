@@ -6,7 +6,7 @@ import { getTokenValue, removeToken, saveToken } from "./tokenStore";
 
 export const api = axios.create({
     // baseURL: "https://mock.apidog.com/m1/730971-0-default",
-    baseURL: "http://137.184.145.151/api/v1",
+    baseURL: "http://64.227.23.131/api/v1",
 });
 
 api.interceptors.request.use(async (request) => {

@@ -19,127 +19,134 @@ import com.lemoo.video.exception.NotfoundException;
 import com.lemoo.video.mapper.ChannelMapper;
 import com.lemoo.video.mapper.PageMapper;
 import com.lemoo.video.mapper.VideoMapper;
+import com.lemoo.video.repository.ChannelFollowerRepository;
 import com.lemoo.video.repository.ChannelRepository;
 import com.lemoo.video.repository.VideoReactionRepository;
 import com.lemoo.video.repository.VideoRepository;
 import com.lemoo.video.service.ChannelService;
 import com.lemoo.video.service.VideoViewService;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 public class VideoViewServiceImpl implements VideoViewService {
-    private final ChannelRepository channelRepository;
-    private final VideoRepository videoRepository;
-    private final PageMapper pageMapper;
-    private final ChannelMapper channelMapper;
-    private final VideoMapper videoMapper;
-    private final ChannelService channelService;
-    private final VideoReactionRepository videoReactionRepository;
+	private final ChannelRepository channelRepository;
+	private final VideoRepository videoRepository;
+	private final PageMapper pageMapper;
+	private final ChannelMapper channelMapper;
+	private final VideoMapper videoMapper;
+	private final ChannelService channelService;
+	private final VideoReactionRepository videoReactionRepository;
+	private final ChannelFollowerRepository channelFollowerRepository;
 
-    @Override
-    public PageableResponse<VideoViewResponse> getRecommendVideo(int page, int limit, AuthenticatedAccount account) {
-        PageRequest request = PageRequest.of(page, limit, Sort.by(Sort.Direction.DESC, "updatedAt"));
+	@Override
+	public PageableResponse<VideoViewResponse> getRecommendVideo(int page, int limit, AuthenticatedAccount account) {
+		PageRequest request = PageRequest.of(page, limit, Sort.by(Sort.Direction.DESC, "updatedAt"));
 
-        Channel channel = channelRepository
-                .findByUserId(account.getUserId())
-                .orElse(Channel.builder().id(null).build());
+		Channel channel = channelRepository
+				.findByUserId(account.getUserId())
+				.orElse(Channel.builder().id(null).build());
 
-        Page<Video> videos = videoRepository.findAllByStatusAndChannelIdNotLike(VideoStatus.PUBLIC, channel.getId(), request);
+		Page<Video> videos =
+				videoRepository.findAllByStatusAndChannelIdNotLike(VideoStatus.PUBLIC, channel.getId(), request);
 
-        return pageMapper.toPageableResponse(mapPageVideoToPageViewResponse(videos));
-    }
+		return pageMapper.toPageableResponse(mapPageVideoToPageViewResponse(videos, account.getUserId()));
+	}
 
-    @Override
-    public PageableResponse<VideoViewResponse> getFollowingVideo(int page, int limit, AuthenticatedAccount account) {
+	@Override
+	public PageableResponse<VideoViewResponse> getFollowingVideo(int page, int limit, AuthenticatedAccount account) {
 
-        List<String> followingChannels = channelService.getAllFollowingChannel(account.getUserId());
+		List<String> followingChannels = channelService.getAllFollowingChannel(account.getUserId());
 
-        PageRequest request = PageRequest.of(page, limit, Sort.by(Sort.Direction.DESC, "updatedAt"));
-        Page<Video> videos = videoRepository.findAllByChannelIdIn(followingChannels, request);
+		PageRequest request = PageRequest.of(page, limit, Sort.by(Sort.Direction.DESC, "updatedAt"));
+		Page<Video> videos = videoRepository.findAllByChannelIdIn(followingChannels, request);
 
-        return pageMapper.toPageableResponse(mapPageVideoToPageViewResponse(videos));
-    }
+		return pageMapper.toPageableResponse(mapPageVideoToPageViewResponse(videos, account.getUserId()));
+	}
 
-    @Override
-    public ReactionResponse getVideoReaction(String videoId, AuthenticatedAccount account) {
-        if (!videoRepository.existsByIdAndStatus(videoId, VideoStatus.PUBLIC)) {
-            throw new NotfoundException("Video " + videoId + " not found");
-        }
+	@Override
+	public ReactionResponse getVideoReaction(String videoId, AuthenticatedAccount account) {
+		if (!videoRepository.existsByIdAndStatus(videoId, VideoStatus.PUBLIC)) {
+			throw new NotfoundException("Video " + videoId + " not found");
+		}
 
-        var response = ReactionResponse.builder()
-                .like(videoReactionRepository.countByVideoIdAndType(videoId, ReactionType.LIKE))
-                .dislike(videoReactionRepository.countByVideoIdAndType(videoId, ReactionType.DISLIKE))
-                .build();
+		var response = ReactionResponse.builder()
+				.like(videoReactionRepository.countByVideoIdAndType(videoId, ReactionType.LIKE))
+				.dislike(videoReactionRepository.countByVideoIdAndType(videoId, ReactionType.DISLIKE))
+				.build();
 
-        videoReactionRepository
-                .findByUserIdAndVideoId(account.getUserId(), videoId)
-                .ifPresent((reaction) -> {
-                    response.setLiked(reaction.getType().equals(ReactionType.LIKE));
-                    response.setDisliked(reaction.getType().equals(ReactionType.DISLIKE));
-                });
+		videoReactionRepository
+				.findByUserIdAndVideoId(account.getUserId(), videoId)
+				.ifPresent((reaction) -> {
+					response.setLiked(reaction.getType().equals(ReactionType.LIKE));
+					response.setDisliked(reaction.getType().equals(ReactionType.DISLIKE));
+				});
 
-        return response;
-    }
+		return response;
+	}
 
-    @Override
-    public boolean reactionVideo(ReactionType reactionType, String videoId, AuthenticatedAccount account) {
-        if (!videoRepository.existsByIdAndStatus(videoId, VideoStatus.PUBLIC)) {
-            throw new NotfoundException("Video " + videoId + " not found");
-        }
+	@Override
+	public boolean reactionVideo(ReactionType reactionType, String videoId, AuthenticatedAccount account) {
+		if (!videoRepository.existsByIdAndStatus(videoId, VideoStatus.PUBLIC)) {
+			throw new NotfoundException("Video " + videoId + " not found");
+		}
 
-        var videoReactionOptional = videoReactionRepository.findByUserIdAndVideoId(account.getUserId(), videoId);
+		var videoReactionOptional = videoReactionRepository.findByUserIdAndVideoId(account.getUserId(), videoId);
 
-        VideoReaction videoReaction;
+		VideoReaction videoReaction;
 
-        if (videoReactionOptional.isPresent()) {
-            videoReaction = videoReactionOptional.get();
-            if (videoReaction.getType().equals(reactionType)) return false;
-            videoReaction.setType(reactionType);
-        } else {
-            videoReaction = VideoReaction.builder()
-                    .videoId(videoId)
-                    .userId(account.getUserId())
-                    .type(reactionType)
-                    .build();
-        }
+		if (videoReactionOptional.isPresent()) {
+			videoReaction = videoReactionOptional.get();
+			if (videoReaction.getType().equals(reactionType)) return false;
+			videoReaction.setType(reactionType);
+		} else {
+			videoReaction = VideoReaction.builder()
+					.videoId(videoId)
+					.userId(account.getUserId())
+					.type(reactionType)
+					.build();
+		}
 
-        videoReactionRepository.save(videoReaction);
+		videoReactionRepository.save(videoReaction);
 
-        return true;
-    }
+		return true;
+	}
 
-    @Override
-    public boolean unReactionVideo(String videoId, AuthenticatedAccount account) {
-        if (!videoRepository.existsByIdAndStatus(videoId, VideoStatus.PUBLIC)) {
-            throw new NotfoundException("Video " + videoId + " not found");
-        }
+	@Override
+	public boolean unReactionVideo(String videoId, AuthenticatedAccount account) {
+		if (!videoRepository.existsByIdAndStatus(videoId, VideoStatus.PUBLIC)) {
+			throw new NotfoundException("Video " + videoId + " not found");
+		}
 
-        var videoReactionOptional = videoReactionRepository.findByUserIdAndVideoId(account.getUserId(), videoId);
+		var videoReactionOptional = videoReactionRepository.findByUserIdAndVideoId(account.getUserId(), videoId);
 
-        if (videoReactionOptional.isEmpty()) return false;
+		if (videoReactionOptional.isEmpty()) return false;
 
-        var videoReaction = videoReactionOptional.get();
+		var videoReaction = videoReactionOptional.get();
 
-        videoReactionRepository.delete(videoReaction);
+		videoReactionRepository.delete(videoReaction);
 
-        return true;
-    }
+		return true;
+	}
 
-    private Page<VideoViewResponse> mapPageVideoToPageViewResponse(Page<Video> videos) {
-        return videos.map(video -> {
-            var response = videoMapper.toVideoViewResponse(video);
-            Channel channel = channelRepository
-                    .findByActiveChannelById(video.getChannelId())
-                    .orElseThrow(() -> new NotfoundException("Channel " + video.getChannelId() + " not found"));
-            response.setChannel(channelMapper.toChannelBasicInfoResponse(channel));
-            return response;
-        });
-    }
+	private Page<VideoViewResponse> mapPageVideoToPageViewResponse(Page<Video> videos, String userId) {
+		return videos.map(video -> {
+			var response = videoMapper.toVideoViewResponse(video);
+			Channel channel = channelRepository
+					.findByActiveChannelById(video.getChannelId())
+					.orElseThrow(() -> new NotfoundException("Channel " + video.getChannelId() + " not found"));
+
+			var channelResponse = channelMapper.toChannelFollowStatusResponse(channel);
+
+			channelResponse.setFollowed(channelFollowerRepository.existsByChannelIdAndUserId(channel.getId(), userId));
+
+			response.setChannel(channelResponse);
+			return response;
+		});
+	}
 }

@@ -7,6 +7,7 @@
 package com.lemoo.video.mapper;
 
 import com.lemoo.video.dto.response.ChannelBasicInfoResponse;
+import com.lemoo.video.dto.response.ChannelFollowStatusResponse;
 import com.lemoo.video.dto.response.ChannelResponse;
 import com.lemoo.video.entity.Channel;
 import org.mapstruct.Mapper;
@@ -19,4 +20,7 @@ public interface ChannelMapper {
 	ChannelResponse toChannelResponse(Channel channel);
 
 	ChannelBasicInfoResponse toChannelBasicInfoResponse(Channel channel);
+
+	@Mapping(target = "followed", ignore = true)
+	ChannelFollowStatusResponse toChannelFollowStatusResponse(Channel channel);
 }

@@ -6,7 +6,6 @@
 
 package com.lemoo.video.service.impl;
 
-import com.aventrix.jnanoid.jnanoid.NanoIdUtils;
 import com.lemoo.video.common.enums.VideoStatus;
 import com.lemoo.video.dto.common.AuthenticatedAccount;
 import com.lemoo.video.dto.request.UpdateVideoMetadataRequest;
@@ -55,7 +54,6 @@ public class VideoServiceImpl implements VideoService {
 
 		Video video = videoRepository.save(Video.builder()
 				.channelId(channelId)
-				.name(NanoIdUtils.randomNanoId())
 				.status(VideoStatus.DRAFT)
 				.url(
 						"https://res.cloudinary.com/dymmvrufy/video/upload/v1734442705/Lemoo/videos/shorts/videoplayback_wckzj5.mp4")
@@ -80,6 +78,7 @@ public class VideoServiceImpl implements VideoService {
 		}
 
 		if (request.getIsPublic()) {
+			validateVideoForPublishing(video);
 			updateVideoStatus(video, VideoStatus.PUBLIC);
 		} else {
 			updateVideoStatus(video, VideoStatus.PRIVATE);
@@ -131,12 +130,24 @@ public class VideoServiceImpl implements VideoService {
 		if (video.getStatus().equals(VideoStatus.BLOCK)) {
 			throw new ForbiddenException("Can't change video status. You video has been blocked!.");
 		}
-
-		if (newStatus.equals(VideoStatus.PUBLIC) && video.getStatus().equals(VideoStatus.DRAFT)) {
-			throw new ForbiddenException(
-					"You can't publish a draft video. Please update the video metadata, then try to publish your video again.");
-		}
-
 		video.setStatus(newStatus);
+	}
+
+	private void validateVideoForPublishing(Video video) {
+		if (video.getTags() == null) {
+			throw new ForbiddenException("Tags cannot be null. A video must have tags to be published.");
+		}
+		if (video.getChannelId() == null) {
+			throw new ForbiddenException("Channel ID cannot be null. A video must be associated with a channel.");
+		}
+		if (video.getTags().size() < 5) {
+			throw new ForbiddenException("Insufficient tags. A video must have at least 5 tags to be published.");
+		}
+		if (video.getUrl() == null) {
+			throw new ForbiddenException("URL cannot be null. A video must have a valid URL to be published.");
+		}
+		if (video.getStatus().equals(VideoStatus.BLOCK)) {
+			throw new ForbiddenException("Video is blocked and cannot be published.");
+		}
 	}
 }

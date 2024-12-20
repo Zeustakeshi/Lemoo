@@ -14,7 +14,7 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface CommentMapper {
 
-    @Mapping(target = "isEdited", ignore = true)
-    @Mapping(target = "reaction", ignore = true)
-    CommentResponse toCommentResponse(Comment comment);
+	@Mapping(target = "isEdited", ignore = true)
+	@Mapping(target = "reaction", ignore = true)
+	CommentResponse toCommentResponse(Comment comment);
 }

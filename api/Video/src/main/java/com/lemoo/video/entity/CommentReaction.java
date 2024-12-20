@@ -25,10 +25,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @CompoundIndex(def = "{commentId: 1, userId: 1}")
 public class CommentReaction extends BaseEntity {
 
-    @Indexed
-    private String commentId;
+	@Indexed
+	private String commentId;
 
-    private ReactionType type;
+	private ReactionType type;
 
-    private String userId;
+	private String userId;
 }

@@ -22,19 +22,18 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @CompoundIndex(def = "{videoId: 1, userId: 1}")
 public class Comment extends BaseEntity {
 
-    @Indexed
-    private String videoId;
+	@Indexed
+	private String videoId;
 
-    private String userId;
-    private String content;
+	private String userId;
+	private String content;
 
-    @Indexed
-    private String parentId;
+	@Indexed
+	private String parentId;
 
-    @JsonProperty("isEdited")
-    private boolean isEdited;
+	@JsonProperty("isEdited")
+	private boolean isEdited;
 
-    @Builder.Default
-    private Long replyCount = 0L;
-
+	@Builder.Default
+	private Long replyCount = 0L;
 }

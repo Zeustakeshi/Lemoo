@@ -1,4 +1,4 @@
-import CommentList from "@/components/shorts/video/Comment/CommentList";
+import CommentList from "@/components/shorts/Comment/CommentList";
 import Button from "@/components/ui/Button";
 import AppWrapper from "@/components/wrapper/AppWrapper";
 import { Ionicons } from "@expo/vector-icons";

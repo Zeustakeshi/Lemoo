@@ -79,11 +79,7 @@ public class ChannelServiceImpl implements ChannelService {
         Channel channel = channelRepository
                 .findByActiveChannelByUserId(account.getUserId())
                 .orElseThrow(() -> new NotfoundException("Channel not found."));
-
-        ChannelResponse channelResponse = channelMapper.toChannelResponse(channel);
-        channelResponse.setFollowed(
-                channelFollowerRepository.existsByChannelIdAndUserId(channel.getId(), account.getUserId()));
-        return channelResponse;
+        return channelMapper.toChannelResponse(channel);
     }
 
     @Override

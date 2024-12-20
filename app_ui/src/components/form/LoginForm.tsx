@@ -37,7 +37,7 @@ const LoginForm = (props: Props) => {
             const data = await loginMutation(value);
             if (data.code) {
                 router.push({
-                    pathname: "auth/mfa-otp",
+                    pathname: "/auth/mfa-otp",
                     params: {
                         otpCode: data.code,
                     },
@@ -50,7 +50,7 @@ const LoginForm = (props: Props) => {
             Toast.show({
                 type: "error",
                 text1: "Đăng nhập thất bại",
-                text2: error,
+                text2: error.message,
             });
         }
     };

@@ -19,16 +19,22 @@ api.interceptors.request.use(async (request) => {
 
 api.interceptors.response.use(
     (response) => response.data.data,
-    async (error) => {
+    async (error: any) => {
         if (error.request.status === 401) {
             await refreshToken();
             const accessToken = await getTokenValue(TokenType.ACCESS_TOKEN);
             if (accessToken) return api(error.config);
         }
         if (error?.response?.data?.errors) {
-            return Promise.reject(error?.response?.data?.errors);
+            return Promise.reject({
+                status: error.status,
+                message: error?.response?.data?.errors,
+            });
         } else {
-            return Promise.reject(error);
+            return Promise.reject({
+                status: error.status,
+                message: JSON.stringify(error),
+            });
         }
     }
 );

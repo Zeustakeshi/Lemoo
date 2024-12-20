@@ -1,41 +1,72 @@
-import React, { useRef, useState } from "react";
-import { Dimensions, Text, View } from "react-native";
+import { getAllRecommentVideo } from "@/api/shorts.api";
+import ShortVideo from "@/components/shorts/video/ShortVideo";
+import { FlashList } from "@shopify/flash-list";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import React, { useCallback, useRef, useState } from "react";
+import { Dimensions } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 type Props = {};
 const { height } = Dimensions.get("window");
 
 const index = (props: Props) => {
-    const [currentIndex, setCurrentIndex] = useState(0); // Track video đang hiển thị
+    const insets = useSafeAreaInsets();
+
+    const [currentVisibleIndex, setCurrentVisibleIndex] = useState();
 
     const viewabilityConfig = useRef({
         viewAreaCoveragePercentThreshold: 80,
     });
 
-    const onViewableItemsChanged = useRef(
-        ({ viewableItems }: { viewableItems: any }) => {
+    const onViewableItemsChanged = useCallback(
+        ({ viewableItems }: any) => {
             if (viewableItems.length > 0) {
-                setCurrentIndex(viewableItems[0].index); // Lấy index của video đang hiển thị
+                const index = viewableItems[0]?.index;
+                if (index !== currentVisibleIndex) {
+                    setCurrentVisibleIndex(index);
+                }
             }
-        }
+        },
+        [currentVisibleIndex]
     );
 
+    const { data, fetchNextPage, hasNextPage, isLoading, refetch } =
+        useInfiniteQuery({
+            queryKey: ["shorts-recommend"],
+            queryFn: async ({ pageParam }) =>
+                await getAllRecommentVideo(pageParam),
+            getNextPageParam: (lastPage: any) => {
+                if (lastPage.last) return undefined;
+                return lastPage.pageNumber + 1;
+            },
+            initialPageParam: 0,
+        });
+
     return (
-        // <FlatList
-        //     data={new Array(1).fill(0)}
-        //     renderItem={({ item, index }) => (
-        //         <ShortVideo play={currentIndex === index} />
-        //     )}
-        //     keyExtractor={(_, index) => index.toString()}
-        //     showsVerticalScrollIndicator={false}
-        //     decelerationRate="fast"
-        //     snapToInterval={height}
-        //     pagingEnabled={true}
-        //     snapToAlignment="start"
-        //     onViewableItemsChanged={onViewableItemsChanged.current}
-        // ></FlatList>
-        <View>
-            <Text>xin chảo</Text>
-        </View>
+        <FlashList
+            className="flex-1"
+            data={data?.pages.flatMap(({ content }: any) => content ?? [])}
+            renderItem={({ index, item }) => (
+                <ShortVideo
+                    video={item}
+                    inView={index === currentVisibleIndex}
+                />
+            )}
+            showsVerticalScrollIndicator={false}
+            decelerationRate="fast"
+            snapToInterval={height + insets.top}
+            pagingEnabled={true}
+            snapToAlignment="start"
+            viewabilityConfig={viewabilityConfig.current}
+            estimatedItemSize={height}
+            initialScrollIndex={0}
+            nestedScrollEnabled
+            onViewableItemsChanged={onViewableItemsChanged}
+            onEndReached={() => {
+                if (hasNextPage) fetchNextPage();
+            }}
+            onEndReachedThreshold={5}
+        ></FlashList>
     );
 };
 

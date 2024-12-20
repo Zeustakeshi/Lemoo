@@ -51,7 +51,7 @@ const VerifyMfaOtpForm = ({ otpCode }: Props) => {
             Toast.show({
                 type: "error",
                 text1: "Xác thực thất bại",
-                text2: error,
+                text2: error.message,
             });
         }
     };

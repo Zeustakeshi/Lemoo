@@ -30,17 +30,22 @@ const index = (props: Props) => {
         [currentVisibleIndex]
     );
 
-    const { data, fetchNextPage, hasNextPage, isLoading, refetch } =
-        useInfiniteQuery({
-            queryKey: ["shorts-recommend"],
-            queryFn: async ({ pageParam }) =>
-                await getAllRecommentVideo(pageParam),
-            getNextPageParam: (lastPage: any) => {
-                if (lastPage.last) return undefined;
-                return lastPage.pageNumber + 1;
-            },
-            initialPageParam: 0,
-        });
+    const {
+        data,
+        fetchNextPage,
+        hasNextPage,
+        isLoading,
+        refetch,
+        isRefetching,
+    } = useInfiniteQuery({
+        queryKey: ["shorts-recommend"],
+        queryFn: async ({ pageParam }) => await getAllRecommentVideo(pageParam),
+        getNextPageParam: (lastPage: any) => {
+            if (lastPage.last) return undefined;
+            return lastPage.pageNumber + 1;
+        },
+        initialPageParam: 0,
+    });
 
     return (
         <FlashList
@@ -65,6 +70,8 @@ const index = (props: Props) => {
             onEndReached={() => {
                 if (hasNextPage) fetchNextPage();
             }}
+            refreshing={isRefetching}
+            onRefresh={refetch}
             onEndReachedThreshold={5}
         ></FlashList>
     );

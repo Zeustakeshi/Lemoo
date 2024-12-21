@@ -27,3 +27,23 @@ export type VideoShortResponse = {
     };
     tags: string[];
 };
+
+export type CommentResponse = {
+    id: string;
+    user: {
+        id: string;
+        name: string;
+        avatar: string;
+    };
+    content: string;
+    createdAt: string;
+    updatedAt: string;
+    isEdited: boolean;
+    replyCount: number;
+    reaction: {
+        like: number;
+        dislike: number;
+        isDisliked: boolean;
+        isLiked: boolean;
+    };
+};

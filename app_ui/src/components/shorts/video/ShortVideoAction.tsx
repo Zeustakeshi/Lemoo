@@ -52,7 +52,7 @@ const ShortVideoAction = ({ video }: Props) => {
                         router.push({
                             pathname: "/shorts/comments/[id]",
                             params: {
-                                id: "1",
+                                id: video.id,
                             },
                         })
                     }

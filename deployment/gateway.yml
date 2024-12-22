@@ -16,7 +16,7 @@ services:
     image: kong:3
     command: kong migrations bootstrap
     env_file:
-      - env/gateway.env
+      - ../env/env/gateway.env
     networks:
       - kong-net
     deploy:
@@ -25,7 +25,7 @@ services:
   kong:
     image: kong:3
     env_file:
-      - env/gateway.env
+      - ../env/env/gateway.env
     environment:
       KONG_PROXY_ACCESS_LOG: /dev/stdout
       KONG_ADMIN_ACCESS_LOG: /dev/stdout
@@ -44,7 +44,7 @@ services:
   konga:
     image: pantsel/konga
     env_file:
-      - env/gateway.env
+      - ../env/env/gateway.env
     environment:
       KONGA_PROXY_HOST: kong:8001
       KONGA_PORT: 1337

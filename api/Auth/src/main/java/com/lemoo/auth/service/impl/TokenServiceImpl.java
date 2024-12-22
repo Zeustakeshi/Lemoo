@@ -18,7 +18,6 @@ import com.lemoo.auth.entity.Account;
 import com.lemoo.auth.exception.NotfoundException;
 import com.lemoo.auth.exception.TokenException;
 import com.lemoo.auth.repository.AccountRepository;
-import com.lemoo.auth.service.KeyService;
 import com.lemoo.auth.service.TokenService;
 import org.springframework.security.oauth2.jwt.*;
 import org.springframework.stereotype.Service;
@@ -42,7 +41,6 @@ public class TokenServiceImpl implements TokenService {
     private final JwtDecoder refreshTokenDecoder;
     private final Jedis jedis;
     private final AccountRepository accountRepository;
-    private final KeyService keyService;
 
     public TokenServiceImpl(
             AccountRepository accountRepository,
@@ -52,7 +50,6 @@ public class TokenServiceImpl implements TokenService {
             JwtDecoder accessTokenDecoder,
             JwtEncoder refreshTokenEncoder,
             JwtDecoder refreshTokenDecoder,
-            KeyService keyService,
             Jedis jedis) {
         this.accountRepository = accountRepository;
         this.accessTokenEncoder = accessTokenEncoder;
@@ -61,7 +58,6 @@ public class TokenServiceImpl implements TokenService {
         this.refreshTokenDecoder = refreshTokenDecoder;
         this.accessTokenProperties = accessTokenProperties;
         this.refreshTokenProperties = refreshTokenProperties;
-        this.keyService = keyService;
         this.jedis = jedis;
     }
 
@@ -129,10 +125,7 @@ public class TokenServiceImpl implements TokenService {
                 .expiresAt(expireTime.toInstant(ZoneOffset.UTC))
                 .build();
 
-        JwtEncoderParameters parameters = JwtEncoderParameters.from(claimsSet);
-        assert parameters.getJwsHeader() != null;
-        parameters.getJwsHeader().getHeaders().put("kid", "lemoo-client");
-        String token = accessTokenEncoder.encode(parameters).getTokenValue();
+        String token = accessTokenEncoder.encode(JwtEncoderParameters.from(claimsSet)).getTokenValue();
 
         return Token.builder()
                 .id(tokenId)

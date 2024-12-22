@@ -77,11 +77,11 @@ public class TokenServiceImpl implements TokenService {
         Jwt jwt = decodeToken(request.getRefreshToken(), TokenType.REFRESH_TOKEN);
 
         // extract token data
-        String tokenId = jwt.getClaim(TOKEN_ID_KEY);
+//        String tokenId = jwt.getClaim(TOKEN_ID_KEY);
         String accountId = jwt.getSubject();
 
         // delete existed token
-        jedis.del(tokenId);
+//        jedis.del(tokenId);
 
         Account account =
                 accountRepository.findById(accountId).orElseThrow(() -> new NotfoundException("Account not found."));
@@ -129,8 +129,10 @@ public class TokenServiceImpl implements TokenService {
                 .expiresAt(expireTime.toInstant(ZoneOffset.UTC))
                 .build();
 
-        String token =
-                accessTokenEncoder.encode(JwtEncoderParameters.from(claimsSet)).getTokenValue();
+        JwtEncoderParameters parameters = JwtEncoderParameters.from(claimsSet);
+        assert parameters.getJwsHeader() != null;
+        parameters.getJwsHeader().getHeaders().put("kid", "lemoo-client");
+        String token = accessTokenEncoder.encode(parameters).getTokenValue();
 
         return Token.builder()
                 .id(tokenId)

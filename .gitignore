@@ -3,3 +3,4 @@
 /env
 /docs
 /deployment/env/**
+/deployment/env/

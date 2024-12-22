@@ -6,6 +6,8 @@
       <excludeFolder url="file://$MODULE_DIR$/keys/accessToken" />
       <excludeFolder url="file://$MODULE_DIR$/keys/refreshToken" />
       <excludeFolder url="file://$MODULE_DIR$/env" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea/dataSources" />
+      <excludeFolder url="file://$MODULE_DIR$/docs" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

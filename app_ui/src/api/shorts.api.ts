@@ -52,3 +52,29 @@ export const unReactionComment = async (videoId: string, commentId: string) => {
         `videos/shorts/view/${videoId}/comments/${commentId}/reaction`
     );
 };
+
+export const reactionVideo = async (
+    videoId: string,
+    type: "LIKE" | "DISLIKE"
+) => {
+    return await api.post(
+        `/videos/shorts/view/${videoId}/reaction`,
+        {},
+        {
+            params: { type },
+        }
+    );
+};
+
+export const unReactionVideo = async (
+    videoId: string,
+    type: "LIKE" | "DISLIKE"
+) => {
+    return await api.post(
+        `/videos/shorts/view/${videoId}/reaction`,
+        {},
+        {
+            params: { type },
+        }
+    );
+};

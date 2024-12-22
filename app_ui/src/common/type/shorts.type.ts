@@ -18,6 +18,7 @@ export type VideoShortResponse = {
         id: string;
         avatar: string;
         name: string;
+        isFollowed: boolean;
     };
     products: {
         id: string;
@@ -46,4 +47,13 @@ export type CommentResponse = {
         isDisliked: boolean;
         isLiked: boolean;
     };
+};
+
+export type ChannelVideoResponse = {
+    id: string;
+    url: string;
+    views: number;
+    status: "BLOCK" | "PRIVATE" | "PUBLIC";
+    createdAt: string;
+    updatedAt: string;
 };

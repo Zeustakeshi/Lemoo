@@ -58,7 +58,7 @@ const VideoPicker = ({ onChange, className, isUploading }: Props) => {
                                 width: 100,
                                 height: 100,
                             }}
-                            source={require("../../assets/images/loader/loader2.json")}
+                            source={require("../../assets/images/animations/loader2.json")}
                         />
                         <Text className="text-muded font-semibold">
                             Đang tải lên

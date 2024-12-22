@@ -1,6 +1,6 @@
 import { getChannelDetail, getChannelInfo } from "@/api/channel.api";
 import Loading from "@/components/loading/Loading";
-import ChannelProfileHeader from "@/components/shorts/channel/ChannelProfileHeader";
+import ChannelHeader from "@/components/shorts/channel/ChannelHeader";
 import ChannelVideoList from "@/components/shorts/channel/ChannelVideoList";
 import { useAuth } from "@/context/AuthContext";
 import { setChannel } from "@/store/shorts/ChannelSlice";
@@ -8,7 +8,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Redirect } from "expo-router";
 import { useLocalSearchParams } from "expo-router/build/hooks";
 import React, { useEffect } from "react";
-import { View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useDispatch } from "react-redux";
 
 type Props = {};
@@ -20,19 +20,17 @@ const ProfilePage = (props: Props) => {
     const dispatch = useDispatch();
 
     const isSelf = channelId === user?.id;
-
     const { data, isLoading, error } = useQuery({
-        queryKey: [`channel-detail-${channelId}`],
+        queryKey: ["channel-detail", channelId, isSelf],
         queryFn: async () => {
             if (isSelf) return await getChannelInfo();
-            else return await getChannelDetail(channelId as string);
+            return await getChannelDetail(channelId as string);
         },
-        staleTime: 1000 * 60 * 60,
         retry: false,
     });
 
     useEffect(() => {
-        if (!data || !isSelf) return;
+        if (!data) return;
         dispatch(setChannel(data));
     }, [data, isSelf]);
 
@@ -41,16 +39,13 @@ const ProfilePage = (props: Props) => {
         return <Redirect href="/shorts/channel/notfound"></Redirect>;
     }
 
-    if (isLoading) return <Loading></Loading>;
+    if (isLoading || !data) return <Loading></Loading>;
 
     return (
-        <View>
-            {data && (
-                <ChannelProfileHeader isSelf={isSelf}></ChannelProfileHeader>
-            )}
-
-            <ChannelVideoList></ChannelVideoList>
-        </View>
+        <SafeAreaView className=" flex-1">
+            <ChannelHeader isSelf={isSelf} />
+            <ChannelVideoList isSelf={isSelf} />
+        </SafeAreaView>
     );
 };
 

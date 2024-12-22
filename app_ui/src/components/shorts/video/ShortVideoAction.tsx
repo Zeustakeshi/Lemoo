@@ -1,14 +1,16 @@
+import { followChannel } from "@/api/channel.api";
 import { VideoShortResponse } from "@/common/type/shorts.type";
-import { useAuth } from "@/context/AuthContext";
 import {
     AntDesign,
     FontAwesome5,
     Fontisto,
     MaterialIcons,
 } from "@expo/vector-icons";
+import { useMutation } from "@tanstack/react-query";
 import { router } from "expo-router";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Pressable, Text, View } from "react-native";
+import Toast from "react-native-toast-message";
 import Avatar, { AvatarImage } from "../../ui/Avatar";
 import Button from "../../ui/Button";
 type Props = {
@@ -16,7 +18,32 @@ type Props = {
 };
 
 const ShortVideoAction = ({ video }: Props) => {
-    const { user } = useAuth();
+    const [isFollowing, setFollowing] = useState<boolean>(
+        video.channel.isFollowed
+    );
+
+    useEffect(() => {
+        setFollowing(video.channel.isFollowed);
+    }, []);
+
+    const { mutateAsync: followChannelMutate, isPending } = useMutation({
+        mutationKey: ["folllow-channel", video.channel.id],
+        mutationFn: async () => await followChannel(video.channel.id),
+    });
+
+    const handleFollowChannel = async () => {
+        if (isFollowing) return;
+        try {
+            await followChannelMutate();
+            setFollowing(true);
+        } catch (error: any) {
+            Toast.show({
+                type: "error",
+                text1: "Theo dõi kênh thất bại",
+                text2: error.message,
+            });
+        }
+    };
 
     return (
         <View className="absolute justify-center items-center top-[38%] right-2 gap-y-3 z-10">
@@ -34,9 +61,16 @@ const ShortVideoAction = ({ video }: Props) => {
                         source={{ uri: video.channel.avatar }}
                     ></AvatarImage>
                 </Avatar>
-                <Button size="icon" className="my-1 w-max">
-                    <AntDesign name="plus" size={14} color="white" />
-                </Button>
+                {!isFollowing && (
+                    <Button
+                        onPress={handleFollowChannel}
+                        disabled={isPending}
+                        size="icon"
+                        className="my-1 w-max"
+                    >
+                        <AntDesign name="plus" size={14} color="white" />
+                    </Button>
+                )}
             </Pressable>
 
             <View className="justify-center items-center">

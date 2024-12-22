@@ -38,8 +38,8 @@ const loadingTexts = [
 ];
 
 const loadingImagePaths = [
-    require("../../assets/images/loader/loader1.json"),
-    require("../../assets/images/loader/loader2.json"),
+    require("../../assets/images/animations/loader1.json"),
+    require("../../assets/images/animations/loader2.json"),
 ];
 
 const randomImage = () => {

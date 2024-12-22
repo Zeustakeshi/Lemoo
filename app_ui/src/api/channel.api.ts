@@ -1,4 +1,8 @@
-import { ChannelResponse } from "@/common/type/shorts.type";
+import { Pageable } from "@/common/type/page.type";
+import {
+    ChannelResponse,
+    ChannelVideoResponse,
+} from "@/common/type/shorts.type";
 import { api } from "@/lib/api";
 import {
     CreateChannelType,
@@ -40,4 +44,22 @@ export const updateVideoMetadata = async (
     );
 };
 
-export const getAllChannelVideo = async () => {};
+export const getChannelVideos = async (
+    channelId: string,
+    page: number
+): Promise<Pageable<ChannelVideoResponse>> => {
+    return await api.get(`videos/${channelId}/shorts`, {
+        params: {
+            page,
+            limit: 9,
+        },
+    });
+};
+
+export const followChannel = async (channelId: string) => {
+    return await api.post(`/videos/channels/${channelId}/follow`);
+};
+
+export const unfollowChannel = async (channelId: string) => {
+    return await api.delete(`/videos/channels/${channelId}/follow`);
+};

@@ -1,4 +1,5 @@
 import { createChannel } from "@/api/channel.api";
+import { useAuth } from "@/context/AuthContext";
 import {
     CreateChannelSchema,
     CreateChannelType,
@@ -19,6 +20,8 @@ import Input from "../ui/Input";
 type Props = {};
 
 const CreateChannelForm = (props: Props) => {
+    const { user } = useAuth();
+
     const {
         control,
         formState: { errors },
@@ -40,7 +43,7 @@ const CreateChannelForm = (props: Props) => {
             const data: any = await createChannelMutate(value);
             router.replace({
                 pathname: "/shorts/channel/[channelId]",
-                params: { channelId: data.id },
+                params: { channelId: user?.id as string },
             });
             dispatch(setChannel(data));
         } catch (error: any) {

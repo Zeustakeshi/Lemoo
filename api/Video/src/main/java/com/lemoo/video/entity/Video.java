@@ -26,16 +26,12 @@ public class Video extends BaseEntity {
 	@Indexed
 	private String channelId;
 
-	private String name;
-
 	private String url;
 
 	private Set<String> tags;
 
 	@Builder.Default
 	private VideoStatus status = VideoStatus.DRAFT;
-
-	private String description;
 
 	private Set<Product> products;
 

@@ -19,51 +19,42 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/shorts/view")
 @RequiredArgsConstructor
 public class VideoViewController {
-    private final VideoViewService videoViewService;
+	private final VideoViewService videoViewService;
 
-    @GetMapping("/following")
-    public ApiResponse<?> getFollowingVideos(
-            @RequestParam(value = "page", required = false, defaultValue = "0") int page,
-            @RequestParam(value = "limit", required = false, defaultValue = "3") int limit,
-            @AuthenticationPrincipal AuthenticatedAccount account
-    ) {
-        return ApiResponse.success(videoViewService.getFollowingVideo(page, limit, account));
-    }
+	@GetMapping("/following")
+	public ApiResponse<?> getFollowingVideos(
+			@RequestParam(value = "page", required = false, defaultValue = "0") int page,
+			@RequestParam(value = "limit", required = false, defaultValue = "3") int limit,
+			@AuthenticationPrincipal AuthenticatedAccount account) {
+		return ApiResponse.success(videoViewService.getFollowingVideo(page, limit, account));
+	}
 
-    @GetMapping("/recommend")
-    public ApiResponse<?> getRecommendVideos(
-            @RequestParam(value = "page", required = false, defaultValue = "0") int page,
-            @RequestParam(value = "limit", required = false, defaultValue = "3") int limit,
-            @AuthenticationPrincipal AuthenticatedAccount account
-    ) {
-        return ApiResponse.success(videoViewService.getRecommendVideo(page, limit, account));
-    }
+	@GetMapping("/recommend")
+	public ApiResponse<?> getRecommendVideos(
+			@RequestParam(value = "page", required = false, defaultValue = "0") int page,
+			@RequestParam(value = "limit", required = false, defaultValue = "3") int limit,
+			@AuthenticationPrincipal AuthenticatedAccount account) {
+		return ApiResponse.success(videoViewService.getRecommendVideo(page, limit, account));
+	}
 
-    @GetMapping("/{videoId}/reaction")
-    public ApiResponse<?> getVideoReaction(
-            @PathVariable("videoId") String videoId,
-            @AuthenticationPrincipal AuthenticatedAccount account
-    ) {
-        return ApiResponse.success(videoViewService.getVideoReaction(videoId, account));
-    }
+	@GetMapping("/{videoId}/reaction")
+	public ApiResponse<?> getVideoReaction(
+			@PathVariable("videoId") String videoId, @AuthenticationPrincipal AuthenticatedAccount account) {
+		return ApiResponse.success(videoViewService.getVideoReaction(videoId, account));
+	}
 
-    @PostMapping("/{videoId}/reaction")
-    @ResponseStatus(HttpStatus.CREATED)
-    public ApiResponse<?> reactionVideo(
-            @PathVariable("videoId") String videoId,
-            @RequestParam("type") ReactionType type,
-            @AuthenticationPrincipal AuthenticatedAccount account
-    ) {
-        return ApiResponse.success(videoViewService.reactionVideo(type, videoId, account));
-    }
+	@PostMapping("/{videoId}/reaction")
+	@ResponseStatus(HttpStatus.CREATED)
+	public ApiResponse<?> reactionVideo(
+			@PathVariable("videoId") String videoId,
+			@RequestParam("type") ReactionType type,
+			@AuthenticationPrincipal AuthenticatedAccount account) {
+		return ApiResponse.success(videoViewService.reactionVideo(type, videoId, account));
+	}
 
-    @DeleteMapping("{videoId}/reaction")
-    public ApiResponse<?> unReactionVideo(
-            @PathVariable("videoId") String videoId,
-            @AuthenticationPrincipal AuthenticatedAccount account
-    ) {
-        return ApiResponse.success(videoViewService.unReactionVideo(videoId, account));
-    }
-
-
+	@DeleteMapping("{videoId}/reaction")
+	public ApiResponse<?> unReactionVideo(
+			@PathVariable("videoId") String videoId, @AuthenticationPrincipal AuthenticatedAccount account) {
+		return ApiResponse.success(videoViewService.unReactionVideo(videoId, account));
+	}
 }

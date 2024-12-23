@@ -26,6 +26,7 @@ public class InternalTokenServiceImpl implements InternalTokenService {
     public Map<String, Object> getJwkSets() {
         RSAKey rsaKey = new RSAKey.Builder(keyService.getAccessTokenPublicKey())
                 .privateKey(keyService.getAccessTokenPrivateKey())
+                .keyID("lemoo-client")
                 .build();
         JWKSet jwkSet = new JWKSet(rsaKey);
         return jwkSet.toJSONObject();

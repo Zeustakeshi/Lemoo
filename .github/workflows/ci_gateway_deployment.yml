@@ -3,7 +3,7 @@ on:
   push:
     branches:
       - dev
-      - test-ci-deployment
+      - test
     paths:
       - 'api/Gateway/**'
       - '.github/workflows/ci_gateway_deployment.yml'

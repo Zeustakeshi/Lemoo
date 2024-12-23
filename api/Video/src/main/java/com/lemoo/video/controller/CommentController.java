@@ -21,57 +21,50 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/shorts/view/{videoId}/comments")
 @RequiredArgsConstructor
 public class CommentController {
-    private final CommentService commentService;
+	private final CommentService commentService;
 
-    @PostMapping()
-    @ResponseStatus(HttpStatus.CREATED)
-    public ApiResponse<?> createComment(
-            @PathVariable("videoId") String videoId,
-            @AuthenticationPrincipal AuthenticatedAccount account,
-            @RequestBody @Valid CommentRequest request
-    ) {
-        return ApiResponse.success(commentService.createComment(request, videoId, account));
-    }
+	@PostMapping()
+	@ResponseStatus(HttpStatus.CREATED)
+	public ApiResponse<?> createComment(
+			@PathVariable("videoId") String videoId,
+			@AuthenticationPrincipal AuthenticatedAccount account,
+			@RequestBody @Valid CommentRequest request) {
+		return ApiResponse.success(commentService.createComment(request, videoId, account));
+	}
 
-    @GetMapping()
-    public ApiResponse<?> getAllComment(
-            @PathVariable("videoId") String videoId,
-            @AuthenticationPrincipal AuthenticatedAccount account,
-            @RequestParam(value = "parent", required = false) String parentId,
-            @RequestParam(value = "page", required = false, defaultValue = "0") int page,
-            @RequestParam(value = "limit", required = false, defaultValue = "10") int limit
-    ) {
-        return ApiResponse.success(commentService.getAllComment(parentId, page, limit, videoId, account));
-    }
+	@GetMapping()
+	public ApiResponse<?> getAllComment(
+			@PathVariable("videoId") String videoId,
+			@AuthenticationPrincipal AuthenticatedAccount account,
+			@RequestParam(value = "parent", required = false) String parentId,
+			@RequestParam(value = "page", required = false, defaultValue = "0") int page,
+			@RequestParam(value = "limit", required = false, defaultValue = "10") int limit) {
+		return ApiResponse.success(commentService.getAllComment(parentId, page, limit, videoId, account));
+	}
 
-    @PostMapping("{commentId}/reaction")
-    @ResponseStatus(HttpStatus.CREATED)
-    public ApiResponse<?> reactionComment(
-            @PathVariable("videoId") String videoId,
-            @PathVariable("commentId") String commentId,
-            @RequestParam("type") ReactionType type,
-            @AuthenticationPrincipal AuthenticatedAccount account
-    ) {
-        return ApiResponse.success(commentService.reactionComment(type, commentId, videoId, account));
-    }
+	@PostMapping("{commentId}/reaction")
+	@ResponseStatus(HttpStatus.CREATED)
+	public ApiResponse<?> reactionComment(
+			@PathVariable("videoId") String videoId,
+			@PathVariable("commentId") String commentId,
+			@RequestParam("type") ReactionType type,
+			@AuthenticationPrincipal AuthenticatedAccount account) {
+		return ApiResponse.success(commentService.reactionComment(type, commentId, videoId, account));
+	}
 
-    @DeleteMapping("{commentId}/reaction")
-    public ApiResponse<?> unReactionComment(
-            @PathVariable("videoId") String videoId,
-            @PathVariable("commentId") String commentId,
-            @AuthenticationPrincipal AuthenticatedAccount account
-    ) {
-        return ApiResponse.success(commentService.unReactionComment(commentId, videoId, account));
-    }
+	@DeleteMapping("{commentId}/reaction")
+	public ApiResponse<?> unReactionComment(
+			@PathVariable("videoId") String videoId,
+			@PathVariable("commentId") String commentId,
+			@AuthenticationPrincipal AuthenticatedAccount account) {
+		return ApiResponse.success(commentService.unReactionComment(commentId, videoId, account));
+	}
 
-    @DeleteMapping("{commentId}")
-    public ApiResponse<?> deleteComment(
-            @PathVariable("videoId") String videoId,
-            @PathVariable("commentId") String commentId,
-            @AuthenticationPrincipal AuthenticatedAccount account
-    ) {
-        return ApiResponse.success(commentService.deleteComment(commentId, videoId, account));
-    }
-
+	@DeleteMapping("{commentId}")
+	public ApiResponse<?> deleteComment(
+			@PathVariable("videoId") String videoId,
+			@PathVariable("commentId") String commentId,
+			@AuthenticationPrincipal AuthenticatedAccount account) {
+		return ApiResponse.success(commentService.deleteComment(commentId, videoId, account));
+	}
 }
-

@@ -52,7 +52,7 @@ const VerifyAccountOtpForm = ({ otpCode }: Props) => {
             Toast.show({
                 type: "error",
                 text1: "Xác thực thất bại",
-                text2: error,
+                text2: error.message,
             });
         }
     };
@@ -69,7 +69,7 @@ const VerifyAccountOtpForm = ({ otpCode }: Props) => {
             Toast.show({
                 type: "error",
                 text1: "Gửi lại thất bại",
-                text2: error,
+                text2: error.message,
             });
         }
     };

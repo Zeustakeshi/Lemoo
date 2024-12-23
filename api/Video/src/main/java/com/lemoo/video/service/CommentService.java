@@ -13,14 +13,14 @@ import com.lemoo.video.dto.response.CommentResponse;
 import com.lemoo.video.dto.response.PageableResponse;
 
 public interface CommentService {
-    CommentResponse createComment(CommentRequest request, String videoId, AuthenticatedAccount account);
+	CommentResponse createComment(CommentRequest request, String videoId, AuthenticatedAccount account);
 
-    PageableResponse<CommentResponse> getAllComment(
-            String parentId, int page, int limit, String videoId, AuthenticatedAccount account);
+	PageableResponse<CommentResponse> getAllComment(
+			String parentId, int page, int limit, String videoId, AuthenticatedAccount account);
 
-    boolean reactionComment(ReactionType type, String commentId, String videoId, AuthenticatedAccount account);
+	boolean reactionComment(ReactionType type, String commentId, String videoId, AuthenticatedAccount account);
 
-    boolean unReactionComment(String commentId, String videoId, AuthenticatedAccount account);
+	boolean unReactionComment(String commentId, String videoId, AuthenticatedAccount account);
 
-    boolean deleteComment(String commendId, String videoId, AuthenticatedAccount account);
+	boolean deleteComment(String commendId, String videoId, AuthenticatedAccount account);
 }

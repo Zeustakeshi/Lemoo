@@ -67,7 +67,7 @@ const TabLayout = (props: Props) => {
                 <Tabs.Screen
                     name="shorts"
                     options={{
-                        href: "/shorts/videos/following",
+                        href: "/shorts/videos/trending",
                         tabBarIcon: (props) => (
                             <TabIcon
                                 Icon={FontAwesome5}

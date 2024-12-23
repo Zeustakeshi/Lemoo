@@ -77,6 +77,13 @@ const RootLayout = () => {
                             ></Stack.Screen>
 
                             <Stack.Screen
+                                options={{
+                                    headerShown: false,
+                                }}
+                                name="categories"
+                            ></Stack.Screen>
+
+                            <Stack.Screen
                                 name="welcome"
                                 options={{
                                     headerShown: false,

@@ -1,6 +1,7 @@
 import { getCategories } from "@/api/category.api";
 import { CategoryResponse } from "@/common/type/categories";
 import { useQuery } from "@tanstack/react-query";
+import { Link } from "expo-router";
 import React from "react";
 import { FlatList, Image, Text, View } from "react-native";
 
@@ -13,14 +14,16 @@ const CategoriesSlide = (props: Props) => {
     });
 
     return (
-        <View className="flex-1 ">
+        <View className="">
             <View className="flex-row justify-between items-center gap-3 my-3">
                 <Text className="text-xl font-semibold">Dạnh mục</Text>
-                <Text className="text-primary">Xem tất cả </Text>
+                <Link href="/categories/">
+                    <Text className="text-primary">Xem tất cả </Text>{" "}
+                </Link>
             </View>
             <FlatList
                 data={categories?.content ?? []}
-                keyExtractor={(category) => category.toString()}
+                keyExtractor={(category) => category.id}
                 renderItem={({ item }) => <CategoryItem category={item} />}
                 horizontal
                 showsHorizontalScrollIndicator={false}

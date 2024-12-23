@@ -41,12 +41,7 @@ export type CommentResponse = {
     updatedAt: string;
     isEdited: boolean;
     replyCount: number;
-    reaction: {
-        like: number;
-        dislike: number;
-        isDisliked: boolean;
-        isLiked: boolean;
-    };
+    reaction: ReactionResponse;
 };
 
 export type ChannelVideoResponse = {
@@ -56,4 +51,11 @@ export type ChannelVideoResponse = {
     status: "BLOCK" | "PRIVATE" | "PUBLIC";
     createdAt: string;
     updatedAt: string;
+};
+
+export type ReactionResponse = {
+    like: number;
+    dislike: number;
+    isDisliked: boolean;
+    isLiked: boolean;
 };

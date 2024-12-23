@@ -2,7 +2,7 @@ import { VideoShortResponse } from "@/common/type/shorts.type";
 import React from "react";
 import { Dimensions, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import ShortVideoAction from "./ShortVideoAction";
+import ShortVideoAction from "./actions/ShortVideoAction";
 import ShortVideoInfo from "./ShortVideoInfo";
 import ShortVideoView from "./ShortVideoView";
 
@@ -25,7 +25,7 @@ const ShortVideo = ({ inView, video }: Props) => {
             className="relative top-0 flex-1 bg-black"
         >
             <ShortVideoView inView={inView} src={video.url}></ShortVideoView>
-            <ShortVideoAction video={video}></ShortVideoAction>
+            <ShortVideoAction video={video} inView={inView}></ShortVideoAction>
             <ShortVideoInfo video={video}></ShortVideoInfo>
         </View>
     );

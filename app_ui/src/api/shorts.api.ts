@@ -1,5 +1,9 @@
 import { Pageable } from "@/common/type/page.type";
-import { CommentResponse, VideoShortResponse } from "@/common/type/shorts.type";
+import {
+    CommentResponse,
+    ReactionResponse,
+    VideoShortResponse,
+} from "@/common/type/shorts.type";
 import { api } from "@/lib/api";
 
 export const getAllRecommentVideo = async (
@@ -53,6 +57,12 @@ export const unReactionComment = async (videoId: string, commentId: string) => {
     );
 };
 
+export const getVideoReactions = async (
+    videoId: string
+): Promise<ReactionResponse> => {
+    return await api.get(`/videos/shorts/view/${videoId}/reaction`);
+};
+
 export const reactionVideo = async (
     videoId: string,
     type: "LIKE" | "DISLIKE"
@@ -66,15 +76,6 @@ export const reactionVideo = async (
     );
 };
 
-export const unReactionVideo = async (
-    videoId: string,
-    type: "LIKE" | "DISLIKE"
-) => {
-    return await api.post(
-        `/videos/shorts/view/${videoId}/reaction`,
-        {},
-        {
-            params: { type },
-        }
-    );
+export const unReactionVideo = async (videoId: string) => {
+    return await api.delete(`/videos/shorts/view/${videoId}/reaction`);
 };

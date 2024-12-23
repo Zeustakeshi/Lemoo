@@ -24,7 +24,7 @@ const TabIcon = ({
                 "flex-col justify-center items-center top-[8] absolute rounded-full"
             )}
         >
-            <Icon name={iconName} size={20} color={color}></Icon>
+            <Icon name={iconName} size={size} color={color}></Icon>
         </View>
     );
 };

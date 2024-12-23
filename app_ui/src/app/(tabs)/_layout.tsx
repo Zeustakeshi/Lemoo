@@ -3,6 +3,7 @@ import TabLabel from "@/components/ui/TabLabel";
 import {
     Feather,
     FontAwesome5,
+    Ionicons,
     MaterialIcons,
     Octicons,
 } from "@expo/vector-icons";
@@ -44,6 +45,7 @@ const TabLayout = (props: Props) => {
                                 iconName="home"
                                 label="Trang chủ"
                                 {...props}
+                                size={20}
                             />
                         ),
                     }}
@@ -59,6 +61,7 @@ const TabLayout = (props: Props) => {
                                 iconName="users"
                                 label="Bạn bè"
                                 {...props}
+                                size={20}
                             />
                         ),
                     }}
@@ -74,6 +77,7 @@ const TabLayout = (props: Props) => {
                                 iconName="fire-alt"
                                 label="Bạn bè"
                                 {...props}
+                                size={20}
                             />
                         ),
                     }}
@@ -89,6 +93,22 @@ const TabLayout = (props: Props) => {
                                 iconName="chat-bubble-outline"
                                 label="Trò chuyện"
                                 {...props}
+                                size={20}
+                            />
+                        ),
+                    }}
+                />
+
+                <Tabs.Screen
+                    name="notification"
+                    options={{
+                        tabBarIcon: (props) => (
+                            <TabIcon
+                                Icon={Ionicons}
+                                iconName="notifications-outline"
+                                label="Thông báo"
+                                {...props}
+                                size={24}
                             />
                         ),
                     }}

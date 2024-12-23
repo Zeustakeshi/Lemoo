@@ -11,12 +11,16 @@ const screenTranslates: Record<string, string> = {
     friend: "Bạn bè",
     shorts: "Video",
     chats: "Tin nhắn",
+    notification: "Thông báo",
     profile: "Tôi",
 };
 
 const TabLabel = ({ children, color }: Props) => {
     return (
-        <Text style={{ color }} className="text-xs font-semibold mt-1 ">
+        <Text
+            style={{ color }}
+            className="text-xs font-semibold mt-1 text-center min-w-[140] "
+        >
             {screenTranslates[children]}
         </Text>
     );

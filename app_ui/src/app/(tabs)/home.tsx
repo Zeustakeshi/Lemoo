@@ -1,3 +1,4 @@
+import CategoriesSlide from "@/components/categories/CategoriesSlide";
 import Cart from "@/components/header/Cart";
 import ProductSearch from "@/components/search/ProductSearch";
 import Banner from "@/components/slider/Banner";
@@ -7,13 +8,6 @@ import { View } from "react-native";
 type Props = {};
 
 const home = (props: Props) => {
-    // useEffect(() => {
-    //     (async () => {
-    //         const token = await getTokenValue(TokenType.ACCESS_TOKEN);
-    //         console.log({ token });
-    //     })();
-    // }, []);
-
     return (
         <View className="flex-1 bg-white">
             <Banner></Banner>
@@ -22,29 +16,10 @@ const home = (props: Props) => {
                     <ProductSearch></ProductSearch>
                     <Cart></Cart>
                 </View>
-            </View>
-
-            {/* <Text className="text-3xl font-semibold my-3">
-                Xin chào, {user?.displayName}
-            </Text> */}
-
-            {/*  */}
-            {/* <View className="max-w-full bg-slate-100 h-max rounded-xl p-3">
-                <Text className="text-xl font-semibold my-2">Announcement</Text>
-                <View className="flex-row gap-x-3">
-                    <Text>
-                        Lorem ipsum, dolor sit amet consectetur adipisicing
-                        elit. Veniam, magni?
-                    </Text>
-                    <Button size="icon" className="rounded-full size-[40]">
-                        <AntDesign name="arrowright" size={15} color="white" />
-                    </Button>
+                <View className="mt-10 flex-1">
+                    <CategoriesSlide></CategoriesSlide>
                 </View>
-            </View> */}
-            {/*  */}
-
-            {/*  */}
-            {/* <ShortList></ShortList> */}
+            </View>
         </View>
     );
 };

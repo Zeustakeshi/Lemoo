@@ -3,7 +3,7 @@ on:
   push:
     branches:
       - dev
-      - test-ci-deployment
+      - test
     paths:
       - 'api/Auth/**'
       - '.github/workflows/ci_auth_service_deployment.yml'

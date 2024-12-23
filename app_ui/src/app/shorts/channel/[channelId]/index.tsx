@@ -21,7 +21,7 @@ const ProfilePage = (props: Props) => {
 
     const isSelf = channelId === user?.id;
     const { data, isLoading, error } = useQuery({
-        queryKey: ["channel-detail", channelId, isSelf],
+        queryKey: [`channel-detail-${channelId}-${isSelf}`],
         queryFn: async () => {
             if (isSelf) return await getChannelInfo();
             return await getChannelDetail(channelId as string);

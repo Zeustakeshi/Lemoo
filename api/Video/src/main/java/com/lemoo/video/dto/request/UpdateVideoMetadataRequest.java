@@ -16,13 +16,6 @@ import lombok.Data;
 @Builder
 public class UpdateVideoMetadataRequest {
 
-	@NotEmpty
-	@Size(min = 5, max = 100)
-	private String name;
-
-	@Size(min = 5, max = 15000)
-	private String description;
-
 	@Size(max = 6)
 	private Set<String> products;
 

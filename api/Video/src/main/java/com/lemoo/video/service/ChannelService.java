@@ -16,6 +16,8 @@ public interface ChannelService {
 
 	ChannelResponse updateChannel(ChannelRequest request, AuthenticatedAccount account);
 
+	ChannelResponse getChannelInfo(AuthenticatedAccount account);
+
 	ChannelResponse getChannelDetail(String channelId, AuthenticatedAccount account);
 
 	List<String> getAllFollowingChannel(String userId);

@@ -1,12 +1,13 @@
 import { AuthProvider } from "@/context/AuthContext";
+import { store } from "@/store/store";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
 import { useCallback, useEffect, useState } from "react";
 import { Image, View } from "react-native";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
 import Toast from "react-native-toast-message";
+import { Provider } from "react-redux";
 import "../global.css";
 
 export const unstable_settings = {
@@ -49,8 +50,8 @@ const RootLayout = () => {
     }
 
     return (
-        <View onLayout={onLayoutRootView} className="flex-1 bg-white">
-            <GestureHandlerRootView>
+        <Provider store={store}>
+            <View onLayout={onLayoutRootView} className="flex-1 bg-white">
                 <QueryClientProvider client={queryClient}>
                     <AuthProvider>
                         <Stack>
@@ -62,24 +63,17 @@ const RootLayout = () => {
                             ></Stack.Screen>
 
                             <Stack.Screen
-                                name="shorts/videos"
-                                options={{
-                                    headerShown: false,
-                                }}
-                            ></Stack.Screen>
-
-                            <Stack.Screen
-                                name="shorts/channel/[channelId]"
-                                options={{
-                                    headerShown: false,
-                                }}
-                            ></Stack.Screen>
-
-                            <Stack.Screen
                                 name="index"
                                 options={{
                                     headerShown: false,
                                 }}
+                            ></Stack.Screen>
+
+                            <Stack.Screen
+                                options={{
+                                    headerShown: false,
+                                }}
+                                name="shorts"
                             ></Stack.Screen>
 
                             <Stack.Screen
@@ -99,6 +93,7 @@ const RootLayout = () => {
                             <Stack.Screen
                                 name="(tabs)"
                                 options={{
+                                    freezeOnBlur: false,
                                     headerShown: false,
                                 }}
                             ></Stack.Screen>
@@ -107,8 +102,8 @@ const RootLayout = () => {
                 </QueryClientProvider>
                 <Toast />
                 <StatusBar style="auto" />
-            </GestureHandlerRootView>
-        </View>
+            </View>
+        </Provider>
     );
 };
 

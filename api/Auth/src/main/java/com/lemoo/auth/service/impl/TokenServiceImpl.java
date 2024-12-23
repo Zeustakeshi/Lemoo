@@ -18,7 +18,6 @@ import com.lemoo.auth.entity.Account;
 import com.lemoo.auth.exception.NotfoundException;
 import com.lemoo.auth.exception.TokenException;
 import com.lemoo.auth.repository.AccountRepository;
-import com.lemoo.auth.service.KeyService;
 import com.lemoo.auth.service.TokenService;
 import org.springframework.security.oauth2.jwt.*;
 import org.springframework.stereotype.Service;
@@ -42,7 +41,6 @@ public class TokenServiceImpl implements TokenService {
     private final JwtDecoder refreshTokenDecoder;
     private final Jedis jedis;
     private final AccountRepository accountRepository;
-    private final KeyService keyService;
 
     public TokenServiceImpl(
             AccountRepository accountRepository,
@@ -52,7 +50,6 @@ public class TokenServiceImpl implements TokenService {
             JwtDecoder accessTokenDecoder,
             JwtEncoder refreshTokenEncoder,
             JwtDecoder refreshTokenDecoder,
-            KeyService keyService,
             Jedis jedis) {
         this.accountRepository = accountRepository;
         this.accessTokenEncoder = accessTokenEncoder;
@@ -61,7 +58,6 @@ public class TokenServiceImpl implements TokenService {
         this.refreshTokenDecoder = refreshTokenDecoder;
         this.accessTokenProperties = accessTokenProperties;
         this.refreshTokenProperties = refreshTokenProperties;
-        this.keyService = keyService;
         this.jedis = jedis;
     }
 
@@ -77,11 +73,11 @@ public class TokenServiceImpl implements TokenService {
         Jwt jwt = decodeToken(request.getRefreshToken(), TokenType.REFRESH_TOKEN);
 
         // extract token data
-        String tokenId = jwt.getClaim(TOKEN_ID_KEY);
+//        String tokenId = jwt.getClaim(TOKEN_ID_KEY);
         String accountId = jwt.getSubject();
 
         // delete existed token
-        jedis.del(tokenId);
+//        jedis.del(tokenId);
 
         Account account =
                 accountRepository.findById(accountId).orElseThrow(() -> new NotfoundException("Account not found."));
@@ -129,8 +125,7 @@ public class TokenServiceImpl implements TokenService {
                 .expiresAt(expireTime.toInstant(ZoneOffset.UTC))
                 .build();
 
-        String token =
-                accessTokenEncoder.encode(JwtEncoderParameters.from(claimsSet)).getTokenValue();
+        String token = accessTokenEncoder.encode(JwtEncoderParameters.from(claimsSet)).getTokenValue();
 
         return Token.builder()
                 .id(tokenId)

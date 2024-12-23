@@ -22,34 +22,32 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class VideoController {
 
-    private final VideoService videoService;
+	private final VideoService videoService;
 
-    @GetMapping()
-    public ApiResponse<?> getAllVideoByChannelId(
-            @PathVariable("channelId") String channelId,
-            @RequestParam(value = "page", required = false, defaultValue = "0") int page,
-            @RequestParam(value = "limit", required = false, defaultValue = "10") int limit,
-            @AuthenticationPrincipal AuthenticatedAccount account
-    ) {
-        return ApiResponse.success(videoService.getAllByChannelId(channelId, page, limit, account));
-    }
+	@GetMapping()
+	public ApiResponse<?> getAllVideoByChannelId(
+			@PathVariable("channelId") String channelId,
+			@RequestParam(value = "page", required = false, defaultValue = "0") int page,
+			@RequestParam(value = "limit", required = false, defaultValue = "10") int limit,
+			@AuthenticationPrincipal AuthenticatedAccount account) {
+		return ApiResponse.success(videoService.getAllByChannelId(channelId, page, limit, account));
+	}
 
-    @PostMapping("upload")
-    @ResponseStatus(HttpStatus.CREATED)
-    public ApiResponse<?> uploadVideo(
-            @PathVariable("channelId") String channelId, @ModelAttribute @Valid UploadVideoRequest request,
-            @AuthenticationPrincipal AuthenticatedAccount account) {
-        return ApiResponse.success(videoService.uploadVideo(request, channelId, account));
-    }
+	@PostMapping("upload")
+	@ResponseStatus(HttpStatus.CREATED)
+	public ApiResponse<?> uploadVideo(
+			@PathVariable("channelId") String channelId,
+			@ModelAttribute @Valid UploadVideoRequest request,
+			@AuthenticationPrincipal AuthenticatedAccount account) {
+		return ApiResponse.success(videoService.uploadVideo(request, channelId, account));
+	}
 
-    @PutMapping("{videoId}/metadata")
-    public ApiResponse<?> updateVideoMetadata(
-            @PathVariable("channelId") String channelId,
-            @PathVariable("videoId") String videoId,
-            @RequestBody @Valid UpdateVideoMetadataRequest request,
-            @AuthenticationPrincipal AuthenticatedAccount account
-    ) {
-        return ApiResponse.success(videoService.updateVideoMetadata(request, videoId, channelId, account));
-    }
-
+	@PutMapping("{videoId}/metadata")
+	public ApiResponse<?> updateVideoMetadata(
+			@PathVariable("channelId") String channelId,
+			@PathVariable("videoId") String videoId,
+			@RequestBody @Valid UpdateVideoMetadataRequest request,
+			@AuthenticationPrincipal AuthenticatedAccount account) {
+		return ApiResponse.success(videoService.updateVideoMetadata(request, videoId, channelId, account));
+	}
 }

@@ -7,6 +7,13 @@ import { View } from "react-native";
 type Props = {};
 
 const home = (props: Props) => {
+    // useEffect(() => {
+    //     (async () => {
+    //         const token = await getTokenValue(TokenType.ACCESS_TOKEN);
+    //         console.log({ token });
+    //     })();
+    // }, []);
+
     return (
         <View className="flex-1 bg-white">
             <Banner></Banner>

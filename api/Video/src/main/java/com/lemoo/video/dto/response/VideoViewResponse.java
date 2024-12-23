@@ -18,13 +18,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class VideoViewResponse {
 	private String id;
-	private String name;
-	private String description;
 	private Set<String> tags;
 	private String url;
 	private Set<Product> products;
 	private Long views;
-	private ChannelBasicInfoResponse channel;
+	private ChannelFollowStatusResponse channel;
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
 }

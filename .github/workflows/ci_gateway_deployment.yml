@@ -3,14 +3,13 @@ on:
   push:
     branches:
       - dev
+      - test
     paths:
       - 'api/Gateway/**'
+      - '.github/workflows/ci_gateway_deployment.yml'
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      AUTH_SERVICE_URL: ${{ secrets.AUTH_SERVICE_URL }}
-      USER_SERVICE_URL: ${{ secrets.USER_SERVICE_URL }}
     steps:
       - name: checkout
         uses: actions/checkout@v4

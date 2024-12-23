@@ -2,4 +2,5 @@
 /keys/accessToken/
 /env
 /docs
+/deployment/env/**
 /deployment-private

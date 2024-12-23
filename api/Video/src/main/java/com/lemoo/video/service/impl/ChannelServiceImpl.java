@@ -74,6 +74,14 @@ public class ChannelServiceImpl implements ChannelService {
 	}
 
 	@Override
+	public ChannelResponse getChannelInfo(AuthenticatedAccount account) {
+		Channel channel = channelRepository
+				.findByActiveChannelByUserId(account.getUserId())
+				.orElseThrow(() -> new NotfoundException("Channel not found."));
+		return channelMapper.toChannelResponse(channel);
+	}
+
+	@Override
 	public ChannelResponse getChannelDetail(String channelId, AuthenticatedAccount account) {
 		Channel channel = channelRepository
 				.findByActiveChannelById(channelId)

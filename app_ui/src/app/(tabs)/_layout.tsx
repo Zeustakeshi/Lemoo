@@ -1,8 +1,15 @@
 import TabIcon from "@/components/ui/TabIcon";
-import { Feather, MaterialIcons, Octicons } from "@expo/vector-icons";
+import TabLabel from "@/components/ui/TabLabel";
+import {
+    Feather,
+    FontAwesome5,
+    MaterialIcons,
+    Octicons,
+} from "@expo/vector-icons";
 import { Tabs } from "expo-router";
 import React from "react";
 import { View } from "react-native";
+
 type Props = {};
 
 const TabLayout = (props: Props) => {
@@ -11,19 +18,20 @@ const TabLayout = (props: Props) => {
             <Tabs
                 screenOptions={{
                     headerShown: false,
-                    tabBarShowLabel: false,
+                    tabBarShowLabel: true,
                     tabBarActiveTintColor: "#004CFF",
                     tabBarInactiveTintColor: "#94a3b81",
                     tabBarStyle: {
-                        backgroundColor: "#fff",
-                        shadowOpacity: 0,
-                        paddingVertical: 5,
+                        height: 65,
                         alignItems: "center",
-                        height: 60,
+                        justifyContent: "center",
                         borderWidth: 0,
-                        borderColor: "",
-                        shadowColor: "#fff",
+                        backgroundColor: "#fff",
+                        borderColor: "#e2e8f0",
+                        shadowColor: "#334155",
                     },
+                    animation: "shift",
+                    tabBarLabel: (props) => <TabLabel {...props} />,
                 }}
             >
                 <Tabs.Screen
@@ -49,6 +57,21 @@ const TabLayout = (props: Props) => {
                             <TabIcon
                                 Icon={Feather}
                                 iconName="users"
+                                label="Bạn bè"
+                                {...props}
+                            />
+                        ),
+                    }}
+                />
+
+                <Tabs.Screen
+                    name="shorts"
+                    options={{
+                        href: "/shorts/videos/trending",
+                        tabBarIcon: (props) => (
+                            <TabIcon
+                                Icon={FontAwesome5}
+                                iconName="fire-alt"
                                 label="Bạn bè"
                                 {...props}
                             />

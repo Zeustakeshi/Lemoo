@@ -24,7 +24,7 @@
         <module name="User" />
         <module name="Auth" />
       </profile>
-      <profile name="Annotation profile for Video" enabled="true">
+      <profile name="Annotation profile for Notification" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
@@ -35,6 +35,7 @@
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
         </processorPath>
         <module name="Product" />
+        <module name="Notification" />
         <module name="Video" />
       </profile>
     </annotationProcessing>
@@ -45,6 +46,7 @@
       <module name="Chat" options="-parameters" />
       <module name="Chats" options="-parameters" />
       <module name="Gateway" options="-parameters" />
+      <module name="Notification" options="-parameters -Amapstruct.defaultComponentModel=spring" />
       <module name="Product" options="-parameters -Amapstruct.defaultComponentModel=spring" />
       <module name="Store" options="-parameters -Amapstruct.defaultComponentModel=spring" />
       <module name="User" options="-parameters -Amapstruct.defaultComponentModel=spring" />

@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: notification-service
+  data:
+    mongodb:
+      uri: ${MONGODB_URI}
+      database: ${MONGODB_NAME}
+      auto-index-creation: true
+  jackson:
+    default-property-inclusion: non_null
+    serialization:
+      fail-on-empty-beans: false
+      close-closeable: true
+      flush-after-write-value: true
+      write-date-keys-as-timestamps: false
+    deserialization:
+      fail-on-unknown-properties: false
+server:
+  port: 8094
+  servlet:
+    context-path: /notifications
+services:
+  auth-service: ${AUTH_SERVICE_URL:http://localhost:8082/auth}
+  user-service: ${USER_SERVICE_URL}
+
+#cache:
+#  redis_url: ${REDIS_URL}

@@ -69,7 +69,6 @@ spring:
             - Path= ${api.prefix}/categories/**
           filters:
             - StripPrefix=2
-            - AuthorizationFilter
         #============================  Video route ============================#
         - id: video_route
           uri: ${services.video-service}

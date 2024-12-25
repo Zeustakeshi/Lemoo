@@ -14,9 +14,10 @@ import lombok.Data;
 @Builder
 public class CategoryResponse {
 
-	private String id;
-	private String name;
+    private String id;
+    private String name;
+    private String image;
 
-	@JsonProperty("isLeaf")
-	private boolean isLeaf;
+    @JsonProperty("isLeaf")
+    private boolean isLeaf;
 }

@@ -13,6 +13,7 @@ import com.lemoo.product.dto.response.ResourceUploaderResponse;
 import com.lemoo.product.service.ResourceService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,6 +22,7 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 @RequiredArgsConstructor
@@ -47,6 +49,16 @@ public class ResourceServiceImpl implements ResourceService {
                 "jpg,png,gif,webp");
 
         return upload(file, configs);
+    }
+
+    @Override
+    @Async
+    public CompletableFuture<ResourceUploaderResponse> uploadImageAsync(byte[] file, String publicId, String path) {
+        try {
+            return CompletableFuture.completedFuture(uploadImage(file, publicId, path));
+        } catch (IOException exception) {
+            throw new RuntimeException(exception);
+        }
     }
 
     @Override

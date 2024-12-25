@@ -5,5 +5,23 @@
  * */
 
 
-package com.lemoo.notification.service.impl;public class AccountServiceImpl {
+package com.lemoo.notification.service.impl;
+
+import com.lemoo.notification.common.enums.MailType;
+import com.lemoo.notification.service.AccountService;
+import com.lemoo.notification.service.MailService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.Map;
+
+@Service
+@RequiredArgsConstructor
+public class AccountServiceImpl implements AccountService {
+    private final MailService mailService;
+
+    @Override
+    public void sendAccountCreationOtp(String email, String otp) {
+        mailService.sendMail(MailType.ACCOUNT_CREATION_OTP, Map.of("otpCode", otp), email);
+    }
 }

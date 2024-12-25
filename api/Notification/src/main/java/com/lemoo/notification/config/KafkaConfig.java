@@ -4,7 +4,7 @@
  *  @created 9/27/2024 9:10 PM
  * */
 
-package com.lemoo.auth.config;
+package com.lemoo.notification.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,8 +14,8 @@ import org.springframework.kafka.support.converter.JsonMessageConverter;
 @Configuration
 public class KafkaConfig {
 
-	@Bean
-	public JsonMessageConverter jsonMessageConverter() {
-		return new ByteArrayJsonMessageConverter();
-	}
+    @Bean
+    public JsonMessageConverter jsonMessageConverter() {
+        return new ByteArrayJsonMessageConverter();
+    }
 }

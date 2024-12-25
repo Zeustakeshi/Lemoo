@@ -62,7 +62,7 @@ public class AuthServiceImpl implements AuthService {
         AccountConfirmation accountConfirmation = accountMapper.createAccountRequestToAccountConfirmation(request);
         accountConfirmation.setPassword(passwordEncoder.encode(accountConfirmation.getPassword()));
 
-        String otpCode = otpService.sendOtp(OtpType.ACCOUNT_CREATION);
+        String otpCode = otpService.sendOtp(OtpType.ACCOUNT_CREATION, request.getEmail());
 
         accountConfirmation.setOtpCode(otpCode);
 
@@ -88,7 +88,7 @@ public class AuthServiceImpl implements AuthService {
         AccountConfirmation accountConfirmation =
                 objectMapper.readValue(accountConfirmationString, AccountConfirmation.class);
 
-        String otpCode = otpService.resendOtp(accountConfirmation.getOtpCode(), OtpType.ACCOUNT_CREATION);
+        String otpCode = otpService.resendOtp(accountConfirmation.getOtpCode(), accountConfirmation.getEmail(), OtpType.ACCOUNT_CREATION);
 
         // update account confirmation
         accountConfirmation.setOtpCode(otpCode);
@@ -149,7 +149,7 @@ public class AuthServiceImpl implements AuthService {
 
         AccountMfa accountMfa = objectMapper.readValue(accountMfaString, AccountMfa.class);
 
-        String otpCode = otpService.resendOtp(accountMfa.getOtpCode(), OtpType.MFA);
+        String otpCode = otpService.resendOtp(accountMfa.getOtpCode(), accountMfa.getEmail(), OtpType.MFA);
 
         // update account mfa
         accountMfa.setOtpCode(otpCode);
@@ -176,7 +176,7 @@ public class AuthServiceImpl implements AuthService {
 
     @SneakyThrows
     private OtpResponse mfaLogin(Account account) {
-        String otpCode = otpService.sendOtp(OtpType.MFA);
+        String otpCode = otpService.sendOtp(OtpType.MFA, account.getEmail());
 
         AccountMfa accountMfa =
                 AccountMfa.builder().accountId(account.getId()).otpCode(otpCode).build();

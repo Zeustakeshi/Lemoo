@@ -5,7 +5,7 @@
  * */
 
 
-package com.lemoo.notification.event.eventModel;
+package com.lemoo.auth.event.eventModel;
 
 
 import lombok.*;
@@ -16,8 +16,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AccountCreationOtpEvent extends Event {
-
-    private String username;
+    
     private String email;
     private String otp;
 

@@ -20,6 +20,8 @@ public interface StoreRepository extends JpaRepository<Store, String> {
     @Query("select s from Store s where  s.status != 'INACTIVE' and s.ownerId = :ownerId")
     Optional<Store> findVerifiedStore(String ownerId);
 
+    boolean existsByIdAndOwnerId(String storeId, String ownerId);
+
     boolean existsByName(String name);
 
     boolean existsByNameOrOwnerId(String name, String ownerId);

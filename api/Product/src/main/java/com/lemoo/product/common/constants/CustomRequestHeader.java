@@ -5,7 +5,7 @@
  * */
 
 
-package com.lemoo.media.common.consts;
+package com.lemoo.product.common.constants;
 
 public class CustomRequestHeader {
     public static final String STORE_ID = "X-Store-Id";

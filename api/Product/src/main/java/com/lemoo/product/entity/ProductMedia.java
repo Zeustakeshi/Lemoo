@@ -6,8 +6,6 @@
 
 package com.lemoo.product.entity;
 
-import com.aventrix.jnanoid.jnanoid.NanoIdUtils;
-import com.lemoo.product.common.enums.MediaType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,7 +16,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class ProductMedia {
-	private String id = NanoIdUtils.randomNanoId();
-	private String url;
-	private MediaType type;
+    private String id;
+    private String url;
 }

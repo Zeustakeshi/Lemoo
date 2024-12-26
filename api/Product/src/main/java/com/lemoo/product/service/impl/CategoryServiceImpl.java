@@ -129,6 +129,7 @@ public class CategoryServiceImpl implements CategoryService {
         Category category = categoryRepository
                 .findById(categoryId)
                 .orElseThrow(() -> new NotfoundException("Category " + categoryId + " not found"));
+        category.getPaths().add(categoryId);
         return category.getPaths();
     }
 

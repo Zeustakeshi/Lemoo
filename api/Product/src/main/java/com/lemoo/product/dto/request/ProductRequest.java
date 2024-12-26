@@ -13,9 +13,10 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 import java.util.List;
+import java.util.Set;
 
 @Data
-public class UpdateProductRequest {
+public class ProductRequest {
 
     @NotEmpty
     @Size(min = 5, max = 200)
@@ -27,6 +28,14 @@ public class UpdateProductRequest {
 
     @NotEmpty
     private String categoryId;
+
+    @NotNull
+    private MediaRequest smallImage;
+
+    @Size(min = 1, max = 8)
+    @NotEmpty
+    @NotNull
+    private Set<MediaRequest> images;
 
     @NotNull
     @NotEmpty

@@ -8,11 +8,12 @@ package com.lemoo.product.entity;
 
 import com.aventrix.jnanoid.jnanoid.NanoIdUtils;
 import com.lemoo.product.common.enums.ProductStatus;
-import java.util.List;
 import lombok.*;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -23,26 +24,29 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @CompoundIndex(name = "product_name_store_id_idx", unique = true, def = "{'name': 1, 'storeId': 1}")
 public class Product extends BaseEntity {
 
-	@Indexed
-	@Builder.Default
-	private String productSku = NanoIdUtils.randomNanoId();
+    @Indexed
+    @Builder.Default
+    private String productSku = NanoIdUtils.randomNanoId();
 
-	@Indexed
-	private String name;
+    @Indexed
+    private String name;
 
-	private String description;
+    private String description;
 
-	private List<String> categories;
+    private List<String> categories;
 
-	private ProductMedia smallImage;
+    private ProductMedia smallImage;
 
-	private List<ProductMedia> images;
+    private List<ProductMedia> images;
 
-	@Builder.Default
-	private ProductStatus status = ProductStatus.DRAFT;
+    @Builder.Default
+    private Integer score = 0;
 
-	@Indexed
-	private String storeId;
+    @Builder.Default
+    private ProductStatus status = ProductStatus.DRAFT;
 
-	private List<ProductAttribute> attributes;
+    @Indexed
+    private String storeId;
+
+    private List<ProductAttribute> attributes;
 }

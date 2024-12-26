@@ -77,6 +77,14 @@ spring:
           filters:
             - StripPrefix=2
             - AuthorizationFilter
+        #============================  Media route ============================#
+        - id: video_route
+          uri: ${services.media-service}
+          predicates:
+            - Path= ${api.prefix}/media/**
+          filters:
+            - StripPrefix=2
+            - AuthorizationFilter
 
 services:
   auth-service: ${AUTH_SERVICE_URL:http://localhost:8082}
@@ -85,3 +93,4 @@ services:
   store-service: ${STORE_SERVICE_URL:http://localhost:8088}
   product-service: ${PRODUCT_SERVICE_URL:http://localhost:8090}
   video-service: ${VIDEO_SERVICE_URL:http://localhost:8092}
+  media-service: ${MEDIA_SERVICE_URL:http://localhost:8094}

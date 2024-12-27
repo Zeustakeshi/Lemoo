@@ -14,6 +14,7 @@
         <option value="$PROJECT_DIR$/api/Video/pom.xml" />
         <option value="$PROJECT_DIR$/api/Notification/pom.xml" />
         <option value="$PROJECT_DIR$/api/Media/pom.xml" />
+        <option value="$PROJECT_DIR$/api/Voucher/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">

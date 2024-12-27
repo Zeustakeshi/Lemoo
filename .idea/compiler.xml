@@ -40,7 +40,7 @@
         </processorPath>
         <module name="Video" />
       </profile>
-      <profile name="Annotation profile for Media" enabled="true">
+      <profile name="Annotation profile for Voucher" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
@@ -53,6 +53,7 @@
         <module name="Media" />
         <module name="Product" />
         <module name="Notification" />
+        <module name="Voucher" />
       </profile>
     </annotationProcessing>
   </component>
@@ -68,6 +69,7 @@
       <module name="Store" options="-parameters -Amapstruct.defaultComponentModel=spring" />
       <module name="User" options="-parameters -Amapstruct.defaultComponentModel=spring" />
       <module name="Video" options="-parameters -Amapstruct.defaultComponentModel=spring" />
+      <module name="Voucher" options="-parameters -Amapstruct.defaultComponentModel=spring" />
     </option>
   </component>
 </project>

@@ -12,5 +12,6 @@
     <file url="file://$PROJECT_DIR$/api/Store/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/api/User/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/api/Video/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/api/Voucher/src/main/java" charset="UTF-8" />
   </component>
 </project>

@@ -8,12 +8,11 @@ package com.lemoo.store.service;
 
 public interface StoreDocumentService {
 
-    void uploadBankDocumentAsync(String storeId, byte[] document);
+	void uploadBankDocumentAsync(String storeId, byte[] document);
 
-    void uploadCitizenIdDocumentAsync(String storeId, byte[] document, boolean isFrontSide);
+	void uploadCitizenIdDocumentAsync(String storeId, byte[] document, boolean isFrontSide);
 
-    void uploadTaxDocumentAsync(String storeId, byte[] document);
+	void uploadTaxDocumentAsync(String storeId, byte[] document);
 
-    void uploadBusinessDocumentAsync(String storeId, byte[] document);
-
+	void uploadBusinessDocumentAsync(String storeId, byte[] document);
 }

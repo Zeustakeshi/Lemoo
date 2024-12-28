@@ -6,12 +6,11 @@
 
 package com.lemoo.product.entity;
 
+import java.time.LocalDateTime;
+import java.util.Map;
 import lombok.*;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.Indexed;
-
-import java.time.LocalDateTime;
-import java.util.Map;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -21,28 +20,28 @@ import java.util.Map;
 @CompoundIndex(name = "variant_seller_sku_product_id_idx", unique = true, def = "{'sellerSku': 1, 'productId': 1}")
 public class ProductVariant extends BaseEntity {
 
-    private String sellerSku;
+	private String sellerSku;
 
-    @Indexed
-    private String name;
+	@Indexed
+	private String name;
 
-    private ProductMedia image;
+	private ProductMedia image;
 
-    @Indexed
-    private String productId;
+	@Indexed
+	private String productId;
 
-    private boolean allowSale;
+	private boolean allowSale;
 
-    private Long price;
-    private Long specialPrice;
-    private LocalDateTime specialFromDate;
-    private LocalDateTime specialToDate;
+	private Long price;
+	private Long specialPrice;
+	private LocalDateTime specialFromDate;
+	private LocalDateTime specialToDate;
 
-    private Long stock;
-    private Double packageWidth; // cm
-    private Double packageHeight; // cm
-    private Double packageLength; // cm
-    private Double packageWeight; // g
+	private Long stock;
+	private Double packageWidth; // cm
+	private Double packageHeight; // cm
+	private Double packageLength; // cm
+	private Double packageWeight; // g
 
-    private Map<String, String> attributes; // {"color": "red", "size": "M"}
+	private Map<String, String> attributes; // {"color": "red", "size": "M"}
 }

@@ -7,6 +7,6 @@
 package com.lemoo.promotion.common.enums;
 
 public enum DiscountType {
-    MONEY_VALUE,
-    PERCENTAGE
+	MONEY_VALUE,
+	PERCENTAGE
 }

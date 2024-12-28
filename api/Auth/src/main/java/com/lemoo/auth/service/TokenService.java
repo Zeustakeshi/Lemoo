@@ -12,13 +12,11 @@ import com.lemoo.auth.dto.response.TokenResponse;
 import com.lemoo.auth.entity.Account;
 
 public interface TokenService {
-    TokenResponse generateTokenPair(Account account);
+	TokenResponse generateTokenPair(Account account);
 
-    TokenResponse refreshToken(RefreshTokenRequest request);
+	TokenResponse refreshToken(RefreshTokenRequest request);
 
-    void removeToken(String token);
+	void removeToken(String token);
 
-    Boolean introspectToken(IntrospectTokenRequest request);
-
-
+	Boolean introspectToken(IntrospectTokenRequest request);
 }

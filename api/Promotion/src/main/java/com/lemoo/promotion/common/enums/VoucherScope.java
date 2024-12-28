@@ -7,6 +7,6 @@
 package com.lemoo.promotion.common.enums;
 
 public enum VoucherScope {
-    ENTIRE_STORE,
-    SPECIFIC_PRODUCT
+	ENTIRE_STORE,
+	SPECIFIC_PRODUCT
 }

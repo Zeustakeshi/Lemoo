@@ -4,7 +4,6 @@
  *  @created 12/27/2024 5:42 PM
  * */
 
-
 package com.lemoo.promotion.controller;
 
 import com.lemoo.promotion.common.constants.CustomRequestHeader;
@@ -22,24 +21,21 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/vouchers")
 @RequiredArgsConstructor
 public class SellerVoucherController {
-    private final SellerVoucherService sellerVoucherService;
+	private final SellerVoucherService sellerVoucherService;
 
-    @PostMapping("regular")
-    public ApiResponse<?> createRegularVoucher(
-            @RequestBody @Valid RegularVoucherRequest request,
-            @AuthenticationPrincipal AuthenticatedAccount account,
-            @RequestHeader(CustomRequestHeader.STORE_ID) String storeId
-    ) {
-        return ApiResponse.success(sellerVoucherService.createRegularVoucher(storeId, account, request));
-    }
+	@PostMapping("regular")
+	public ApiResponse<?> createRegularVoucher(
+			@RequestBody @Valid RegularVoucherRequest request,
+			@AuthenticationPrincipal AuthenticatedAccount account,
+			@RequestHeader(CustomRequestHeader.STORE_ID) String storeId) {
+		return ApiResponse.success(sellerVoucherService.createRegularVoucher(storeId, account, request));
+	}
 
-    @PostMapping("follower")
-    public ApiResponse<?> createStoreFollowerVoucher(
-            @RequestBody @Valid StoreFollowerVoucherRequest request,
-            @AuthenticationPrincipal AuthenticatedAccount account,
-            @RequestHeader(CustomRequestHeader.STORE_ID) String storeId
-    ) {
-        return ApiResponse.success(sellerVoucherService.createStoreFollowerVoucher(storeId, account, request));
-    }
-
+	@PostMapping("follower")
+	public ApiResponse<?> createStoreFollowerVoucher(
+			@RequestBody @Valid StoreFollowerVoucherRequest request,
+			@AuthenticationPrincipal AuthenticatedAccount account,
+			@RequestHeader(CustomRequestHeader.STORE_ID) String storeId) {
+		return ApiResponse.success(sellerVoucherService.createStoreFollowerVoucher(storeId, account, request));
+	}
 }

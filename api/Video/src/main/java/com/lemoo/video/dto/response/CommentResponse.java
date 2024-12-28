@@ -7,29 +7,28 @@
 package com.lemoo.video.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class CommentResponse {
-    private String id;
-    private String content;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+	private String id;
+	private String content;
+	private LocalDateTime createdAt;
+	private LocalDateTime updatedAt;
 
-    private UserResponse user;
+	private UserResponse user;
 
-    @JsonProperty("isEdited")
-    private boolean isEdited;
+	@JsonProperty("isEdited")
+	private boolean isEdited;
 
-    private Long replyCount;
+	private Long replyCount;
 
-    private ReactionResponse reaction;
+	private ReactionResponse reaction;
 }

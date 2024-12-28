@@ -43,9 +43,11 @@
         <module name="Promotion" />
         <module name="Video" />
         <module name="Notification" />
-        <module name="Voucher" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="Voucher" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">

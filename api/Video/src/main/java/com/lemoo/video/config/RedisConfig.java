@@ -13,11 +13,11 @@ import redis.clients.jedis.Jedis;
 
 @Configuration
 public class RedisConfig {
-    @Value("${cache.redis_url}")
-    private String redisUrl;
+	@Value("${cache.redis_url}")
+	private String redisUrl;
 
-    @Bean
-    public Jedis jedis() {
-        return new Jedis(redisUrl);
-    }
+	@Bean
+	public Jedis jedis() {
+		return new Jedis(redisUrl);
+	}
 }

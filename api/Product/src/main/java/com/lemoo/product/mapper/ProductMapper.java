@@ -21,20 +21,20 @@ import org.mapstruct.MappingTarget;
 @Mapper(componentModel = "spring")
 public interface ProductMapper {
 
-    @Mapping(target = "image", ignore = true)
-    ProductVariant variantRequestToVariant(ProductVariantRequest request);
+	@Mapping(target = "image", ignore = true)
+	ProductVariant variantRequestToVariant(ProductVariantRequest request);
 
-    ProductSimpleResponse productToProductSimpleResponse(Product product);
+	ProductSimpleResponse productToProductSimpleResponse(Product product);
 
-    @Mapping(target = "image", source = "product.smallImage.url")
-    @Mapping(target = "variants", ignore = true)
-    ProductResponse productToProductResponse(Product product);
+	@Mapping(target = "image", source = "product.smallImage.url")
+	@Mapping(target = "variants", ignore = true)
+	ProductResponse productToProductResponse(Product product);
 
-    ProductVariantResponse variantToVariantResponse(ProductVariant variant);
+	ProductVariantResponse variantToVariantResponse(ProductVariant variant);
 
-    @Mapping(target = "sellerSku", ignore = true)
-    void updateVariant(ProductVariantRequest request, @MappingTarget ProductVariant variant);
+	@Mapping(target = "sellerSku", ignore = true)
+	void updateVariant(ProductVariantRequest request, @MappingTarget ProductVariant variant);
 
-    @Mapping(target = "id", source = "mediaId")
-    ProductMedia mediaRequestToProductMedia(MediaRequest mediaRequest);
+	@Mapping(target = "id", source = "mediaId")
+	ProductMedia mediaRequestToProductMedia(MediaRequest mediaRequest);
 }

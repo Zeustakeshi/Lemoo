@@ -16,10 +16,12 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class StoreServiceImpl implements StoreService {
 
-    private final StoreClient storeClient;
+	private final StoreClient storeClient;
 
-    @Override
-    public boolean checkStorePermission(String storeId, String accountId) {
-        return storeClient.verifyStore(new VerifyStoreRequest(storeId, accountId)).getData();
-    }
+	@Override
+	public boolean checkStorePermission(String storeId, String accountId) {
+		return storeClient
+				.verifyStore(new VerifyStoreRequest(storeId, accountId))
+				.getData();
+	}
 }

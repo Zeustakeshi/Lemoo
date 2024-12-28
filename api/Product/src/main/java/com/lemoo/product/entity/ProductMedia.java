@@ -16,6 +16,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class ProductMedia {
-    private String id;
-    private String url;
+	private String id;
+	private String url;
 }

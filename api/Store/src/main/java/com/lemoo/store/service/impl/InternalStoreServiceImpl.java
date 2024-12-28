@@ -4,7 +4,6 @@
  *  @created 12/26/2024 5:49 PM
  * */
 
-
 package com.lemoo.store.service.impl;
 
 import com.lemoo.store.dto.request.VerifyStoreRequest;
@@ -17,10 +16,10 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class InternalStoreServiceImpl implements InternalStoreService {
 
-    private final StoreRepository storeRepository;
+	private final StoreRepository storeRepository;
 
-    @Override
-    public boolean verifyStore(VerifyStoreRequest request) {
-        return storeRepository.existsByIdAndOwnerId(request.getStoreId(), request.getAccountId());
-    }
+	@Override
+	public boolean verifyStore(VerifyStoreRequest request) {
+		return storeRepository.existsByIdAndOwnerId(request.getStoreId(), request.getAccountId());
+	}
 }

@@ -12,8 +12,8 @@ import lombok.Data;
 @Data
 @Builder
 public class AuthenticatedAccount {
-    private String id;
-    private String userId;
-    private String email;
-    private String phone;
+	private String id;
+	private String userId;
+	private String email;
+	private String phone;
 }

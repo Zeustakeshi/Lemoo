@@ -7,7 +7,7 @@
 package com.lemoo.promotion.common.enums;
 
 public enum VoucherTimeType {
-    FIXED_TIME,
-    RELATIVE_TIME,
-    NO_LIMIT
+	FIXED_TIME,
+	RELATIVE_TIME,
+	NO_LIMIT
 }

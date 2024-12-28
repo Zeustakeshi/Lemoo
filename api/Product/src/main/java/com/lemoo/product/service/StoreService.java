@@ -7,5 +7,5 @@
 package com.lemoo.product.service;
 
 public interface StoreService {
-    boolean checkStorePermission(String storeId, String accountId);
+	boolean checkStorePermission(String storeId, String accountId);
 }

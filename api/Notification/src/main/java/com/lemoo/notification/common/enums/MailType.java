@@ -12,8 +12,8 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum MailType {
-    ACCOUNT_CREATION_OTP(1, "account-creation-otp");
+	ACCOUNT_CREATION_OTP(1, "account-creation-otp");
 
-    private final Integer id;
-    private final String templatePath;
+	private final Integer id;
+	private final String templatePath;
 }

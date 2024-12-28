@@ -12,5 +12,4 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @EnableConfigurationProperties({ServiceUrl.class})
-public class applicationConfig {
-}
+public class applicationConfig {}

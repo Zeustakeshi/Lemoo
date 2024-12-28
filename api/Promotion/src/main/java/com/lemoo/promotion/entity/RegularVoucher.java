@@ -4,7 +4,6 @@
  *  @created 12/27/2024 4:52 PM
  * */
 
-
 package com.lemoo.promotion.entity;
 
 import com.lemoo.promotion.common.enums.VoucherType;
@@ -18,7 +17,6 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 public class RegularVoucher extends Voucher {
 
-    @Builder.Default
-    private final VoucherType voucherType = VoucherType.REGULAR_VOUCHER;
-
+	@Builder.Default
+	private final VoucherType voucherType = VoucherType.REGULAR_VOUCHER;
 }

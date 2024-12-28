@@ -4,7 +4,6 @@
  *  @created 12/27/2024 5:39 PM
  * */
 
-
 package com.lemoo.promotion.dto.request;
 
 import com.lemoo.promotion.common.enums.VoucherScope;
@@ -19,6 +18,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RegularVoucherRequest extends BaseVoucherRequest {
-    @NotNull
-    private VoucherScope scope;
+	@NotNull private VoucherScope scope;
 }

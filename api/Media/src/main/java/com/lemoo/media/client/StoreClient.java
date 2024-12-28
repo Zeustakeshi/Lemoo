@@ -4,7 +4,6 @@
  *  @created 12/26/2024 10:03 AM
  * */
 
-
 package com.lemoo.media.client;
 
 import com.lemoo.media.dto.request.VerifyStoreRequest;
@@ -16,8 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @FeignClient(name = "store-service", url = "${services.store-service}/internal")
 public interface StoreClient {
-    @PostMapping("/verify")
-    ApiResponse<Boolean> verifyStore(
-            @RequestBody @Valid VerifyStoreRequest request
-    );
+	@PostMapping("/verify")
+	ApiResponse<Boolean> verifyStore(@RequestBody @Valid VerifyStoreRequest request);
 }

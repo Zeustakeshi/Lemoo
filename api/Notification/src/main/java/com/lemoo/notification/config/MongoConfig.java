@@ -4,7 +4,6 @@
  *  @created 12/24/2024 1:19 AM
  * */
 
-
 package com.lemoo.notification.config;
 
 import org.springframework.context.annotation.Configuration;
@@ -12,5 +11,4 @@ import org.springframework.data.mongodb.config.EnableMongoAuditing;
 
 @Configuration
 @EnableMongoAuditing
-public class MongoConfig {
-}
+public class MongoConfig {}

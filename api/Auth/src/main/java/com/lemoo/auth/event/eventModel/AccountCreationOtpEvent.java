@@ -4,9 +4,7 @@
  *  @created 12/25/2024 12:52 PM
  * */
 
-
 package com.lemoo.auth.event.eventModel;
-
 
 import lombok.*;
 
@@ -16,12 +14,12 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AccountCreationOtpEvent extends Event {
-    
-    private String email;
-    private String otp;
 
-    @Override
-    protected void setGroupId(String groupId) {
-        this.groupId = "E_012";
-    }
+	private String email;
+	private String otp;
+
+	@Override
+	protected void setGroupId(String groupId) {
+		this.groupId = "E_012";
+	}
 }

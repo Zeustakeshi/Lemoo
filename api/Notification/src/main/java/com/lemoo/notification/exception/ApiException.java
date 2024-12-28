@@ -13,12 +13,12 @@ import org.springframework.http.HttpStatus;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public abstract class ApiException extends RuntimeException {
-    protected String message;
-    protected HttpStatus status;
+	protected String message;
+	protected HttpStatus status;
 
-    public ApiException(HttpStatus status, String message) {
-        super(message);
-        this.message = message;
-        this.status = status;
-    }
+	public ApiException(HttpStatus status, String message) {
+		super(message);
+		this.message = message;
+		this.status = status;
+	}
 }

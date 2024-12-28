@@ -7,5 +7,5 @@
 package com.lemoo.notification.service;
 
 public interface AccountService {
-    void sendAccountCreationOtp(String email, String otp);
+	void sendAccountCreationOtp(String email, String otp);
 }

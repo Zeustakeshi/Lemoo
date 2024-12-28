@@ -7,6 +7,6 @@
 package com.lemoo.media.common.enums;
 
 public enum MediaType {
-    IMAGE,
-    VIDEO
+	IMAGE,
+	VIDEO
 }

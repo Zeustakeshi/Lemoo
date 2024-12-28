@@ -7,9 +7,8 @@
 package com.lemoo.notification.service;
 
 import com.lemoo.notification.common.enums.MailType;
-
 import java.util.Map;
 
 public interface MailService {
-    void sendMail(MailType mailType, Map<String, Object> model, String recipient);
+	void sendMail(MailType mailType, Map<String, Object> model, String recipient);
 }

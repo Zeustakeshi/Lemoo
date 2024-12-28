@@ -60,7 +60,7 @@ public class StoreDocumentServiceImpl implements StoreDocumentService {
         } catch (Exception exception) {
             Store store = storeRepository.findById(storeId)
                     .orElseThrow(() -> new RuntimeException("Update store status to verify_error failed because: " + exception.getMessage()));
-            store.setStatus(StoreStatus.VERIFY_FAILED);
+            store.setStatus(StoreStatus.DELETED);
             store.getVerifyFailedMessages().add("Verify BankDocument fail with message: " + exception.getMessage());
             storeRepository.save(store);
         }
@@ -85,7 +85,7 @@ public class StoreDocumentServiceImpl implements StoreDocumentService {
             } catch (Exception exception) {
                 Store store = storeRepository.findById(storeId)
                         .orElseThrow(() -> new RuntimeException("Update store status to verify_error failed because: " + exception.getMessage()));
-                store.setStatus(StoreStatus.VERIFY_FAILED);
+                store.setStatus(StoreStatus.DELETED);
                 store.getVerifyFailedMessages().add("Verify CitizenId fail with message: " + exception.getMessage());
                 storeRepository.save(store);
             } finally {
@@ -106,7 +106,7 @@ public class StoreDocumentServiceImpl implements StoreDocumentService {
         } catch (Exception exception) {
             Store store = storeRepository.findById(storeId)
                     .orElseThrow(() -> new RuntimeException("Update store status to verify_error failed because: " + exception.getMessage()));
-            store.setStatus(StoreStatus.VERIFY_FAILED);
+            store.setStatus(StoreStatus.DELETED);
             store.getVerifyFailedMessages().add("Verify TaxDocument fail with message: " + exception.getMessage());
             storeRepository.save(store);
         }
@@ -123,7 +123,7 @@ public class StoreDocumentServiceImpl implements StoreDocumentService {
         } catch (Exception exception) {
             Store store = storeRepository.findById(storeId)
                     .orElseThrow(() -> new RuntimeException("Update store status to verify_error failed because: " + exception.getMessage()));
-            store.setStatus(StoreStatus.VERIFY_FAILED);
+            store.setStatus(StoreStatus.DELETED);
             store.getVerifyFailedMessages().add("Verify BusinessDocument fail with message: " + exception.getMessage());
             storeRepository.save(store);
         }

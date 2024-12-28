@@ -17,12 +17,16 @@ import java.util.Optional;
 public interface StoreRepository extends JpaRepository<Store, String> {
     Optional<Store> findByOwnerId(String ownerId);
 
-    @Query("select s from Store s where  s.status != 'INACTIVE' and s.ownerId = :ownerId")
-    Optional<Store> findVerifiedStore(String ownerId);
+    @Query("select s from Store s where  s.status = 'ACTIVE' and s.ownerId = :ownerId")
+    Optional<Store> findActiveStore(String ownerId);
 
     boolean existsByIdAndOwnerId(String storeId, String ownerId);
 
-    boolean existsByName(String name);
-
     boolean existsByNameOrOwnerId(String name, String ownerId);
+
+    boolean existsByNameOrCompanyNameOrOwnerId(String name, String companyName, String ownerId);
+
+    boolean existsByCompanyName(String companyName);
+
+    boolean existsByNameAndOwnerId(String name, String ownerId);
 }

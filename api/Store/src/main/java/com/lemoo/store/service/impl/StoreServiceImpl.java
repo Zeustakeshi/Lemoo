@@ -6,7 +6,6 @@
 
 package com.lemoo.store.service.impl;
 
-import com.lemoo.store.common.enums.DocumentType;
 import com.lemoo.store.common.enums.StoreStatus;
 import com.lemoo.store.common.enums.StoreType;
 import com.lemoo.store.common.utils.ShortCodeGenerator;
@@ -15,20 +14,21 @@ import com.lemoo.store.dto.request.CreateCorporateStoreRequest;
 import com.lemoo.store.dto.request.CreateIndividualStoreRequest;
 import com.lemoo.store.dto.response.StoreResponse;
 import com.lemoo.store.entity.*;
-import com.lemoo.store.event.eventModel.UploadDocumentEvent;
 import com.lemoo.store.exception.ConflictException;
 import com.lemoo.store.exception.NotfoundException;
 import com.lemoo.store.mapper.StoreMapper;
 import com.lemoo.store.repository.StoreRepository;
+import com.lemoo.store.service.StoreDocumentService;
 import com.lemoo.store.service.StoreService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class StoreServiceImpl implements StoreService {
@@ -37,7 +37,7 @@ public class StoreServiceImpl implements StoreService {
 
     private final StoreRepository storeRepository;
     private final StoreMapper storeMapper;
-    private final ApplicationEventPublisher eventPublisher;
+    private final StoreDocumentService documentService;
 
     @Value("${assets.default-avatar}")
     private String defaultAvatar;
@@ -101,37 +101,32 @@ public class StoreServiceImpl implements StoreService {
 
         Store newStore = storeRepository.save(store);
 
-        // TODO:-------------------------- Refactor upload image async -----------------------
 
-        eventPublisher.publishEvent(UploadDocumentEvent.builder()
-                .image(request.getIdentityCardFrontSide().getBytes())
-                .storeId(newStore.getId())
-                .type(DocumentType.CITIZEN_ID_FRONT)
-                .build());
+        documentService.uploadCitizenIdDocumentAsync(
+                newStore.getId(),
+                request.getIdentityCardFrontSide().getBytes(),
+                true
+        );
 
-        eventPublisher.publishEvent(UploadDocumentEvent.builder()
-                .image(request.getIdentityCardBackSide().getBytes())
-                .storeId(newStore.getId())
-                .type(DocumentType.CITIZEN_ID_BACK)
-                .build());
+        documentService.uploadCitizenIdDocumentAsync(
+                newStore.getId(),
+                request.getIdentityCardBackSide().getBytes(),
+                false
+        );
 
-        eventPublisher.publishEvent(UploadDocumentEvent.builder()
-                .image(request.getTaxRegistrationDocument().getBytes())
-                .storeId(newStore.getId())
-                .type(DocumentType.TAX_REGISTRATION)
-                .build());
+        documentService.uploadTaxDocumentAsync(
+                newStore.getId(),
+                request.getTaxRegistrationDocument().getBytes()
+        );
 
-        eventPublisher.publishEvent(UploadDocumentEvent.builder()
-                .image(request.getBankDocument().getBytes())
-                .storeId(newStore.getId())
-                .type(DocumentType.BANK_DOCUMENT)
-                .build());
-
-        // TODO: ----------------------Refactor upload store image-------------------------------
+        documentService.uploadBankDocumentAsync(
+                newStore.getId(),
+                request.getBankDocument().getBytes()
+        );
 
         // TODO: send event to admin to update verify store
 
-        return storeMapper.storeToStoreResponse(store);
+        return storeMapper.storeToStoreResponse(newStore);
     }
 
     @Override
@@ -142,37 +137,41 @@ public class StoreServiceImpl implements StoreService {
             throw new ConflictException("Store name already exists, or the company name or owner ID is already in use. Please verify your information or register with different details.");
         }
 
-        BusinessRegistration businessRegistration = BusinessRegistration.builder()
-                .businessOwnerName(request.getBusinessOwnerName())
-                .businessRegistrationNumber(request.getBusinessRegistrationNumber())
-                .companyLegalName(request.getCompanyLegalName())
-                .type(request.getBusinessType())
-                .build();
-
-        TaxInformation taxInformation =
-                TaxInformation.builder().TIN(request.getTIN()).build();
-
-        BankInformation bankInformation = BankInformation.builder()
-                .name(request.getBankName())
-                .bin(request.getBankBin())
-                .code(request.getBankCode())
-                .accountName(request.getBankAccountName())
-                .build();
-
-        Store store = storeRepository.save(Store.builder()
+        Store store = Store.builder()
                 .logo(defaultAvatar)
                 .type(StoreType.CORPORATE)
                 .companyName(request.getCompanyLegalName())
-                .bankInformation(bankInformation)
-                .businessRegistration(businessRegistration)
-                .taxInformation(taxInformation)
                 .email(account.getEmail())
                 .phone(account.getPhone())
                 .name(request.getName())
                 .ownerId(account.getId())
                 .status(StoreStatus.ACTIVE)
+                .businessType(request.getBusinessType())
                 .verified(false)
-                .build());
+                .build();
+
+
+        BusinessRegistration businessRegistration = BusinessRegistration.builder()
+                .businessOwnerName(request.getBusinessOwnerName())
+                .businessRegistrationNumber(request.getBusinessRegistrationNumber())
+                .companyLegalName(request.getCompanyLegalName())
+                .type(request.getBusinessType())
+                .store(store)
+                .build();
+
+        TaxInformation taxInformation =
+                TaxInformation.builder()
+                        .store(store)
+                        .TIN(request.getTIN()).build();
+
+        BankInformation bankInformation = BankInformation.builder()
+                .name(request.getBankName())
+                .bin(request.getBankBin())
+                .store(store)
+                .code(request.getBankCode())
+                .accountName(request.getBankAccountName())
+                .build();
+
 
         String shortCode = ShortCodeGenerator.generateShortCode(
                 store.getId(),
@@ -182,30 +181,31 @@ public class StoreServiceImpl implements StoreService {
 
         store.setShortCode(shortCode);
 
-        // TODO:-------------------------- Refactor upload image async -----------------------
+        store.setBusinessRegistration(businessRegistration);
+        store.setBankInformation(bankInformation);
+        store.setTaxInformation(taxInformation);
 
-        eventPublisher.publishEvent(UploadDocumentEvent.builder()
-                .image(request.getBusinessRegistrationCertificate().getBytes())
-                .storeId(store.getId())
-                .type(DocumentType.BUSINESS_REGISTRATION_CERTIFICATE)
-                .build());
+        Store newStore = storeRepository.save(store);
 
-        eventPublisher.publishEvent(UploadDocumentEvent.builder()
-                .image(request.getTaxRegistrationDocument().getBytes())
-                .storeId(store.getId())
-                .type(DocumentType.TAX_REGISTRATION)
-                .build());
+        documentService.uploadBusinessDocumentAsync(
+                newStore.getId(),
+                request.getBusinessRegistrationCertificate().getBytes()
+        );
 
-        eventPublisher.publishEvent(UploadDocumentEvent.builder()
-                .image(request.getBankDocument().getBytes())
-                .storeId(store.getId())
-                .type(DocumentType.BANK_DOCUMENT)
-                .build());
+        documentService.uploadTaxDocumentAsync(
+                newStore.getId(),
+                request.getTaxRegistrationDocument().getBytes()
+        );
 
-        // TODO:-------------------------- Refactor upload image async -----------------------
+        documentService.uploadBankDocumentAsync(
+                newStore.getId(),
+                request.getBankDocument().getBytes()
+        );
 
-        return storeMapper.storeToStoreResponse(store);
+        return storeMapper.storeToStoreResponse(newStore);
     }
 
+    private void addStoreVerifyFailedMessages(String storeId, String message) {
 
+    }
 }

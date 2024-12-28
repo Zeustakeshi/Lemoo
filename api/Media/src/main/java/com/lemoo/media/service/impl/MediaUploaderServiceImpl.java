@@ -105,7 +105,7 @@ public class MediaUploaderServiceImpl implements MediaUploaderService {
                 now.plus(cloudinaryProperties.secureUrlExpireIn(), ChronoUnit.HOURS)
                         .toEpochMilli());
 
-        return cloudinary.apiSignRequest(options, "EB0sjDs0N22e-7gECIM3YpE_Kuo");
+        return cloudinary.apiSignRequest(options, cloudinaryProperties.apiSecret());
     }
 
     @Override

@@ -50,6 +50,7 @@ public class Store extends BaseEntity {
 
     private String location;
 
+    @Enumerated(EnumType.STRING)
     private StoreType type;
 
     @ElementCollection(fetch = FetchType.LAZY)
@@ -66,8 +67,5 @@ public class Store extends BaseEntity {
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private TaxInformation taxInformation;
-
-    @ElementCollection
-    private Set<String> verifyFailedMessages;
 
 }

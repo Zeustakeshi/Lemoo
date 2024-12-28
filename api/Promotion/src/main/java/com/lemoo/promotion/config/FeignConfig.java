@@ -9,5 +9,4 @@ package com.lemoo.promotion.config;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class FeignConfig {
-}
+public class FeignConfig {}

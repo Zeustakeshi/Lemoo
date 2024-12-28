@@ -9,5 +9,4 @@ package com.lemoo.media.common.properties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties(prefix = "services")
-public record ServiceUrl(String authService) {
-}
+public record ServiceUrl(String authService) {}

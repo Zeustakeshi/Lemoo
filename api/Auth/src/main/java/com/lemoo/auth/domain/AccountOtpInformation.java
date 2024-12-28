@@ -18,14 +18,14 @@ import lombok.experimental.SuperBuilder;
 @Data
 public abstract class AccountOtpInformation {
 
-    @Builder.Default
-    @Setter(AccessLevel.PRIVATE)
-    private String code = NanoIdUtils.randomNanoId();
+	@Builder.Default
+	@Setter(AccessLevel.PRIVATE)
+	private String code = NanoIdUtils.randomNanoId();
 
-    private String otpCode;
+	private String otpCode;
 
-    private String email;
+	private String email;
 
-    @Builder.Default
-    private Integer validationCount = 0;
+	@Builder.Default
+	private Integer validationCount = 0;
 }

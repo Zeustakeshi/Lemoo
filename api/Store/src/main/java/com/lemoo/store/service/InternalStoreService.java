@@ -9,5 +9,5 @@ package com.lemoo.store.service;
 import com.lemoo.store.dto.request.VerifyStoreRequest;
 
 public interface InternalStoreService {
-    boolean verifyStore(VerifyStoreRequest request);
+	boolean verifyStore(VerifyStoreRequest request);
 }

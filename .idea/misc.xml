@@ -21,6 +21,7 @@
     <option name="ignoredFiles">
       <set>
         <option value="$PROJECT_DIR$/api/Chats/pom.xml" />
+        <option value="$PROJECT_DIR$/api/Voucher/pom.xml" />
       </set>
     </option>
   </component>

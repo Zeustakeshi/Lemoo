@@ -9,7 +9,7 @@ package com.lemoo.notification.mail;
 import java.util.Map;
 
 public interface MailTemplate {
-    String getSubject();
+	String getSubject();
 
-    String getContent(Map<String, Object> model);
+	String getContent(Map<String, Object> model);
 }

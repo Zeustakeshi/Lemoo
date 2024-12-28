@@ -7,9 +7,9 @@
 package com.lemoo.promotion.common.enums;
 
 public enum VoucherStatus {
-    ACTIVE,
-    NOT_ACTIVE,
-    OPENING, // active and opening
-    NOT_START, // active but not opening
-    ENDED, // active and ended
+	ACTIVE,
+	NOT_ACTIVE,
+	OPENING, // active and opening
+	NOT_START, // active but not opening
+	ENDED, // active and ended
 }

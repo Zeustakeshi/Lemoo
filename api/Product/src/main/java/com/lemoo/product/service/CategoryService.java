@@ -10,15 +10,14 @@ import com.lemoo.product.dto.request.CategoryRequest;
 import com.lemoo.product.dto.response.CategoryResponse;
 import com.lemoo.product.dto.response.PageableResponse;
 import com.lemoo.product.entity.Category;
-
 import java.util.List;
 
 public interface CategoryService {
-    CategoryResponse createCategory(CategoryRequest dto);
+	CategoryResponse createCategory(CategoryRequest dto);
 
-    List<Category> getCategoriesBulk(List<String> categoryIds);
+	List<Category> getCategoriesBulk(List<String> categoryIds);
 
-    List<String> getCategoryPath(String categoryId);
+	List<String> getCategoryPath(String categoryId);
 
-    PageableResponse<CategoryResponse> getAllCategoryByParentId(String parentId, int page, int limit);
+	PageableResponse<CategoryResponse> getAllCategoryByParentId(String parentId, int page, int limit);
 }

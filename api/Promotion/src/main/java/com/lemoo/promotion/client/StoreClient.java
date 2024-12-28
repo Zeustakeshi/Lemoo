@@ -15,6 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @FeignClient(name = "store-service", url = "${services.store-service}/internal")
 public interface StoreClient {
-    @PostMapping("verify")
-    ApiResponse<Boolean> verifyStore(@RequestBody @Valid VerifyStoreRequest request);
+	@PostMapping("verify")
+	ApiResponse<Boolean> verifyStore(@RequestBody @Valid VerifyStoreRequest request);
 }

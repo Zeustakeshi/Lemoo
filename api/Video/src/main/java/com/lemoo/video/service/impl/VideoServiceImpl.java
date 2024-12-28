@@ -6,7 +6,6 @@
 
 package com.lemoo.video.service.impl;
 
-import com.aventrix.jnanoid.jnanoid.NanoIdUtils;
 import com.lemoo.video.common.enums.VideoStatus;
 import com.lemoo.video.dto.common.AuthenticatedAccount;
 import com.lemoo.video.dto.request.UpdateVideoMetadataRequest;

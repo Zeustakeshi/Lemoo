@@ -14,11 +14,10 @@ import lombok.Data;
 
 @Data
 public class DeleteProductImageRequest {
-    @NotNull
-    @Min(1)
-    @Max(3)
-    private Integer type;
+	@NotNull @Min(1)
+	@Max(3)
+	private Integer type;
 
-    @NotEmpty
-    private String imageId;
+	@NotEmpty
+	private String imageId;
 }

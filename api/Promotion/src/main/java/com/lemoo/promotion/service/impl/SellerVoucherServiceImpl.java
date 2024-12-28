@@ -4,7 +4,6 @@
  *  @created 12/27/2024 5:48 PM
  * */
 
-
 package com.lemoo.promotion.service.impl;
 
 import com.lemoo.promotion.client.StoreClient;
@@ -28,65 +27,67 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class SellerVoucherServiceImpl implements SellerVoucherService {
 
-    private final VoucherRepository voucherRepository;
-    private final VoucherMapper voucherMapper;
-    private final StoreClient storeClient;
+	private final VoucherRepository voucherRepository;
+	private final VoucherMapper voucherMapper;
+	private final StoreClient storeClient;
 
-    @Override
-    @CircuitBreaker(name = "store-service", fallbackMethod = "createRegularVoucherFallback")
-    public String createRegularVoucher(String storeId, AuthenticatedAccount account, RegularVoucherRequest request) {
+	@Override
+	@CircuitBreaker(name = "store-service", fallbackMethod = "createRegularVoucherFallback")
+	public String createRegularVoucher(String storeId, AuthenticatedAccount account, RegularVoucherRequest request) {
 
-        verifyStore(account.getId(), storeId);
+		verifyStore(account.getId(), storeId);
 
-        if (voucherRepository.existsByNameAndStoreId(request.getName(), storeId)) {
-            throw new ConflictException("Voucher name already existed in this store");
-        }
+		if (voucherRepository.existsByNameAndStoreId(request.getName(), storeId)) {
+			throw new ConflictException("Voucher name already existed in this store");
+		}
 
-        RegularVoucher voucher = voucherMapper.regularVoucherRequestToRegularVoucher(request);
-        voucher.setStoreId(storeId);
+		RegularVoucher voucher = voucherMapper.regularVoucherRequestToRegularVoucher(request);
+		voucher.setStoreId(storeId);
 
-        if (request.getCollectionStartTime() == null) {
-            voucher.setCollectionStartTime(request.getPeriodStartTime());
-        }
+		if (request.getCollectionStartTime() == null) {
+			voucher.setCollectionStartTime(request.getPeriodStartTime());
+		}
 
-        return voucherRepository.save(voucher).getId();
-    }
+		return voucherRepository.save(voucher).getId();
+	}
 
-    @Override
-    public String createStoreFollowerVoucher(String storeId, AuthenticatedAccount account, StoreFollowerVoucherRequest request) {
-        verifyStore(account.getId(), storeId);
+	@Override
+	public String createStoreFollowerVoucher(
+			String storeId, AuthenticatedAccount account, StoreFollowerVoucherRequest request) {
+		verifyStore(account.getId(), storeId);
 
-        if (voucherRepository.existsByNameAndStoreId(request.getName(), storeId)) {
-            throw new ConflictException("Voucher name already existed in this store");
-        }
+		if (voucherRepository.existsByNameAndStoreId(request.getName(), storeId)) {
+			throw new ConflictException("Voucher name already existed in this store");
+		}
 
-        StoreFollowerVoucher voucher = voucherMapper.storeFollowerVoucherRequestToStoreFollowerVoucher(request);
-        voucher.setStoreId(storeId);
-        voucher.setScope(VoucherScope.ENTIRE_STORE);
+		StoreFollowerVoucher voucher = voucherMapper.storeFollowerVoucherRequestToStoreFollowerVoucher(request);
+		voucher.setStoreId(storeId);
+		voucher.setScope(VoucherScope.ENTIRE_STORE);
 
-        if (request.getCollectionStartTime() == null) {
-            voucher.setCollectionStartTime(request.getPeriodStartTime());
-        }
+		if (request.getCollectionStartTime() == null) {
+			voucher.setCollectionStartTime(request.getPeriodStartTime());
+		}
 
-        if (request.getStoreTimeLimit() == null) {
-            voucher.setStoreTimeLimit(request.getPeriodStartTime().plusDays(7)); // default expire 7 day if customer not use this voucher
-        }
+		if (request.getStoreTimeLimit() == null) {
+			voucher.setStoreTimeLimit(
+					request.getPeriodStartTime().plusDays(7)); // default expire 7 day if customer not use this voucher
+		}
 
-        return voucherRepository.save(voucher).getId();
-    }
+		return voucherRepository.save(voucher).getId();
+	}
 
-    @CircuitBreaker(name = "store-service", fallbackMethod = "createStoreFollowerVoucherFallback")
-    private void verifyStore(String accountId, String storeId) {
-        if (storeClient.verifyStore(new VerifyStoreRequest(accountId, storeId)).getData()) return;
-        throw new ForbiddenException("Can't access this store");
-    }
+	@CircuitBreaker(name = "store-service", fallbackMethod = "createStoreFollowerVoucherFallback")
+	private void verifyStore(String accountId, String storeId) {
+		if (storeClient.verifyStore(new VerifyStoreRequest(accountId, storeId)).getData()) return;
+		throw new ForbiddenException("Can't access this store");
+	}
 
-    private String createRegularVoucherFallback(String storeId, AuthenticatedAccount account, RegularVoucherRequest request, Throwable throwable) {
-        return "Store service is unavailable. Please try again later!";
-    }
+	private String createRegularVoucherFallback(
+			String storeId, AuthenticatedAccount account, RegularVoucherRequest request, Throwable throwable) {
+		return "Store service is unavailable. Please try again later!";
+	}
 
-    public String createStoreFollowerVoucherFallback(String accountId, String storeId, Throwable throwable) {
-        return "Store service is unavailable. Please try again later!";
-    }
-
+	public String createStoreFollowerVoucherFallback(String accountId, String storeId, Throwable throwable) {
+		return "Store service is unavailable. Please try again later!";
+	}
 }

@@ -7,14 +7,13 @@
 package com.lemoo.product.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Document(collection = "categories")
@@ -25,14 +24,14 @@ import java.util.List;
 @CompoundIndexes({@CompoundIndex(unique = true, name = "name_parentId_idx", def = "{'name': 1, 'parentId': 1}")})
 public class Category extends BaseEntity {
 
-    private String name;
-    private String parentId;
+	private String name;
+	private String parentId;
 
-    @Builder.Default
-    private List<String> paths = new ArrayList<>();
+	@Builder.Default
+	private List<String> paths = new ArrayList<>();
 
-    @JsonProperty("isLeaf")
-    private boolean isLeaf;
+	@JsonProperty("isLeaf")
+	private boolean isLeaf;
 
-    private String image;
+	private String image;
 }

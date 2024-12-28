@@ -20,10 +20,17 @@ import java.util.Set;
 @NoArgsConstructor
 @Builder
 public class Store extends BaseEntity {
+
+    @Column(unique = true, nullable = false)
+    private String shortCode;
+
     @Column(unique = true, nullable = false)
     private String name;
 
-    private String avatar;
+    private String logo;
+
+    @Column(unique = true)
+    private String companyName;
 
     @Column(unique = true, nullable = false)
     private String phone;
@@ -38,8 +45,10 @@ public class Store extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private StoreStatus status = StoreStatus.INACTIVE;
 
-    @ElementCollection
-    private Set<String> verifyFailedMessages;
+    @Builder.Default
+    private boolean verified = false;
+
+    private String location;
 
     private StoreType type;
 
@@ -57,5 +66,8 @@ public class Store extends BaseEntity {
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private TaxInformation taxInformation;
+
+    @ElementCollection
+    private Set<String> verifyFailedMessages;
 
 }

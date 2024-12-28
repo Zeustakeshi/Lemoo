@@ -10,5 +10,5 @@ package com.lemoo.store.common.enums;
 public enum StoreStatus {
     ACTIVE,
     INACTIVE,
-    VERIFY_FAILED
+    DELETED
 }

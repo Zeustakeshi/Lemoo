@@ -16,6 +16,7 @@ jobs:
       CLOUDINARY_NAME: ${{secrets.CLOUDINARY_NAME}}
       CLOUDINARY_API_KEY: ${{secrets.CLOUDINARY_API_KEY}}
       CLOUDINARY_API_SECRET: ${{secrets.CLOUDINARY_API_SECRET}}
+      USER_SERVICE_URL: "http://user-service"
     steps:
       - name: checkout
         uses: actions/checkout@v4

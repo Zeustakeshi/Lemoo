@@ -100,8 +100,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public PageableResponse<ProductResponse> getAllProductByStoreId(
-            String storeId, String userId, int page, int limit) {
-        if (!storeService.checkStorePermission(storeId, userId)) {
+            String storeId, AuthenticatedAccount account, int page, int limit) {
+        if (!storeService.checkStorePermission(storeId, account.getId())) {
             throw new ForbiddenException("Only store owner can be view product");
         }
 

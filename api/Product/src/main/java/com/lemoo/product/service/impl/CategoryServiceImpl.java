@@ -67,11 +67,17 @@ public class CategoryServiceImpl implements CategoryService {
             category.setPaths(paths);
         }
 
+        if (dto.getImageUrl() != null) {
+            category.setImage(dto.getImageUrl());
+        }
+
         Category newCategory = categoryRepository.save(category);
 
-        resourceService
-                .uploadImageAsync(dto.getImage().getBytes(), newCategory.getId(), "/categories")
-                .thenAccept((data) -> updateCategoryImage(category.getId(), data.getSecureUrl()));
+        if (dto.getImage() != null) {
+            resourceService
+                    .uploadImageAsync(dto.getImage().getBytes(), newCategory.getId(), "/categories")
+                    .thenAccept((data) -> updateCategoryImage(category.getId(), data.getSecureUrl()));
+        }
 
         return categoryMapper.categoryToCategoryResponse(newCategory);
     }
@@ -108,7 +114,7 @@ public class CategoryServiceImpl implements CategoryService {
                 .orElseThrow(() -> new NotfoundException("Category " + categoryId + " not found"));
     }
 
-    protected void updateCategoryImage(String categoryId, String image) {
+    private void updateCategoryImage(String categoryId, String image) {
         Category category = categoryRepository
                 .findById(categoryId)
                 .orElseThrow(() ->

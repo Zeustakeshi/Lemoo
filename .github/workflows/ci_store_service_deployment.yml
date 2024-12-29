@@ -10,7 +10,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      DB_URL: "postgresql://autorack.proxy.rlwy.net:42217/railway"
+      DB_URL: "jdbc:postgresql://autorack.proxy.rlwy.net:42217/railway"
       DB_USER: "postgres"
       DB_PASSWORD: "hXCLsgiVLjobLOYqusOrLQBSIiQOfBXu"
       CLOUDINARY_NAME: ${{secrets.CLOUDINARY_NAME}}

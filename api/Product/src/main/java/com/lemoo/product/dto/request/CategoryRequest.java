@@ -15,11 +15,9 @@ import org.springframework.web.multipart.MultipartFile;
 @Data
 @Builder
 public class CategoryRequest {
-
-	@NotEmpty
-	private String name;
-
-	private String parentId;
-
-	@NotNull private MultipartFile image;
+    @NotEmpty
+    private String name;
+    private String parentId;
+    @NotNull
+    private MultipartFile image;
 }

@@ -7,34 +7,30 @@
 package com.lemoo.product.mapper;
 
 import com.lemoo.product.dto.request.MediaRequest;
-import com.lemoo.product.dto.request.ProductVariantRequest;
+import com.lemoo.product.dto.request.ProductSkuRequest;
 import com.lemoo.product.dto.response.ProductResponse;
 import com.lemoo.product.dto.response.ProductSimpleResponse;
 import com.lemoo.product.dto.response.ProductVariantResponse;
 import com.lemoo.product.entity.Product;
 import com.lemoo.product.entity.ProductMedia;
-import com.lemoo.product.entity.ProductVariant;
+import com.lemoo.product.entity.ProductSku;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
 public interface ProductMapper {
 
-	@Mapping(target = "image", ignore = true)
-	ProductVariant variantRequestToVariant(ProductVariantRequest request);
+    @Mapping(target = "image", ignore = true)
+    ProductSku productSkuRequestToProductSku(ProductSkuRequest request);
 
-	ProductSimpleResponse productToProductSimpleResponse(Product product);
+    ProductSimpleResponse productToProductSimpleResponse(Product product);
 
-	@Mapping(target = "image", source = "product.smallImage.url")
-	@Mapping(target = "variants", ignore = true)
-	ProductResponse productToProductResponse(Product product);
+    @Mapping(target = "image", source = "product.smallImage.url")
+    @Mapping(target = "variants", ignore = true)
+    ProductResponse productToProductResponse(Product product);
 
-	ProductVariantResponse variantToVariantResponse(ProductVariant variant);
+    ProductVariantResponse variantToVariantResponse(ProductSku variant);
 
-	@Mapping(target = "sellerSku", ignore = true)
-	void updateVariant(ProductVariantRequest request, @MappingTarget ProductVariant variant);
-
-	@Mapping(target = "id", source = "mediaId")
-	ProductMedia mediaRequestToProductMedia(MediaRequest mediaRequest);
+    @Mapping(target = "id", source = "mediaId")
+    ProductMedia mediaRequestToProductMedia(MediaRequest mediaRequest);
 }

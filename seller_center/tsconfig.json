@@ -1,4 +1,8 @@
 {
+  "compilerOptions": {
+    "typeRoots": ["node_modules/@types"],
+    "moduleResolution": "node"
+  },
   "files": [],
   "references": [
     { "path": "./tsconfig.app.json" },

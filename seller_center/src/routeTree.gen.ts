@@ -13,11 +13,17 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+<<<<<<< Updated upstream
 import { Route as StoreCreatStoreImport } from './routes/Store/CreatStore'
+=======
+import { Route as PromotionImport } from './routes/Promotion'
+>>>>>>> Stashed changes
 import { Route as ProductProductManagementImport } from './routes/Product/ProductManagement'
 import { Route as ProductBennerProductsImport } from './routes/Product/BennerProducts'
 import { Route as AuthRegisterImport } from './routes/Auth/Register'
 import { Route as AuthLoginImport } from './routes/Auth/Login'
+import { Route as AccoutFileSellerImport } from './routes/Accout/FileSeller'
+import { Route as AccoutConfirmInfoImport } from './routes/Accout/ConfirmInfo'
 import { Route as AccoutAccoutSettingImport } from './routes/Accout/AccoutSetting'
 
 // Create Virtual Routes
@@ -25,6 +31,12 @@ import { Route as AccoutAccoutSettingImport } from './routes/Accout/AccoutSettin
 const IndexLazyImport = createFileRoute('/')()
 
 // Create/Update Routes
+
+const PromotionRoute = PromotionImport.update({
+  id: '/Promotion',
+  path: '/Promotion',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const IndexLazyRoute = IndexLazyImport.update({
   id: '/',
@@ -62,6 +74,18 @@ const AuthLoginRoute = AuthLoginImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const AccoutFileSellerRoute = AccoutFileSellerImport.update({
+  id: '/Accout/FileSeller',
+  path: '/Accout/FileSeller',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AccoutConfirmInfoRoute = AccoutConfirmInfoImport.update({
+  id: '/Accout/ConfirmInfo',
+  path: '/Accout/ConfirmInfo',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const AccoutAccoutSettingRoute = AccoutAccoutSettingImport.update({
   id: '/Accout/AccoutSetting',
   path: '/Accout/AccoutSetting',
@@ -79,11 +103,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexLazyImport
       parentRoute: typeof rootRoute
     }
+    '/Promotion': {
+      id: '/Promotion'
+      path: '/Promotion'
+      fullPath: '/Promotion'
+      preLoaderRoute: typeof PromotionImport
+      parentRoute: typeof rootRoute
+    }
     '/Accout/AccoutSetting': {
       id: '/Accout/AccoutSetting'
       path: '/Accout/AccoutSetting'
       fullPath: '/Accout/AccoutSetting'
       preLoaderRoute: typeof AccoutAccoutSettingImport
+      parentRoute: typeof rootRoute
+    }
+    '/Accout/ConfirmInfo': {
+      id: '/Accout/ConfirmInfo'
+      path: '/Accout/ConfirmInfo'
+      fullPath: '/Accout/ConfirmInfo'
+      preLoaderRoute: typeof AccoutConfirmInfoImport
+      parentRoute: typeof rootRoute
+    }
+    '/Accout/FileSeller': {
+      id: '/Accout/FileSeller'
+      path: '/Accout/FileSeller'
+      fullPath: '/Accout/FileSeller'
+      preLoaderRoute: typeof AccoutFileSellerImport
       parentRoute: typeof rootRoute
     }
     '/Auth/Login': {
@@ -128,7 +173,10 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
+  '/Promotion': typeof PromotionRoute
   '/Accout/AccoutSetting': typeof AccoutAccoutSettingRoute
+  '/Accout/ConfirmInfo': typeof AccoutConfirmInfoRoute
+  '/Accout/FileSeller': typeof AccoutFileSellerRoute
   '/Auth/Login': typeof AuthLoginRoute
   '/Auth/Register': typeof AuthRegisterRoute
   '/Product/BennerProducts': typeof ProductBennerProductsRoute
@@ -138,7 +186,10 @@ export interface FileRoutesByFullPath {
 
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
+  '/Promotion': typeof PromotionRoute
   '/Accout/AccoutSetting': typeof AccoutAccoutSettingRoute
+  '/Accout/ConfirmInfo': typeof AccoutConfirmInfoRoute
+  '/Accout/FileSeller': typeof AccoutFileSellerRoute
   '/Auth/Login': typeof AuthLoginRoute
   '/Auth/Register': typeof AuthRegisterRoute
   '/Product/BennerProducts': typeof ProductBennerProductsRoute
@@ -149,7 +200,10 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexLazyRoute
+  '/Promotion': typeof PromotionRoute
   '/Accout/AccoutSetting': typeof AccoutAccoutSettingRoute
+  '/Accout/ConfirmInfo': typeof AccoutConfirmInfoRoute
+  '/Accout/FileSeller': typeof AccoutFileSellerRoute
   '/Auth/Login': typeof AuthLoginRoute
   '/Auth/Register': typeof AuthRegisterRoute
   '/Product/BennerProducts': typeof ProductBennerProductsRoute
@@ -161,7 +215,10 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/Promotion'
     | '/Accout/AccoutSetting'
+    | '/Accout/ConfirmInfo'
+    | '/Accout/FileSeller'
     | '/Auth/Login'
     | '/Auth/Register'
     | '/Product/BennerProducts'
@@ -170,7 +227,10 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/Promotion'
     | '/Accout/AccoutSetting'
+    | '/Accout/ConfirmInfo'
+    | '/Accout/FileSeller'
     | '/Auth/Login'
     | '/Auth/Register'
     | '/Product/BennerProducts'
@@ -179,7 +239,10 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/Promotion'
     | '/Accout/AccoutSetting'
+    | '/Accout/ConfirmInfo'
+    | '/Accout/FileSeller'
     | '/Auth/Login'
     | '/Auth/Register'
     | '/Product/BennerProducts'
@@ -190,7 +253,10 @@ export interface FileRouteTypes {
 
 export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
+  PromotionRoute: typeof PromotionRoute
   AccoutAccoutSettingRoute: typeof AccoutAccoutSettingRoute
+  AccoutConfirmInfoRoute: typeof AccoutConfirmInfoRoute
+  AccoutFileSellerRoute: typeof AccoutFileSellerRoute
   AuthLoginRoute: typeof AuthLoginRoute
   AuthRegisterRoute: typeof AuthRegisterRoute
   ProductBennerProductsRoute: typeof ProductBennerProductsRoute
@@ -200,7 +266,10 @@ export interface RootRouteChildren {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
+  PromotionRoute: PromotionRoute,
   AccoutAccoutSettingRoute: AccoutAccoutSettingRoute,
+  AccoutConfirmInfoRoute: AccoutConfirmInfoRoute,
+  AccoutFileSellerRoute: AccoutFileSellerRoute,
   AuthLoginRoute: AuthLoginRoute,
   AuthRegisterRoute: AuthRegisterRoute,
   ProductBennerProductsRoute: ProductBennerProductsRoute,
@@ -219,7 +288,10 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/Promotion",
         "/Accout/AccoutSetting",
+        "/Accout/ConfirmInfo",
+        "/Accout/FileSeller",
         "/Auth/Login",
         "/Auth/Register",
         "/Product/BennerProducts",
@@ -230,8 +302,17 @@ export const routeTree = rootRoute
     "/": {
       "filePath": "index.lazy.tsx"
     },
+    "/Promotion": {
+      "filePath": "Promotion.tsx"
+    },
     "/Accout/AccoutSetting": {
       "filePath": "Accout/AccoutSetting.tsx"
+    },
+    "/Accout/ConfirmInfo": {
+      "filePath": "Accout/ConfirmInfo.tsx"
+    },
+    "/Accout/FileSeller": {
+      "filePath": "Accout/FileSeller.tsx"
     },
     "/Auth/Login": {
       "filePath": "Auth/Login.tsx"

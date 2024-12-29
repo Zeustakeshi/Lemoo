@@ -2,8 +2,7 @@ name: video_service_deployment
 on:
   push:
     branches:
-      - dev
-      - test
+      - test/deployment
     paths:
       - 'api/Video/**'
       - '.github/workflows/ci_video_service_deployment.yml'
@@ -11,8 +10,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      MONGODB_URI: ${{ secrets.VIDEO_MONGODB_URI }}
-      MONGODB_NAME: ${{secrets.VIDEO_MONGODB_NAME}}
+      MONGODB_URI: "mongodb://mongo:ZtjNLKQjbAHlnkUQKzOkidDzYGrvzCWJ@junction.proxy.rlwy.net:11119"
+      MONGODB_NAME: "test"
+      REDIS_URL: "redis://default:hovDOohHiYeJpiyTswgtSnjUvowWKXsA@autorack.proxy.rlwy.net:23925"
       CLOUDINARY_NAME: ${{secrets.CLOUDINARY_NAME}}
       CLOUDINARY_API_KEY: ${{secrets.CLOUDINARY_API_KEY}}
       CLOUDINARY_API_SECRET: ${{secrets.CLOUDINARY_API_SECRET}}

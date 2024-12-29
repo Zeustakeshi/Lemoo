@@ -2,8 +2,7 @@ name: user_service_deployment
 on:
   push:
     branches:
-      - dev
-      - test
+      - test/deployment
     paths:
       - 'api/User/**'
       - '.github/workflows/ci_user_service_deployment.yml'
@@ -11,9 +10,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      DB_URL: ${{ secrets.USER_DATABASE_URL }}
-      DB_USER: ${{ secrets.USER_DB_USER }}
-      DB_PASSWORD: ${{ secrets.USER_DB_PASSWORD }}
+      DB_URL: "jdbc:postgresql://junction.proxy.rlwy.net:41025/railway"
+      DB_USER: "postgres"
+      DB_PASSWORD: "EoYnDHaHzfqLFzTfDlvRgwhTrxFGbRIr"
     steps:
       - name: checkout
         uses: actions/checkout@v4

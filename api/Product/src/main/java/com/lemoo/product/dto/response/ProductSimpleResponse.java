@@ -6,16 +6,18 @@
 
 package com.lemoo.product.dto.response;
 
-import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductSimpleResponse {
-	private String id;
-	private String productSku;
-	private LocalDateTime createdAt;
+    private String id;
+    private List<ProductSkuSimpleResponse> skus;
+    private LocalDateTime updatedAt;
 }

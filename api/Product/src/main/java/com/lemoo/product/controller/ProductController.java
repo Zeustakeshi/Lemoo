@@ -23,30 +23,24 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class ProductController {
 
-	private final ProductService productService;
+    private final ProductService productService;
 
-	//    @PostMapping
-	//    @ResponseStatus(HttpStatus.CREATED)
-	//    public ApiResponse<?> createProduct(@RequestHeader(STORE_ID_REQUEST_HEADER) String storeId) {
-	//        String fakeUserId = NanoIdUtils.randomNanoId();
-	//        return ApiResponse.success(productService.createProduct(storeId, fakeUserId));
-	//    }
 
-	@PostMapping()
-	@ResponseStatus(HttpStatus.CREATED)
-	public ApiResponse<?> updateProduct(
-			@RequestHeader(CustomRequestHeader.STORE_ID) String storeId,
-			@RequestBody @Valid ProductRequest request,
-			@AuthenticationPrincipal AuthenticatedAccount account) {
-		return ApiResponse.success(productService.createProduct(storeId, account, request));
-	}
+    @PostMapping()
+    @ResponseStatus(HttpStatus.CREATED)
+    public ApiResponse<?> createProduct(
+            @RequestHeader(CustomRequestHeader.STORE_ID) String storeId,
+            @RequestBody @Valid ProductRequest request,
+            @AuthenticationPrincipal AuthenticatedAccount account) {
+        return ApiResponse.success(productService.createProduct(storeId, account, request));
+    }
 
-	@GetMapping()
-	public ApiResponse<?> getAllProduct(
-			@RequestHeader(CustomRequestHeader.STORE_ID) String storeId,
-			@RequestParam(value = "page", required = false, defaultValue = "0") int page,
-			@RequestParam(value = "limit", required = false, defaultValue = "10") int limit) {
-		String fakeUserId = NanoIdUtils.randomNanoId();
-		return ApiResponse.success(productService.getAllProductByStoreId(storeId, fakeUserId, page, limit));
-	}
+    @GetMapping()
+    public ApiResponse<?> getAllProduct(
+            @RequestHeader(CustomRequestHeader.STORE_ID) String storeId,
+            @RequestParam(value = "page", required = false, defaultValue = "0") int page,
+            @RequestParam(value = "limit", required = false, defaultValue = "10") int limit) {
+        String fakeUserId = NanoIdUtils.randomNanoId();
+        return ApiResponse.success(productService.getAllProductByStoreId(storeId, fakeUserId, page, limit));
+    }
 }

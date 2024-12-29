@@ -1,17 +1,18 @@
-name: product_service_deployment
+name: media_service_deployment
 on:
   push:
     branches:
       - test/deployment
     paths:
-      - 'api/Product/**'
-      - '.github/workflows/ci_product_service_deployment.yml'
+      - 'api/Media/**'
+      - '.github/workflows/ci_media_service_deployment.yml'
 jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      MONGODB_URI: "mongodb://mongo:tzYnUbMPZlrHCJJYlkRlLLCaDLFSuSQv@junction.proxy.rlwy.net:22552"
+      MONGODB_URI: "mongodb://mongo:OmZbFuGbuBGhqZuDMZIJByHKWLLnWJol@autorack.proxy.rlwy.net:28767"
       MONGODB_NAME: "test"
+      REDIS_URL: "redis://default:DTWQpcTvUzplyWZdUMgtJHwiZGEVOnQk@junction.proxy.rlwy.net:39583"
       CLOUDINARY_NAME: ${{secrets.CLOUDINARY_NAME}}
       CLOUDINARY_API_KEY: ${{secrets.CLOUDINARY_API_KEY}}
       CLOUDINARY_API_SECRET: ${{secrets.CLOUDINARY_API_SECRET}}
@@ -25,15 +26,15 @@ jobs:
           distribution: 'temurin'
           cache: maven
       - name: Build with Maven
-        working-directory: ./api/Product
+        working-directory: ./api/Media
         run: mvn clean package
       - name: Build the Docker image
-        working-directory: ./api/Product
-        run: docker build . --file Dockerfile --tag zeustakeshi/lemoo-product-service:latest
+        working-directory: ./api/Media
+        run: docker build . --file Dockerfile --tag zeustakeshi/lemoo-media-service:latest
       - name: login Dockerhub
         run: |
           docker login -u "zeustakeshi" -p ${{ secrets.DOCKER_HUB_TOKEN }}
-          docker push zeustakeshi/lemoo-product-service:latest
+          docker push zeustakeshi/lemoo-media-service:latest
           
           
           

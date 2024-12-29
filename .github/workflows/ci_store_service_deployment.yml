@@ -2,8 +2,7 @@ name: store_service_deployment
 on:
   push:
     branches:
-      - dev
-      - test
+      - test/deployment
     paths:
       - 'api/Store/**'
       - '.github/workflows/ci_store_service_deployment.yml'
@@ -11,9 +10,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      DB_URL: ${{ secrets.STORE_DATABASE_URL }}
-      DB_USER: ${{ secrets.STORE_DB_USER }}
-      DB_PASSWORD: ${{ secrets.STORE_DB_PASSWORD }}
+      DB_URL: "postgresql://autorack.proxy.rlwy.net:42217/railway"
+      DB_USER: "postgres"
+      DB_PASSWORD: "hXCLsgiVLjobLOYqusOrLQBSIiQOfBXu"
       CLOUDINARY_NAME: ${{secrets.CLOUDINARY_NAME}}
       CLOUDINARY_API_KEY: ${{secrets.CLOUDINARY_API_KEY}}
       CLOUDINARY_API_SECRET: ${{secrets.CLOUDINARY_API_SECRET}}

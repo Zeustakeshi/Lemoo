@@ -32,6 +32,8 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class CategoryServiceImpl implements CategoryService {
+    private static final Integer MAXIMUM_DEPTH_LEVEL = 4;
+
     private final CategoryRepository categoryRepository;
     private final CategoryClient categoryClient;
     private final CategoryMapper categoryMapper;
@@ -52,18 +54,24 @@ public class CategoryServiceImpl implements CategoryService {
                 .code(skuCodeService.generateCategorySku())
                 .build();
 
+        List<String> paths = new ArrayList<>();
+
         if (dto.getParentId() != null) {
             Category parent = categoryRepository
                     .findById(dto.getParentId())
                     .orElseThrow(
                             () -> new NotfoundException("Category with id: " + dto.getParentId() + " doesn't exist"));
-            parent.setLeaf(false);
-            categoryRepository.save(parent);
-            category.setParentId(parent.getId());
 
-            // update category path
-            List<String> paths = new ArrayList<>(List.copyOf(parent.getPaths()));
-            paths.add(dto.getParentId());
+            if (parent.getPaths().size() < MAXIMUM_DEPTH_LEVEL) {
+                parent.setLeaf(false);
+                categoryRepository.save(parent);
+                category.setParentId(parent.getId());
+                paths = new ArrayList<>(List.copyOf(parent.getPaths()));
+                paths.add(dto.getParentId());
+            } else {
+                category.setParentId(parent.getParentId());
+                paths = new ArrayList<>(List.copyOf(parent.getPaths()));
+            }
             category.setPaths(paths);
         }
 

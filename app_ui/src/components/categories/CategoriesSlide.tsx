@@ -1,9 +1,9 @@
 import { getCategories } from "@/api/category.api";
 import { CategoryResponse } from "@/common/type/categories";
 import { useQuery } from "@tanstack/react-query";
-import { Link } from "expo-router";
+import { router } from "expo-router";
 import React from "react";
-import { FlatList, Image, Text, View } from "react-native";
+import { FlatList, Image, Pressable, Text, View } from "react-native";
 
 type Props = {};
 
@@ -17,9 +17,20 @@ const CategoriesSlide = (props: Props) => {
         <View className="">
             <View className="flex-row justify-between items-center gap-3 my-3">
                 <Text className="text-xl font-semibold">Dạnh mục</Text>
-                <Link href="/categories/">
-                    <Text className="text-primary">Xem tất cả </Text>{" "}
-                </Link>
+                {categories?.content && (
+                    <Pressable
+                        onPress={() =>
+                            router.push({
+                                pathname: "/categories/[categoryId]",
+                                params: {
+                                    categoryId: categories?.content[0].id,
+                                },
+                            })
+                        }
+                    >
+                        <Text className="text-primary">Xem tất cả </Text>
+                    </Pressable>
+                )}
             </View>
             <FlatList
                 data={categories?.content ?? []}
@@ -44,7 +55,7 @@ const CategoryItem = ({ category }: CateGoryItemProps) => {
                     resizeMode="cover"
                     className="w-full h-full"
                     source={{
-                        uri: "https://api.multiavatar.com/Binx Bond.png",
+                        uri: category.image,
                     }}
                 ></Image>
             </View>

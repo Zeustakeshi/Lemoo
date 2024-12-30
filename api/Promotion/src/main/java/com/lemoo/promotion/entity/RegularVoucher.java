@@ -15,8 +15,7 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
-public class RegularVoucher extends Voucher {
-
-	@Builder.Default
-	private final VoucherType voucherType = VoucherType.REGULAR_VOUCHER;
+public class RegularVoucher extends SellerVoucher {
+    @Builder.Default
+    private final VoucherType voucherType = VoucherType.REGULAR_VOUCHER;
 }

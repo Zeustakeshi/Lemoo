@@ -7,18 +7,16 @@
 package com.lemoo.promotion.mapper;
 
 import com.lemoo.promotion.dto.request.RegularVoucherRequest;
-import com.lemoo.promotion.dto.request.StoreFollowerVoucherRequest;
 import com.lemoo.promotion.dto.response.VoucherDetailResponse;
 import com.lemoo.promotion.entity.RegularVoucher;
-import com.lemoo.promotion.entity.StoreFollowerVoucher;
-import com.lemoo.promotion.entity.Voucher;
+import com.lemoo.promotion.entity.SellerVoucher;
 import org.mapstruct.Mapper;
 
 @Mapper
 public interface VoucherMapper {
-	VoucherDetailResponse toVoucherResponse(Voucher voucher);
+    VoucherDetailResponse toVoucherResponse(SellerVoucher sellerVoucher);
 
-	RegularVoucher regularVoucherRequestToRegularVoucher(RegularVoucherRequest request);
+    RegularVoucher regularVoucherRequestToRegularVoucher(RegularVoucherRequest request);
 
-	StoreFollowerVoucher storeFollowerVoucherRequestToStoreFollowerVoucher(StoreFollowerVoucherRequest request);
+    StoreFollowerSellerVoucher storeFollowerVoucherRequestToStoreFollowerVoucher(StoreFollowerVoucherRequest request);
 }

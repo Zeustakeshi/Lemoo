@@ -18,11 +18,12 @@ const LayoutRoutes = () => {
         </div>
         {open && (
           <div>
-            <NavItem to="/SanPham/ThemSanPham" primaryText="Them San Pham" />
+            <NavItem to="/Product/AddProduct" primaryText="Them San Pham" />
             <NavItem
               to="/Product/ProductManagement"
               primaryText="Quan Ly San Pham"
             />
+
             <NavItem
               to="/Product/BennerProducts"
               primaryText="Benner San Pham"
@@ -36,6 +37,7 @@ const LayoutRoutes = () => {
         <NavItem to="/Accout/AccoutSetting" primaryText="Tài Khoản" />
         <NavItem to="/Store/CreatStore" primaryText="Creat Store" />
         <NavItem to="/Hoang" primaryText="HomePageUI" />
+        <NavItem to="/Test" primaryText="Thử" />
       </List>
       <Divider />
     </>

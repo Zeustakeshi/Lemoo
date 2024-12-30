@@ -6,14 +6,15 @@
 
 package com.lemoo.promotion.repository;
 
-import com.lemoo.promotion.entity.Voucher;
-import java.util.Optional;
+import com.lemoo.promotion.entity.SellerVoucher;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
-@Repository
-public interface VoucherRepository extends MongoRepository<Voucher, String> {
-	Optional<Voucher> findByNameAndStoreId(String name, String storeId);
+import java.util.Optional;
 
-	boolean existsByNameAndStoreId(String name, String storeId);
+@Repository
+public interface VoucherRepository extends MongoRepository<SellerVoucher, String> {
+    Optional<SellerVoucher> findByNameAndStoreId(String name, String storeId);
+
+    boolean existsByNameAndStoreId(String name, String storeId);
 }

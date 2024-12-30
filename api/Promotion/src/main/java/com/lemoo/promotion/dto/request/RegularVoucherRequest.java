@@ -17,6 +17,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegularVoucherRequest extends BaseVoucherRequest {
-	@NotNull private VoucherScope scope;
+public class RegularVoucherRequest extends SellerVoucherRequest {
+    @NotNull
+    private VoucherScope scope;
 }

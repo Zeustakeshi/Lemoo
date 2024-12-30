@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface VoucherRepository extends MongoRepository<SellerVoucher, String> {
+public interface SellerVoucherRepository extends MongoRepository<SellerVoucher, String> {
     Optional<SellerVoucher> findByNameAndStoreId(String name, String storeId);
 
     boolean existsByNameAndStoreId(String name, String storeId);

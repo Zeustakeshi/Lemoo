@@ -6,12 +6,10 @@
 
 package com.lemoo.store.config;
 
-
 import com.lemoo.store.common.properties.ServiceUrl;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @EnableConfigurationProperties({ServiceUrl.class})
-public class ApplicationConfig {
-}
+public class ApplicationConfig {}

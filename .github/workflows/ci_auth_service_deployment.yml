@@ -2,17 +2,18 @@ name: auth_service_deployment
 on:
   push:
     branches:
-      - dev
+      - test/deployment
     paths:
       - 'api/Auth/**'
+      - '.github/workflows/ci_auth_service_deployment.yml'
 jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      DB_URL: ${{ secrets.AUTH_DATABASE_URL }}
-      DB_USER: ${{ secrets.AUTH_DB_USER }}
-      DB_PASSWORD: ${{ secrets.AUTH_DB_PASSWORD }}
-      REDIS_URL: ${{ secrets.AUTH_REDIS_URL }}
+      DB_URL: "jdbc:postgresql://autorack.proxy.rlwy.net:27336/railway" # test
+      DB_USER: "postgres" # test
+      DB_PASSWORD: "ZxuVOaDentkzNdMpGykQkxXIwKMNtheT" # test
+      REDIS_URL: "redis://default:WGNcjvvnegSjOuVcyxrOtjhiQAMaihfh@autorack.proxy.rlwy.net:26682" # test
     steps:
       - name: checkout
         uses: actions/checkout@v4

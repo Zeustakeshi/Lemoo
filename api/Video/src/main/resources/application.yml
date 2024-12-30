@@ -1,0 +1,42 @@
+spring:
+  application:
+    name: video-service
+  data:
+    mongodb:
+      uri: ${MONGODB_URI}
+      database: ${MONGODB_NAME}
+      auto-index-creation: true
+  jackson:
+    default-property-inclusion: non_null
+    serialization:
+      fail-on-empty-beans: false
+      close-closeable: true
+      flush-after-write-value: true
+      write-date-keys-as-timestamps: false
+    deserialization:
+      fail-on-unknown-properties: false
+  servlet:
+    multipart:
+      max-request-size: 10MB
+      enabled: true
+      max-file-size: 8MB
+server:
+  port: 8092
+  servlet:
+    context-path: /videos
+services:
+  auth-service: ${AUTH_SERVICE_URL:http://localhost:8082/auth}
+  user-service: ${USER_SERVICE_URL}
+cloudinary:
+  cloud-name: ${CLOUDINARY_NAME}
+  api-key: ${CLOUDINARY_API_KEY}
+  api-secret: ${CLOUDINARY_API_SECRET}
+  dir-prefix: "lemoo/videos/"
+  secure-url-expire-in: 2 # 2 hour
+
+assets:
+  default-channel-avatar: "https://res.cloudinary.com/dymmvrufy/image/upload/v1734370908/Lemoo/videos/channels/avatars/default-avatar.webp"
+  default-channel-background: "https://res.cloudinary.com/dymmvrufy/image/upload/v1734371593/Lemoo/videos/channels/backgrounds/default-background.webp"
+
+cache:
+  redis_url: ${REDIS_URL}

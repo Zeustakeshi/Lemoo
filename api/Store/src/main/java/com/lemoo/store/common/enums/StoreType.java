@@ -7,6 +7,6 @@
 package com.lemoo.store.common.enums;
 
 public enum StoreType {
-    INDIVIDUAL,
-    CORPORATE
+	INDIVIDUAL,
+	CORPORATE
 }

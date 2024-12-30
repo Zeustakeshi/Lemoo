@@ -41,6 +41,7 @@ const Button = ({
                     "border-primary border": variant === "outline",
                     "!px-1 !py-1": size === "icon" || variant === "link",
                     "!bg-primary/70": disabled,
+                    "!bg-slate-100": disabled && variant === "ghost",
                     "px-3 py-2": size === "sm",
                     "p-2": size === "icon",
                 },

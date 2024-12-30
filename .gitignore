@@ -1,3 +1,8 @@
 /keys/refreshToken/
 /keys/accessToken/
 /env
+/api/Workers/env
+/docs
+/deployment/env/**
+/deployment-private
+/api/Workers

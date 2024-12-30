@@ -1,11 +1,13 @@
 import { AuthProvider } from "@/context/AuthContext";
+import { store } from "@/store/store";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Stack } from "expo-router";
+import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
-import React from "react";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { useCallback, useEffect, useState } from "react";
+import { Image, View } from "react-native";
 import Toast from "react-native-toast-message";
+import { Provider } from "react-redux";
 import "../global.css";
 
 export const unstable_settings = {
@@ -17,9 +19,39 @@ export const unstable_settings = {
 const queryClient = new QueryClient();
 
 const RootLayout = () => {
+    const [appIsReady, setAppIsReady] = useState(false);
+
+    useEffect(() => {
+        const prepare = async () => {
+            // await sleep(0);
+        };
+        prepare().then(() => {
+            setAppIsReady(true);
+        });
+    }, []);
+
+    const onLayoutRootView = useCallback(() => {
+        if (appIsReady) {
+            SplashScreen.hide();
+        }
+    }, [appIsReady]);
+
+    if (!appIsReady) {
+        return (
+            <View className="flex-1 bg-white justify-center items-center">
+                <View className="size-[300]">
+                    <Image
+                        className="w-full h-full object-contain"
+                        source={require("../assets/images/Android/ic_launcher_google_play.png")}
+                    ></Image>
+                </View>
+            </View>
+        );
+    }
+
     return (
-        <SafeAreaView className="flex-1 bg-white">
-            <GestureHandlerRootView>
+        <Provider store={store}>
+            <View onLayout={onLayoutRootView} className="flex-1 bg-white">
                 <QueryClientProvider client={queryClient}>
                     <AuthProvider>
                         <Stack>
@@ -31,24 +63,24 @@ const RootLayout = () => {
                             ></Stack.Screen>
 
                             <Stack.Screen
-                                name="shorts/videos"
-                                options={{
-                                    headerShown: false,
-                                }}
-                            ></Stack.Screen>
-
-                            <Stack.Screen
-                                name="shorts/channel/[channelId]"
-                                options={{
-                                    headerShown: false,
-                                }}
-                            ></Stack.Screen>
-
-                            <Stack.Screen
                                 name="index"
                                 options={{
                                     headerShown: false,
                                 }}
+                            ></Stack.Screen>
+
+                            <Stack.Screen
+                                options={{
+                                    headerShown: false,
+                                }}
+                                name="shorts"
+                            ></Stack.Screen>
+
+                            <Stack.Screen
+                                options={{
+                                    headerShown: false,
+                                }}
+                                name="categories"
                             ></Stack.Screen>
 
                             <Stack.Screen
@@ -68,6 +100,7 @@ const RootLayout = () => {
                             <Stack.Screen
                                 name="(tabs)"
                                 options={{
+                                    freezeOnBlur: false,
                                     headerShown: false,
                                 }}
                             ></Stack.Screen>
@@ -76,8 +109,8 @@ const RootLayout = () => {
                 </QueryClientProvider>
                 <Toast />
                 <StatusBar style="auto" />
-            </GestureHandlerRootView>
-        </SafeAreaView>
+            </View>
+        </Provider>
     );
 };
 

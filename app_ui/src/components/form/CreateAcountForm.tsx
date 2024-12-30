@@ -82,7 +82,7 @@ const CreateAcountForm = ({}: Props) => {
             Toast.show({
                 type: "error",
                 text1: "Tạo tài khoản thất bại",
-                text2: JSON.stringify(error),
+                text2: error.message,
             });
         }
     };

@@ -1,12 +1,16 @@
+import { CommentResponse } from "@/common/type/shorts.type";
 import Avatar, { AvatarImage } from "@/components/ui/Avatar";
-import Button from "@/components/ui/Button";
-import { AntDesign } from "@expo/vector-icons";
+import moment from "moment";
 import React from "react";
 import { Text, View } from "react-native";
+import CommentReaction from "./CommentReaction";
 
-type Props = {};
+type Props = {
+    comment: CommentResponse;
+    videoId: string;
+};
 
-const CommentItem = (props: Props) => {
+const CommentItem = ({ videoId, comment }: Props) => {
     return (
         <View className="flex flex-row gap-x-2 justify-start items-start mb-4">
             <Avatar size={40}>
@@ -17,31 +21,15 @@ const CommentItem = (props: Props) => {
             <View>
                 <View className="flex flex-row justify-start items-center gap-x-3">
                     <Text className="text-sm font-medium">@minhhieu</Text>
-                    <Text className="text-sm  text-muded">20 phút trước</Text>
+                    <Text className="text-sm  text-muded">
+                        {moment(comment.updatedAt).toNow()}
+                    </Text>
                 </View>
-                <Text className="my-2 max-w-[90%]">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                    Dolorum perspiciatis delectus dolore quisquam repudiandae
-                    dolores repellendus eligendi, sint molestiae consectetur
-                    beatae quis totam architecto amet quas doloremque autem
-                    incidunt. Cupiditate.
-                </Text>
-                <View className="flex flex-row justify-start items-center gap-x-4">
-                    <Button variant="ghost" size="icon">
-                        <AntDesign name="like2" size={18} color="black" />
-                    </Button>
-                    <Button variant="ghost" size="icon">
-                        <AntDesign name="dislike2" size={18} color="black" />
-                    </Button>
-                    <Button variant="ghost" size="icon">
-                        <AntDesign name="message1" size={18} color="black" />
-                    </Button>
-                    <Button variant="link" size="icon">
-                        <Text className="font-semibold text-primary">
-                            2 phản hồi
-                        </Text>
-                    </Button>
-                </View>
+                <Text className="my-2 max-w-[90%]">{comment.content}</Text>
+                <CommentReaction
+                    videoId={videoId}
+                    comment={comment}
+                ></CommentReaction>
             </View>
         </View>
     );

@@ -36,6 +36,7 @@ public class JwtConfig {
 	public JwtEncoder accessTokenEncoder() {
 		JWK jwk = new RSAKey.Builder(keyService.getAccessTokenPublicKey())
 				.privateKey(keyService.getAccessTokenPrivateKey())
+				.keyID("lemoo-client")
 				.build();
 		JWKSource<SecurityContext> jwkSource = new ImmutableJWKSet<>(new JWKSet(jwk));
 

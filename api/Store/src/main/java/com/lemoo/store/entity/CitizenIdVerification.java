@@ -4,7 +4,6 @@
  *  @created 12/10/2024 1:37 PM
  * */
 
-
 package com.lemoo.store.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -21,19 +20,17 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class CitizenIdVerification extends BaseEntity {
-    @Column(nullable = false)
-    private String cardName;
+	@Column(nullable = false)
+	private String cardName;
 
-    @Column(nullable = false)
-    private String cardNumber;
+	@Column(nullable = false)
+	private String cardNumber;
 
-    private String documentFrontSide; // image url
+	private String documentFrontSide; // image url
 
-    private String documentBackSide; // image url
+	private String documentBackSide; // image url
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
-    private Store store;
-
-
+	@OneToOne(fetch = FetchType.LAZY)
+	@JsonIgnore
+	private Store store;
 }

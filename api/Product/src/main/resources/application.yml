@@ -1,0 +1,31 @@
+spring:
+  application:
+    name: product-service
+  data:
+    mongodb:
+      uri: ${MONGODB_URI}
+      database: ${MONGODB_NAME}
+      auto-index-creation: true
+  jackson:
+    default-property-inclusion: non_null
+    serialization:
+      fail-on-empty-beans: false
+      close-closeable: true
+      flush-after-write-value: true
+      write-date-keys-as-timestamps: false
+    deserialization:
+      fail-on-unknown-properties: false
+server:
+  port: 8090
+#  servlet:
+#    context-path: /products
+services:
+  auth-service: ${AUTH_SERVICE_URL:http://localhost:8082/auth}
+  store-service: ${STORE_SERVICE_URL:http://localhost:8088/store}
+
+cloudinary:
+  cloud-name: ${CLOUDINARY_NAME}
+  api-key: ${CLOUDINARY_API_KEY}
+  api-secret: ${CLOUDINARY_API_SECRET}
+  dir-prefix: "lemoo/products"
+  secure-url-expire-in: 2 # 2 hour

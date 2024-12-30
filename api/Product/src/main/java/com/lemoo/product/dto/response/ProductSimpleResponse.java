@@ -11,12 +11,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductSimpleResponse {
     private String id;
-    private String productSku;
-    private LocalDateTime createdAt;
+    private List<ProductSkuSimpleResponse> skus;
+    private LocalDateTime updatedAt;
 }

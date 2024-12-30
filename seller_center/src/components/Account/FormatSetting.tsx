@@ -123,12 +123,11 @@ const ListTile = [{
 }]
 
 
-
 function FormatSetting() {
     return (
         <>
             {ListTile.map((items, index) => (
-                <div className='block mt-5' key={index} >
+                <a className='block mt-5' key={index} href='FileSeller' >
                     <h1 className='text-[20px] font-bold '>{items.title}</h1>
                     <div className='flex flex-wrap gap-[20px] mt-2 justify-start'>
                         {/* Phần lặp lại */}
@@ -145,7 +144,7 @@ function FormatSetting() {
                             </div>
                         ))}
                     </div>
-                </div>
+                </a>
             ))}
         </>
     )

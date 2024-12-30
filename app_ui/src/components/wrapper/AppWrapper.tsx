@@ -12,6 +12,7 @@ const AppWrapper = ({ children, className }: Props) => {
         <SafeAreaView
             style={{
                 maxWidth: width,
+                width,
             }}
             className={`flex-1  bg-white p-4 ${className}`}
         >

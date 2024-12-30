@@ -2,8 +2,7 @@ name: product_service_deployment
 on:
   push:
     branches:
-      - dev
-      - test
+      - test/deployment
     paths:
       - 'api/Product/**'
       - '.github/workflows/ci_product_service_deployment.yml'
@@ -11,8 +10,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      MONGODB_URI: ${{ secrets.PRODUCT_MONGODB_URI }}
-      MONGODB_NAME: ${{secrets.PRODUCT_MONGODB_NAME}}
+      MONGODB_URI: "mongodb://mongo:tzYnUbMPZlrHCJJYlkRlLLCaDLFSuSQv@junction.proxy.rlwy.net:22552"
+      MONGODB_NAME: "test"
       CLOUDINARY_NAME: ${{secrets.CLOUDINARY_NAME}}
       CLOUDINARY_API_KEY: ${{secrets.CLOUDINARY_API_KEY}}
       CLOUDINARY_API_SECRET: ${{secrets.CLOUDINARY_API_SECRET}}

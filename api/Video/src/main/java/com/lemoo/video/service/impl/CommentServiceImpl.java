@@ -21,7 +21,9 @@ import com.lemoo.video.mapper.PageMapper;
 import com.lemoo.video.repository.CommentReactionRepository;
 import com.lemoo.video.repository.CommentRepository;
 import com.lemoo.video.repository.VideoRepository;
+import com.lemoo.video.service.CommentCacheService;
 import com.lemoo.video.service.CommentService;
+import com.lemoo.video.service.UserCacheService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -38,6 +40,8 @@ public class CommentServiceImpl implements CommentService {
 	private final CommentMapper commentMapper;
 	private final PageMapper pageMapper;
 	private final CommentReactionRepository commentReactionRepository;
+	private final CommentCacheService commentCacheService;
+	private final UserCacheService userCacheService;
 
 	@Override
 	@Transactional
@@ -62,7 +66,11 @@ public class CommentServiceImpl implements CommentService {
 			commentRepository.save(parentComment);
 		}
 
-		CommentResponse response = commentMapper.toCommentResponse(commentRepository.save(comment));
+		Comment newComment = commentRepository.save(comment);
+
+		commentCacheService.saveComment(newComment, comment.getParentId() != null ? comment.getParentId() : videoId);
+
+		CommentResponse response = commentMapper.toCommentResponse(newComment);
 
 		response.setReaction(ReactionResponse.builder().build());
 
@@ -77,9 +85,17 @@ public class CommentServiceImpl implements CommentService {
 			throw new NotfoundException("Video " + videoId + " not found");
 		}
 
-		PageRequest request = PageRequest.of(page, limit, Sort.by(Sort.Direction.ASC, "createdAt"));
+		PageRequest request = PageRequest.of(page, limit, Sort.by(Sort.Direction.DESC, "createdAt"));
 
 		Page<Comment> comments = commentRepository.findAllByVideoIdAndParentId(videoId, parentId, request);
+
+		//        String parent = parentId != null ? parentId : videoId;
+
+		//        if (commentCacheService.existChildren(parent)) {
+		//            comments = commentCacheService.getCommentByParentId(parent, request);
+		//        } else {
+		//            comments = commentRepository.findAllByVideoIdAndParentId(videoId, parentId, request);
+		//        }
 
 		Page<CommentResponse> commentResponses = comments.map(comment -> {
 			CommentResponse response = commentMapper.toCommentResponse(comment);
@@ -97,6 +113,7 @@ public class CommentServiceImpl implements CommentService {
 					});
 
 			response.setReaction(reactionResponse);
+			response.setUser(userCacheService.finUserById(comment.getUserId()));
 			return response;
 		});
 

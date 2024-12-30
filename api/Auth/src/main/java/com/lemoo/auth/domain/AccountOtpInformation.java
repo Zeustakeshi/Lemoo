@@ -24,6 +24,8 @@ public abstract class AccountOtpInformation {
 
 	private String otpCode;
 
+	private String email;
+
 	@Builder.Default
 	private Integer validationCount = 0;
 }

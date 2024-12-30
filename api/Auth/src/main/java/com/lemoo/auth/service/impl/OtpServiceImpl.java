@@ -10,6 +10,8 @@ import com.aventrix.jnanoid.jnanoid.NanoIdUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lemoo.auth.common.enums.OtpType;
 import com.lemoo.auth.domain.Otp;
+import com.lemoo.auth.event.eventModel.AccountCreationOtpEvent;
+import com.lemoo.auth.event.producer.AccountProducer;
 import com.lemoo.auth.exception.ForbiddenException;
 import com.lemoo.auth.exception.InvalidOtpCodeException;
 import com.lemoo.auth.service.OtpService;
@@ -33,15 +35,16 @@ public class OtpServiceImpl implements OtpService {
 	private final ObjectMapper objectMapper;
 	private final PasswordEncoder passwordEncoder;
 	private final Jedis jedis;
+	private final AccountProducer accountProducer;
 
 	@Override
 	@SneakyThrows
-	public String sendOtp(OtpType type) {
-		return sendOtpWithResendCount(type, 0);
+	public String sendOtp(OtpType type, String targetEmail) {
+		return sendOtpWithResendCount(type, targetEmail, 0);
 	}
 
 	@SneakyThrows
-	public String resendOtp(String otpCode, OtpType type) {
+	public String resendOtp(String otpCode, String targetEmail, OtpType type) {
 		String otpString = jedis.get(otpCode);
 
 		int resendCount = 0;
@@ -62,11 +65,11 @@ public class OtpServiceImpl implements OtpService {
 
 		jedis.del(otpCode);
 
-		return sendOtpWithResendCount(type, resendCount);
+		return sendOtpWithResendCount(type, targetEmail, resendCount);
 	}
 
 	@SneakyThrows
-	private String sendOtpWithResendCount(OtpType type, int resendCount) {
+	private String sendOtpWithResendCount(OtpType type, String targetEmail, int resendCount) {
 		String plainOtp = generateOtp();
 
 		Otp otp = Otp.builder()
@@ -77,7 +80,10 @@ public class OtpServiceImpl implements OtpService {
 
 		jedis.setex(otp.getCode(), OTP_EXPIRED_TIME, objectMapper.writeValueAsString(otp));
 
-		log.info("OTP {}: send to notification >>-> {}", otp.getType(), plainOtp);
+		accountProducer.sendAccountCreationOtp(AccountCreationOtpEvent.builder()
+				.email(targetEmail)
+				.otp(plainOtp)
+				.build());
 
 		return otp.getCode();
 	}

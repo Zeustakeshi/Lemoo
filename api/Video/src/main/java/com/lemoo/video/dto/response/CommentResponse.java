@@ -23,6 +23,8 @@ public class CommentResponse {
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
 
+	private UserResponse user;
+
 	@JsonProperty("isEdited")
 	private boolean isEdited;
 

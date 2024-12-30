@@ -1,21 +1,21 @@
 /*
- *  CategoryRequest
+ *  CategoryRequestWithImageUrl
  *  @author: Minhhieuano
- *  @created 12/14/2024 8:46 AM
+ *  @created 12/29/2024 2:06 PM
  * */
+
 
 package com.lemoo.product.dto.request;
 
 import jakarta.validation.constraints.NotEmpty;
-import lombok.Builder;
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
-@Builder
-public class CategoryRequest {
-
-	@NotEmpty
-	private String name;
-
-	private String parentId;
+public abstract class CategoryRequest {
+    @NotEmpty
+    private String name;
+    private String parentId;
+    private String imageUrl;
+    private MultipartFile image;
 }

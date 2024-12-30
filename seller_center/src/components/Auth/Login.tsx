@@ -88,7 +88,11 @@ const Login = () => {
       const userResponse = await athorizedAxiosInstance.get(
         `${API_ROOT}/store/info`
       );
-      // lưu lại userinfo trong session
+      Cookies.set("userInfo", userResponse.data.data, {
+        expires: 7, // Ví dụ: refreshToken tồn tại lâu hơn accessToken
+        secure: true,
+        sameSite: "Strict",
+      });
       console.log("Người dùng: ", userResponse.data.data);
       if (userResponse.status === 404) {
         console.error("Bạn chưa có cửa hàng, hãy tạo cửa hàng ngay!.");

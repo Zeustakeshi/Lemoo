@@ -12,10 +12,9 @@ import com.lemoo.store.dto.request.CreateIndividualStoreRequest;
 import com.lemoo.store.dto.response.StoreResponse;
 
 public interface StoreService {
-    StoreResponse getStoreInfo(AuthenticatedAccount account);
+	StoreResponse getStoreInfo(AuthenticatedAccount account);
 
-    StoreResponse createCorporateStore(AuthenticatedAccount account, CreateCorporateStoreRequest request);
+	StoreResponse createCorporateStore(AuthenticatedAccount account, CreateCorporateStoreRequest request);
 
-    StoreResponse createIndividualStore(AuthenticatedAccount account, CreateIndividualStoreRequest request);
-
+	StoreResponse createIndividualStore(AuthenticatedAccount account, CreateIndividualStoreRequest request);
 }

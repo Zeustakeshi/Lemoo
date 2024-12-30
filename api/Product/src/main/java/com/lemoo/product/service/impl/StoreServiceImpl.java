@@ -6,6 +6,8 @@
 
 package com.lemoo.product.service.impl;
 
+import com.lemoo.product.client.StoreClient;
+import com.lemoo.product.dto.request.VerifyStoreRequest;
 import com.lemoo.product.service.StoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,8 +15,13 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class StoreServiceImpl implements StoreService {
-	@Override
-	public boolean checkStorePermission(String storeId, String userId) {
-		return true;
-	}
+
+    private final StoreClient storeClient;
+
+    @Override
+    public boolean checkStorePermission(String storeId, String accountId) {
+        return storeClient
+                .verifyStore(new VerifyStoreRequest(accountId, storeId))
+                .getData();
+    }
 }

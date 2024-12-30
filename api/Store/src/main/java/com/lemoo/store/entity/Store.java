@@ -9,9 +9,8 @@ package com.lemoo.store.entity;
 import com.lemoo.store.common.enums.StoreStatus;
 import com.lemoo.store.common.enums.StoreType;
 import jakarta.persistence.*;
-import lombok.*;
-
 import java.util.Set;
+import lombok.*;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -20,42 +19,51 @@ import java.util.Set;
 @NoArgsConstructor
 @Builder
 public class Store extends BaseEntity {
-    @Column(unique = true, nullable = false)
-    private String name;
 
-    private String avatar;
+	@Column(unique = true, nullable = false)
+	private String shortCode;
 
-    @Column(unique = true, nullable = false)
-    private String phone;
+	@Column(unique = true, nullable = false)
+	private String name;
 
-    @Column(unique = true, nullable = false)
-    private String email;
+	private String logo;
 
-    @Column(unique = true, nullable = false)
-    private String ownerId;
+	@Column(unique = true)
+	private String companyName;
 
-    @Builder.Default
-    @Enumerated(EnumType.STRING)
-    private StoreStatus status = StoreStatus.INACTIVE;
+	@Column(unique = true, nullable = false)
+	private String phone;
 
-    @ElementCollection
-    private Set<String> verifyFailedMessages;
+	@Column(unique = true, nullable = false)
+	private String email;
 
-    private StoreType type;
+	@Column(unique = true, nullable = false)
+	private String ownerId;
 
-    @ElementCollection(fetch = FetchType.LAZY)
-    private Set<String> Banners;
+	@Builder.Default
+	@Enumerated(EnumType.STRING)
+	private StoreStatus status = StoreStatus.INACTIVE;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private CitizenIdVerification citizenIdVerification;
+	@Builder.Default
+	private boolean verified = false;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private BusinessRegistration businessRegistration;
+	private String location;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private BankInformation bankInformation;
+	@Enumerated(EnumType.STRING)
+	private StoreType type;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private TaxInformation taxInformation;
+	@ElementCollection(fetch = FetchType.LAZY)
+	private Set<String> Banners;
 
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private CitizenIdVerification citizenIdVerification;
+
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private BusinessRegistration businessRegistration;
+
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private BankInformation bankInformation;
+
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private TaxInformation taxInformation;
 }

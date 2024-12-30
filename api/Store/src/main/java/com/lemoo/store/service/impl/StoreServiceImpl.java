@@ -6,32 +6,38 @@
 
 package com.lemoo.store.service.impl;
 
-import com.lemoo.store.common.enums.DocumentType;
 import com.lemoo.store.common.enums.StoreStatus;
+import com.lemoo.store.common.enums.StoreType;
+import com.lemoo.store.common.utils.ShortCodeGenerator;
 import com.lemoo.store.dto.common.AuthenticatedAccount;
 import com.lemoo.store.dto.request.CreateCorporateStoreRequest;
 import com.lemoo.store.dto.request.CreateIndividualStoreRequest;
 import com.lemoo.store.dto.response.StoreResponse;
 import com.lemoo.store.entity.*;
-import com.lemoo.store.event.eventModel.UploadDocumentEvent;
 import com.lemoo.store.exception.ConflictException;
 import com.lemoo.store.exception.NotfoundException;
 import com.lemoo.store.mapper.StoreMapper;
 import com.lemoo.store.repository.StoreRepository;
+import com.lemoo.store.service.StoreDocumentService;
 import com.lemoo.store.service.StoreService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class StoreServiceImpl implements StoreService {
 
+    private static final String LEMOO_STORE_SHORT_CODE_PREFIX = "LS_";
+
     private final StoreRepository storeRepository;
     private final StoreMapper storeMapper;
-    private final ApplicationEventPublisher eventPublisher;
+    private final StoreDocumentService documentService;
 
     @Value("${assets.default-avatar}")
     private String defaultAvatar;
@@ -39,7 +45,7 @@ public class StoreServiceImpl implements StoreService {
     @Override
     public StoreResponse getStoreInfo(AuthenticatedAccount account) {
         Store store = storeRepository
-                .findVerifiedStore(account.getId())
+                .findActiveStore(account.getId())
                 .orElseThrow(() -> new NotfoundException("Store doesn't exist or is not verified."));
         return storeMapper.storeToStoreResponse(store);
     }
@@ -48,17 +54,25 @@ public class StoreServiceImpl implements StoreService {
     @SneakyThrows
     public StoreResponse createIndividualStore(AuthenticatedAccount account, CreateIndividualStoreRequest request) {
         if (storeRepository.existsByNameOrOwnerId(request.getName(), account.getId())) {
-            throw new ConflictException("Store name " + request.getName() + " already existed.");
+            throw new ConflictException(
+                    "Store name already exists or you already have a store. Please check your store or register with different information.");
         }
 
         Store store = Store.builder()
-                .avatar(defaultAvatar)
+                .logo(defaultAvatar)
+                .type(StoreType.INDIVIDUAL)
                 .email(account.getEmail())
                 .phone(account.getPhone())
                 .name(request.getName())
                 .ownerId(account.getId())
+                .verified(false)
                 .status(StoreStatus.ACTIVE)
                 .build();
+
+        String shortCode = ShortCodeGenerator.generateShortCode(
+                store.getId(), LocalDateTime.now().toString(), LEMOO_STORE_SHORT_CODE_PREFIX);
+
+        store.setShortCode(shortCode);
 
         CitizenIdVerification citizenIdVerification = CitizenIdVerification.builder()
                 .cardName(request.getIdentityCardName())
@@ -83,89 +97,87 @@ public class StoreServiceImpl implements StoreService {
 
         Store newStore = storeRepository.save(store);
 
-        eventPublisher.publishEvent(UploadDocumentEvent.builder()
-                .image(request.getIdentityCardFrontSide().getBytes())
-                .storeId(newStore.getId())
-                .type(DocumentType.CITIZEN_ID_FRONT)
-                .build());
+        documentService.uploadCitizenIdDocumentAsync(
+                newStore.getId(), request.getIdentityCardFrontSide().getBytes(), true);
 
-        eventPublisher.publishEvent(UploadDocumentEvent.builder()
-                .image(request.getIdentityCardBackSide().getBytes())
-                .storeId(newStore.getId())
-                .type(DocumentType.CITIZEN_ID_BACK)
-                .build());
+        documentService.uploadCitizenIdDocumentAsync(
+                newStore.getId(), request.getIdentityCardBackSide().getBytes(), false);
 
-        eventPublisher.publishEvent(UploadDocumentEvent.builder()
-                .image(request.getTaxRegistrationDocument().getBytes())
-                .storeId(newStore.getId())
-                .type(DocumentType.TAX_REGISTRATION)
-                .build());
+        documentService.uploadTaxDocumentAsync(
+                newStore.getId(), request.getTaxRegistrationDocument().getBytes());
 
-        eventPublisher.publishEvent(UploadDocumentEvent.builder()
-                .image(request.getBankDocument().getBytes())
-                .storeId(newStore.getId())
-                .type(DocumentType.BANK_DOCUMENT)
-                .build());
+        documentService.uploadBankDocumentAsync(
+                newStore.getId(), request.getBankDocument().getBytes());
 
-        return storeMapper.storeToStoreResponse(store);
+        // TODO: send event to admin to update verify store
+
+        return storeMapper.storeToStoreResponse(newStore);
     }
 
     @Override
     @SneakyThrows
     public StoreResponse createCorporateStore(AuthenticatedAccount account, CreateCorporateStoreRequest request) {
-        if (storeRepository.existsByNameOrOwnerId(request.getName(), account.getId())) {
-            throw new ConflictException("Store already existed.");
+
+        if (storeRepository.existsByNameOrCompanyNameOrOwnerId(
+                request.getName(), request.getCompanyLegalName(), account.getId())) {
+            throw new ConflictException(
+                    "Store name already exists, or the company name or owner ID is already in use. Please verify your information or register with different details.");
         }
+
+        Store store = Store.builder()
+                .logo(defaultAvatar)
+                .type(StoreType.CORPORATE)
+                .companyName(request.getCompanyLegalName())
+                .email(account.getEmail())
+                .phone(account.getPhone())
+                .name(request.getName())
+                .ownerId(account.getId())
+                .status(StoreStatus.ACTIVE)
+                .verified(false)
+                .build();
 
         BusinessRegistration businessRegistration = BusinessRegistration.builder()
                 .businessOwnerName(request.getBusinessOwnerName())
                 .businessRegistrationNumber(request.getBusinessRegistrationNumber())
                 .companyLegalName(request.getCompanyLegalName())
                 .type(request.getBusinessType())
+                .store(store)
                 .build();
 
         TaxInformation taxInformation =
-                TaxInformation.builder().TIN(request.getTIN()).build();
+                TaxInformation.builder().store(store).TIN(request.getTIN()).build();
 
         BankInformation bankInformation = BankInformation.builder()
                 .name(request.getBankName())
                 .bin(request.getBankBin())
+                .store(store)
                 .code(request.getBankCode())
                 .accountName(request.getBankAccountName())
                 .build();
 
-        Store store = storeRepository.save(Store.builder()
-                .avatar(defaultAvatar)
-                .bankInformation(bankInformation)
-                .businessRegistration(businessRegistration)
-                .taxInformation(taxInformation)
-                .email(account.getEmail())
-                .phone(account.getPhone())
-                .name(request.getName())
-                .ownerId(account.getId())
-                .status(StoreStatus.ACTIVE)
-                .build());
+        String shortCode = ShortCodeGenerator.generateShortCode(
+                store.getId(), LocalDateTime.now().toString(), LEMOO_STORE_SHORT_CODE_PREFIX);
 
-        eventPublisher.publishEvent(UploadDocumentEvent.builder()
-                .image(request.getBusinessRegistrationCertificate().getBytes())
-                .storeId(store.getId())
-                .type(DocumentType.BUSINESS_REGISTRATION_CERTIFICATE)
-                .build());
+        store.setShortCode(shortCode);
 
-        eventPublisher.publishEvent(UploadDocumentEvent.builder()
-                .image(request.getTaxRegistrationDocument().getBytes())
-                .storeId(store.getId())
-                .type(DocumentType.TAX_REGISTRATION)
-                .build());
+        store.setBusinessRegistration(businessRegistration);
+        store.setBankInformation(bankInformation);
+        store.setTaxInformation(taxInformation);
 
-        eventPublisher.publishEvent(UploadDocumentEvent.builder()
-                .image(request.getBankDocument().getBytes())
-                .storeId(store.getId())
-                .type(DocumentType.BANK_DOCUMENT)
-                .build());
+        Store newStore = storeRepository.save(store);
 
-        return storeMapper.storeToStoreResponse(store);
+        documentService.uploadBusinessDocumentAsync(
+                newStore.getId(), request.getBusinessRegistrationCertificate().getBytes());
+
+        documentService.uploadTaxDocumentAsync(
+                newStore.getId(), request.getTaxRegistrationDocument().getBytes());
+
+        documentService.uploadBankDocumentAsync(
+                newStore.getId(), request.getBankDocument().getBytes());
+
+        return storeMapper.storeToStoreResponse(newStore);
     }
 
-    
+    private void addStoreVerifyFailedMessages(String storeId, String message) {
+    }
 }

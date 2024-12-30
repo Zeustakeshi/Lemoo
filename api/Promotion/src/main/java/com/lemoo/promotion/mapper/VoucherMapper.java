@@ -6,9 +6,7 @@
 
 package com.lemoo.promotion.mapper;
 
-import com.lemoo.promotion.dto.request.RegularVoucherRequest;
 import com.lemoo.promotion.dto.response.VoucherDetailResponse;
-import com.lemoo.promotion.entity.RegularVoucher;
 import com.lemoo.promotion.entity.SellerVoucher;
 import org.mapstruct.Mapper;
 
@@ -18,5 +16,4 @@ public interface VoucherMapper {
 
     RegularVoucher regularVoucherRequestToRegularVoucher(RegularVoucherRequest request);
 
-    StoreFollowerSellerVoucher storeFollowerVoucherRequestToStoreFollowerVoucher(StoreFollowerVoucherRequest request);
 }

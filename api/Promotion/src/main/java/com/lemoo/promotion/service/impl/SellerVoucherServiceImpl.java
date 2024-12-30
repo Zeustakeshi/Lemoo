@@ -8,13 +8,13 @@ package com.lemoo.promotion.service.impl;
 
 import com.lemoo.promotion.client.StoreClient;
 import com.lemoo.promotion.dto.common.AuthenticatedAccount;
-import com.lemoo.promotion.dto.request.RegularVoucherRequest;
+import com.lemoo.promotion.dto.request.SellerVoucherRequest;
 import com.lemoo.promotion.dto.request.VerifyStoreRequest;
-import com.lemoo.promotion.entity.RegularVoucher;
 import com.lemoo.promotion.exception.ForbiddenException;
 import com.lemoo.promotion.mapper.VoucherMapper;
-import com.lemoo.promotion.repository.VoucherRepository;
+import com.lemoo.promotion.repository.SellerVoucherRepository;
 import com.lemoo.promotion.service.SellerVoucherService;
+import com.lemoo.promotion.service.SellerVoucherValidationService;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,24 +23,16 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class SellerVoucherServiceImpl implements SellerVoucherService {
 
-    private final VoucherRepository voucherRepository;
+    private final SellerVoucherRepository sellerVoucherRepository;
     private final VoucherMapper voucherMapper;
     private final StoreClient storeClient;
+    private final SellerVoucherValidationService voucherValidationService;
 
     @Override
     @CircuitBreaker(name = "store-service", fallbackMethod = "createRegularVoucherFallback")
-    public String createRegularVoucher(String storeId, AuthenticatedAccount account, RegularVoucherRequest request) {
-
+    public String createVoucher(String storeId, AuthenticatedAccount account, SellerVoucherRequest request) {
         verifyStore(account.getId(), storeId);
-
-        RegularVoucher voucher = voucherMapper.regularVoucherRequestToRegularVoucher(request);
-        voucher.setStoreId(storeId);
-
-        if (request.getCollectionStartTime() == null) {
-            voucher.setCollectionStartTime(request.getPeriodStartTime());
-        }
-
-        return voucherRepository.save(voucher).getId();
+        return "oke";
     }
 
     @CircuitBreaker(name = "store-service", fallbackMethod = "createStoreFollowerVoucherFallback")
@@ -50,7 +42,7 @@ public class SellerVoucherServiceImpl implements SellerVoucherService {
     }
 
     private String createRegularVoucherFallback(
-            String storeId, AuthenticatedAccount account, RegularVoucherRequest request, Throwable throwable) {
+            String storeId, AuthenticatedAccount account, SellerVoucherRequest request, Throwable throwable) {
         return "Store service is unavailable. Please try again later!";
     }
 

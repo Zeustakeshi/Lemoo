@@ -8,7 +8,7 @@ package com.lemoo.promotion.controller;
 
 import com.lemoo.promotion.common.constants.CustomRequestHeader;
 import com.lemoo.promotion.dto.common.AuthenticatedAccount;
-import com.lemoo.promotion.dto.request.RegularVoucherRequest;
+import com.lemoo.promotion.dto.request.SellerVoucherRequest;
 import com.lemoo.promotion.dto.response.ApiResponse;
 import com.lemoo.promotion.service.SellerVoucherService;
 import jakarta.validation.Valid;
@@ -22,13 +22,11 @@ import org.springframework.web.bind.annotation.*;
 public class SellerVoucherController {
     private final SellerVoucherService sellerVoucherService;
 
-    @PostMapping("regular")
-    public ApiResponse<?> createRegularVoucher(
-            @RequestBody @Valid RegularVoucherRequest request,
+    @PostMapping()
+    public ApiResponse<?> createVoucher(
+            @RequestBody @Valid SellerVoucherRequest request,
             @AuthenticationPrincipal AuthenticatedAccount account,
             @RequestHeader(CustomRequestHeader.STORE_ID) String storeId) {
-        return ApiResponse.success(sellerVoucherService.createRegularVoucher(storeId, account, request));
+        return ApiResponse.success(sellerVoucherService.createVoucher(storeId, account, request));
     }
-
-   
 }

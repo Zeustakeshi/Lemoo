@@ -7,10 +7,8 @@
 package com.lemoo.promotion.service;
 
 import com.lemoo.promotion.dto.common.AuthenticatedAccount;
-import com.lemoo.promotion.dto.request.RegularVoucherRequest;
+import com.lemoo.promotion.dto.request.SellerVoucherRequest;
 
 public interface SellerVoucherService {
-    String createRegularVoucher(String storeId, AuthenticatedAccount account, RegularVoucherRequest request);
-
-   
+    String createVoucher(String storeId, AuthenticatedAccount account, SellerVoucherRequest request);
 }

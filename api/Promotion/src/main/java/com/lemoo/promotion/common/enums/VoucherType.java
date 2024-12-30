@@ -7,8 +7,7 @@
 package com.lemoo.promotion.common.enums;
 
 public enum VoucherType {
-	REGULAR_VOUCHER,
-	STORE_FOLLOWER_VOUCHER,
-	FIRST_PURCHASE,
-	FREE_SHIPPING
+    REGULAR_VOUCHER,
+    STORE_FOLLOWER_VOUCHER,
+    FIRST_PURCHASE,
 }

@@ -7,6 +7,8 @@
 package com.lemoo.promotion.dto.request;
 
 import com.lemoo.promotion.common.enums.DiscountType;
+import com.lemoo.promotion.common.enums.VoucherScope;
+import com.lemoo.promotion.common.enums.VoucherType;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -34,6 +36,8 @@ public abstract class SellerVoucherRequest {
     @NotNull
     private LocalDateTime collectionStartTime;
 
+    private VoucherType voucherType;
+
     @NotNull
     private DiscountType discountType;
 
@@ -54,4 +58,7 @@ public abstract class SellerVoucherRequest {
 
     @Min(100000)
     private Long budget;
+
+    @NotNull
+    private VoucherScope scope;
 }

@@ -78,7 +78,7 @@ const LayoutRoutes = () => {
         ))}
 
         <NavItem to="/Hoang" primaryText="HomePageUI" />
-        <NavItem to="/Test" primaryText="Thử" />
+        <NavItem to="/Test" primaryText="Thử các components tại đây! 🚀" />
       </List>
       <Divider />
     </>

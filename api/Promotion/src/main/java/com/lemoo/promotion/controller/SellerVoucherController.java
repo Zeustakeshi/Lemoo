@@ -8,11 +8,14 @@ package com.lemoo.promotion.controller;
 
 import com.lemoo.promotion.common.constants.CustomRequestHeader;
 import com.lemoo.promotion.dto.common.AuthenticatedAccount;
-import com.lemoo.promotion.dto.request.SellerVoucherRequest;
+import com.lemoo.promotion.dto.request.FirstPurchaseVoucherRequest;
+import com.lemoo.promotion.dto.request.RegularVoucherRequest;
+import com.lemoo.promotion.dto.request.StoreFollowerVoucherRequest;
 import com.lemoo.promotion.dto.response.ApiResponse;
 import com.lemoo.promotion.service.SellerVoucherService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,11 +25,33 @@ import org.springframework.web.bind.annotation.*;
 public class SellerVoucherController {
     private final SellerVoucherService sellerVoucherService;
 
-    @PostMapping()
-    public ApiResponse<?> createVoucher(
-            @RequestBody @Valid SellerVoucherRequest request,
+    @PostMapping("/regular")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ApiResponse<?> createRegularVoucher(
+            @RequestBody @Valid RegularVoucherRequest request,
             @AuthenticationPrincipal AuthenticatedAccount account,
-            @RequestHeader(CustomRequestHeader.STORE_ID) String storeId) {
-        return ApiResponse.success(sellerVoucherService.createVoucher(storeId, account, request));
+            @RequestHeader(CustomRequestHeader.STORE_ID) String storeId
+    ) {
+        return ApiResponse.success(sellerVoucherService.createRegularVoucher(storeId, account, request));
+    }
+
+    @PostMapping("/store-follower")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ApiResponse<?> createStoreFollowerVoucher(
+            @RequestBody @Valid StoreFollowerVoucherRequest request,
+            @AuthenticationPrincipal AuthenticatedAccount account,
+            @RequestHeader(CustomRequestHeader.STORE_ID) String storeId
+    ) {
+        return ApiResponse.success(sellerVoucherService.createStoreFollowerVoucher(storeId, account, request));
+    }
+
+    @PostMapping("/first-purchase")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ApiResponse<?> createFirstPurchaseVoucher(
+            @RequestBody @Valid FirstPurchaseVoucherRequest request,
+            @AuthenticationPrincipal AuthenticatedAccount account,
+            @RequestHeader(CustomRequestHeader.STORE_ID) String storeId
+    ) {
+        return ApiResponse.success(sellerVoucherService.createFirstPurchaseVoucher(storeId, account, request));
     }
 }

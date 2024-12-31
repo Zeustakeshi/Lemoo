@@ -15,7 +15,13 @@ import com.lemoo.promotion.dto.request.FirstPurchaseVoucherRequest;
 import com.lemoo.promotion.dto.request.RegularVoucherRequest;
 import com.lemoo.promotion.dto.request.StoreFollowerVoucherRequest;
 import com.lemoo.promotion.dto.request.VerifyStoreRequest;
+import com.lemoo.promotion.dto.response.FirstPurchaseVoucherResponse;
+import com.lemoo.promotion.dto.response.RegularVoucherResponse;
+import com.lemoo.promotion.dto.response.StoreFollowerVoucherResponse;
+import com.lemoo.promotion.entity.FirstPurchaseVoucher;
+import com.lemoo.promotion.entity.RegularVoucher;
 import com.lemoo.promotion.entity.SellerVoucher;
+import com.lemoo.promotion.entity.StoreFollowerVoucher;
 import com.lemoo.promotion.exception.ForbiddenException;
 import com.lemoo.promotion.exception.NotfoundException;
 import com.lemoo.promotion.mapper.VoucherMapper;
@@ -36,6 +42,27 @@ public class SellerVoucherServiceImpl implements SellerVoucherService {
     private final StoreClient storeClient;
     private final SellerVoucherValidationService voucherValidationService;
 
+
+    @Override
+    public RegularVoucherResponse getRegularVoucherById(String storeId, AuthenticatedAccount account, String voucherId) {
+        SellerVoucher voucher = sellerVoucherRepository.findByIdAndStoreIdAndVoucherType(voucherId, storeId, VoucherType.REGULAR_VOUCHER)
+                .orElseThrow(() -> new NotfoundException("Voucher " + voucherId + " not found"));
+        return voucherMapper.toRegularVoucherResponse((RegularVoucher) voucher);
+    }
+
+    @Override
+    public StoreFollowerVoucherResponse getStoreFollowerVoucherById(String storeId, AuthenticatedAccount account, String voucherId) {
+        SellerVoucher voucher = sellerVoucherRepository.findByIdAndStoreIdAndVoucherType(voucherId, storeId, VoucherType.STORE_FOLLOWER_VOUCHER)
+                .orElseThrow(() -> new NotfoundException("Voucher " + voucherId + " not found"));
+        return voucherMapper.toStoreFollowerVoucherResponse((StoreFollowerVoucher) voucher);
+    }
+
+    @Override
+    public FirstPurchaseVoucherResponse getFirstPurchaseVoucherById(String storeId, AuthenticatedAccount account, String voucherId) {
+        SellerVoucher voucher = sellerVoucherRepository.findByIdAndStoreIdAndVoucherType(voucherId, storeId, VoucherType.FIRST_PURCHASE)
+                .orElseThrow(() -> new NotfoundException("Voucher " + voucherId + " not found"));
+        return voucherMapper.toFirstPurchaseVoucherResponse((FirstPurchaseVoucher) voucher);
+    }
 
     @Override
     public String createRegularVoucher(String storeId, AuthenticatedAccount account, RegularVoucherRequest request) {

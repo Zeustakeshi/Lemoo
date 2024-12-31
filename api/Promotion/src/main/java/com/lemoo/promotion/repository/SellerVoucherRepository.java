@@ -16,5 +16,7 @@ import java.util.Optional;
 public interface SellerVoucherRepository extends MongoRepository<SellerVoucher, String> {
     Optional<SellerVoucher> findByNameAndStoreId(String name, String storeId);
 
+    Optional<SellerVoucher> findByIdAndStoreId(String id, String storeId);
+
     boolean existsByNameAndStoreId(String name, String storeId);
 }

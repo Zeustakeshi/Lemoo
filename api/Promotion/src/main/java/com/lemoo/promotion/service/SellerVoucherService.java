@@ -12,11 +12,14 @@ import com.lemoo.promotion.dto.request.RegularVoucherRequest;
 import com.lemoo.promotion.dto.request.StoreFollowerVoucherRequest;
 
 public interface SellerVoucherService {
-//    String createVoucher(String storeId, AuthenticatedAccount account, SellerVoucherRequest request);
 
     String createRegularVoucher(String storeId, AuthenticatedAccount account, RegularVoucherRequest request);
 
     String createStoreFollowerVoucher(String storeId, AuthenticatedAccount account, StoreFollowerVoucherRequest request);
 
     String createFirstPurchaseVoucher(String storeId, AuthenticatedAccount account, FirstPurchaseVoucherRequest request);
+
+    void activateVoucher(String storeId, AuthenticatedAccount account, String voucherId);
+
+    void deactivateVoucher(String storeId, AuthenticatedAccount account, String voucherId);
 }

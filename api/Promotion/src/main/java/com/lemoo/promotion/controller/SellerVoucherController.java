@@ -54,4 +54,24 @@ public class SellerVoucherController {
     ) {
         return ApiResponse.success(sellerVoucherService.createFirstPurchaseVoucher(storeId, account, request));
     }
+
+    @PostMapping("{voucherId}/activate")
+    public ApiResponse<?> activateVoucher(
+            @PathVariable("voucherId") String voucherId,
+            @RequestHeader(CustomRequestHeader.STORE_ID) String storeId,
+            @AuthenticationPrincipal AuthenticatedAccount account
+    ) {
+        sellerVoucherService.activateVoucher(storeId, account, voucherId);
+        return ApiResponse.success(true);
+    }
+
+    @DeleteMapping("{voucherId}/deactivate")
+    public ApiResponse<?> deactivateVoucher(
+            @PathVariable("voucherId") String voucherId,
+            @RequestHeader(CustomRequestHeader.STORE_ID) String storeId,
+            @AuthenticationPrincipal AuthenticatedAccount account
+    ) {
+        sellerVoucherService.deactivateVoucher(storeId, account, voucherId);
+        return ApiResponse.success(true);
+    }
 }

@@ -7,8 +7,14 @@
 
 package com.lemoo.promotion.service;
 
+import com.lemoo.promotion.dto.request.RegularVoucherRequest;
 import com.lemoo.promotion.dto.request.SellerVoucherRequest;
+import com.lemoo.promotion.dto.request.StoreFollowerVoucherRequest;
 
 public interface SellerVoucherValidationService {
-    void validateRegularVoucher(SellerVoucherRequest request);
+    void validateRegularVoucher(RegularVoucherRequest voucher);
+
+    void validateStoreFollowerVoucher(StoreFollowerVoucherRequest voucher);
+
+    void validateFirstPurchaseVoucher(SellerVoucherRequest voucher);
 }

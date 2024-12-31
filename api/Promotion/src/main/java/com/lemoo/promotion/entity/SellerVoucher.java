@@ -28,8 +28,7 @@ public abstract class SellerVoucher extends BaseEntity {
     @Builder.Default
     private VoucherStatus status = VoucherStatus.NOT_ACTIVE;
 
-    @Setter(AccessLevel.PROTECTED)
-    private VoucherType type; // Type of voucher, e.g., "follow_discount" or "new_customer"
+    private VoucherType voucherType; // Type of voucher, e.g., "follow_discount" or "new_customer"
 
     private VoucherTimeType voucherTimeType;
 
@@ -39,7 +38,7 @@ public abstract class SellerVoucher extends BaseEntity {
     @Indexed
     private LocalDateTime periodEndTime; // The period end time that customers can use the voucher
 
-    private LocalDateTime collectionStartTime; // The time that customers can collect the voucher
+    private LocalDateTime collectStartTime; // The time that customers can collect the voucher
 
     private VoucherScope scope; // Scope type: "entire_store" or "specific_products"
 
@@ -58,5 +57,4 @@ public abstract class SellerVoucher extends BaseEntity {
     private Long totalAvailable;
     private Long limit; // Voucher limit per customer
 
-    private Long budget;
 }

@@ -21,7 +21,7 @@ spring:
       enabled: true
       max-file-size: 500MB
 server:
-  port: 8094
+  port: 8096
   servlet:
     context-path: /media
 services:

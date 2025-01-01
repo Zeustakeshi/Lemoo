@@ -8,86 +8,134 @@ package com.lemoo.promotion.service.impl;
 
 import com.lemoo.promotion.client.StoreClient;
 import com.lemoo.promotion.common.enums.VoucherScope;
+import com.lemoo.promotion.common.enums.VoucherStatus;
+import com.lemoo.promotion.common.enums.VoucherType;
 import com.lemoo.promotion.dto.common.AuthenticatedAccount;
+import com.lemoo.promotion.dto.request.FirstPurchaseVoucherRequest;
 import com.lemoo.promotion.dto.request.RegularVoucherRequest;
 import com.lemoo.promotion.dto.request.StoreFollowerVoucherRequest;
 import com.lemoo.promotion.dto.request.VerifyStoreRequest;
+import com.lemoo.promotion.dto.response.FirstPurchaseVoucherResponse;
+import com.lemoo.promotion.dto.response.RegularVoucherResponse;
+import com.lemoo.promotion.dto.response.StoreFollowerVoucherResponse;
+import com.lemoo.promotion.entity.FirstPurchaseVoucher;
 import com.lemoo.promotion.entity.RegularVoucher;
+import com.lemoo.promotion.entity.SellerVoucher;
 import com.lemoo.promotion.entity.StoreFollowerVoucher;
-import com.lemoo.promotion.exception.ConflictException;
 import com.lemoo.promotion.exception.ForbiddenException;
+import com.lemoo.promotion.exception.NotfoundException;
 import com.lemoo.promotion.mapper.VoucherMapper;
-import com.lemoo.promotion.repository.VoucherRepository;
+import com.lemoo.promotion.repository.SellerVoucherRepository;
 import com.lemoo.promotion.service.SellerVoucherService;
-import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import com.lemoo.promotion.service.SellerVoucherValidationService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class SellerVoucherServiceImpl implements SellerVoucherService {
 
-	private final VoucherRepository voucherRepository;
-	private final VoucherMapper voucherMapper;
-	private final StoreClient storeClient;
+    private final SellerVoucherRepository sellerVoucherRepository;
+    private final VoucherMapper voucherMapper;
+    private final StoreClient storeClient;
+    private final SellerVoucherValidationService voucherValidationService;
 
-	@Override
-	@CircuitBreaker(name = "store-service", fallbackMethod = "createRegularVoucherFallback")
-	public String createRegularVoucher(String storeId, AuthenticatedAccount account, RegularVoucherRequest request) {
 
-		verifyStore(account.getId(), storeId);
+    @Override
+    public RegularVoucherResponse getRegularVoucherById(String storeId, AuthenticatedAccount account, String voucherId) {
+        SellerVoucher voucher = sellerVoucherRepository.findByIdAndStoreIdAndVoucherType(voucherId, storeId, VoucherType.REGULAR_VOUCHER)
+                .orElseThrow(() -> new NotfoundException("Voucher " + voucherId + " not found"));
+        return voucherMapper.toRegularVoucherResponse((RegularVoucher) voucher);
+    }
 
-		if (voucherRepository.existsByNameAndStoreId(request.getName(), storeId)) {
-			throw new ConflictException("Voucher name already existed in this store");
-		}
+    @Override
+    public StoreFollowerVoucherResponse getStoreFollowerVoucherById(String storeId, AuthenticatedAccount account, String voucherId) {
+        SellerVoucher voucher = sellerVoucherRepository.findByIdAndStoreIdAndVoucherType(voucherId, storeId, VoucherType.STORE_FOLLOWER_VOUCHER)
+                .orElseThrow(() -> new NotfoundException("Voucher " + voucherId + " not found"));
+        return voucherMapper.toStoreFollowerVoucherResponse((StoreFollowerVoucher) voucher);
+    }
 
-		RegularVoucher voucher = voucherMapper.regularVoucherRequestToRegularVoucher(request);
-		voucher.setStoreId(storeId);
+    @Override
+    public FirstPurchaseVoucherResponse getFirstPurchaseVoucherById(String storeId, AuthenticatedAccount account, String voucherId) {
+        SellerVoucher voucher = sellerVoucherRepository.findByIdAndStoreIdAndVoucherType(voucherId, storeId, VoucherType.FIRST_PURCHASE)
+                .orElseThrow(() -> new NotfoundException("Voucher " + voucherId + " not found"));
+        return voucherMapper.toFirstPurchaseVoucherResponse((FirstPurchaseVoucher) voucher);
+    }
 
-		if (request.getCollectionStartTime() == null) {
-			voucher.setCollectionStartTime(request.getPeriodStartTime());
-		}
+    @Override
+    public String createRegularVoucher(String storeId, AuthenticatedAccount account, RegularVoucherRequest request) {
+        verifyStore(account.getId(), storeId);
 
-		return voucherRepository.save(voucher).getId();
-	}
+        voucherValidationService.validateRegularVoucher(request);
 
-	@Override
-	public String createStoreFollowerVoucher(
-			String storeId, AuthenticatedAccount account, StoreFollowerVoucherRequest request) {
-		verifyStore(account.getId(), storeId);
+        var voucher = voucherMapper.toRegularVoucher(request);
+        voucher.setStoreId(storeId);
+        voucher.setVoucherType(VoucherType.REGULAR_VOUCHER);
 
-		if (voucherRepository.existsByNameAndStoreId(request.getName(), storeId)) {
-			throw new ConflictException("Voucher name already existed in this store");
-		}
+        var newVoucher = sellerVoucherRepository.save(voucher);
+        return newVoucher.getId();
+    }
 
-		StoreFollowerVoucher voucher = voucherMapper.storeFollowerVoucherRequestToStoreFollowerVoucher(request);
-		voucher.setStoreId(storeId);
-		voucher.setScope(VoucherScope.ENTIRE_STORE);
+    @Override
+    public String createStoreFollowerVoucher(String storeId, AuthenticatedAccount account, StoreFollowerVoucherRequest request) {
+        verifyStore(account.getId(), storeId);
 
-		if (request.getCollectionStartTime() == null) {
-			voucher.setCollectionStartTime(request.getPeriodStartTime());
-		}
+        voucherValidationService.validateStoreFollowerVoucher(request);
 
-		if (request.getStoreTimeLimit() == null) {
-			voucher.setStoreTimeLimit(
-					request.getPeriodStartTime().plusDays(7)); // default expire 7 day if customer not use this voucher
-		}
+        var voucher = voucherMapper.toStoreFollowerVoucher(request);
+        voucher.setStoreId(storeId);
+        voucher.setVoucherType(VoucherType.STORE_FOLLOWER_VOUCHER);
+        voucher.setScope(VoucherScope.ENTIRE_STORE);
 
-		return voucherRepository.save(voucher).getId();
-	}
+        var newVoucher = sellerVoucherRepository.save(voucher);
+        return newVoucher.getId();
+    }
 
-	@CircuitBreaker(name = "store-service", fallbackMethod = "createStoreFollowerVoucherFallback")
-	private void verifyStore(String accountId, String storeId) {
-		if (storeClient.verifyStore(new VerifyStoreRequest(accountId, storeId)).getData()) return;
-		throw new ForbiddenException("Can't access this store");
-	}
+    @Override
+    public void activateVoucher(String storeId, AuthenticatedAccount account, String voucherId) {
+        verifyStore(account.getId(), storeId);
+        SellerVoucher voucher = sellerVoucherRepository.findByIdAndStoreId(voucherId, storeId)
+                .orElseThrow(() -> new NotfoundException("Voucher " + voucherId + " not found"));
 
-	private String createRegularVoucherFallback(
-			String storeId, AuthenticatedAccount account, RegularVoucherRequest request, Throwable throwable) {
-		return "Store service is unavailable. Please try again later!";
-	}
+        if (voucher.getStatus().equals(VoucherStatus.ACTIVE)) return;
 
-	public String createStoreFollowerVoucherFallback(String accountId, String storeId, Throwable throwable) {
-		return "Store service is unavailable. Please try again later!";
-	}
+        voucher.setStatus(VoucherStatus.ACTIVE);
+        sellerVoucherRepository.save(voucher);
+    }
+
+    @Override
+    public void deactivateVoucher(String storeId, AuthenticatedAccount account, String voucherId) {
+        verifyStore(account.getId(), storeId);
+        SellerVoucher voucher = sellerVoucherRepository.findByIdAndStoreId(voucherId, storeId)
+                .orElseThrow(() -> new NotfoundException("Voucher " + voucherId + " not found"));
+
+        if (voucher.getStatus().equals(VoucherStatus.NOT_ACTIVE)) return;
+
+        voucher.setStatus(VoucherStatus.NOT_ACTIVE);
+
+        sellerVoucherRepository.save(voucher);
+    }
+
+    @Override
+    public String createFirstPurchaseVoucher(String storeId, AuthenticatedAccount account, FirstPurchaseVoucherRequest request) {
+        verifyStore(account.getId(), storeId);
+
+        voucherValidationService.validateFirstPurchaseVoucher(request);
+
+        var voucher = voucherMapper.toFirstPurchaseVoucher(request);
+        voucher.setStoreId(storeId);
+        voucher.setLimit(1L);
+        voucher.setVoucherType(VoucherType.FIRST_PURCHASE);
+
+        var newVoucher = sellerVoucherRepository.save(voucher);
+        return newVoucher.getId();
+    }
+
+    private void verifyStore(String accountId, String storeId) {
+        if (storeClient.verifyStore(new VerifyStoreRequest(accountId, storeId)).getData()) return;
+        throw new ForbiddenException("Can't access this store");
+    }
+
 }

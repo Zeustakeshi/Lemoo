@@ -1,26 +1,25 @@
 /*
  *  StoreFollowerVoucher
  *  @author: Minhhieuano
- *  @created 12/27/2024 4:54 PM
+ *  @created 12/31/2024 10:21 AM
  * */
+
 
 package com.lemoo.promotion.entity;
 
-import com.lemoo.promotion.common.enums.VoucherType;
-import java.time.LocalDateTime;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+
+import java.time.LocalDateTime;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
-public class StoreFollowerVoucher extends Voucher {
-
-	@Builder.Default
-	@Setter(AccessLevel.PRIVATE)
-	private VoucherType voucherType = VoucherType.STORE_FOLLOWER_VOUCHER;
-
-	private LocalDateTime storeTimeLimit; // Indicates if voucher expires after collection
+public class StoreFollowerVoucher extends SellerVoucher {
+    private LocalDateTime voucherExpireIn;
 }

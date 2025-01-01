@@ -1,22 +1,25 @@
 /*
- *  RegularVoucherRequest
+ *  StoreFollowerVoucher
  *  @author: Minhhieuano
- *  @created 12/27/2024 5:39 PM
+ *  @created 12/31/2024 10:19 AM
  * */
+
 
 package com.lemoo.promotion.dto.request;
 
-import java.time.LocalDateTime;
-import lombok.AllArgsConstructor;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class StoreFollowerVoucherRequest extends BaseVoucherRequest {
+public class StoreFollowerVoucherRequest extends SellerVoucherRequest {
+    private LocalDateTime voucherExpireIn;
 
-	private LocalDateTime storeTimeLimit;
+    @Min(1)
+    @NotNull
+    private Long limit;
 }

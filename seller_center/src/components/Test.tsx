@@ -1,9 +1,9 @@
-import IndexTest from "./SellerVoucher/FormTestComponet";
+import RegularVoucher from "./SellerVoucher/Regular/RegularVoucher";
 
 const Test = () => {
   return (
     <div>
-      <IndexTest />
+      <RegularVoucher />
     </div>
   );
 };

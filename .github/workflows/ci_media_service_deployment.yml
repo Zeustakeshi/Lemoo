@@ -10,7 +10,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      MONGODB_URI: "mongodb://mongo:OmZbFuGbuBGhqZuDMZIJByHKWLLnWJol@autorack.proxy.rlwy.net:28767"
+      MONGODB_URI: "mongodb://mongo:MRkQigmGAwIthFcCEDCRzwnkXlnXvoML@autorack.proxy.rlwy.net:58208"
       MONGODB_NAME: "test"
       REDIS_URL: "redis://default:DTWQpcTvUzplyWZdUMgtJHwiZGEVOnQk@junction.proxy.rlwy.net:39583"
       CLOUDINARY_NAME: ${{secrets.CLOUDINARY_NAME}}

@@ -10,10 +10,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      DB_URL: "jdbc:postgresql://autorack.proxy.rlwy.net:27336/railway" # test
+      DB_URL: "jdbc:postgresql://autorack.proxy.rlwy.net:43690/railway" # test
       DB_USER: "postgres" # test
       DB_PASSWORD: "ZxuVOaDentkzNdMpGykQkxXIwKMNtheT" # test
-      REDIS_URL: "redis://default:WGNcjvvnegSjOuVcyxrOtjhiQAMaihfh@autorack.proxy.rlwy.net:26682" # test
+      REDIS_URL: "redis://default:HgprnzqthVVjHYAkeIdtsqoQZvXgHyph@junction.proxy.rlwy.net:43510" # test
     steps:
       - name: checkout
         uses: actions/checkout@v4

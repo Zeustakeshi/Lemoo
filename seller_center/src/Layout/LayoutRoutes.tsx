@@ -31,31 +31,45 @@ const LayoutRoutes = () => {
         <NavItem to="/" primaryText="Home" />
         <NavItem to="/Auth/Register" primaryText="Đăng Ký" />
         <NavItem to="/Auth/Login" primaryText="Đăng Nhập" />
-        <div className="bg-slate-400 p-3">
-          <button onClick={() => setOpen(!open)}>
-            Sản Phẩm <ChevronRight />
+        <div className="hover:bg-slate-300 p-3">
+          <button onClick={() => setOpen(!open)} className="flex items-center">
+            Sản Phẩm
+            <ChevronRight
+              className={`transition-transform duration-300 ${open ? "rotate-90" : ""}`}
+            />
           </button>
         </div>
         {open && (
-          <div>
-            <NavItem to="/Product/AddProduct" primaryText="Them San Pham" />
-            <NavItem
-              to="/Product/ProductManagement"
-              primaryText="Quan Ly San Pham"
-            />
-
-            <NavItem
-              to="/Product/BennerProducts"
-              primaryText="Benner San Pham"
-            />
-            <NavItem
-              to="/SanPham/XuLyBoiLazada"
-              primaryText="Xu Ly Boi Lazada"
-            />
+          <div className="ml-2">
+            <ul>
+              <li>
+                <NavItem to="/Product/AddProduct" primaryText="Thêm Sản Phẩm" />
+              </li>
+              <li>
+                {" "}
+                <NavItem
+                  to="/Product/ProductManagement"
+                  primaryText="Quản Lý Sản Phẩm"
+                />
+              </li>
+              <li>
+                <NavItem
+                  to="/Product/BennerProducts"
+                  primaryText="Banner Sản Phẩm"
+                />
+              </li>
+              <li>
+                <NavItem
+                  to="/SanPham/XuLyBoiLazada"
+                  primaryText="Xử Lý Bởi Lazada"
+                />
+              </li>
+            </ul>
           </div>
         )}
+
         <NavItem to="/Accout/AccoutSetting" primaryText="Tài Khoản" />
-        <NavItem to="/Store/CreatStore" primaryText="Creat Store" />
+        <NavItem to="/Store/CreatStore" primaryText="Tạo Cửa Hàng" />
 
         {nameopen.map((item, index) => (
           <div key={index}>

@@ -24,6 +24,13 @@ public class ProductController {
 
     private final ProductService productService;
 
+    @GetMapping("/test/feature")
+    public ApiResponse<?> getTestRecommendProduct(
+            @RequestParam(value = "page", required = false, defaultValue = "0") int page,
+            @RequestParam(value = "limit", required = false, defaultValue = "10") int limit
+    ) {
+        return ApiResponse.success(productService.getTestRecommendProduct(page, limit));
+    }
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)

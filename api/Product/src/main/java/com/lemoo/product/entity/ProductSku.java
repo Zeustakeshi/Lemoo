@@ -51,5 +51,8 @@ public class ProductSku extends BaseEntity {
     private Double packageLength; // cm
     private Double packageWeight; // g
 
+    @Builder.Default
+    private Long totalSold = 0L;
+
     private Map<String, String> variants; // {"color": "red", "size": "M"}
 }

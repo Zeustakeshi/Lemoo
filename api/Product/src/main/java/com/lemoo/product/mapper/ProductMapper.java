@@ -8,6 +8,7 @@ package com.lemoo.product.mapper;
 
 import com.lemoo.product.dto.request.MediaRequest;
 import com.lemoo.product.dto.request.ProductSkuRequest;
+import com.lemoo.product.dto.response.ProductFeatureResponse;
 import com.lemoo.product.dto.response.ProductResponse;
 import com.lemoo.product.dto.response.ProductSimpleResponse;
 import com.lemoo.product.dto.response.ProductVariantResponse;
@@ -33,4 +34,7 @@ public interface ProductMapper {
 
     @Mapping(target = "id", source = "mediaId")
     ProductMedia mediaRequestToProductMedia(MediaRequest mediaRequest);
+
+    @Mapping(target = "thumbnail", source = "product.smallImage.url")
+    ProductFeatureResponse productToProductFeatureResponse(Product product);
 }

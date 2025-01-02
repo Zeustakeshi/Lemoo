@@ -1,5 +1,6 @@
 const Test = () => {
-  return <div>Thử</div>;
+  return <div>Thử </div>;
 };
 
 export default Test;
+//components/Test.tsx

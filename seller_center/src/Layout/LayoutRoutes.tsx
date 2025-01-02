@@ -79,6 +79,7 @@ const LayoutRoutes = () => {
 
         <NavItem to="/Hoang" primaryText="HomePageUI" />
         <NavItem to="/Test" primaryText="Thử" />
+        <NavItem to="/Reviews_overReview" primaryText="Reviews_overReview" />
       </List>
       <Divider />
     </>

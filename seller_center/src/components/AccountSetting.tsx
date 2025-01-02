@@ -3,6 +3,7 @@ import EditNoteIcon from "@mui/icons-material/EditNote";
 
 import FormatSetting from "./Account/FormatSetting";
 import avtar from "../assets/images/raiden7.jpg";
+import LogoutButton from "./Auth/LogoutButton";
 
 function AccountSetting() {
   return (
@@ -29,6 +30,7 @@ function AccountSetting() {
               https://www.lazada.vn/shop/2zbl54yk{" "}
               <FileCopyIcon className="text-blue-700" />
             </p>
+            <LogoutButton />
           </div>
         </div>
         <hr className="mt-4 mb-4" />

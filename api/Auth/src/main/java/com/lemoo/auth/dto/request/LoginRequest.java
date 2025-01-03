@@ -12,9 +12,9 @@ import lombok.Data;
 @Data
 public class LoginRequest {
 
-	@NotEmpty
-	private String accountName;
+    @NotEmpty
+    private String accountName;
 
-	@NotEmpty
-	private String password;
+    @NotEmpty
+    private String password;
 }

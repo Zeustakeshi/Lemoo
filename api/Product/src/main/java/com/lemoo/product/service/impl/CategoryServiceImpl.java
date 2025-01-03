@@ -87,7 +87,7 @@ public class CategoryServiceImpl implements CategoryService {
                     .thenAccept((data) -> updateCategoryImage(category.getId(), data.getSecureUrl()));
         }
 
-        return categoryMapper.categoryToCategoryResponse(newCategory);
+        return categoryMapper.toCategoryResponse(newCategory);
     }
 
     @Override
@@ -96,7 +96,7 @@ public class CategoryServiceImpl implements CategoryService {
 
         Page<Category> categories = categoryRepository.findAllByParentId(parentId, pageRequest);
 
-        Page<CategoryResponse> categoryResponses = categories.map(categoryMapper::categoryToCategoryResponse);
+        Page<CategoryResponse> categoryResponses = categories.map(categoryMapper::toCategoryResponse);
 
         return pageMapper.toPageableResponse(categoryResponses);
     }

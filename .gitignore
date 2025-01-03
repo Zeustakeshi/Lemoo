@@ -6,3 +6,5 @@
 /deployment/env/**
 /deployment-private
 /api/Workers
+
+/api/Gateway

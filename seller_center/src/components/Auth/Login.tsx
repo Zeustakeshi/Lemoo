@@ -173,7 +173,7 @@ const Login = () => {
             >
               <Box>
                 <h1 className="text-xl font-semibold text-gray-800">
-                  Đăng nhập{" "}
+                  Đăng nhập
                 </h1>
               </Box>
             </Box>
@@ -290,7 +290,7 @@ const Login = () => {
                 size="large"
                 fullWidth
               >
-                Đăng ký tài khoản
+                <a href="/Auth/Register"> Đăng ký tài khoản </a>
               </Button>
             </CardActions>
           </MuiCard>

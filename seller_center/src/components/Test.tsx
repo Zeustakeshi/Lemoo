@@ -1,5 +1,11 @@
+import RegularVoucher from "./SellerVoucher/Regular/RegularVoucher";
+
 const Test = () => {
-  return <div>Thử </div>;
+  return (
+    <div>
+      <RegularVoucher />
+    </div>
+  );
 };
 
 export default Test;

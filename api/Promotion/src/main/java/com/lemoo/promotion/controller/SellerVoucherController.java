@@ -25,6 +25,35 @@ import org.springframework.web.bind.annotation.*;
 public class SellerVoucherController {
     private final SellerVoucherService sellerVoucherService;
 
+    @GetMapping("/regular/{voucherId}")
+    public ApiResponse<?> getRegularVoucherById(
+            @PathVariable("voucherId") String voucherId,
+            @RequestHeader(CustomRequestHeader.STORE_ID) String storeId,
+            @AuthenticationPrincipal AuthenticatedAccount account
+    ) {
+        return ApiResponse.success(sellerVoucherService.getRegularVoucherById(storeId, account, voucherId));
+    }
+
+
+    @GetMapping("/store-follower/{voucherId}")
+    public ApiResponse<?> getStoreFollowerVoucherById(
+            @PathVariable("voucherId") String voucherId,
+            @RequestHeader(CustomRequestHeader.STORE_ID) String storeId,
+            @AuthenticationPrincipal AuthenticatedAccount account
+    ) {
+        return ApiResponse.success(sellerVoucherService.getStoreFollowerVoucherById(storeId, account, voucherId));
+    }
+
+
+    @GetMapping("/first-purchase/{voucherId}")
+    public ApiResponse<?> getFirstPurchaseVoucherById(
+            @PathVariable("voucherId") String voucherId,
+            @RequestHeader(CustomRequestHeader.STORE_ID) String storeId,
+            @AuthenticationPrincipal AuthenticatedAccount account
+    ) {
+        return ApiResponse.success(sellerVoucherService.getFirstPurchaseVoucherById(storeId, account, voucherId));
+    }
+
     @PostMapping("/regular")
     @ResponseStatus(HttpStatus.CREATED)
     public ApiResponse<?> createRegularVoucher(
@@ -53,5 +82,25 @@ public class SellerVoucherController {
             @RequestHeader(CustomRequestHeader.STORE_ID) String storeId
     ) {
         return ApiResponse.success(sellerVoucherService.createFirstPurchaseVoucher(storeId, account, request));
+    }
+
+    @PostMapping("{voucherId}/activate")
+    public ApiResponse<?> activateVoucher(
+            @PathVariable("voucherId") String voucherId,
+            @RequestHeader(CustomRequestHeader.STORE_ID) String storeId,
+            @AuthenticationPrincipal AuthenticatedAccount account
+    ) {
+        sellerVoucherService.activateVoucher(storeId, account, voucherId);
+        return ApiResponse.success(true);
+    }
+
+    @DeleteMapping("{voucherId}/deactivate")
+    public ApiResponse<?> deactivateVoucher(
+            @PathVariable("voucherId") String voucherId,
+            @RequestHeader(CustomRequestHeader.STORE_ID) String storeId,
+            @AuthenticationPrincipal AuthenticatedAccount account
+    ) {
+        sellerVoucherService.deactivateVoucher(storeId, account, voucherId);
+        return ApiResponse.success(true);
     }
 }

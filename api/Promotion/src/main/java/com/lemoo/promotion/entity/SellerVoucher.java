@@ -6,12 +6,16 @@
 
 package com.lemoo.promotion.entity;
 
-import com.lemoo.promotion.common.enums.*;
+import com.lemoo.promotion.common.enums.DiscountType;
+import com.lemoo.promotion.common.enums.VoucherScope;
+import com.lemoo.promotion.common.enums.VoucherStatus;
+import com.lemoo.promotion.common.enums.VoucherType;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.springframework.data.mongodb.core.index.Indexed;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -29,8 +33,6 @@ public abstract class SellerVoucher extends BaseEntity {
     private VoucherStatus status = VoucherStatus.NOT_ACTIVE;
 
     private VoucherType voucherType; // Type of voucher, e.g., "follow_discount" or "new_customer"
-
-    private VoucherTimeType voucherTimeType;
 
     @Indexed
     private LocalDateTime periodStartTime; // The period start time that customers can use the voucher
@@ -57,4 +59,5 @@ public abstract class SellerVoucher extends BaseEntity {
     private Long totalAvailable;
     private Long limit; // Voucher limit per customer
 
+    private Set<String> skus;
 }

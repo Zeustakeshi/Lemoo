@@ -10,15 +10,13 @@ import com.lemoo.product.common.enums.ProductStatus;
 import com.lemoo.product.dto.common.AuthenticatedAccount;
 import com.lemoo.product.dto.request.ProductRequest;
 import com.lemoo.product.dto.request.ProductSkuRequest;
-import com.lemoo.product.dto.response.PageableResponse;
-import com.lemoo.product.dto.response.ProductResponse;
-import com.lemoo.product.dto.response.ProductSimpleResponse;
-import com.lemoo.product.dto.response.ProductVariantResponse;
+import com.lemoo.product.dto.response.*;
 import com.lemoo.product.entity.Category;
 import com.lemoo.product.entity.Product;
 import com.lemoo.product.entity.ProductSku;
 import com.lemoo.product.exception.ConflictException;
 import com.lemoo.product.exception.ForbiddenException;
+import com.lemoo.product.exception.NotfoundException;
 import com.lemoo.product.mapper.PageMapper;
 import com.lemoo.product.mapper.ProductMapper;
 import com.lemoo.product.mapper.ProductSkuMapper;
@@ -32,6 +30,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -48,6 +49,37 @@ public class ProductServiceImpl implements ProductService {
     private final StoreService storeService;
     private final SkuCodeService skuCodeService;
     private final ProductSkuMapper productSkuMapper;
+    private final MongoTemplate mongoTemplate;
+
+    @Override
+    public PageableResponse<ProductFeatureResponse> getTestRecommendProduct(int page, int limit) {
+
+        PageRequest request = PageRequest.of(page, limit, Sort.by(Sort.Direction.DESC, "updatedAt"));
+
+        Page<Product> products = productRepository.findAll(request);
+
+        Page<ProductFeatureResponse> productResponses = products
+                .map(product -> {
+                    ProductFeatureResponse productResponse = productMapper.productToProductFeatureResponse(product);
+                    Query query = new Query();
+                    query.addCriteria(Criteria.where("productId").is(product.getId()));
+                    query.limit(1);  // Giới hạn chỉ lấy 1 bản ghi
+                    ProductSku firstSku = mongoTemplate.findOne(query, ProductSku.class);
+
+                    if (firstSku == null) {
+                        throw new NotfoundException("Sku not found");
+                    }
+                    productResponse.setRatingCount(10000L);
+                    productResponse.setRatting(4.5);
+                    productResponse.setOriginPrice(firstSku.getPrice());
+                    productResponse.setPromotionPrice(firstSku.getPrice() - 1); // this only using to test api
+                    productResponse.setTotalSold(firstSku.getTotalSold());
+
+                    return productResponse;
+                });
+
+        return pageMapper.toPageableResponse(productResponses);
+    }
 
     @Override
     public ProductSimpleResponse createProduct(String storeId, AuthenticatedAccount account, ProductRequest request) {

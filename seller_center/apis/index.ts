@@ -16,3 +16,6 @@ export const refreshTokenAPI = async (refreshToken: string | null) => {
     refreshToken,
   });
 };
+
+// CheckAuth
+export const isLoggedIn = (): boolean => !!Cookies.get("accessToken");

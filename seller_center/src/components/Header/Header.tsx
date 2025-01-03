@@ -6,10 +6,10 @@ const Header = () => {
         <img src={Logo} alt="Logo" />
       </div>
       <div className=" w-[120px]">
-        <h1 className="w-[120px] text-[#000000a6] text-2xl font-semibold">
+        <h1 className="w-[120px] text-[#000000a6] text-xl font-semibold">
           Lemoo
         </h1>
-        <h1 className=" w-[190px] text-blue-600 font-semibold text-3xl">
+        <h1 className=" w-[190px] text-blue-600 font-semibold text-2xl">
           Seller Center
         </h1>
       </div>

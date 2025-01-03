@@ -9,3 +9,4 @@ const Test = () => {
 };
 
 export default Test;
+//components/Test.tsx

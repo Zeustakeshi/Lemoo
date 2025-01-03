@@ -5,5 +5,11 @@
  * */
 
 
-package com.lemoo.product.service;public class ProductRecommendService {
+package com.lemoo.product.service;
+
+import com.lemoo.product.dto.response.PageableResponse;
+import com.lemoo.product.dto.response.ProductFeatureResponse;
+
+public interface ProductRecommendService {
+    PageableResponse<ProductFeatureResponse> getProductFeature(int page, int limit);
 }

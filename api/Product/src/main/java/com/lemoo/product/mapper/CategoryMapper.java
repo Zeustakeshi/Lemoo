@@ -14,6 +14,6 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface CategoryMapper {
 
-	@Mapping(target = "isLeaf", source = "leaf")
-	CategoryResponse categoryToCategoryResponse(Category category);
+    @Mapping(target = "isLeaf", source = "leaf")
+    CategoryResponse toCategoryResponse(Category category);
 }

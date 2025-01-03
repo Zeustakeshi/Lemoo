@@ -6,6 +6,7 @@
 
 package com.lemoo.product.mapper;
 
+import com.lemoo.product.dto.common.ProductHashCache;
 import com.lemoo.product.dto.request.MediaRequest;
 import com.lemoo.product.dto.request.ProductSkuRequest;
 import com.lemoo.product.dto.response.ProductFeatureResponse;
@@ -22,19 +23,23 @@ import org.mapstruct.Mapping;
 public interface ProductMapper {
 
     @Mapping(target = "image", ignore = true)
-    ProductSku productSkuRequestToProductSku(ProductSkuRequest request);
+    ProductSku toProductSku(ProductSkuRequest request);
 
-    ProductSimpleResponse productToProductSimpleResponse(Product product);
+    @Mapping(target = "skus", ignore = true)
+    ProductSimpleResponse toProductSimpleResponse(Product product);
 
     @Mapping(target = "image", source = "product.smallImage.url")
     @Mapping(target = "variants", ignore = true)
-    ProductResponse productToProductResponse(Product product);
+    ProductResponse toProductResponse(Product product);
 
-    ProductVariantResponse variantToVariantResponse(ProductSku variant);
+    ProductVariantResponse toVariantResponse(ProductSku variant);
 
     @Mapping(target = "id", source = "mediaId")
-    ProductMedia mediaRequestToProductMedia(MediaRequest mediaRequest);
+    ProductMedia toProductMedia(MediaRequest mediaRequest);
 
     @Mapping(target = "thumbnail", source = "product.smallImage.url")
-    ProductFeatureResponse productToProductFeatureResponse(Product product);
+    ProductFeatureResponse toProductFeatureResponse(Product product);
+
+    @Mapping(target = "thumbnail", source = "product.smallImage.url")
+    ProductHashCache toProductHashCache(Product product);
 }

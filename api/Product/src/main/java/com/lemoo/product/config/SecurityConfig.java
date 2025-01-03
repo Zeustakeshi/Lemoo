@@ -34,10 +34,10 @@ public class SecurityConfig {
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(handler -> handler.authenticationEntryPoint(authenticationEntryPoint)
                         .accessDeniedHandler(accessDeniedHandler))
-                .authorizeHttpRequests(request -> request.requestMatchers("/categories/**")
-                        .permitAll()
-                        .requestMatchers("/products/test/feature")
-                        .permitAll()
+                .authorizeHttpRequests(request -> request.requestMatchers(
+                                "/categories/**",
+                                "/products/recommend/**"
+                        ).permitAll()
                         .anyRequest()
                         .authenticated())
                 .oauth2ResourceServer(

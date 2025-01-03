@@ -12,7 +12,6 @@ import com.lemoo.product.dto.request.ProductSkuRequest;
 import com.lemoo.product.dto.response.ProductFeatureResponse;
 import com.lemoo.product.dto.response.ProductResponse;
 import com.lemoo.product.dto.response.ProductSimpleResponse;
-import com.lemoo.product.dto.response.ProductVariantResponse;
 import com.lemoo.product.entity.Product;
 import com.lemoo.product.entity.ProductMedia;
 import com.lemoo.product.entity.ProductSku;
@@ -29,10 +28,8 @@ public interface ProductMapper {
     ProductSimpleResponse toProductSimpleResponse(Product product);
 
     @Mapping(target = "image", source = "product.smallImage.url")
-    @Mapping(target = "variants", ignore = true)
+    @Mapping(target = "skus", ignore = true)
     ProductResponse toProductResponse(Product product);
-
-    ProductVariantResponse toVariantResponse(ProductSku variant);
 
     @Mapping(target = "id", source = "mediaId")
     ProductMedia toProductMedia(MediaRequest mediaRequest);

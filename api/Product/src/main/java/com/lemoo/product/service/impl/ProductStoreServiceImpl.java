@@ -10,12 +10,14 @@ import com.lemoo.product.common.enums.ProductStatus;
 import com.lemoo.product.dto.common.AuthenticatedAccount;
 import com.lemoo.product.dto.request.ProductRequest;
 import com.lemoo.product.dto.request.ProductSkuRequest;
-import com.lemoo.product.dto.response.*;
+import com.lemoo.product.dto.response.PageableResponse;
+import com.lemoo.product.dto.response.ProductResponse;
+import com.lemoo.product.dto.response.ProductSimpleResponse;
+import com.lemoo.product.dto.response.ProductSkuResponse;
 import com.lemoo.product.entity.Category;
 import com.lemoo.product.entity.Product;
 import com.lemoo.product.entity.ProductSku;
 import com.lemoo.product.exception.ConflictException;
-import com.lemoo.product.exception.NotfoundException;
 import com.lemoo.product.mapper.PageMapper;
 import com.lemoo.product.mapper.ProductMapper;
 import com.lemoo.product.mapper.ProductSkuMapper;
@@ -28,8 +30,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -40,7 +40,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class ProductServiceImpl implements ProductService {
+public class ProductStoreServiceImpl implements ProductStoreService {
     private static final Integer MAXIMUM_DRAFT_PRODUCT = 10;
     private final ProductRepository productRepository;
     private final ProductSkuRepository productSkuRepository;
@@ -53,40 +53,6 @@ public class ProductServiceImpl implements ProductService {
     private final MongoTemplate mongoTemplate;
     private final ProductCacheService productCacheService;
     private final ProductSkuCacheService productSkuCacheService;
-
-    @Override
-    public PageableResponse<ProductFeatureResponse> getTestRecommendProduct(int page, int limit) {
-
-        PageRequest request = PageRequest.of(page, limit, Sort.by(Sort.Direction.DESC, "updatedAt"));
-
-        Page<Product> products = productRepository.findAll(request);
-
-        Page<ProductFeatureResponse> productFeatureResponses = products
-                .map(product ->
-                        CompletableFuture.supplyAsync(() -> {
-                            ProductFeatureResponse productResponse = productMapper.toProductFeatureResponse(product);
-
-                            Query query = new Query();
-                            query.addCriteria(Criteria.where("productId").is(product.getId()));
-                            query.limit(1);
-                            var firstSku = mongoTemplate.findOne(query, ProductSku.class);
-
-                            if (firstSku == null) {
-                                throw new NotfoundException("Sku not found");
-                            }
-
-                            productResponse.setRatingCount(10000L);
-                            productResponse.setRatting(4.5);
-                            productResponse.setOriginPrice(firstSku.getPrice());
-                            productResponse.setPromotionPrice(firstSku.getPrice() - 1);
-                            productResponse.setTotalSold(firstSku.getTotalSold());
-
-                            return productResponse;
-                        })
-                ).map(CompletableFuture::join);
-
-        return pageMapper.toPageableResponse(productFeatureResponses);
-    }
 
     @Override
     public ProductSimpleResponse createProduct(String storeId, AuthenticatedAccount account, ProductRequest request) {
@@ -152,15 +118,17 @@ public class ProductServiceImpl implements ProductService {
         PageRequest request = PageRequest.of(page, limit, Sort.by(Sort.Direction.DESC, "updatedAt"));
         Page<Product> products = productRepository.findAllByStoreId(storeId, request);
 
-        Page<ProductResponse> responses = products.map(product -> {
-            List<ProductVariantResponse> variantResponses =
-                    productSkuRepository.findAllByProductId(product.getId()).stream()
-                            .map(productMapper::toVariantResponse)
-                            .toList();
-            ProductResponse productResponse = productMapper.toProductResponse(product);
-            productResponse.setVariants(variantResponses);
-            return productResponse;
-        });
+        Page<ProductResponse> responses = products.map(product ->
+                CompletableFuture.supplyAsync(() -> {
+                    List<ProductSkuResponse> skuResponse =
+                            productSkuRepository.findAllByProductId(product.getId()).stream()
+                                    .map(productSkuMapper::toSkuResponse)
+                                    .toList();
+                    ProductResponse productResponse = productMapper.toProductResponse(product);
+                    productResponse.setSkus(skuResponse);
+                    return productResponse;
+                })
+        ).map(CompletableFuture::join);
 
         return pageMapper.toPageableResponse(responses);
     }

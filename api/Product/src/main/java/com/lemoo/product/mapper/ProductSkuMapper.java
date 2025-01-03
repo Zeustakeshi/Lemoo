@@ -8,6 +8,7 @@
 package com.lemoo.product.mapper;
 
 import com.lemoo.product.dto.common.ProductSkuHashCache;
+import com.lemoo.product.dto.response.ProductSkuResponse;
 import com.lemoo.product.dto.response.ProductSkuSimpleResponse;
 import com.lemoo.product.entity.ProductSku;
 import org.mapstruct.Mapper;
@@ -21,4 +22,8 @@ public interface ProductSkuMapper {
 
     @Mapping(target = "image", source = "sku.image.url")
     ProductSkuHashCache toProductSkuCache(ProductSku sku);
+
+    @Mapping(target = "lemooSku", source = "skuCode")
+    ProductSkuResponse toSkuResponse(ProductSku variant);
+
 }

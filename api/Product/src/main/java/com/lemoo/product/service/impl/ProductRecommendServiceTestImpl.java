@@ -29,7 +29,7 @@ import java.util.concurrent.CompletableFuture;
 
 @Service
 @RequiredArgsConstructor
-public class ProductRecommendServiceImpl implements ProductRecommendService {
+public class ProductRecommendServiceTestImpl implements ProductRecommendService {
     private final ProductRepository productRepository;
     private final ProductMapper productMapper;
     private final MongoTemplate mongoTemplate;

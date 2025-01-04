@@ -10,7 +10,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      MONGODB_URI: "mongodb://mongo:sAommYTOuLvEhOqBrraSvgxHmuwUACYk@autorack.proxy.rlwy.net:16757"
+      MONGODB_URI: "mongodb://mongo:ygahBpwwTCZoWxWerwPbERmbJwQZOylC@junction.proxy.rlwy.net:21499"
       MONGODB_NAME: "test"
     steps:
       - name: checkout

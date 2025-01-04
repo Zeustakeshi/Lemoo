@@ -12,7 +12,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class StoreInfoResponse {
+public class InternalStoreResponse {
     private String id;
     private String name;
     private String shortCode;

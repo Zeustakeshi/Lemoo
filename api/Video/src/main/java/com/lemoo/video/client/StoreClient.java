@@ -8,7 +8,7 @@ package com.lemoo.video.client;
 
 import com.lemoo.video.dto.request.VerifyStoreRequest;
 import com.lemoo.video.dto.response.ApiResponse;
-import com.lemoo.video.dto.response.StoreInfoResponse;
+import com.lemoo.video.dto.response.InternalStoreResponse;
 import jakarta.validation.Valid;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface StoreClient {
 
     @GetMapping("info")
-    ApiResponse<StoreInfoResponse> getStoreInfo(@RequestParam("accountId") String accountId);
+    ApiResponse<InternalStoreResponse> getStoreInfo(@RequestParam("accountId") String accountId);
 
     @PostMapping("/verify")
     ApiResponse<Boolean> verifyStore(@RequestBody @Valid VerifyStoreRequest request);

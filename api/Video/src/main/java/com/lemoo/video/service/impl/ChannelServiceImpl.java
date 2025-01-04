@@ -10,7 +10,7 @@ import com.lemoo.video.common.enums.ChannelStatus;
 import com.lemoo.video.dto.common.AuthenticatedAccount;
 import com.lemoo.video.dto.request.ChannelRequest;
 import com.lemoo.video.dto.response.ChannelResponse;
-import com.lemoo.video.dto.response.StoreInfoResponse;
+import com.lemoo.video.dto.response.InternalStoreResponse;
 import com.lemoo.video.entity.Channel;
 import com.lemoo.video.entity.ChannelFollower;
 import com.lemoo.video.exception.BadRequestException;
@@ -45,8 +45,8 @@ public class ChannelServiceImpl implements ChannelService {
     private String channelDefaultBackground;
 
     @Override
-    public StoreInfoResponse connectToSellerCenter(AuthenticatedAccount account) {
-        StoreInfoResponse storeInfo = storeService.getStoreInfo(account.getId());
+    public InternalStoreResponse connectToSellerCenter(AuthenticatedAccount account) {
+        InternalStoreResponse storeInfo = storeService.getStoreInfo(account.getId());
         if (storeInfo == null) throw new ForbiddenException("Store not linked. Please create a store and try again.");
 
         Channel channel = channelRepository.findByActiveChannelByUserId(account.getUserId())

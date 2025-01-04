@@ -7,7 +7,10 @@
 package com.lemoo.store.service;
 
 import com.lemoo.store.dto.request.VerifyStoreRequest;
+import com.lemoo.store.dto.response.InternalStoreResponse;
 
 public interface InternalStoreService {
-	boolean verifyStore(VerifyStoreRequest request);
+    boolean verifyStore(VerifyStoreRequest request);
+
+    InternalStoreResponse getStoreInfoByAccountId(String accountId);
 }

@@ -9,7 +9,7 @@ package com.lemoo.video.service.impl;
 
 import com.lemoo.video.client.StoreClient;
 import com.lemoo.video.dto.request.VerifyStoreRequest;
-import com.lemoo.video.dto.response.StoreInfoResponse;
+import com.lemoo.video.dto.response.InternalStoreResponse;
 import com.lemoo.video.exception.ForbiddenException;
 import com.lemoo.video.service.StoreService;
 import lombok.RequiredArgsConstructor;
@@ -31,20 +31,20 @@ public class StoreServiceImpl implements StoreService {
 
 
     @Override
-    public StoreInfoResponse getStoreInfo(String accountId) {
+    public InternalStoreResponse getStoreInfo(String accountId) {
         RMap<String, String> rMap = redisson.getMap(generateAccountStoreInfoKey(accountId));
         if (rMap.isExists()) {
             Map<String, String> storeInfoMap = rMap.readAllMap();
-            return StoreInfoResponse.builder()
+            return InternalStoreResponse.builder()
                     .id(storeInfoMap.get("id"))
                     .name(storeInfoMap.get("name"))
                     .logo(storeInfoMap.get("logo"))
                     .shortCode(storeInfoMap.get("shortCode"))
                     .build();
         } else {
-            StoreInfoResponse storeInfoResponse = storeClient.getStoreInfo(accountId).getData();
-            saveStoreInfoToCacheAsync(accountId, storeInfoResponse);
-            return storeInfoResponse;
+            InternalStoreResponse internalStoreResponse = storeClient.getStoreInfo(accountId).getData();
+            saveStoreInfoToCacheAsync(accountId, internalStoreResponse);
+            return internalStoreResponse;
         }
     }
 
@@ -70,7 +70,7 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Async
-    protected void saveStoreInfoToCacheAsync(String accountId, StoreInfoResponse store) {
+    protected void saveStoreInfoToCacheAsync(String accountId, InternalStoreResponse store) {
         String key = generateAccountStoreInfoKey(accountId);
         Map<String, String> storeInfoMap = Map.of(
                 "id", store.getId(),

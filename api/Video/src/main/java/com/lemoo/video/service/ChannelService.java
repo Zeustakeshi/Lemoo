@@ -9,7 +9,7 @@ package com.lemoo.video.service;
 import com.lemoo.video.dto.common.AuthenticatedAccount;
 import com.lemoo.video.dto.request.ChannelRequest;
 import com.lemoo.video.dto.response.ChannelResponse;
-import com.lemoo.video.dto.response.StoreInfoResponse;
+import com.lemoo.video.dto.response.InternalStoreResponse;
 
 import java.util.List;
 
@@ -34,5 +34,5 @@ public interface ChannelService {
 
     boolean isExistedChannel(String channelId);
 
-    StoreInfoResponse connectToSellerCenter(AuthenticatedAccount account);
+    InternalStoreResponse connectToSellerCenter(AuthenticatedAccount account);
 }

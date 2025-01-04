@@ -1,22 +1,25 @@
 import { getCategories } from "@/api/category.api";
 import { CategoryResponse } from "@/common/type/categories";
+import { cn } from "@/lib/cn";
 import { useQuery } from "@tanstack/react-query";
 import { router } from "expo-router";
 import React from "react";
 import { FlatList, Image, Pressable, Text, View } from "react-native";
 
-type Props = {};
+type Props = {
+    className?: string;
+};
 
-const CategoriesSlide = (props: Props) => {
+const CategoriesSlide = ({ className }: Props) => {
     const { data: categories } = useQuery({
         queryKey: ["get-categories"],
         queryFn: async () => await getCategories(0, 10),
     });
 
     return (
-        <View className="flex-1">
+        <View className={cn("bg-white", className)}>
             <View className="flex-row justify-between items-center gap-3 my-3">
-                <Text className="text-xl font-semibold">Dạnh mục</Text>
+                <Text className="text-xl font-semibold">Danh mục</Text>
                 {categories?.content && (
                     <Pressable
                         onPress={() =>

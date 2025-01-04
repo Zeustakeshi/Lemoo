@@ -1,8 +1,8 @@
+import Button from "@/components/ui/Button";
 import { Entypo } from "@expo/vector-icons";
 import { router } from "expo-router";
 import React from "react";
 import { Image, Pressable, View } from "react-native";
-import Button from "../ui/Button";
 type Props = {};
 
 const ShortItem = (props: Props) => {

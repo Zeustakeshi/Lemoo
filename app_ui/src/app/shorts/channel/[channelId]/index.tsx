@@ -1,8 +1,8 @@
 import { getChannelDetail, getChannelInfo } from "@/api/channel.api";
 import Loading from "@/components/loading/Loading";
-import ChannelHeader from "@/components/shorts/channel/ChannelHeader";
-import ChannelVideoList from "@/components/shorts/channel/ChannelVideoList";
 import { useAuth } from "@/context/AuthContext";
+import ChannelHeader from "@/modules/shorts/channel/ChannelHeader";
+import ChannelVideoList from "@/modules/shorts/channel/ChannelVideoList";
 import { setChannel } from "@/store/shorts/ChannelSlice";
 import { useQuery } from "@tanstack/react-query";
 import { Redirect } from "expo-router";

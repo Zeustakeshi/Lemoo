@@ -7,13 +7,13 @@ import {
     ReactionResponse,
     VideoShortResponse,
 } from "@/common/type/shorts.type";
+import Button from "@/components/ui/Button";
 import { AntDesign, Fontisto, MaterialIcons } from "@expo/vector-icons";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { router } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { Text, View } from "react-native";
 import Toast from "react-native-toast-message";
-import Button from "../../../ui/Button";
 import VideoChannelAction from "./VideoChannelAction";
 type Props = {
     video: VideoShortResponse;

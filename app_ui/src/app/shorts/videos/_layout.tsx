@@ -1,4 +1,4 @@
-import ShortVideoHeader from "@/components/shorts/video/ShortVideoHeader";
+import ShortVideoHeader from "@/modules/shorts/video/ShortVideoHeader";
 import { Slot } from "expo-router";
 import React from "react";
 import { View } from "react-native";

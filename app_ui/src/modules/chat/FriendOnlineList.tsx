@@ -1,6 +1,6 @@
+import Avatar, { AvatarImage } from "@/components/ui/Avatar";
 import React from "react";
 import { FlatList } from "react-native";
-import Avatar, { AvatarImage } from "../ui/Avatar";
 
 type Props = {};
 

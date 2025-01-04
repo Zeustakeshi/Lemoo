@@ -1,4 +1,4 @@
-import FriendRecommendList2 from "@/components/friend/recommend/FriendRecommendList2";
+import FriendRecommendList2 from "@/modules/friend/recommend/FriendRecommendList2";
 import React from "react";
 import { View } from "react-native";
 

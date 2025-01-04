@@ -4,7 +4,7 @@
 // import React, { useEffect, useState } from "react";
 // import { Alert } from "react-native";
 // import { View } from "react-native-reanimated/lib/typescript/Animated";
-// import Button from "../ui/Button";
+// import Button from "@/components/ui/Button";
 // type Props = {};
 
 // const VideoUploader = (props: Props) => {

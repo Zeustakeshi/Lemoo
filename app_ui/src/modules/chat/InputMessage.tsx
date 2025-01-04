@@ -1,7 +1,7 @@
+import Button from "@/components/ui/Button";
 import { Feather, Ionicons } from "@expo/vector-icons";
 import React from "react";
 import { TextInput, View } from "react-native";
-import Button from "../ui/Button";
 
 type Props = {};
 

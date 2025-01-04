@@ -1,9 +1,9 @@
+import Button from "@/components/ui/Button";
 import { useAuth } from "@/context/AuthContext";
 import { AntDesign, Feather } from "@expo/vector-icons";
 import { router } from "expo-router";
 import React from "react";
 import { View } from "react-native";
-import Button from "../../ui/Button";
 
 type Props = {};
 

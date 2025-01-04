@@ -1,7 +1,7 @@
-import ChatHeader from "@/components/chat/ChatHeader";
-import InputMessage from "@/components/chat/InputMessage";
-import MessageList from "@/components/chat/MessageList";
 import AppWrapper from "@/components/wrapper/AppWrapper";
+import ChatHeader from "@/modules/chat/ChatHeader";
+import InputMessage from "@/modules/chat/InputMessage";
+import MessageList from "@/modules/chat/MessageList";
 import React from "react";
 
 type Props = {};

@@ -1,7 +1,7 @@
+import AnimatedTyping from "@/components/ui/AnimatedTyping";
 import LottieView from "lottie-react-native";
 import React from "react";
 import { View } from "react-native";
-import AnimatedTyping from "../ui/AnimatedTyping";
 import AppWrapper from "../wrapper/AppWrapper";
 
 const loadingTexts = [

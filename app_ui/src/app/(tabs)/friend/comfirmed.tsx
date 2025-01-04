@@ -1,4 +1,4 @@
-import FriendConfirmedList from "@/components/friend/confirmed/FriendConfirmedList";
+import FriendConfirmedList from "@/modules/friend/confirmed/FriendConfirmedList";
 import React from "react";
 import { View } from "react-native";
 

@@ -1,9 +1,9 @@
 import { addFriend } from "@/api/friend.api";
 import { FriendRecommend } from "@/common/type/friend";
+import Button from "@/components/ui/Button";
 import { useMutation } from "@tanstack/react-query";
 import React, { useState } from "react";
 import { Text, View } from "react-native";
-import Button from "../../ui/Button";
 import FriendCard from "../FriendCard";
 
 type Props = {

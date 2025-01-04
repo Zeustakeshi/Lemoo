@@ -13,32 +13,34 @@ import com.lemoo.product.dto.request.ProductSkuRequest;
 import com.lemoo.product.dto.response.PageableResponse;
 import com.lemoo.product.dto.response.ProductResponse;
 import com.lemoo.product.dto.response.ProductSimpleResponse;
-import com.lemoo.product.dto.response.ProductVariantResponse;
+import com.lemoo.product.dto.response.ProductSkuResponse;
 import com.lemoo.product.entity.Category;
 import com.lemoo.product.entity.Product;
 import com.lemoo.product.entity.ProductSku;
 import com.lemoo.product.exception.ConflictException;
-import com.lemoo.product.exception.ForbiddenException;
 import com.lemoo.product.mapper.PageMapper;
 import com.lemoo.product.mapper.ProductMapper;
 import com.lemoo.product.mapper.ProductSkuMapper;
 import com.lemoo.product.repository.ProductRepository;
 import com.lemoo.product.repository.ProductSkuRepository;
-import com.lemoo.product.service.CategoryService;
-import com.lemoo.product.service.ProductService;
-import com.lemoo.product.service.SkuCodeService;
-import com.lemoo.product.service.StoreService;
+import com.lemoo.product.service.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class ProductServiceImpl implements ProductService {
+@Slf4j
+public class ProductStoreServiceImpl implements ProductStoreService {
     private static final Integer MAXIMUM_DRAFT_PRODUCT = 10;
     private final ProductRepository productRepository;
     private final ProductSkuRepository productSkuRepository;
@@ -48,12 +50,13 @@ public class ProductServiceImpl implements ProductService {
     private final StoreService storeService;
     private final SkuCodeService skuCodeService;
     private final ProductSkuMapper productSkuMapper;
+    private final MongoTemplate mongoTemplate;
+    private final ProductCacheService productCacheService;
+    private final ProductSkuCacheService productSkuCacheService;
 
     @Override
     public ProductSimpleResponse createProduct(String storeId, AuthenticatedAccount account, ProductRequest request) {
-        if (!storeService.checkStorePermission(storeId, account.getId())) {
-            throw new ForbiddenException("Only store owner can be modify product");
-        }
+        storeService.verifyStore(account.getId(), storeId);
 
         if (productRepository.existsByNameAndStoreId(request.getName(), storeId)) {
             throw new ConflictException("Product name has been existed in store");
@@ -72,9 +75,9 @@ public class ProductServiceImpl implements ProductService {
                 .name(request.getName())
                 .description(request.getDescription())
                 .variants(request.getVariants())
-                .smallImage(productMapper.mediaRequestToProductMedia(request.getSmallImage()))
+                .smallImage(productMapper.toProductMedia(request.getSmallImage()))
                 .images(request.getImages().stream()
-                        .map(productMapper::mediaRequestToProductMedia)
+                        .map(productMapper::toProductMedia)
                         .toList())
                 .build());
 
@@ -82,7 +85,8 @@ public class ProductServiceImpl implements ProductService {
 
         List<ProductSku> productSkus = productSkuRepository.saveAll(skuRequests.stream()
                 .map((skuRequest -> {
-                    var sku = productMapper.productSkuRequestToProductSku(skuRequest);
+                    var sku = productMapper.toProductSku(skuRequest);
+                    if (sku.getImage() == null) sku.setImage(product.getSmallImage());
                     sku.setSkuCode(skuCodeService.generateProductSku(
                             category.getCode(),
                             skuRequest.getVariants().values().stream().toList()
@@ -93,31 +97,41 @@ public class ProductServiceImpl implements ProductService {
                 }))
                 .toList());
 
-        var productResponse = productMapper.productToProductSimpleResponse(product);
-        productResponse.setSkus(productSkus.stream().map(productSkuMapper::productSkuToProductSkuSimpleResponse).toList());
+        // save cache
+        Set<String> productSkuCodes = productSkus.stream().map(ProductSku::getSkuCode).collect(Collectors.toSet());
+        productCacheService.saveProductAsync(productMapper.toProductHashCache(product));
+        productSkuCacheService.saveSkuBulkAsync(productSkus.stream().map(productSkuMapper::toProductSkuCache).toList());
+        productSkuCacheService.addSkuToStoreAsync(storeId, productSkuCodes);
+        productSkuCacheService.addSkuToProductAsync(product.getId(), productSkuCodes);
+
+        var productResponse = productMapper.toProductSimpleResponse(product);
+        productResponse.setSkus(productSkus.stream().map(productSkuMapper::toProductSkuSimpleResponse).toList());
         return productResponse;
     }
 
     @Override
     public PageableResponse<ProductResponse> getAllProductByStoreId(
             String storeId, AuthenticatedAccount account, int page, int limit) {
-        if (!storeService.checkStorePermission(storeId, account.getId())) {
-            throw new ForbiddenException("Only store owner can be view product");
-        }
+
+        storeService.verifyStore(account.getId(), storeId);
 
         PageRequest request = PageRequest.of(page, limit, Sort.by(Sort.Direction.DESC, "updatedAt"));
         Page<Product> products = productRepository.findAllByStoreId(storeId, request);
 
-        Page<ProductResponse> responses = products.map(product -> {
-            List<ProductVariantResponse> variantResponses =
-                    productSkuRepository.findAllByProductId(product.getId()).stream()
-                            .map(productMapper::variantToVariantResponse)
-                            .toList();
-            ProductResponse productResponse = productMapper.productToProductResponse(product);
-            productResponse.setVariants(variantResponses);
-            return productResponse;
-        });
+        Page<ProductResponse> responses = products.map(product ->
+                CompletableFuture.supplyAsync(() -> {
+                    List<ProductSkuResponse> skuResponse =
+                            productSkuRepository.findAllByProductId(product.getId()).stream()
+                                    .map(productSkuMapper::toSkuResponse)
+                                    .toList();
+                    ProductResponse productResponse = productMapper.toProductResponse(product);
+                    productResponse.setSkus(skuResponse);
+                    return productResponse;
+                })
+        ).map(CompletableFuture::join);
 
         return pageMapper.toPageableResponse(responses);
     }
+
+
 }

@@ -15,4 +15,6 @@ import java.util.List;
 @Repository
 public interface ProductSkuRepository extends MongoRepository<ProductSku, String> {
     List<ProductSku> findAllByProductId(String productId);
+
+
 }

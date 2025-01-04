@@ -10,7 +10,7 @@ import com.lemoo.product.common.constants.CustomRequestHeader;
 import com.lemoo.product.dto.common.AuthenticatedAccount;
 import com.lemoo.product.dto.request.ProductRequest;
 import com.lemoo.product.dto.response.ApiResponse;
-import com.lemoo.product.service.ProductService;
+import com.lemoo.product.service.ProductStoreService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,12 +18,11 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/products")
+@RequestMapping("/products/store")
 @RequiredArgsConstructor
-public class ProductController {
+public class ProductStoreController {
 
-    private final ProductService productService;
-
+    private final ProductStoreService productStoreService;
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
@@ -31,7 +30,7 @@ public class ProductController {
             @RequestHeader(CustomRequestHeader.STORE_ID) String storeId,
             @RequestBody @Valid ProductRequest request,
             @AuthenticationPrincipal AuthenticatedAccount account) {
-        return ApiResponse.success(productService.createProduct(storeId, account, request));
+        return ApiResponse.success(productStoreService.createProduct(storeId, account, request));
     }
 
     @GetMapping()
@@ -40,6 +39,6 @@ public class ProductController {
             @RequestParam(value = "page", required = false, defaultValue = "0") int page,
             @RequestParam(value = "limit", required = false, defaultValue = "10") int limit,
             @AuthenticationPrincipal AuthenticatedAccount account) {
-        return ApiResponse.success(productService.getAllProductByStoreId(storeId, account, page, limit));
+        return ApiResponse.success(productStoreService.getAllProductByStoreId(storeId, account, page, limit));
     }
 }

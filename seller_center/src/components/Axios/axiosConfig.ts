@@ -2,6 +2,7 @@ import axios from "axios";
 
 const axiosInstance = axios.create({
   baseURL: "https://mock.apidog.com/m1/730971-0-default", // URL API chính (thay đổi cho phù hợp)
+  //baseURL: "http://toomeet.click/api/v1", // URL API chính (thay đổi cho phù hợp)
   timeout: 10000, // Thời gian chờ tối đa cho một request (10 giây)
   headers: {
     "Content-Type": "application/json", // Kiểu dữ liệu mặc định là JSON

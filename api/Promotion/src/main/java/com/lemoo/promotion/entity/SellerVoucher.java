@@ -15,6 +15,7 @@ import lombok.experimental.SuperBuilder;
 import org.springframework.data.mongodb.core.index.Indexed;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -58,4 +59,5 @@ public abstract class SellerVoucher extends BaseEntity {
     private Long totalAvailable;
     private Long limit; // Voucher limit per customer
 
+    private Set<String> skus;
 }

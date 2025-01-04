@@ -6,11 +6,12 @@
 
 package com.lemoo.product.mapper;
 
+import com.lemoo.product.dto.common.ProductHashCache;
 import com.lemoo.product.dto.request.MediaRequest;
 import com.lemoo.product.dto.request.ProductSkuRequest;
+import com.lemoo.product.dto.response.ProductFeatureResponse;
 import com.lemoo.product.dto.response.ProductResponse;
 import com.lemoo.product.dto.response.ProductSimpleResponse;
-import com.lemoo.product.dto.response.ProductVariantResponse;
 import com.lemoo.product.entity.Product;
 import com.lemoo.product.entity.ProductMedia;
 import com.lemoo.product.entity.ProductSku;
@@ -21,16 +22,21 @@ import org.mapstruct.Mapping;
 public interface ProductMapper {
 
     @Mapping(target = "image", ignore = true)
-    ProductSku productSkuRequestToProductSku(ProductSkuRequest request);
+    ProductSku toProductSku(ProductSkuRequest request);
 
-    ProductSimpleResponse productToProductSimpleResponse(Product product);
+    @Mapping(target = "skus", ignore = true)
+    ProductSimpleResponse toProductSimpleResponse(Product product);
 
     @Mapping(target = "image", source = "product.smallImage.url")
-    @Mapping(target = "variants", ignore = true)
-    ProductResponse productToProductResponse(Product product);
-
-    ProductVariantResponse variantToVariantResponse(ProductSku variant);
+    @Mapping(target = "skus", ignore = true)
+    ProductResponse toProductResponse(Product product);
 
     @Mapping(target = "id", source = "mediaId")
-    ProductMedia mediaRequestToProductMedia(MediaRequest mediaRequest);
+    ProductMedia toProductMedia(MediaRequest mediaRequest);
+
+    @Mapping(target = "thumbnail", source = "product.smallImage.url")
+    ProductFeatureResponse toProductFeatureResponse(Product product);
+
+    @Mapping(target = "thumbnail", source = "product.smallImage.url")
+    ProductHashCache toProductHashCache(Product product);
 }

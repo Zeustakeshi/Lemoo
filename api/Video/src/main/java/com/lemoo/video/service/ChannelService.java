@@ -9,26 +9,30 @@ package com.lemoo.video.service;
 import com.lemoo.video.dto.common.AuthenticatedAccount;
 import com.lemoo.video.dto.request.ChannelRequest;
 import com.lemoo.video.dto.response.ChannelResponse;
+import com.lemoo.video.dto.response.StoreInfoResponse;
+
 import java.util.List;
 
 public interface ChannelService {
-	ChannelResponse createChannel(ChannelRequest request, AuthenticatedAccount account);
+    ChannelResponse createChannel(ChannelRequest request, AuthenticatedAccount account);
 
-	ChannelResponse updateChannel(ChannelRequest request, AuthenticatedAccount account);
+    ChannelResponse updateChannel(ChannelRequest request, AuthenticatedAccount account);
 
-	ChannelResponse getChannelInfo(AuthenticatedAccount account);
+    ChannelResponse getChannelInfo(AuthenticatedAccount account);
 
-	ChannelResponse getChannelDetail(String channelId, AuthenticatedAccount account);
+    ChannelResponse getChannelDetail(String channelId, AuthenticatedAccount account);
 
-	List<String> getAllFollowingChannel(String userId);
+    List<String> getAllFollowingChannel(String userId);
 
-	void followChannel(String channelId, AuthenticatedAccount account);
+    void followChannel(String channelId, AuthenticatedAccount account);
 
-	void unfollowChannel(String channelId, AuthenticatedAccount account);
+    void unfollowChannel(String channelId, AuthenticatedAccount account);
 
-	boolean canCreateVideo(String channelId, String userId);
+    boolean canCreateVideo(String channelId, String userId);
 
-	boolean isChannelOwner(String channelId, String userId);
+    boolean isChannelOwner(String channelId, String userId);
 
-	boolean isExistedChannel(String channelId);
+    boolean isExistedChannel(String channelId);
+
+    StoreInfoResponse connectToSellerCenter(AuthenticatedAccount account);
 }

@@ -6,12 +6,12 @@
 
 package com.lemoo.video.service;
 
-import com.lemoo.video.dto.response.StoreInfoResponse;
+import com.lemoo.video.dto.response.InternalStoreResponse;
 
 public interface StoreService {
 
 
-    StoreInfoResponse getStoreInfo(String accountId);
+    InternalStoreResponse getStoreInfo(String accountId);
 
     void verifyStore(String accountId, String storeId);
 }

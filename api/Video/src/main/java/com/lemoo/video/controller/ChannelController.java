@@ -20,42 +20,49 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class ChannelController {
 
-	private final ChannelService channelService;
+    private final ChannelService channelService;
 
-	@PostMapping()
-	public ApiResponse<?> createChannel(
-			@RequestBody @Valid ChannelRequest request, @AuthenticationPrincipal AuthenticatedAccount account) {
-		return ApiResponse.success(channelService.createChannel(request, account));
-	}
+    @PostMapping("/connect/seller-center")
+    public ApiResponse<?> connectToStore(
+            @AuthenticationPrincipal AuthenticatedAccount account
+    ) {
+        return ApiResponse.success(channelService.connectToSellerCenter(account));
+    }
 
-	@PutMapping
-	public ApiResponse<?> updateChannel(
-			@RequestBody @Valid ChannelRequest request, @AuthenticationPrincipal AuthenticatedAccount account) {
-		return ApiResponse.success(channelService.updateChannel(request, account));
-	}
+    @PostMapping()
+    public ApiResponse<?> createChannel(
+            @RequestBody @Valid ChannelRequest request, @AuthenticationPrincipal AuthenticatedAccount account) {
+        return ApiResponse.success(channelService.createChannel(request, account));
+    }
 
-	@GetMapping("/me")
-	public ApiResponse<?> getChannelInfo(@AuthenticationPrincipal AuthenticatedAccount account) {
-		return ApiResponse.success(channelService.getChannelInfo(account));
-	}
+    @PutMapping
+    public ApiResponse<?> updateChannel(
+            @RequestBody @Valid ChannelRequest request, @AuthenticationPrincipal AuthenticatedAccount account) {
+        return ApiResponse.success(channelService.updateChannel(request, account));
+    }
 
-	@GetMapping("{channelId}")
-	public ApiResponse<?> getChannelDetail(
-			@PathVariable("channelId") String channelId, @AuthenticationPrincipal AuthenticatedAccount account) {
-		return ApiResponse.success(channelService.getChannelDetail(channelId, account));
-	}
+    @GetMapping("/me")
+    public ApiResponse<?> getChannelInfo(@AuthenticationPrincipal AuthenticatedAccount account) {
+        return ApiResponse.success(channelService.getChannelInfo(account));
+    }
 
-	@PostMapping("{channelId}/follow")
-	public ApiResponse<?> followChannel(
-			@PathVariable("channelId") String channelId, @AuthenticationPrincipal AuthenticatedAccount account) {
-		channelService.followChannel(channelId, account);
-		return ApiResponse.success(true);
-	}
+    @GetMapping("{channelId}")
+    public ApiResponse<?> getChannelDetail(
+            @PathVariable("channelId") String channelId, @AuthenticationPrincipal AuthenticatedAccount account) {
+        return ApiResponse.success(channelService.getChannelDetail(channelId, account));
+    }
 
-	@DeleteMapping("{channelId}/follow")
-	public ApiResponse<?> unfollowChannel(
-			@PathVariable("channelId") String channelId, @AuthenticationPrincipal AuthenticatedAccount account) {
-		channelService.unfollowChannel(channelId, account);
-		return ApiResponse.success(true);
-	}
+    @PostMapping("{channelId}/follow")
+    public ApiResponse<?> followChannel(
+            @PathVariable("channelId") String channelId, @AuthenticationPrincipal AuthenticatedAccount account) {
+        channelService.followChannel(channelId, account);
+        return ApiResponse.success(true);
+    }
+
+    @DeleteMapping("{channelId}/follow")
+    public ApiResponse<?> unfollowChannel(
+            @PathVariable("channelId") String channelId, @AuthenticationPrincipal AuthenticatedAccount account) {
+        channelService.unfollowChannel(channelId, account);
+        return ApiResponse.success(true);
+    }
 }

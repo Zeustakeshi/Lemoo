@@ -19,21 +19,23 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @SuperBuilder
 @Data
 public class Channel extends BaseEntity {
-	@Indexed(unique = true)
-	private String name;
+    @Indexed(unique = true)
+    private String name;
 
-	private String avatar;
+    private String avatar;
 
-	@Indexed(unique = true)
-	private String userId;
+    @Indexed(unique = true)
+    private String userId;
 
-	private String background;
-	private String description;
-	private ChannelStatus status;
+    private String storeId;
 
-	@Builder.Default
-	private Long follower = 0L;
+    private String background;
+    private String description;
+    private ChannelStatus status;
 
-	@Builder.Default
-	private Long following = 0L;
+    @Builder.Default
+    private Long follower = 0L;
+
+    @Builder.Default
+    private Long following = 0L;
 }

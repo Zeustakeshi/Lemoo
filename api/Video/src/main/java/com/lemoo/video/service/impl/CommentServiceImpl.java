@@ -21,7 +21,6 @@ import com.lemoo.video.mapper.PageMapper;
 import com.lemoo.video.repository.CommentReactionRepository;
 import com.lemoo.video.repository.CommentRepository;
 import com.lemoo.video.repository.VideoRepository;
-import com.lemoo.video.service.CommentCacheService;
 import com.lemoo.video.service.CommentService;
 import com.lemoo.video.service.UserCacheService;
 import lombok.RequiredArgsConstructor;
@@ -35,145 +34,144 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class CommentServiceImpl implements CommentService {
 
-	private final CommentRepository commentRepository;
-	private final VideoRepository videoRepository;
-	private final CommentMapper commentMapper;
-	private final PageMapper pageMapper;
-	private final CommentReactionRepository commentReactionRepository;
-	private final CommentCacheService commentCacheService;
-	private final UserCacheService userCacheService;
+    private final CommentRepository commentRepository;
+    private final VideoRepository videoRepository;
+    private final CommentMapper commentMapper;
+    private final PageMapper pageMapper;
+    private final CommentReactionRepository commentReactionRepository;
+    private final UserCacheService userCacheService;
 
-	@Override
-	@Transactional
-	public CommentResponse createComment(CommentRequest request, String videoId, AuthenticatedAccount account) {
-		if (!videoRepository.existsByIdAndStatus(videoId, VideoStatus.PUBLIC)) {
-			throw new NotfoundException("Video " + videoId + " not found");
-		}
+    @Override
+    @Transactional
+    public CommentResponse createComment(CommentRequest request, String videoId, AuthenticatedAccount account) {
+        if (!videoRepository.existsByIdAndStatus(videoId, VideoStatus.PUBLIC)) {
+            throw new NotfoundException("Video " + videoId + " not found");
+        }
 
-		Comment comment = Comment.builder()
-				.videoId(videoId)
-				.content(request.getContent())
-				.userId(account.getUserId())
-				.build();
+        Comment comment = Comment.builder()
+                .videoId(videoId)
+                .content(request.getContent())
+                .userId(account.getUserId())
+                .build();
 
-		// update parent comment
-		if (request.getParent() != null) {
-			Comment parentComment = commentRepository
-					.findById(request.getParent())
-					.orElseThrow(() -> new NotfoundException("Comment parent not found"));
-			comment.setParentId(parentComment.getId());
-			parentComment.setReplyCount(parentComment.getReplyCount() + 1);
-			commentRepository.save(parentComment);
-		}
+        // update parent comment
+        if (request.getParent() != null) {
+            Comment parentComment = commentRepository
+                    .findById(request.getParent())
+                    .orElseThrow(() -> new NotfoundException("Comment parent not found"));
+            comment.setParentId(parentComment.getId());
+            parentComment.setReplyCount(parentComment.getReplyCount() + 1);
+            commentRepository.save(parentComment);
+        }
 
-		Comment newComment = commentRepository.save(comment);
+        Comment newComment = commentRepository.save(comment);
 
-		commentCacheService.saveComment(newComment, comment.getParentId() != null ? comment.getParentId() : videoId);
+//		commentCacheService.saveComment(newComment, comment.getParentId() != null ? comment.getParentId() : videoId);
 
-		CommentResponse response = commentMapper.toCommentResponse(newComment);
+        CommentResponse response = commentMapper.toCommentResponse(newComment);
 
-		response.setReaction(ReactionResponse.builder().build());
+        response.setReaction(ReactionResponse.builder().build());
 
-		return response;
-	}
+        return response;
+    }
 
-	@Override
-	public PageableResponse<CommentResponse> getAllComment(
-			String parentId, int page, int limit, String videoId, AuthenticatedAccount account) {
+    @Override
+    public PageableResponse<CommentResponse> getAllComment(
+            String parentId, int page, int limit, String videoId, AuthenticatedAccount account) {
 
-		if (!videoRepository.existsByIdAndStatus(videoId, VideoStatus.PUBLIC)) {
-			throw new NotfoundException("Video " + videoId + " not found");
-		}
+        if (!videoRepository.existsByIdAndStatus(videoId, VideoStatus.PUBLIC)) {
+            throw new NotfoundException("Video " + videoId + " not found");
+        }
 
-		PageRequest request = PageRequest.of(page, limit, Sort.by(Sort.Direction.DESC, "createdAt"));
+        PageRequest request = PageRequest.of(page, limit, Sort.by(Sort.Direction.DESC, "createdAt"));
 
-		Page<Comment> comments = commentRepository.findAllByVideoIdAndParentId(videoId, parentId, request);
+        Page<Comment> comments = commentRepository.findAllByVideoIdAndParentId(videoId, parentId, request);
 
-		//        String parent = parentId != null ? parentId : videoId;
+        //        String parent = parentId != null ? parentId : videoId;
 
-		//        if (commentCacheService.existChildren(parent)) {
-		//            comments = commentCacheService.getCommentByParentId(parent, request);
-		//        } else {
-		//            comments = commentRepository.findAllByVideoIdAndParentId(videoId, parentId, request);
-		//        }
+        //        if (commentCacheService.existChildren(parent)) {
+        //            comments = commentCacheService.getCommentByParentId(parent, request);
+        //        } else {
+        //            comments = commentRepository.findAllByVideoIdAndParentId(videoId, parentId, request);
+        //        }
 
-		Page<CommentResponse> commentResponses = comments.map(comment -> {
-			CommentResponse response = commentMapper.toCommentResponse(comment);
+        Page<CommentResponse> commentResponses = comments.map(comment -> {
+            CommentResponse response = commentMapper.toCommentResponse(comment);
 
-			ReactionResponse reactionResponse = ReactionResponse.builder()
-					.like(commentReactionRepository.countByCommentIdAndType(comment.getId(), ReactionType.LIKE))
-					.dislike(commentReactionRepository.countByCommentIdAndType(comment.getId(), ReactionType.DISLIKE))
-					.build();
+            ReactionResponse reactionResponse = ReactionResponse.builder()
+                    .like(commentReactionRepository.countByCommentIdAndType(comment.getId(), ReactionType.LIKE))
+                    .dislike(commentReactionRepository.countByCommentIdAndType(comment.getId(), ReactionType.DISLIKE))
+                    .build();
 
-			commentReactionRepository
-					.findByCommentIdAndUserId(comment.getId(), account.getUserId())
-					.ifPresent((reaction) -> {
-						reactionResponse.setLiked(reaction.getType().equals(ReactionType.LIKE));
-						reactionResponse.setDisliked(reaction.getType().equals(ReactionType.DISLIKE));
-					});
+            commentReactionRepository
+                    .findByCommentIdAndUserId(comment.getId(), account.getUserId())
+                    .ifPresent((reaction) -> {
+                        reactionResponse.setLiked(reaction.getType().equals(ReactionType.LIKE));
+                        reactionResponse.setDisliked(reaction.getType().equals(ReactionType.DISLIKE));
+                    });
 
-			response.setReaction(reactionResponse);
-			response.setUser(userCacheService.finUserById(comment.getUserId()));
-			return response;
-		});
+            response.setReaction(reactionResponse);
+            response.setUser(userCacheService.finUserById(comment.getUserId()));
+            return response;
+        });
 
-		return pageMapper.toPageableResponse(commentResponses);
-	}
+        return pageMapper.toPageableResponse(commentResponses);
+    }
 
-	@Override
-	@Transactional
-	public boolean reactionComment(ReactionType type, String commentId, String videoId, AuthenticatedAccount account) {
+    @Override
+    @Transactional
+    public boolean reactionComment(ReactionType type, String commentId, String videoId, AuthenticatedAccount account) {
 
-		Comment comment = commentRepository
-				.findByIdAndVideoId(commentId, videoId)
-				.orElseThrow(() -> new NotfoundException("Comment " + commentId + " not found"));
+        Comment comment = commentRepository
+                .findByIdAndVideoId(commentId, videoId)
+                .orElseThrow(() -> new NotfoundException("Comment " + commentId + " not found"));
 
-		var commentReactionOptional =
-				commentReactionRepository.findByCommentIdAndUserId(commentId, account.getUserId());
+        var commentReactionOptional =
+                commentReactionRepository.findByCommentIdAndUserId(commentId, account.getUserId());
 
-		CommentReaction commentReaction;
+        CommentReaction commentReaction;
 
-		if (commentReactionOptional.isPresent()) {
-			commentReaction = commentReactionOptional.get();
+        if (commentReactionOptional.isPresent()) {
+            commentReaction = commentReactionOptional.get();
 
-			if (commentReaction.getType().equals(type)) return false;
-			commentReaction.setType(type);
+            if (commentReaction.getType().equals(type)) return false;
+            commentReaction.setType(type);
 
-		} else {
-			commentReaction = CommentReaction.builder()
-					.commentId(commentId)
-					.type(type)
-					.userId(account.getUserId())
-					.build();
-		}
+        } else {
+            commentReaction = CommentReaction.builder()
+                    .commentId(commentId)
+                    .type(type)
+                    .userId(account.getUserId())
+                    .build();
+        }
 
-		commentReactionRepository.save(commentReaction);
+        commentReactionRepository.save(commentReaction);
 
-		return true;
-	}
+        return true;
+    }
 
-	@Override
-	@Transactional
-	public boolean unReactionComment(String commentId, String videoId, AuthenticatedAccount account) {
+    @Override
+    @Transactional
+    public boolean unReactionComment(String commentId, String videoId, AuthenticatedAccount account) {
 
-		if (!commentRepository.existsByIdAndVideoId(commentId, videoId)) {
-			throw new NotfoundException("Comment " + commentId + " not found");
-		}
+        if (!commentRepository.existsByIdAndVideoId(commentId, videoId)) {
+            throw new NotfoundException("Comment " + commentId + " not found");
+        }
 
-		var commentReactionOptional =
-				commentReactionRepository.findByCommentIdAndUserId(commentId, account.getUserId());
+        var commentReactionOptional =
+                commentReactionRepository.findByCommentIdAndUserId(commentId, account.getUserId());
 
-		if (commentReactionOptional.isEmpty()) return false;
+        if (commentReactionOptional.isEmpty()) return false;
 
-		CommentReaction commentReaction = commentReactionOptional.get();
+        CommentReaction commentReaction = commentReactionOptional.get();
 
-		commentReactionRepository.delete(commentReaction);
+        commentReactionRepository.delete(commentReaction);
 
-		return true;
-	}
+        return true;
+    }
 
-	@Override
-	public boolean deleteComment(String commendId, String videoId, AuthenticatedAccount account) {
-		return false;
-	}
+    @Override
+    public boolean deleteComment(String commendId, String videoId, AuthenticatedAccount account) {
+        return false;
+    }
 }

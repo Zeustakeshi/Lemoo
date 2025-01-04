@@ -50,7 +50,7 @@ const Banner = (props: Props) => {
     };
 
     return (
-        <View className="relative h-200">
+        <View className="relative h-[200]]">
             <FlatList
                 ref={sliderRef}
                 onMomentumScrollEnd={updateIndex}
@@ -59,9 +59,9 @@ const Banner = (props: Props) => {
                 renderItem={({ item }) => (
                     <View
                         style={{ width: windowWidth }}
-                        className="relative h-[170] max-h-full overflow-hidden"
+                        className="relative h-[200] max-h-full overflow-hidden"
                     >
-                        <View className="absolute top-0 left-0 size-full bg-slate-900/5 z-10"></View>
+                        <View className="absolute top-0 left-0 size-full bg-slate-900/20 z-10"></View>
                         <Image
                             className="w-full h-full object-contain"
                             source={{ uri: item }}

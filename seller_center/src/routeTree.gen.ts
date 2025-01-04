@@ -14,8 +14,10 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as TestImport } from './routes/Test'
-import { Route as PromotionImport } from './routes/Promotion'
 import { Route as StoreCreatStoreImport } from './routes/Store/CreatStore'
+import { Route as PromotionStoreFlashSaleImport } from './routes/Promotion/StoreFlashSale'
+import { Route as PromotionRegularVoucherImport } from './routes/Promotion/RegularVoucher'
+import { Route as PromotionPromotionImport } from './routes/Promotion/Promotion'
 import { Route as ProductProductManagementImport } from './routes/Product/ProductManagement'
 import { Route as ProductBennerProductsImport } from './routes/Product/BennerProducts'
 import { Route as ProductAddProductImport } from './routes/Product/AddProduct'
@@ -37,12 +39,6 @@ const TestRoute = TestImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const PromotionRoute = PromotionImport.update({
-  id: '/Promotion',
-  path: '/Promotion',
-  getParentRoute: () => rootRoute,
-} as any)
-
 const IndexLazyRoute = IndexLazyImport.update({
   id: '/',
   path: '/',
@@ -52,6 +48,24 @@ const IndexLazyRoute = IndexLazyImport.update({
 const StoreCreatStoreRoute = StoreCreatStoreImport.update({
   id: '/Store/CreatStore',
   path: '/Store/CreatStore',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const PromotionStoreFlashSaleRoute = PromotionStoreFlashSaleImport.update({
+  id: '/Promotion/StoreFlashSale',
+  path: '/Promotion/StoreFlashSale',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const PromotionRegularVoucherRoute = PromotionRegularVoucherImport.update({
+  id: '/Promotion/RegularVoucher',
+  path: '/Promotion/RegularVoucher',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const PromotionPromotionRoute = PromotionPromotionImport.update({
+  id: '/Promotion/Promotion',
+  path: '/Promotion/Promotion',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -112,13 +126,6 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexLazyImport
-      parentRoute: typeof rootRoute
-    }
-    '/Promotion': {
-      id: '/Promotion'
-      path: '/Promotion'
-      fullPath: '/Promotion'
-      preLoaderRoute: typeof PromotionImport
       parentRoute: typeof rootRoute
     }
     '/Test': {
@@ -184,6 +191,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductProductManagementImport
       parentRoute: typeof rootRoute
     }
+    '/Promotion/Promotion': {
+      id: '/Promotion/Promotion'
+      path: '/Promotion/Promotion'
+      fullPath: '/Promotion/Promotion'
+      preLoaderRoute: typeof PromotionPromotionImport
+      parentRoute: typeof rootRoute
+    }
+    '/Promotion/RegularVoucher': {
+      id: '/Promotion/RegularVoucher'
+      path: '/Promotion/RegularVoucher'
+      fullPath: '/Promotion/RegularVoucher'
+      preLoaderRoute: typeof PromotionRegularVoucherImport
+      parentRoute: typeof rootRoute
+    }
+    '/Promotion/StoreFlashSale': {
+      id: '/Promotion/StoreFlashSale'
+      path: '/Promotion/StoreFlashSale'
+      fullPath: '/Promotion/StoreFlashSale'
+      preLoaderRoute: typeof PromotionStoreFlashSaleImport
+      parentRoute: typeof rootRoute
+    }
     '/Store/CreatStore': {
       id: '/Store/CreatStore'
       path: '/Store/CreatStore'
@@ -198,7 +226,6 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
-  '/Promotion': typeof PromotionRoute
   '/Test': typeof TestRoute
   '/Accout/AccoutSetting': typeof AccoutAccoutSettingRoute
   '/Accout/ConfirmInfo': typeof AccoutConfirmInfoRoute
@@ -208,12 +235,14 @@ export interface FileRoutesByFullPath {
   '/Product/AddProduct': typeof ProductAddProductRoute
   '/Product/BennerProducts': typeof ProductBennerProductsRoute
   '/Product/ProductManagement': typeof ProductProductManagementRoute
+  '/Promotion/Promotion': typeof PromotionPromotionRoute
+  '/Promotion/RegularVoucher': typeof PromotionRegularVoucherRoute
+  '/Promotion/StoreFlashSale': typeof PromotionStoreFlashSaleRoute
   '/Store/CreatStore': typeof StoreCreatStoreRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
-  '/Promotion': typeof PromotionRoute
   '/Test': typeof TestRoute
   '/Accout/AccoutSetting': typeof AccoutAccoutSettingRoute
   '/Accout/ConfirmInfo': typeof AccoutConfirmInfoRoute
@@ -223,13 +252,15 @@ export interface FileRoutesByTo {
   '/Product/AddProduct': typeof ProductAddProductRoute
   '/Product/BennerProducts': typeof ProductBennerProductsRoute
   '/Product/ProductManagement': typeof ProductProductManagementRoute
+  '/Promotion/Promotion': typeof PromotionPromotionRoute
+  '/Promotion/RegularVoucher': typeof PromotionRegularVoucherRoute
+  '/Promotion/StoreFlashSale': typeof PromotionStoreFlashSaleRoute
   '/Store/CreatStore': typeof StoreCreatStoreRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexLazyRoute
-  '/Promotion': typeof PromotionRoute
   '/Test': typeof TestRoute
   '/Accout/AccoutSetting': typeof AccoutAccoutSettingRoute
   '/Accout/ConfirmInfo': typeof AccoutConfirmInfoRoute
@@ -239,6 +270,9 @@ export interface FileRoutesById {
   '/Product/AddProduct': typeof ProductAddProductRoute
   '/Product/BennerProducts': typeof ProductBennerProductsRoute
   '/Product/ProductManagement': typeof ProductProductManagementRoute
+  '/Promotion/Promotion': typeof PromotionPromotionRoute
+  '/Promotion/RegularVoucher': typeof PromotionRegularVoucherRoute
+  '/Promotion/StoreFlashSale': typeof PromotionStoreFlashSaleRoute
   '/Store/CreatStore': typeof StoreCreatStoreRoute
 }
 
@@ -246,7 +280,6 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/Promotion'
     | '/Test'
     | '/Accout/AccoutSetting'
     | '/Accout/ConfirmInfo'
@@ -256,11 +289,13 @@ export interface FileRouteTypes {
     | '/Product/AddProduct'
     | '/Product/BennerProducts'
     | '/Product/ProductManagement'
+    | '/Promotion/Promotion'
+    | '/Promotion/RegularVoucher'
+    | '/Promotion/StoreFlashSale'
     | '/Store/CreatStore'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/Promotion'
     | '/Test'
     | '/Accout/AccoutSetting'
     | '/Accout/ConfirmInfo'
@@ -270,11 +305,13 @@ export interface FileRouteTypes {
     | '/Product/AddProduct'
     | '/Product/BennerProducts'
     | '/Product/ProductManagement'
+    | '/Promotion/Promotion'
+    | '/Promotion/RegularVoucher'
+    | '/Promotion/StoreFlashSale'
     | '/Store/CreatStore'
   id:
     | '__root__'
     | '/'
-    | '/Promotion'
     | '/Test'
     | '/Accout/AccoutSetting'
     | '/Accout/ConfirmInfo'
@@ -284,13 +321,15 @@ export interface FileRouteTypes {
     | '/Product/AddProduct'
     | '/Product/BennerProducts'
     | '/Product/ProductManagement'
+    | '/Promotion/Promotion'
+    | '/Promotion/RegularVoucher'
+    | '/Promotion/StoreFlashSale'
     | '/Store/CreatStore'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
-  PromotionRoute: typeof PromotionRoute
   TestRoute: typeof TestRoute
   AccoutAccoutSettingRoute: typeof AccoutAccoutSettingRoute
   AccoutConfirmInfoRoute: typeof AccoutConfirmInfoRoute
@@ -300,12 +339,14 @@ export interface RootRouteChildren {
   ProductAddProductRoute: typeof ProductAddProductRoute
   ProductBennerProductsRoute: typeof ProductBennerProductsRoute
   ProductProductManagementRoute: typeof ProductProductManagementRoute
+  PromotionPromotionRoute: typeof PromotionPromotionRoute
+  PromotionRegularVoucherRoute: typeof PromotionRegularVoucherRoute
+  PromotionStoreFlashSaleRoute: typeof PromotionStoreFlashSaleRoute
   StoreCreatStoreRoute: typeof StoreCreatStoreRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
-  PromotionRoute: PromotionRoute,
   TestRoute: TestRoute,
   AccoutAccoutSettingRoute: AccoutAccoutSettingRoute,
   AccoutConfirmInfoRoute: AccoutConfirmInfoRoute,
@@ -315,6 +356,9 @@ const rootRouteChildren: RootRouteChildren = {
   ProductAddProductRoute: ProductAddProductRoute,
   ProductBennerProductsRoute: ProductBennerProductsRoute,
   ProductProductManagementRoute: ProductProductManagementRoute,
+  PromotionPromotionRoute: PromotionPromotionRoute,
+  PromotionRegularVoucherRoute: PromotionRegularVoucherRoute,
+  PromotionStoreFlashSaleRoute: PromotionStoreFlashSaleRoute,
   StoreCreatStoreRoute: StoreCreatStoreRoute,
 }
 
@@ -329,7 +373,6 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/Promotion",
         "/Test",
         "/Accout/AccoutSetting",
         "/Accout/ConfirmInfo",
@@ -339,14 +382,14 @@ export const routeTree = rootRoute
         "/Product/AddProduct",
         "/Product/BennerProducts",
         "/Product/ProductManagement",
+        "/Promotion/Promotion",
+        "/Promotion/RegularVoucher",
+        "/Promotion/StoreFlashSale",
         "/Store/CreatStore"
       ]
     },
     "/": {
       "filePath": "index.lazy.tsx"
-    },
-    "/Promotion": {
-      "filePath": "Promotion.tsx"
     },
     "/Test": {
       "filePath": "Test.tsx"
@@ -374,6 +417,15 @@ export const routeTree = rootRoute
     },
     "/Product/ProductManagement": {
       "filePath": "Product/ProductManagement.tsx"
+    },
+    "/Promotion/Promotion": {
+      "filePath": "Promotion/Promotion.tsx"
+    },
+    "/Promotion/RegularVoucher": {
+      "filePath": "Promotion/RegularVoucher.tsx"
+    },
+    "/Promotion/StoreFlashSale": {
+      "filePath": "Promotion/StoreFlashSale.tsx"
     },
     "/Store/CreatStore": {
       "filePath": "Store/CreatStore.tsx"

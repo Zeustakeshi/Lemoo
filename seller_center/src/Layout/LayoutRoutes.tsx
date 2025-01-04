@@ -13,7 +13,7 @@ const LayoutRoutes = () => {
     },
     {
       name: "Kênh marketing",
-      subname: [{ sub: "Công cụ khuyến mãi", link: "/Promotion" }],
+      subname: [{ sub: "Công cụ khuyến mãi", link: "/Promotion/Promotion" }],
       show: false,
     },
   ]);

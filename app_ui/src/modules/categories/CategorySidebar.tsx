@@ -1,3 +1,4 @@
+import Avatar, { AvatarImage } from "@/components/ui/Avatar";
 import { cn } from "@/lib/cn";
 import { setActiveCategory } from "@/store/category/categorySlice";
 import { RootState } from "@/store/store";
@@ -5,7 +6,6 @@ import { router } from "expo-router";
 import React from "react";
 import { FlatList, Pressable, Text } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import Avatar, { AvatarImage } from "../ui/Avatar";
 
 type Props = {};
 

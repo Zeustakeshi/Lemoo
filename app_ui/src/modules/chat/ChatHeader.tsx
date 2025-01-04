@@ -1,9 +1,9 @@
+import Avatar, { AvatarImage } from "@/components/ui/Avatar";
+import Button from "@/components/ui/Button";
 import { AntDesign, Feather } from "@expo/vector-icons";
 import { router } from "expo-router";
 import React from "react";
 import { Text, View } from "react-native";
-import Avatar, { AvatarImage } from "../ui/Avatar";
-import Button from "../ui/Button";
 
 type Props = {};
 

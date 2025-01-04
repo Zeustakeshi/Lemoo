@@ -1,4 +1,4 @@
-import FriendRequestList from "@/components/friend/request/FriendRequestList";
+import FriendRequestList from "@/modules/friend/request/FriendRequestList";
 import React from "react";
 import { View } from "react-native";
 

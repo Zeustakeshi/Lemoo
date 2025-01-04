@@ -1,7 +1,7 @@
-import NotificationCard from "@/components/notification/NotificationCard";
-import NotificationGroup from "@/components/notification/NotificationGroup";
 import Button from "@/components/ui/Button";
 import SceenHeaderBack from "@/components/ui/SceenHeaderBack";
+import NotificationCard from "@/modules/notification/NotificationCard";
+import NotificationGroup from "@/modules/notification/NotificationGroup";
 import { AntDesign, Feather, Ionicons } from "@expo/vector-icons";
 import LottieView from "lottie-react-native";
 import React from "react";

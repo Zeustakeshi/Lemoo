@@ -1,7 +1,7 @@
-import ChatList from "@/components/chat/ChatList";
-import FriendOnlineList from "@/components/chat/FriendOnlineList";
 import HeaderProfile from "@/components/header/HeaderProfile";
 import AppWrapper from "@/components/wrapper/AppWrapper";
+import ChatList from "@/modules/chat/ChatList";
+import FriendOnlineList from "@/modules/chat/FriendOnlineList";
 import React from "react";
 import { View } from "react-native";
 

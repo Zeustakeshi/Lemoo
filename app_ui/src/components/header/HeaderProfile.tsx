@@ -1,8 +1,8 @@
+import Avatar, { AvatarImage } from "@/components/ui/Avatar";
+import Button from "@/components/ui/Button";
 import { useAuth } from "@/context/AuthContext";
 import React from "react";
 import { Text, View } from "react-native";
-import Avatar, { AvatarImage } from "../ui/Avatar";
-import Button from "../ui/Button";
 import LineScan from "./LineScan";
 import Notification from "./Notification";
 import Setting from "./Setting";

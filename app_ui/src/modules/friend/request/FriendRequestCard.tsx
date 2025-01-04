@@ -1,6 +1,6 @@
+import Button from "@/components/ui/Button";
 import React from "react";
 import { Text, View } from "react-native";
-import Button from "../../ui/Button";
 import FriendCard from "../FriendCard";
 
 type Props = {};

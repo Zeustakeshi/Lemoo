@@ -14,7 +14,7 @@ const CategoriesSlide = (props: Props) => {
     });
 
     return (
-        <View className="">
+        <View className="flex-1">
             <View className="flex-row justify-between items-center gap-3 my-3">
                 <Text className="text-xl font-semibold">Dạnh mục</Text>
                 {categories?.content && (

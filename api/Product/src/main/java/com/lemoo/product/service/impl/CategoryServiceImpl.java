@@ -18,7 +18,6 @@ import com.lemoo.product.mapper.PageMapper;
 import com.lemoo.product.repository.CategoryRepository;
 import com.lemoo.product.service.CategoryService;
 import com.lemoo.product.service.ResourceService;
-import com.lemoo.product.service.SkuCodeService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.data.domain.Page;
@@ -39,7 +38,6 @@ public class CategoryServiceImpl implements CategoryService {
     private final CategoryMapper categoryMapper;
     private final PageMapper pageMapper;
     private final ResourceService resourceService;
-    private final SkuCodeService skuCodeService;
 
     @Override
     @SneakyThrows
@@ -51,7 +49,6 @@ public class CategoryServiceImpl implements CategoryService {
         Category category = Category.builder()
                 .name(dto.getName())
                 .isLeaf(true)
-                .code(skuCodeService.generateCategorySku())
                 .build();
 
         List<String> paths = new ArrayList<>();

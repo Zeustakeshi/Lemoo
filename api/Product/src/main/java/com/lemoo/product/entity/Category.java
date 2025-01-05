@@ -11,7 +11,6 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.CompoundIndexes;
-import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
@@ -28,9 +27,6 @@ public class Category extends BaseEntity {
 
     private String name;
     private String parentId;
-
-    @Indexed(unique = true)
-    private String code;
 
     @Builder.Default
     private List<String> paths = new ArrayList<>();

@@ -16,7 +16,7 @@ import { useForm } from "react-hook-form";
 
 import Cookies from "js-cookie";
 import { useState } from "react";
-import { useUserContext } from "../../Context/UserContext";
+
 import athorizedAxiosInstance from "../../utils/athorizedAxios";
 import { API_ROOT } from "../../utils/contants";
 
@@ -30,7 +30,7 @@ interface RegisterFormInputs {
 
 const Resgister = () => {
   const navigate = useNavigate();
-  const { setUser } = useUserContext(); // Lấy hàm setUser từ UserContext
+
   const {
     register,
     handleSubmit,
@@ -46,14 +46,21 @@ const Resgister = () => {
   const [successAlert, setSuccessAlert] = useState(false); // Success alert state
   const [codeRegister, setCodeRegister] = useState("");
 
+  const handleCloseAlert = () => {
+    setOpenAlert(false);
+  };
+  const handleCloseErrorAlert = () => {
+    setErrorAlert(false);
+  };
+  const handleCloseSuccessAlert = () => {
+    setSuccessAlert(false);
+  };
+
   const submitRegister = async (data: RegisterFormInputs) => {
     // Gọi API đăng ký trước khi gọi API OTP
     if (!otpSend) {
       try {
-        const res = await athorizedAxiosInstance.post(
-          `${API_ROOT}/auth/register`,
-          data
-        );
+        const res = await athorizedAxiosInstance.post(`/auth/register`, data);
         setCodeRegister(res.data.data.code); // sau khi gọi thành công API đăng ký thì lấy cái code
 
         // Mở cái Trường/ Modal OTP ra vì gọi thành công API đăng ký => OTP đã được gửi
@@ -65,36 +72,23 @@ const Resgister = () => {
     }
   };
   const handleOTP = async () => {
-    // // Xử lý dữ liệu sau khi nhấn nút
-    // console.log(inputOTP, "|", codeRegister);
     try {
       const OtpRes = await athorizedAxiosInstance.post(
-        `${API_ROOT}/auth/register/otp/verify`,
+        `/auth/register/otp/verify`,
         { code: codeRegister, otp: inputOTP }
       );
-
       // Lưu accessToken và refreshToken vào cookies
       Cookies.set("accessToken", OtpRes.data.data.accessToken.value, {
-        expires: 1, // Thời gian tồn tại của token, hay Thời gian tồn tại của cookie
-        secure: true, // Đảm bảo chỉ gửi cookies qua HTTPS
-        sameSite: "Strict", // Chỉ cho phép cookies được gửi cùng trang nguồn. Tức là,
-        // Kiểm soát cách thức cookie được gửi trong các yêu cầu cross-site. Strict ngăn không cho gửi cookie
-        // trong các yêu cầu bên ngoài.
-      });
-      Cookies.set("refreshToken", OtpRes.data.data.refreshToken.value, {
-        expires: 7, // Ví dụ: refreshToken tồn tại lâu hơn accessToken
+        expires: 1,
         secure: true,
         sameSite: "Strict",
       });
 
-      // Gọi API lấy thông tin người dùng, không cần truyền Authorization header
-      const userResponse = await athorizedAxiosInstance.get(
-        `${API_ROOT}/store/info`
-      );
-      console.log("Người dùng: ", userResponse.data.data);
-
-      const userData = userResponse.data.data;
-      setUser(userData);
+      Cookies.set("refreshToken", OtpRes.data.data.refreshToken.value, {
+        expires: 7,
+        secure: true,
+        sameSite: "Strict",
+      });
 
       setSuccessAlert(true);
       navigate({ to: "/" });
@@ -103,10 +97,11 @@ const Resgister = () => {
       setErrorAlert(true);
     }
   };
+
   const handleResendOTP = async () => {
     try {
       const res = await athorizedAxiosInstance.post(
-        `${API_ROOT}/auth/register/otp/resend`,
+        `/auth/register/otp/resend`,
         { code: codeRegister }
       );
       if (res.data.success) {
@@ -116,15 +111,6 @@ const Resgister = () => {
       console.error("Lỗi khi gửi lại OTP:", error);
       setErrorAlert(true);
     }
-  };
-  const handleCloseAlert = () => {
-    setOpenAlert(false);
-  };
-  const handleCloseErrorAlert = () => {
-    setErrorAlert(false);
-  };
-  const handleCloseSuccessAlert = () => {
-    setSuccessAlert(false);
   };
 
   return (

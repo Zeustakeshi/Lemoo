@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
-import axiosInstance from "../../../Axios/axiosConfig";
+
 import { DataMedia } from "../../../../type/formAddProduct";
 import { Modal, Box, Typography, Button, IconButton } from "@mui/material";
 import { Delete, Upload } from "@mui/icons-material";
+import athorizedAxiosInstance from "../../../../utils/athorizedAxios";
+import { useUserContext } from "../../../../Context/UserContext";
 
 type PropsItem = {
   isOpen: boolean;
@@ -13,6 +15,7 @@ type PropsItem = {
 type ImageData = {
   id: string;
   url: string;
+  file: File;
 };
 
 const UpSmallImage: React.FC<PropsItem> = ({
@@ -22,10 +25,13 @@ const UpSmallImage: React.FC<PropsItem> = ({
 }) => {
   const [images, setImages] = useState<ImageData[]>([]);
   const [newImage, setNewImage] = useState<ImageData>();
-
+  const { user } = useUserContext();
+  const storeID = user?.id;
   useEffect(() => {
     const getImages = async () => {
-      const res = await axiosInstance.get(`/media/stores/abc123/images`);
+      const res = await athorizedAxiosInstance.get(
+        `/media/stores/${storeID}/images`
+      );
       setImages(res.data.data.content);
     };
     getImages();
@@ -33,17 +39,22 @@ const UpSmallImage: React.FC<PropsItem> = ({
 
   const handleUploadImage = async () => {
     if (newImage) {
-      const updatedImages = [...images, newImage];
+      const formData = new FormData();
+      formData.append("image", newImage.file);
+      const resIMG = await athorizedAxiosInstance.post(
+        `/media/stores/${storeID}/images`,
+        formData
+      );
+      const updatedImages = [...images, resIMG.data.data];
       setImages(updatedImages);
-      await axiosInstance.post(`/media/stores/abc123/images`, newImage);
       setNewImage(undefined);
     }
   };
 
   const handleDeleteImage = async (imageId: string, imageName: string) => {
     setImages(images.filter((img) => img.url !== imageName));
-    await axiosInstance.delete(
-      `https://mock.apidog.com/m1/730971-0-default/media/stores/abc123/images/${imageId}`
+    await athorizedAxiosInstance.delete(
+      `/media/stores/${storeID}/images/${imageId}`
     );
   };
 
@@ -87,7 +98,7 @@ const UpSmallImage: React.FC<PropsItem> = ({
             paddingRight: "8px", // Thêm padding để tránh tràn khi cuộn
           }}
         >
-          {images.map((image) => (
+          {images?.map((image) => (
             <Box
               key={image.id}
               sx={{
@@ -145,7 +156,7 @@ const UpSmallImage: React.FC<PropsItem> = ({
               if (e.target.files && e.target.files[0]) {
                 const file = e.target.files[0];
                 const previewUrl = URL.createObjectURL(file);
-                setNewImage({ id: crypto.randomUUID(), url: previewUrl });
+                setNewImage({ id: crypto.randomUUID(), file, url: previewUrl });
                 return () => URL.revokeObjectURL(previewUrl);
               }
             }}

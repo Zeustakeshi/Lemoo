@@ -2,7 +2,9 @@ import axios from "axios";
 import { handleLogoutAPI, refreshTokenAPI } from "../../apis";
 import Cookies from "js-cookie";
 
-const athorizedAxiosInstance = axios.create();
+const athorizedAxiosInstance = axios.create({
+  baseURL: "http://toomeet.click/api/v1",
+});
 
 athorizedAxiosInstance.defaults.timeout = 1000 * 60 * 10;
 
@@ -15,6 +17,7 @@ athorizedAxiosInstance.interceptors.request.use(
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
+    config.withCredentials = false;
     return config;
   },
   (error) => {
@@ -35,7 +38,6 @@ athorizedAxiosInstance.interceptors.response.use(
     }
 
     const originalRequest = error.config;
-    console.log("originalRequest: ", originalRequest);
 
     if (error.response?.status === 410 && !originalRequest._retry) {
       originalRequest._retry = true;
@@ -44,7 +46,6 @@ athorizedAxiosInstance.interceptors.response.use(
 
       return refreshTokenAPI(refreshToken)
         .then((res) => {
-          console.log("Res Data: ", res.data);
           const { accessToken } = res.data;
           localStorage.setItem("accessToken", accessToken);
           athorizedAxiosInstance.defaults.headers.Authorization = `Bearer ${accessToken}`;
@@ -58,6 +59,7 @@ athorizedAxiosInstance.interceptors.response.use(
           return Promise.reject(_error);
         });
     }
+    return Promise.reject(error);
   }
 );
 

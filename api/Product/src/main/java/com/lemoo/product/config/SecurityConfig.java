@@ -36,7 +36,8 @@ public class SecurityConfig {
                         .accessDeniedHandler(accessDeniedHandler))
                 .authorizeHttpRequests(request -> request.requestMatchers(
                                 "/categories/**",
-                                "/products/recommend/**"
+                                "/products/recommend/**",
+                                "/products/public/**"
                         ).permitAll()
                         .anyRequest()
                         .authenticated())

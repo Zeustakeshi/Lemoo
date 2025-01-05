@@ -9,13 +9,13 @@ package com.lemoo.product.service;
 import com.lemoo.product.dto.common.AuthenticatedAccount;
 import com.lemoo.product.dto.request.ProductRequest;
 import com.lemoo.product.dto.response.PageableResponse;
-import com.lemoo.product.dto.response.ProductResponse;
 import com.lemoo.product.dto.response.ProductSimpleResponse;
+import com.lemoo.product.dto.response.SellerProductResponse;
 
-public interface ProductStoreService {
+public interface SellerProductService {
 
     ProductSimpleResponse createProduct(String storeId, AuthenticatedAccount account, ProductRequest request);
 
-    PageableResponse<ProductResponse> getAllProductByStoreId(String storeId, AuthenticatedAccount account, int page, int limit);
+    PageableResponse<SellerProductResponse> getAllProductByStoreId(String storeId, AuthenticatedAccount account, int page, int limit);
 
 }

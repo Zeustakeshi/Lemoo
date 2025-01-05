@@ -15,13 +15,13 @@ import java.util.List;
 
 @Data
 @Builder
-public class ProductResponse {
+public class SellerProductResponse {
     private String id;
     private String productSku;
     private String name;
     private String image;
     private ProductStatus status;
-    private List<ProductSkuResponse> skus;
+    private List<SellerProductSkuResponse> skus;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

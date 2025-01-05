@@ -1,42 +1,25 @@
 /*
  *  ProductMapper
  *  @author: Minhhieuano
- *  @created 12/14/2024 4:28 PM
+ *  @created 1/5/2025 10:59 PM
  * */
 
 package com.lemoo.product.mapper;
 
-import com.lemoo.product.dto.common.ProductHashCache;
-import com.lemoo.product.dto.request.MediaRequest;
-import com.lemoo.product.dto.request.ProductSkuRequest;
-import com.lemoo.product.dto.response.ProductFeatureResponse;
-import com.lemoo.product.dto.response.ProductResponse;
-import com.lemoo.product.dto.response.ProductSimpleResponse;
+import com.lemoo.product.dto.response.ProductDetailResponse;
 import com.lemoo.product.entity.Product;
 import com.lemoo.product.entity.ProductMedia;
-import com.lemoo.product.entity.ProductSku;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(componentModel = "spring")
+@Mapper
 public interface ProductMapper {
 
-    @Mapping(target = "image", ignore = true)
-    ProductSku toProductSku(ProductSkuRequest request);
-
     @Mapping(target = "skus", ignore = true)
-    ProductSimpleResponse toProductSimpleResponse(Product product);
+    ProductDetailResponse toProductDetailResponse(Product product);
 
-    @Mapping(target = "image", source = "product.smallImage.url")
-    @Mapping(target = "skus", ignore = true)
-    ProductResponse toProductResponse(Product product);
 
-    @Mapping(target = "id", source = "mediaId")
-    ProductMedia toProductMedia(MediaRequest mediaRequest);
-
-    @Mapping(target = "thumbnail", source = "product.smallImage.url")
-    ProductFeatureResponse toProductFeatureResponse(Product product);
-
-    @Mapping(target = "thumbnail", source = "product.smallImage.url")
-    ProductHashCache toProductHashCache(Product product);
+    default String mapMediaToString(ProductMedia media) {
+        return media != null ? media.getUrl() : null;
+    }
 }

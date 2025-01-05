@@ -22,5 +22,5 @@ public class ProductFeatureResponse {
     private Long promotionPrice;
     private Long totalSold;
     private Double ratting;
-    private Long ratingCount;
+    private Long rattingCount;
 }

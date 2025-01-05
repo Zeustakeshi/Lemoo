@@ -47,4 +47,6 @@ public class Product extends BaseEntity {
     private List<ProductVariant> variants;
 
     private Set<String> skus;
+
+    private Long totalSold;
 }

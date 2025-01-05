@@ -6,9 +6,8 @@ import {
   OutlinedInput,
   Select,
 } from "@mui/material";
-import { useFieldArray, useForm } from "react-hook-form";
+import { Controller, useFieldArray, useForm } from "react-hook-form";
 import CategoryMenu from "./Category/CategoryMenu";
-import Cookies from "js-cookie";
 import { Add, ErrorOutlineOutlined, Upload } from "@mui/icons-material";
 import {
   DataMedia,
@@ -21,17 +20,46 @@ import { useState } from "react";
 import { Category } from "../../../type/categories";
 import NoteAddProduct from "./Note/NoteAddProduct";
 import UpSmallImage from "./Media/UpSmallImage";
-import axiosInstance from "../../Axios/axiosConfig";
+import UpImageProducts from "./Media/UpImageProducts";
+import { FileInput } from "../../../utils/UploadFile/FileInput";
+import { useUserContext } from "../../../Context/UserContext";
+import athorizedAxiosInstance from "../../../utils/athorizedAxios";
 
 const FormAddProduct = () => {
+  const { user } = useUserContext();
   const [selectedCategories, setSelectedCategories] = useState<Category>();
   const [selectedImage, setSelectedImage] = useState<DataMedia>();
-  const [complete, setComplete] = useState<boolean>(false);
+  const [selectedProductImage, setSelectedProductImage] = useState<DataMedia[]>(
+    []
+  );
+  const [complete, setComplete] = useState<boolean>(true);
+  const [isSave, setIsSave] = useState<boolean>(false);
   const handleComplete = () => setComplete(true);
+  const handleSave = () => {
+    setComplete(false);
+    setIsSave(true);
+  };
+
+  const getStore = async () => {
+    try {
+      const getstore = await athorizedAxiosInstance.get("/products/store", {
+        headers: {
+          "X-store-Id": user?.id,
+        },
+      });
+      console.log(getstore.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const [openModalSmallImage, setOpenModalSmallImage] = useState(false);
   const handleOpenModalSmallImage = () => setOpenModalSmallImage(true);
   const handleCloseModalSmallImage = () => setOpenModalSmallImage(false);
+
+  const [openModalProductImage, setOpenModalProductImage] = useState(false);
+  const handleOpenModalProductImage = () => setOpenModalProductImage(true);
+  const handleCloseModalProductImage = () => setOpenModalProductImage(false);
 
   const { control, handleSubmit, register } = useForm<FormDataAddProduct>({
     defaultValues: {
@@ -64,6 +92,11 @@ const FormAddProduct = () => {
     setSelectedImage(Image);
   };
 
+  // nhận dữ liệu mới và cập nhật thêm phần tử qua CallBack
+  const handleSelectImageProduct = (selectedProductImage: DataMedia[]) => {
+    setSelectedProductImage((prev) => [...prev, ...selectedProductImage]);
+  };
+
   /**Dyamic form */
   const {
     fields: variantsFields,
@@ -85,35 +118,22 @@ const FormAddProduct = () => {
 
   const onSubmit = async (data: FormDataAddProduct) => {
     try {
-      const formData = new FormData();
-
-      // Thêm thông tin cơ bản
-      formData.append("name", data.name);
-      formData.append("description", data.description || "");
-
-      // Thêm danh mục (dạng JSON)
-
-      formData.append("categoryId", selectedCategories?.id || "");
-      formData.append("smallImage.mediaId", selectedImage?.mediaId || "");
-      formData.append("smallImage.url", selectedImage?.url || "");
-
-      // Thêm Attribute
-      data.variants.forEach((variants, index) => {
-        // Thêm thông tin của biến thể vào formData
-        formData.append(`variants[${index}][name]`, variants.name);
-        formData.append(
-          `variants[${index}][values]`,
-          JSON.stringify(variants.values)
-        );
-      });
       // tạo một mảng dữ liệu từ attribute ở trên
       const VariantsArray = data.variants.map((variants) => ({
         name: variants.name,
         values: variants.values,
       }));
-      console.log(VariantsArray);
-      //Covert key-value
+      // Kiểm tra nếu `VariantsArray` chứa dữ liệu hợp lệ
+      const isValidVariants = VariantsArray.some(
+        (variant) => variant.name && variant.values.length > 0
+      );
 
+      if (!isValidVariants) {
+        alert("Biến thể không được trống, hãy nhập lại.");
+        setComplete(true);
+        setIsSave(false);
+        return; // Kết thúc hàm nếu mảng không hợp lệ
+      }
       const result = VariantsArray.reduce<FormVariants[]>((acc, curr) => {
         // Nếu curr.values là chuỗi, chuyển nó thành mảng
         const values =
@@ -127,131 +147,97 @@ const FormAddProduct = () => {
         }
         return acc;
       }, []);
+      //Covert key-value
+      if (complete == false) {
+        const baseSku = {
+          name: "",
+          image: {} as DataMedia,
+          sellerSku: "",
+          allowSale: true,
+          price: 0,
+          specialPrice: 0,
+          specialFromDate: "",
+          specialToDate: "",
+          stock: 0,
+          packageWidth: 0,
+          packageHeight: 0,
+          packageLength: 0,
+          packageWeight: 0,
+          variants: {},
+        };
 
-      const baseSku = {
-        name: "",
-        sellerSku: "",
-        allowSale: true,
-        price: 0,
-        specialPrice: 0,
-        specialFromDate: "",
-        specialToDate: "",
-        stock: 0,
-        packageWidth: 0,
-        packageHeight: 0,
-        packageLength: 0,
-        packageWeight: 0,
-        variants: {},
-      };
-      // Tạo variant từ attribute
-      function generateVariants(result: FormVariants[]) {
-        const SkusResult: SkusVar[] = [];
+        // Tạo variant từ attribute
+        function generateVariants(result: FormVariants[]) {
+          const SkusResult: SkusVar[] = [];
 
-        function backtrack(
-          currentIndex: number,
-          currentVariants: Record<string, string>
-        ) {
-          if (currentIndex === result.length) {
-            const newVariant: SkusVar = {
-              ...baseSku,
-              variants: { ...currentVariants },
-              name: Object.values(currentVariants).join(" - "), // Tạo tên từ giá trị attributes
-            };
-            SkusResult.push(newVariant);
-            return;
+          function backtrack(
+            currentIndex: number,
+            currentVariants: Record<string, string>
+          ) {
+            if (currentIndex === result.length) {
+              const newVariant: SkusVar = {
+                ...baseSku,
+                variants: { ...currentVariants },
+                name: Object.values(currentVariants).join(" - "), // Tạo tên từ giá trị attributes
+              };
+              SkusResult.push(newVariant);
+              return;
+            }
+
+            const { name, values } = result[currentIndex];
+            for (const value of values) {
+              currentVariants[name] = value; // Thêm thuộc tính vào variant
+              backtrack(currentIndex + 1, currentVariants);
+              delete currentVariants[name]; // Xóa thuộc tính khi quay lui
+            }
           }
 
-          const { name, values } = result[currentIndex];
-          for (const value of values) {
-            currentVariants[name] = value; // Thêm thuộc tính vào variant
-            backtrack(currentIndex + 1, currentVariants);
-            delete currentVariants[name]; // Xóa thuộc tính khi quay lui
-          }
+          backtrack(0, {});
+          return SkusResult;
         }
 
-        backtrack(0, {});
-        return SkusResult;
+        const generatedVariants = generateVariants(result);
+        generatedVariants.forEach((item) => {
+          appendSku({
+            name: item.name,
+            sellerSku: item.sellerSku,
+            allowSale: item.allowSale,
+            price: item.price,
+            stock: item.stock,
+            packageHeight: item.packageHeight,
+            packageLength: item.packageLength,
+            packageWeight: item.packageWeight,
+            packageWidth: item.packageWidth,
+            variants: item.variants,
+            image: {
+              mediaId: "",
+              url: "",
+            },
+          });
+        });
       }
 
-      const generatedVariants = generateVariants(result);
-      console.log(generatedVariants);
-      generatedVariants.forEach((item) => {
-        appendSku({
-          name: item.name,
-          sellerSku: item.sellerSku,
-          allowSale: item.allowSale,
-          price: item.price,
-          stock: item.stock,
-          packageHeight: item.packageHeight,
-          packageLength: item.packageLength,
-          packageWeight: item.packageWeight,
-          packageWidth: item.packageWidth,
-          variants: item.variants,
-        });
-      });
+      if (complete && VariantsArray.length != 1) {
+        console.log("Dữ liệu sao khi complete: ", data);
+        data.categoryId = selectedCategories?.id || "";
+        data.smallImage.mediaId = selectedImage?.mediaId || "";
+        data.smallImage.url = selectedImage?.url || "";
+        data.images = selectedProductImage;
+        data.variants = result;
+        console.log("Dữ liệu sao khi thêm đủ dữ liệu: ", data);
 
-      if (complete) {
-        console.log(data);
-
-        // Thêm biến thể
-        data.skus.forEach((skus, index) => {
-          // Thêm thông tin của biến thể vào formData
-          formData.append(`skus[${index}][name]`, skus.name);
-          formData.append(`skus[${index}][sellerSku]`, " ");
-          formData.append(
-            `skus[${index}][allowSale]`,
-            skus.allowSale.toString()
-          );
-          // Nếu có giá đặc biệt, thêm vào
-          if (skus.specialPrice) {
-            formData.append(
-              `skus[${index}][specialPrice]`,
-              skus.specialPrice.toString()
-            );
-          }
-
-          //   // Nếu có thời gian áp dụng giá đặc biệt, thêm vào
-          if (skus.specialFromDate) {
-            formData.append(
-              `skus[${index}][specialFromDate]`,
-              skus.specialFromDate
-            );
-          }
-          if (skus.specialToDate) {
-            formData.append(
-              `skus[${index}][specialToDate]`,
-              skus.specialToDate
-            );
-          }
-
-          //   // Thêm số lượng tồn kho và các thông tin đóng gói
-          formData.append(`skus[${index}][stock]`, skus.stock.toString());
-          formData.append(
-            `skus[${index}][packageWidth]`,
-            skus.packageWidth.toString()
-          );
-          formData.append(
-            `skus[${index}][packageHeight]`,
-            skus.packageHeight.toString()
-          );
-          formData.append(
-            `skus[${index}][packageLength]`,
-            skus.packageLength.toString()
-          );
-          formData.append(
-            `skus[${index}][packageWeight]`,
-            skus.packageWeight.toString()
-          );
-          formData.append(`skus.variants`, JSON.stringify(skus.variants));
-        });
-
-        const storeId = Cookies.get("userInfo") || "";
+        const storeId = user?.id;
         //Gửi yêu cầu API
-        const response = await axiosInstance.post("/products", formData, {
-          headers: {
-            "X-Store-Id": storeId,
-          },
-        });
+        const response = await athorizedAxiosInstance.post(
+          "/products/store",
+          JSON.stringify(data),
+          {
+            headers: {
+              "Content-Type": "application/json",
+              "X-store-Id": storeId,
+            },
+          }
+        );
 
         // Xử lý phản hồi thành công
         return response.data;
@@ -305,6 +291,28 @@ const FormAddProduct = () => {
 2. Hình ảnh cần có kích thước từ 330x300 px đến 5000x5000px và không dược phép chứa nội dung nhạy cảm.
 3. Kích thước tối đa: 3 MB"
             />
+          </div>
+          <div>
+            <Button variant="contained" onClick={handleOpenModalProductImage}>
+              Tải Lên <Upload fontSize="small" />
+            </Button>
+            <UpImageProducts
+              onSelectProductImage={handleSelectImageProduct}
+              isOpen={openModalProductImage}
+              onClose={handleCloseModalProductImage}
+            />
+          </div>
+          {/* Hiển thị preview ảnh */}
+          <div className="flex items-center space-x-4">
+            {selectedProductImage.map((preview, index) => (
+              <div key={index} className="relative w-24 h-24">
+                <img
+                  src={preview.url}
+                  alt={`Preview ${index + 1}`}
+                  className="w-full h-full object-cover rounded-lg border"
+                />
+              </div>
+            ))}
           </div>
           <div className="flex items-center space-x-4"></div>
         </div>
@@ -500,6 +508,44 @@ const FormAddProduct = () => {
                       className="w-full rounded-md border-gray-300 p-2 text-gray-700 placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500"
                     />
                   </div>
+                  <div className="col-span-2">
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Hình ảnh
+                    </label>
+                    <Controller
+                      name={`skus.${index}.image`}
+                      control={control}
+                      render={({ field }) => (
+                        <FileInput
+                          maxFiles={1} // Tùy chỉnh số lượng file tối đa
+                          onFileUpload={async (files) => {
+                            // Gọi API để upload hình ảnh
+                            try {
+                              const formData = new FormData();
+                              formData.append("image", files[0]); // Thêm file vào formData
+
+                              const response =
+                                await athorizedAxiosInstance.post(
+                                  `/media/stores/${user?.id}/images`, // API upload ảnh
+                                  formData
+                                );
+
+                              // Lấy kết quả trả về từ API (id và url hình ảnh)
+                              const { id, url } = response.data.data;
+
+                              // Cập nhật giá trị vào react-hook-form
+                              field.onChange({
+                                id,
+                                url,
+                              });
+                            } catch (error) {
+                              console.error("Lỗi khi upload hình ảnh:", error);
+                            }
+                          }}
+                        />
+                      )}
+                    />
+                  </div>
                   {/* Trường nút xóa */}
                   <div className="col-span-full md:col-span-1 flex justify-end">
                     <button
@@ -512,14 +558,6 @@ const FormAddProduct = () => {
                   </div>
                 </div>
               ))}
-            </div>
-            <div className="flex items-center justify-end">
-              <button
-                className=" rounded-md bg-blue-500 text-white px-4 py-2 hover:bg-blue-600 focus:ring-2 focus:ring-blue-500"
-                onClick={handleComplete}
-              >
-                Cập nhật chỉnh sửa
-              </button>
             </div>
           </div>
         </div>
@@ -541,25 +579,28 @@ const FormAddProduct = () => {
         </div>
       </div>
 
-      {complete ? (
+      {complete && !isSave ? (
         <div className="flex items-center justify-center">
           <button
-            className=" rounded-md bg-green-500 text-white px-4 py-2 hover:bg-green-600 focus:ring-2 focus:ring-green-500"
+            className=" rounded-md bg-yellow-500 text-white px-4 py-2 hover:bg-yellow-600 focus:ring-2 focus:ring-yellow-500"
             type="submit"
+            onClick={handleSave}
           >
-            Tạo Sản Phẩm
+            Lưu
           </button>
         </div>
       ) : (
         <div className="flex items-center justify-center">
           <button
-            className=" rounded-md bg-yellow-500 text-white px-4 py-2 hover:bg-yellow-600 focus:ring-2 focus:ring-yellow-500"
+            className=" rounded-md bg-green-500 text-white px-4 py-2 hover:bg-green-600 focus:ring-2 focus:ring-green-500"
             type="submit"
+            onClick={handleComplete}
           >
-            Lưu
+            Tạo Sản Phẩm
           </button>
         </div>
       )}
+      <button onClick={getStore}>lấy sản phẩm</button>
     </form>
   );
 };

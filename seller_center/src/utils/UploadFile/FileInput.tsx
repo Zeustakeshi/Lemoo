@@ -40,6 +40,7 @@ export const FileInput: React.FC<FileInputProps> = ({
   return (
     <div className="flex space-x-4">
       {/* Nút chọn file */}
+
       <label className="flex items-center justify-center w-20 h-20 border-2 border-dashed rounded-lg cursor-pointer hover:border-blue-400">
         <span>
           <Add className="text-gray-500 hover:text-blue-400" />

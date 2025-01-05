@@ -6,7 +6,6 @@
 
 package com.lemoo.product.dto.request;
 
-import com.lemoo.product.entity.ProductVariant;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -43,5 +42,5 @@ public class ProductRequest {
     private List<ProductSkuRequest> skus;
 
     @Size(min = 1)
-    private List<ProductVariant> variants;
+    private List<ProductVariantRequest> variants;
 }

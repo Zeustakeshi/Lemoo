@@ -7,16 +7,16 @@
 package com.lemoo.product.service.impl;
 
 import com.lemoo.product.common.enums.ProductStatus;
+import com.lemoo.product.common.utils.SkuGenerator;
 import com.lemoo.product.dto.common.AuthenticatedAccount;
 import com.lemoo.product.dto.request.ProductRequest;
 import com.lemoo.product.dto.request.ProductSkuRequest;
+import com.lemoo.product.dto.request.ProductVariantRequest;
 import com.lemoo.product.dto.response.PageableResponse;
 import com.lemoo.product.dto.response.ProductResponse;
 import com.lemoo.product.dto.response.ProductSimpleResponse;
 import com.lemoo.product.dto.response.ProductSkuResponse;
-import com.lemoo.product.entity.Category;
-import com.lemoo.product.entity.Product;
-import com.lemoo.product.entity.ProductSku;
+import com.lemoo.product.entity.*;
 import com.lemoo.product.exception.ConflictException;
 import com.lemoo.product.mapper.PageMapper;
 import com.lemoo.product.mapper.ProductMapper;
@@ -48,7 +48,6 @@ public class ProductStoreServiceImpl implements ProductStoreService {
     private final ProductMapper productMapper;
     private final PageMapper pageMapper;
     private final StoreService storeService;
-    private final SkuCodeService skuCodeService;
     private final ProductSkuMapper productSkuMapper;
     private final MongoTemplate mongoTemplate;
     private final ProductCacheService productCacheService;
@@ -74,7 +73,7 @@ public class ProductStoreServiceImpl implements ProductStoreService {
                 .categories(category.getPaths())
                 .name(request.getName())
                 .description(request.getDescription())
-                .variants(request.getVariants())
+                .variants(toProductVariant(request.getVariants()))
                 .smallImage(productMapper.toProductMedia(request.getSmallImage()))
                 .images(request.getImages().stream()
                         .map(productMapper::toProductMedia)
@@ -87,10 +86,12 @@ public class ProductStoreServiceImpl implements ProductStoreService {
                 .map((skuRequest -> {
                     var sku = productMapper.toProductSku(skuRequest);
                     if (sku.getImage() == null) sku.setImage(product.getSmallImage());
-                    sku.setSkuCode(skuCodeService.generateProductSku(
-                            category.getCode(),
+
+                    sku.setSkuCode(SkuGenerator.generateSKU(
+                            product.getId(),
                             skuRequest.getVariants().values().stream().toList()
                     ));
+
                     sku.setProductId(product.getId());
                     sku.setStoreId(storeId);
                     return sku;
@@ -134,4 +135,17 @@ public class ProductStoreServiceImpl implements ProductStoreService {
     }
 
 
+    private List<ProductVariant> toProductVariant(List<ProductVariantRequest> request) {
+        return request.stream().map(variant -> ProductVariant
+                .builder()
+                .name(variant.getName())
+                .values(variant.getValues().stream()
+                        .map(value -> ProductVariantValue
+                                .builder()
+                                .code(SkuGenerator.hashToBase62(value))
+                                .name(value)
+                                .build()
+                        ).toList())
+                .build()).toList();
+    }
 }

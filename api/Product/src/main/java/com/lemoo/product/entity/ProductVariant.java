@@ -23,5 +23,5 @@ public class ProductVariant {
     @Indexed
     private String name; // / color, size, ....
 
-    private List<String> values; // [red, green, blue, ...]
+    private List<ProductVariantValue> values; // [red, green, blue, ...]
 }

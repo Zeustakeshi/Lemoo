@@ -1,7 +1,7 @@
 import { getCategories } from "@/api/category.api";
-import CategorySidebar from "@/components/categories/CategorySidebar";
 import SceenHeaderBack from "@/components/ui/SceenHeaderBack";
 import AppWrapper from "@/components/wrapper/AppWrapper";
+import CategorySidebar from "@/modules/categories/CategorySidebar";
 import { setCategories } from "@/store/category/categorySlice";
 import { useQuery } from "@tanstack/react-query";
 import { Slot } from "expo-router";

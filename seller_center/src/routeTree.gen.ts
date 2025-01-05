@@ -13,7 +13,13 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as Test2Import } from './routes/test2'
 import { Route as TestImport } from './routes/Test'
+
+
+import { Route as ReviewsoverReviewImport } from './routes/Reviews_overReview'
+import { Route as PromotionImport } from './routes/Promotion'
+
 import { Route as StoreCreatStoreImport } from './routes/Store/CreatStore'
 import { Route as PromotionStoreFlashSaleImport } from './routes/Promotion/StoreFlashSale'
 import { Route as PromotionRegularVoucherImport } from './routes/Promotion/RegularVoucher'
@@ -33,11 +39,31 @@ const IndexLazyImport = createFileRoute('/')()
 
 // Create/Update Routes
 
+const Test2Route = Test2Import.update({
+  id: '/test2',
+  path: '/test2',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const TestRoute = TestImport.update({
   id: '/Test',
   path: '/Test',
   getParentRoute: () => rootRoute,
 } as any)
+
+
+const ReviewsoverReviewRoute = ReviewsoverReviewImport.update({
+  id: '/Reviews_overReview',
+  path: '/Reviews_overReview',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const PromotionRoute = PromotionImport.update({
+  id: '/Promotion',
+  path: '/Promotion',
+  getParentRoute: () => rootRoute,
+} as any)
+
 
 const IndexLazyRoute = IndexLazyImport.update({
   id: '/',
@@ -128,11 +154,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexLazyImport
       parentRoute: typeof rootRoute
     }
+
+    '/Promotion': {
+      id: '/Promotion'
+      path: '/Promotion'
+      fullPath: '/Promotion'
+      preLoaderRoute: typeof PromotionImport
+      parentRoute: typeof rootRoute
+    }
+    '/Reviews_overReview': {
+      id: '/Reviews_overReview'
+      path: '/Reviews_overReview'
+      fullPath: '/Reviews_overReview'
+      preLoaderRoute: typeof ReviewsoverReviewImport
+      parentRoute: typeof rootRoute
+    }
+
     '/Test': {
       id: '/Test'
       path: '/Test'
       fullPath: '/Test'
       preLoaderRoute: typeof TestImport
+      parentRoute: typeof rootRoute
+    }
+    '/test2': {
+      id: '/test2'
+      path: '/test2'
+      fullPath: '/test2'
+      preLoaderRoute: typeof Test2Import
       parentRoute: typeof rootRoute
     }
     '/Accout/AccoutSetting': {
@@ -226,7 +275,12 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
+
+  '/Promotion': typeof PromotionRoute
+  '/Reviews_overReview': typeof ReviewsoverReviewRoute
+
   '/Test': typeof TestRoute
+  '/test2': typeof Test2Route
   '/Accout/AccoutSetting': typeof AccoutAccoutSettingRoute
   '/Accout/ConfirmInfo': typeof AccoutConfirmInfoRoute
   '/Accout/FileSeller': typeof AccoutFileSellerRoute
@@ -243,7 +297,12 @@ export interface FileRoutesByFullPath {
 
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
+
+  '/Promotion': typeof PromotionRoute
+  '/Reviews_overReview': typeof ReviewsoverReviewRoute
+
   '/Test': typeof TestRoute
+  '/test2': typeof Test2Route
   '/Accout/AccoutSetting': typeof AccoutAccoutSettingRoute
   '/Accout/ConfirmInfo': typeof AccoutConfirmInfoRoute
   '/Accout/FileSeller': typeof AccoutFileSellerRoute
@@ -261,7 +320,12 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexLazyRoute
+
+  '/Promotion': typeof PromotionRoute
+  '/Reviews_overReview': typeof ReviewsoverReviewRoute
+
   '/Test': typeof TestRoute
+  '/test2': typeof Test2Route
   '/Accout/AccoutSetting': typeof AccoutAccoutSettingRoute
   '/Accout/ConfirmInfo': typeof AccoutConfirmInfoRoute
   '/Accout/FileSeller': typeof AccoutFileSellerRoute
@@ -280,7 +344,12 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+
+    | '/Promotion'
+    | '/Reviews_overReview'
+
     | '/Test'
+    | '/test2'
     | '/Accout/AccoutSetting'
     | '/Accout/ConfirmInfo'
     | '/Accout/FileSeller'
@@ -296,7 +365,12 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+
+    | '/Promotion'
+    | '/Reviews_overReview'
+
     | '/Test'
+    | '/test2'
     | '/Accout/AccoutSetting'
     | '/Accout/ConfirmInfo'
     | '/Accout/FileSeller'
@@ -312,7 +386,12 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+
+    | '/Promotion'
+    | '/Reviews_overReview'
+
     | '/Test'
+    | '/test2'
     | '/Accout/AccoutSetting'
     | '/Accout/ConfirmInfo'
     | '/Accout/FileSeller'
@@ -330,7 +409,12 @@ export interface FileRouteTypes {
 
 export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
+
+  PromotionRoute: typeof PromotionRoute
+  ReviewsoverReviewRoute: typeof ReviewsoverReviewRoute
+
   TestRoute: typeof TestRoute
+  Test2Route: typeof Test2Route
   AccoutAccoutSettingRoute: typeof AccoutAccoutSettingRoute
   AccoutConfirmInfoRoute: typeof AccoutConfirmInfoRoute
   AccoutFileSellerRoute: typeof AccoutFileSellerRoute
@@ -347,7 +431,12 @@ export interface RootRouteChildren {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
+
+  PromotionRoute: PromotionRoute,
+  ReviewsoverReviewRoute: ReviewsoverReviewRoute,
+
   TestRoute: TestRoute,
+  Test2Route: Test2Route,
   AccoutAccoutSettingRoute: AccoutAccoutSettingRoute,
   AccoutConfirmInfoRoute: AccoutConfirmInfoRoute,
   AccoutFileSellerRoute: AccoutFileSellerRoute,
@@ -373,7 +462,12 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
+
+        "/Promotion",
+        "/Reviews_overReview",
+
         "/Test",
+        "/test2",
         "/Accout/AccoutSetting",
         "/Accout/ConfirmInfo",
         "/Accout/FileSeller",
@@ -391,8 +485,19 @@ export const routeTree = rootRoute
     "/": {
       "filePath": "index.lazy.tsx"
     },
+
+    "/Promotion": {
+      "filePath": "Promotion.tsx"
+    },
+    "/Reviews_overReview": {
+      "filePath": "Reviews_overReview.tsx"
+    },
+
     "/Test": {
       "filePath": "Test.tsx"
+    },
+    "/test2": {
+      "filePath": "test2.tsx"
     },
     "/Accout/AccoutSetting": {
       "filePath": "Accout/AccoutSetting.tsx"

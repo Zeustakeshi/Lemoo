@@ -1,4 +1,6 @@
 import { resendMfaOtp, verifyMfaOtp } from "@/api/auth.api";
+import Button from "@/components/ui/Button";
+import InputOtp from "@/components/ui/InputOtp";
 import { useAuth } from "@/context/AuthContext";
 import { otpSchema } from "@/schema/auth.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -9,8 +11,6 @@ import { Controller, useForm } from "react-hook-form";
 import { Text, View } from "react-native";
 import Toast from "react-native-toast-message";
 import { z } from "zod";
-import Button from "../ui/Button";
-import InputOtp from "../ui/InputOtp";
 
 type Props = {
     otpCode: string;

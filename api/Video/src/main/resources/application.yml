@@ -26,7 +26,8 @@ server:
     context-path: /videos
 services:
   auth-service: ${AUTH_SERVICE_URL:http://localhost:8082/auth}
-  user-service: ${USER_SERVICE_URL}
+  user-service: ${USER_SERVICE_URL:http://localhost:8082/users}
+  store-service: ${STORE_SERVICE_URL:http://localhost:8082/store}
 cloudinary:
   cloud-name: ${CLOUDINARY_NAME}
   api-key: ${CLOUDINARY_API_KEY}

@@ -1,7 +1,7 @@
+import AnimatedTyping from "@/components/ui/AnimatedTyping";
 import { Feather } from "@expo/vector-icons";
 import React from "react";
 import { View } from "react-native";
-import AnimatedTyping from "../ui/AnimatedTyping";
 
 type Props = {};
 
@@ -50,19 +50,19 @@ const searchTextSuggestions = [
 
 const ProductSearch = ({}: Props) => {
     return (
-        <View className="shadow-2xl shadow-slate-500 flex-1 relative  pr-8 rounded-xl bg-slate-50 overflow-hidden">
-            <View className="px-4 py-4 rounded-xl bg-slate-50 w-full">
+        <View className="shadow-2xl shadow-slate-500 flex-1 relative z-10  pr-8 rounded-xl bg-slate-50 border border-primary overflow-hidden">
+            <View className="p-3 px-5 rounded-xl bg-slate-50 w-full">
                 <AnimatedTyping
                     texts={searchTextSuggestions}
                     animatedTime={50}
                     intervalTime={4000}
-                    className="text-sm text-muded line-clamp-1"
+                    className="text-xs text-primary line-clamp-1"
                 ></AnimatedTyping>
             </View>
-            <View className="absolute top-2 right-2 size-10 rounded-xl flex justify-center items-center">
+            <View className="absolute  right-1 size-10 rounded-xl flex justify-center items-center">
                 <Feather
                     name="camera"
-                    size={18}
+                    size={16}
                     className="text-primary"
                     color="#004CFF"
                 />

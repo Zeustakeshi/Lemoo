@@ -1,6 +1,6 @@
+import Button from "@/components/ui/Button";
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
-import Button from "../ui/Button";
 
 type Props = {};
 

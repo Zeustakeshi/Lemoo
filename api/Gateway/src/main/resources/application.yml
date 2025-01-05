@@ -61,7 +61,6 @@ spring:
             - Path= ${api.prefix}/products/**
           filters:
             - StripPrefix=2
-            - AuthorizationFilter
         #============================  Category route ============================#
         - id: category_route
           uri: ${services.product-service}
@@ -85,6 +84,13 @@ spring:
           filters:
             - StripPrefix=2
             - AuthorizationFilter
+        #============================  Promotion route ============================#
+        - id: promotion_route
+          uri: ${services.promotion-service}
+          predicates:
+            - Path= ${api.prefix}/promotion/**
+          filters:
+            - StripPrefix=2
 
 services:
   auth-service: ${AUTH_SERVICE_URL:http://localhost:8082}
@@ -94,3 +100,4 @@ services:
   product-service: ${PRODUCT_SERVICE_URL:http://localhost:8090}
   video-service: ${VIDEO_SERVICE_URL:http://localhost:8092}
   media-service: ${MEDIA_SERVICE_URL:http://localhost:8094}
+  promotion-service: http://localhost:8096

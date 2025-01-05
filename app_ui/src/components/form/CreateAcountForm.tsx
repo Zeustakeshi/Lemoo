@@ -1,4 +1,6 @@
 import { createAccount } from "@/api/auth.api";
+import Button from "@/components/ui/Button";
+import Input from "@/components/ui/Input";
 import { createAccountSchema } from "@/schema/auth.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
@@ -9,8 +11,6 @@ import { Text, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import Toast from "react-native-toast-message";
 import { z } from "zod";
-import Button from "../ui/Button";
-import Input from "../ui/Input";
 
 type Props = {};
 

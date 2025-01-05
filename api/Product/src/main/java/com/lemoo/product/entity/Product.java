@@ -13,6 +13,7 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
+import java.util.Set;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -44,4 +45,6 @@ public class Product extends BaseEntity {
     private String storeId;
 
     private List<ProductVariant> variants;
+
+    private Set<String> skus;
 }

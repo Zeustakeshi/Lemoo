@@ -1,4 +1,6 @@
 import { createChannel } from "@/api/channel.api";
+import Button from "@/components/ui/Button";
+import Input from "@/components/ui/Input";
 import { useAuth } from "@/context/AuthContext";
 import {
     CreateChannelSchema,
@@ -14,8 +16,6 @@ import { Text, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import Toast from "react-native-toast-message";
 import { useDispatch } from "react-redux";
-import Button from "../ui/Button";
-import Input from "../ui/Input";
 
 type Props = {};
 

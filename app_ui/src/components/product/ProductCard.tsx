@@ -1,8 +1,9 @@
 import { cn } from "@/lib/cn";
 import { formatMoneyVND } from "@/lib/utils";
 import { AntDesign } from "@expo/vector-icons";
+import { router } from "expo-router";
 import React from "react";
-import { Image, Text, View } from "react-native";
+import { Image, Pressable, Text, View } from "react-native";
 
 type Props = {
     id: string;
@@ -14,6 +15,7 @@ type Props = {
     rattingCount: number;
     totalSold: number;
     className?: string;
+    to?: string;
 };
 
 const ProductCard = ({
@@ -28,7 +30,15 @@ const ProductCard = ({
     className,
 }: Props) => {
     return (
-        <View className={cn(" rounded-xl bg-white shadow-xl", className)}>
+        <Pressable
+            onPress={() => {
+                router.push({
+                    pathname: "/products/[productId]",
+                    params: { productId: id },
+                });
+            }}
+            className={cn(" rounded-xl bg-white shadow-xl", className)}
+        >
             <View className="aspect-square w-full max-w-full rounded-md ">
                 <Image
                     className="w-full h-full object-cover"
@@ -55,7 +65,7 @@ const ProductCard = ({
                     </Text>
                 </View>
             </View>
-        </View>
+        </Pressable>
     );
 };
 

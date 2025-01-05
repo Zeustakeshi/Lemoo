@@ -10,7 +10,7 @@ const Cart = (props: Props) => {
             variant="ghost"
             className="p-3 shadow-2xl shadow-slate-500 bg-white"
         >
-            <Feather name="shopping-cart" size={16} color="#004CFF" />
+            <Feather name="shopping-cart" size={20} color="#004CFF" />
         </Button>
     );
 };

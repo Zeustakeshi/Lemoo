@@ -53,7 +53,7 @@ const home = (props: Props) => {
                 )}
                 style={{ backgroundColor, borderColor }}
             >
-                <ProductSearch></ProductSearch>
+                <ProductSearch className="flex-1"></ProductSearch>
                 <Cart></Cart>
             </AnimatedSafeAreaView>
 

@@ -84,6 +84,13 @@ const RootLayout = () => {
                             ></Stack.Screen>
 
                             <Stack.Screen
+                                name="products/[productId]"
+                                options={{
+                                    headerShown: false,
+                                }}
+                            ></Stack.Screen>
+
+                            <Stack.Screen
                                 name="welcome"
                                 options={{
                                     headerShown: false,

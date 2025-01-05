@@ -15,8 +15,6 @@ const ProductFeature = ({ className }: Props) => {
         queryFn: () => getProductFeature(0, 6),
     });
 
-    console.log({ data });
-
     return (
         <View className={cn(className)}>
             <Text className="text-xl font-semibold mb-4 px-4 ">

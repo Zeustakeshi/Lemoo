@@ -7,7 +7,6 @@
 package com.lemoo.video.service.impl;
 
 import com.lemoo.video.common.enums.ReactionType;
-import com.lemoo.video.common.enums.VideoStatus;
 import com.lemoo.video.dto.common.AuthenticatedAccount;
 import com.lemoo.video.dto.request.CommentRequest;
 import com.lemoo.video.dto.response.CommentResponse;
@@ -23,12 +22,15 @@ import com.lemoo.video.repository.CommentRepository;
 import com.lemoo.video.repository.VideoRepository;
 import com.lemoo.video.service.CommentService;
 import com.lemoo.video.service.UserCacheService;
+import com.lemoo.video.service.VideoCacheService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.concurrent.CompletableFuture;
 
 @Service
 @RequiredArgsConstructor
@@ -40,13 +42,12 @@ public class CommentServiceImpl implements CommentService {
     private final PageMapper pageMapper;
     private final CommentReactionRepository commentReactionRepository;
     private final UserCacheService userCacheService;
+    private final VideoCacheService videoCacheService;
 
     @Override
     @Transactional
     public CommentResponse createComment(CommentRequest request, String videoId, AuthenticatedAccount account) {
-        if (!videoRepository.existsByIdAndStatus(videoId, VideoStatus.PUBLIC)) {
-            throw new NotfoundException("Video " + videoId + " not found");
-        }
+        videoCacheService.verifyPublicVideo(videoId);
 
         Comment comment = Comment.builder()
                 .videoId(videoId)
@@ -54,7 +55,6 @@ public class CommentServiceImpl implements CommentService {
                 .userId(account.getUserId())
                 .build();
 
-        // update parent comment
         if (request.getParent() != null) {
             Comment parentComment = commentRepository
                     .findById(request.getParent())
@@ -67,7 +67,6 @@ public class CommentServiceImpl implements CommentService {
         Comment newComment = commentRepository.save(comment);
 
 //		commentCacheService.saveComment(newComment, comment.getParentId() != null ? comment.getParentId() : videoId);
-
         CommentResponse response = commentMapper.toCommentResponse(newComment);
 
         response.setReaction(ReactionResponse.builder().build());
@@ -79,41 +78,28 @@ public class CommentServiceImpl implements CommentService {
     public PageableResponse<CommentResponse> getAllComment(
             String parentId, int page, int limit, String videoId, AuthenticatedAccount account) {
 
-        if (!videoRepository.existsByIdAndStatus(videoId, VideoStatus.PUBLIC)) {
-            throw new NotfoundException("Video " + videoId + " not found");
-        }
+        videoCacheService.verifyPublicVideo(videoId);
 
         PageRequest request = PageRequest.of(page, limit, Sort.by(Sort.Direction.DESC, "createdAt"));
 
         Page<Comment> comments = commentRepository.findAllByVideoIdAndParentId(videoId, parentId, request);
 
-        //        String parent = parentId != null ? parentId : videoId;
-
-        //        if (commentCacheService.existChildren(parent)) {
-        //            comments = commentCacheService.getCommentByParentId(parent, request);
-        //        } else {
-        //            comments = commentRepository.findAllByVideoIdAndParentId(videoId, parentId, request);
-        //        }
-
-        Page<CommentResponse> commentResponses = comments.map(comment -> {
+        Page<CommentResponse> commentResponses = comments.map(comment -> CompletableFuture.supplyAsync(() -> {
             CommentResponse response = commentMapper.toCommentResponse(comment);
-
             ReactionResponse reactionResponse = ReactionResponse.builder()
                     .like(commentReactionRepository.countByCommentIdAndType(comment.getId(), ReactionType.LIKE))
                     .dislike(commentReactionRepository.countByCommentIdAndType(comment.getId(), ReactionType.DISLIKE))
                     .build();
-
             commentReactionRepository
                     .findByCommentIdAndUserId(comment.getId(), account.getUserId())
                     .ifPresent((reaction) -> {
                         reactionResponse.setLiked(reaction.getType().equals(ReactionType.LIKE));
                         reactionResponse.setDisliked(reaction.getType().equals(ReactionType.DISLIKE));
                     });
-
             response.setReaction(reactionResponse);
             response.setUser(userCacheService.finUserById(comment.getUserId()));
             return response;
-        });
+        })).map(CompletableFuture::join);
 
         return pageMapper.toPageableResponse(commentResponses);
     }

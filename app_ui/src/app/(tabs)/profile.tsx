@@ -1,3 +1,4 @@
+import MyOrderSection from "@/components/order/MyOrderSection";
 import Avatar, { AvatarImage } from "@/components/ui/Avatar";
 import Button from "@/components/ui/Button";
 import { useAuth } from "@/context/AuthContext";
@@ -5,11 +6,20 @@ import { cn } from "@/lib/cn";
 import ProfileHeader from "@/modules/profile/ProfileHeader";
 import { Ionicons } from "@expo/vector-icons";
 import React, { useRef } from "react";
-import { Animated, SafeAreaView, ScrollView, Text, View } from "react-native";
+import {
+    Animated,
+    Dimensions,
+    SafeAreaView,
+    ScrollView,
+    Text,
+    View,
+} from "react-native";
 
 type Props = {};
 
 const AnimatedSafeAreaView = Animated.createAnimatedComponent(SafeAreaView);
+
+const { width } = Dimensions.get("screen");
 
 const profile = (props: Props) => {
     const { user, logout } = useAuth();
@@ -63,7 +73,13 @@ const profile = (props: Props) => {
                 showsVerticalScrollIndicator={false}
             >
                 <ProfileHeader></ProfileHeader>
-                <View className="min-h-[1000]"></View>
+                <View
+                    style={{ width }}
+                    className="p-4 flex-1 bg-white rounded-t-2xl "
+                >
+                    <MyOrderSection></MyOrderSection>
+                    <View className="min-h-[1000]"></View>
+                </View>
             </ScrollView>
         </View>
     );

@@ -1,10 +1,10 @@
 import { reactionComment, unReactionComment } from "@/api/shorts.api";
 import { CommentResponse } from "@/common/type/shorts.type";
 import Button from "@/components/ui/Button";
-import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useMutation } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import Toast from "react-native-toast-message";
 
 type Props = {
@@ -123,16 +123,16 @@ const CommentReaction = ({ comment, videoId }: Props) => {
                     />
                 )}
             </Button>
-            <Button variant="ghost" size="icon">
+            {/* <Button variant="ghost" size="icon">
                 <AntDesign name="message1" size={18} color="black" />
-            </Button>
-            {comment.replyCount > 0 && (
+            </Button> */}
+            {/* {comment.replyCount > 0 && (
                 <Button variant="link" size="icon">
                     <Text className="font-semibold text-primary">
                         {comment.replyCount} phản hồi
                     </Text>
                 </Button>
-            )}
+            )} */}
         </View>
     );
 };

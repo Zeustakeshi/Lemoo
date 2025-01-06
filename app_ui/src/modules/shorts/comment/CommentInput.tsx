@@ -1,15 +1,18 @@
 import { createVideoComment } from "@/api/shorts.api";
 import Button from "@/components/ui/Button";
+import { useShortsComment } from "@/context/ShortsCommentContext";
 import { Ionicons } from "@expo/vector-icons";
 import { useMutation } from "@tanstack/react-query";
 import React, { useState } from "react";
 import { ActivityIndicator, Pressable, TextInput, View } from "react-native";
 import Toast from "react-native-toast-message";
 
-type Props = { videoId: string; parentId?: string };
+type Props = { parentId?: string };
 
-const CommentInput = ({ parentId, videoId }: Props) => {
+const CommentInput = ({ parentId }: Props) => {
     const [commentText, setCommentText] = useState<string>("");
+
+    const { videoId } = useShortsComment();
 
     const { mutateAsync: createCommentMutate, isPending } = useMutation({
         mutationKey: [`create-comment-${videoId}-parent-${parentId}`],
@@ -34,10 +37,9 @@ const CommentInput = ({ parentId, videoId }: Props) => {
     };
 
     return (
-        <View className="justify-start items-center gap-x-2 flex-row py-2  border-t border-t-primary">
+        <View className=" justify-start items-center gap-x-2 flex-row py-2  border-t border-t-primary">
             <Pressable className="flex-1">
                 <TextInput
-                    className="max-h-[200]"
                     textAlignVertical="top"
                     style={{ maxHeight: 100 }}
                     multiline
@@ -50,11 +52,12 @@ const CommentInput = ({ parentId, videoId }: Props) => {
             <View className="flex-row justify-end items-center gap-x-2">
                 <Button
                     onPress={handleComment}
-                    variant="default"
+                    variant="secondary"
+                    className="p-4"
                     disabled={isPending}
                 >
                     {!isPending && (
-                        <Ionicons name="send" size={16} color="white" />
+                        <Ionicons name="send" size={14} color="#004CFF" />
                     )}
                     {isPending && <ActivityIndicator></ActivityIndicator>}
                 </Button>

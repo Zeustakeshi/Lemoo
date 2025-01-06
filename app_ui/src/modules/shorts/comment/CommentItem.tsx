@@ -15,12 +15,14 @@ const CommentItem = ({ videoId, comment }: Props) => {
         <View className="flex flex-row gap-x-2 justify-start items-start mb-4">
             <Avatar size={40}>
                 <AvatarImage
-                    source={{ uri: "https://i.pravatar.cc/150?img=31" }}
+                    source={{ uri: comment.user.avatar }}
                 ></AvatarImage>
             </Avatar>
             <View>
                 <View className="flex flex-row justify-start items-center gap-x-3">
-                    <Text className="text-sm font-medium">@minhhieu</Text>
+                    <Text className="text-sm font-medium">
+                        {comment.user.name}
+                    </Text>
                     <Text className="text-sm  text-muded">
                         {moment(comment.updatedAt).toNow()}
                     </Text>

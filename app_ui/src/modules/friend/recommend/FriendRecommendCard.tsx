@@ -4,6 +4,7 @@ import Button from "@/components/ui/Button";
 import { useMutation } from "@tanstack/react-query";
 import React, { useState } from "react";
 import { Text, View } from "react-native";
+import Toast from "react-native-toast-message";
 import FriendCard from "../FriendCard";
 
 type Props = {
@@ -11,33 +12,40 @@ type Props = {
 };
 
 const FriendRecommendCard = ({ user }: Props) => {
-    const [adddFriendSuccess, setAddFriendSuccess] = useState<boolean>(false);
+    const [isDeleted, setDeleted] = useState<boolean>(false);
 
-    const { mutateAsync, isPending } = useMutation({
+    const { mutateAsync, isPending, isSuccess } = useMutation({
         mutationKey: ["add-friend", user.id],
         mutationFn: () => addFriend(user.id),
     });
 
     const handleAddFriend = async () => {
         try {
-            const data = mutateAsync();
-            setAddFriendSuccess(true);
+            await mutateAsync();
+            Toast.show({
+                text1: `Đã gửi lời mời kết bạn đến ${user.username}`,
+            });
+            setDeleted(true);
         } catch (error: any) {
-            console.log({ error });
-            setAddFriendSuccess(false);
+            Toast.show({
+                type: "error",
+                text1: "Đồng ý kết bạn thất bại",
+                text2: error.message,
+            });
         }
     };
 
+    if (isDeleted) return null;
+
     return (
         <FriendCard avatar={user.avatar}>
-            <Text className="text-xl font-semibold">{user.displayName}</Text>
+            <Text className="text-xl font-semibold">{user.username}</Text>
             <Text numberOfLines={1} className="text-sm text-muded line-clamp-1">
-                {/* Lorem ipsum dolor sit, amet consectetur adipisicing elit. Magni
-                earum sunt nisi laboriosam quis eveniet rem non maxime commodi
-                dolor! */}
+                {/* Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Doloribus, repudiandae! */}
             </Text>
             <View className="flex-row justify-start w-full items-center gap-2 mt-2 ">
-                {adddFriendSuccess ? (
+                {isSuccess ? (
                     <Button
                         variant="secondary"
                         size="sm"

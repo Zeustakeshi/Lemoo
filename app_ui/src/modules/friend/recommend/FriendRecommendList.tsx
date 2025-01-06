@@ -1,13 +1,14 @@
 import { getRecommendFriend } from "@/api/friend.api";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import LottieView from "lottie-react-native";
 import React from "react";
-import { FlatList, Text, View } from "react-native";
+import { FlatList, View } from "react-native";
 import FriendRecommendCard from "./FriendRecommendCard";
 
 type Props = {};
 
 const FriendRecommendList = (props: Props) => {
-    const { data, fetchNextPage, hasNextPage, isLoading, refetch } =
+    const { data, fetchNextPage, hasNextPage, isFetchingNextPage, refetch } =
         useInfiniteQuery({
             queryKey: ["friend-recommend"],
             queryFn: async ({ pageParam }) =>
@@ -20,33 +21,37 @@ const FriendRecommendList = (props: Props) => {
         });
 
     return (
-        <FlatList
-            refreshing={isLoading}
-            onRefresh={() => {
-                console.log("refresh");
-                refetch();
-            }}
-            className=""
-            initialNumToRender={10}
-            renderItem={({ item }) => <FriendRecommendCard user={item} />}
-            data={data?.pages.flatMap(({ content }: any) => content ?? [])}
-            showsVerticalScrollIndicator={false}
-            onEndReached={() => {
-                if (hasNextPage) fetchNextPage();
-            }}
-            keyExtractor={(_, index) => index.toString()}
-            ListEmptyComponent={() => {
-                return (
-                    <View className="flex-1 justify-center items-center min-h-[150px]">
-                        <Text className="text-sm text-slate-800">
-                            Bạn chưa có học phần nào
-                        </Text>
+        <View>
+            <FlatList
+                refreshing={isFetchingNextPage}
+                data={data?.pages.flatMap(({ content }: any) => content ?? [])}
+                renderItem={({ item }) => <FriendRecommendCard user={item} />}
+                keyExtractor={(item, index) => index.toString()}
+                ListFooterComponent={() => (
+                    <View className="flex-1 justify-center items-center h-[400]">
+                        {isFetchingNextPage && (
+                            <LottieView
+                                style={{
+                                    width: 100,
+                                    height: 100,
+                                }}
+                                source={require("@/assets/images/animations/loader2.json")}
+                                autoPlay
+                                loop
+                            />
+                        )}
                     </View>
-                );
-            }}
-            ListFooterComponent={() => <View className="h-[100px] "></View>}
-            onEndReachedThreshold={5}
-        ></FlatList>
+                )}
+                onEndReached={() => {
+                    if (hasNextPage) fetchNextPage();
+                }}
+                onEndReachedThreshold={5}
+                onRefresh={() => {
+                    refetch();
+                }}
+                showsVerticalScrollIndicator={false}
+            />
+        </View>
     );
 };
 

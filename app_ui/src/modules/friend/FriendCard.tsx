@@ -12,7 +12,7 @@ type Props = {
 
 const FriendCard = ({ children, avatar = defaultAvatar }: Props) => {
     return (
-        <View className=" flex-row justify-start items-start gap-2 p-2">
+        <View className=" flex-row justify-start items-start gap-2 py-2  rounded-md">
             <Avatar size={80} variant="square">
                 <AvatarImage
                     source={{

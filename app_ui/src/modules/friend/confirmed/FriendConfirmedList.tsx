@@ -1,32 +1,53 @@
+import { getAllFriends } from "@/api/friend.api";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import LottieView from "lottie-react-native";
 import React from "react";
-import { FlatList, Text, View } from "react-native";
+import { FlatList, View } from "react-native";
 import FriendConfirmedCard from "./FriendConfirmedCard";
 
 type Props = {};
 
 const FriendConfirmedList = (props: Props) => {
+    const { data, fetchNextPage, hasNextPage, isFetchingNextPage, refetch } =
+        useInfiniteQuery({
+            queryKey: ["friend-list"],
+            queryFn: async ({ pageParam }) => await getAllFriends(pageParam),
+            getNextPageParam: (lastPage: any) => {
+                if (lastPage.last) return undefined;
+                return lastPage.pageNumber + 1;
+            },
+            initialPageParam: 0,
+        });
+
     return (
         <FlatList
-            className=""
-            initialNumToRender={10}
-            renderItem={({ item }) => <FriendConfirmedCard />}
-            data={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
+            refreshing={isFetchingNextPage}
+            data={data?.pages.flatMap(({ content }: any) => content ?? [])}
+            renderItem={({ item }) => <FriendConfirmedCard user={item} />}
+            keyExtractor={(item, index) => index.toString()}
+            ListFooterComponent={() => (
+                <View className="flex-1 justify-center items-center h-[400]">
+                    {isFetchingNextPage && (
+                        <LottieView
+                            style={{
+                                width: 100,
+                                height: 100,
+                            }}
+                            source={require("@/assets/images/animations/loader2.json")}
+                            autoPlay
+                            loop
+                        />
+                    )}
+                </View>
+            )}
+            onEndReached={() => {
+                if (hasNextPage) fetchNextPage();
+            }}
+            onEndReachedThreshold={5}
+            onRefresh={() => {
+                refetch();
+            }}
             showsVerticalScrollIndicator={false}
-            onEndReached={async () => {
-                console.log("end");
-            }}
-            keyExtractor={(_, index) => index.toString()}
-            ListEmptyComponent={() => {
-                // if (loading) return null;
-                return (
-                    <View className="flex-1 justify-center items-center min-h-[150px]">
-                        <Text className="text-sm text-slate-800">
-                            Bạn chưa có học phần nào
-                        </Text>
-                    </View>
-                );
-            }}
-            ListFooterComponent={() => <View className="h-[100px] "></View>}
         ></FlatList>
     );
 };

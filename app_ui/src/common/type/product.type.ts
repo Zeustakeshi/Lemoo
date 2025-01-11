@@ -1,4 +1,4 @@
-export type ProductFeatureResponse = {
+export type ProductOverview = {
     id: string;
     name: string;
     thumbnail: string;
@@ -8,6 +8,10 @@ export type ProductFeatureResponse = {
     promotionPrice: number;
     originPrice: number;
 };
+
+export type ProductFeatureResponse = {} & ProductOverview;
+
+export type ProductSearchResponse = {} & ProductOverview;
 
 export type ProductVariant = {
     name: string;

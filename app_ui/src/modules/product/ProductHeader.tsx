@@ -2,12 +2,10 @@ import Button from "@/components/ui/Button";
 import { Feather, Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import React from "react";
-import { Dimensions, View } from "react-native";
-import ProductSearch from "../../components/search/ProductSearch";
+import { View } from "react-native";
+import GlobalSearch from "../../components/search/GlobalSearch";
 
 type Props = {};
-
-const { width } = Dimensions.get("window");
 
 const ProductHeader = (props: Props) => {
     return (
@@ -20,7 +18,18 @@ const ProductHeader = (props: Props) => {
                 >
                     <Ionicons name="chevron-back" size={24} color="black" />
                 </Button>
-                <ProductSearch size="small" className="w-[180]"></ProductSearch>
+                <GlobalSearch
+                    onPress={() =>
+                        router.push({
+                            pathname: "/search/[keyword]",
+                            params: {
+                                keyword: "____",
+                            },
+                        })
+                    }
+                    size="small"
+                    className="w-[180]"
+                ></GlobalSearch>
             </View>
             <View className="flex flex-row justify-end items-center gap-3">
                 <Button size="icon" variant="ghost">

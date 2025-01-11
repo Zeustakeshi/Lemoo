@@ -91,6 +91,20 @@ const RootLayout = () => {
                             ></Stack.Screen>
 
                             <Stack.Screen
+                                name="search/[keyword]/index"
+                                options={{
+                                    headerShown: false,
+                                }}
+                            ></Stack.Screen>
+
+                            <Stack.Screen
+                                name="search/[keyword]/results"
+                                options={{
+                                    headerShown: false,
+                                }}
+                            ></Stack.Screen>
+
+                            <Stack.Screen
                                 name="welcome"
                                 options={{
                                     headerShown: false,

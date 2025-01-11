@@ -48,8 +48,7 @@ public class ProductSkuCacheServiceImpl implements ProductSkuCacheService {
                         "image", sku.getImage(),
                         "variants", toVariantString(sku.getVariants()),
                         "price", String.valueOf(sku.getPrice()),
-                        "stock", String.valueOf(sku.getStock()),
-                        "totalSold", String.valueOf(sku.getTotalSold())
+                        "stock", String.valueOf(sku.getStock())
                 );
                 String key = generateSkuHashCacheKey(sku.getSkuCode());
                 var skuCache = batch.getMap(key);

@@ -7,6 +7,7 @@ type Props = {
     className?: string;
     children: ReactNode;
     size?: number;
+    showBorder?: boolean;
 };
 
 const Avatar = ({
@@ -14,14 +15,16 @@ const Avatar = ({
     size = 50,
     className,
     variant = "circle",
+    showBorder = true,
 }: Props) => {
     return (
         <View
             className={cn(
-                "p-1 border border-slate-200 overflow-hidden",
+                " overflow-hidden",
                 {
                     "rounded-full": variant === "circle",
                     "rounded-md": variant === "square",
+                    "p-1 border border-slate-200": showBorder,
                 },
                 className
             )}

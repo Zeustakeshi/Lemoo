@@ -13,7 +13,7 @@ import com.lemoo.product.entity.Product;
 import com.lemoo.product.entity.ProductSku;
 import com.lemoo.product.exception.NotfoundException;
 import com.lemoo.product.mapper.PageMapper;
-import com.lemoo.product.mapper.ProductMapper;
+import com.lemoo.product.mapper.SellerProductMapper;
 import com.lemoo.product.repository.ProductRepository;
 import com.lemoo.product.service.ProductRecommendService;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +31,7 @@ import java.util.concurrent.CompletableFuture;
 @RequiredArgsConstructor
 public class ProductRecommendServiceTestImpl implements ProductRecommendService {
     private final ProductRepository productRepository;
-    private final ProductMapper productMapper;
+    private final SellerProductMapper sellerProductMapper;
     private final MongoTemplate mongoTemplate;
     private final PageMapper pageMapper;
 
@@ -45,7 +45,7 @@ public class ProductRecommendServiceTestImpl implements ProductRecommendService 
         Page<ProductFeatureResponse> productFeatureResponses = products
                 .map(product ->
                         CompletableFuture.supplyAsync(() -> {
-                            ProductFeatureResponse productResponse = productMapper.toProductFeatureResponse(product);
+                            ProductFeatureResponse productResponse = sellerProductMapper.toProductFeatureResponse(product);
 
                             Query query = new Query();
                             query.addCriteria(Criteria.where("productId").is(product.getId()));
@@ -56,12 +56,11 @@ public class ProductRecommendServiceTestImpl implements ProductRecommendService 
                                 throw new NotfoundException("Sku not found");
                             }
 
-                            productResponse.setRatingCount(10000L);
+                            productResponse.setRattingCount(10000L);
                             productResponse.setRatting(4.5);
                             productResponse.setOriginPrice(firstSku.getPrice());
+                            productResponse.setTotalSold(1000L);
                             productResponse.setPromotionPrice(firstSku.getPrice() - 1);
-                            productResponse.setTotalSold(firstSku.getTotalSold());
-
                             return productResponse;
                         })
                 ).map(CompletableFuture::join);

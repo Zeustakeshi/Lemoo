@@ -1,9 +1,15 @@
 import React, { createContext, useState, useContext, ReactNode } from "react";
 
 interface UserInfo {
+  id: string;
+  shortCode: string;
   name: string;
+  companyName: string;
+  verified: boolean;
+  logo: string;
   email: string;
   phone: string;
+  status: "ACTIVE" | "INACTIVE" | "DELETED";
 }
 
 interface UserContextProps {

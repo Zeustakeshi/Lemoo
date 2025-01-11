@@ -16,19 +16,19 @@ import { useForm } from "react-hook-form";
 
 import { useState } from "react";
 import Cookies from "js-cookie";
-import { useUserContext } from "../../Context/UserContext";
+
 import athorizedAxiosInstance from "../../utils/athorizedAxios";
 import { API_ROOT } from "../../utils/contants";
 
 /**Nếu OTP SAI THÌ SAO?? */
 interface LoginForm {
-  email: string;
+  accountName: string;
   password: string;
 }
 
 const Login = () => {
   const navigate = useNavigate();
-  const { setUser } = useUserContext();
+  // const { setUser } = useUserContext();
   const {
     register,
     handleSubmit,
@@ -43,32 +43,56 @@ const Login = () => {
   const [successAlert, setSuccessAlert] = useState(false); // Success alert state
   const [codeLogin, setCodeLogin] = useState("");
 
+  const handleCloseAlert = () => {
+    setOpenAlert(false);
+  };
+  const handleCloseSuccessAlert = () => {
+    setSuccessAlert(false);
+  };
+  const handleCloseErrorAlert = () => {
+    setErrorAlert(false);
+  };
+
   const submitLogIn = async (data: LoginForm) => {
     if (!otpSend) {
       // Gọi API đăng nhập trước khi gọi API OTP
       try {
-        const res = await athorizedAxiosInstance.post(
-          `${API_ROOT}/auth/login`,
-          data
-        );
+        const res = await athorizedAxiosInstance.post(`/auth/login`, data);
+        // Lưu accessToken và refreshToken vào cookies
+        Cookies.set("accessToken", res.data.data.accessToken.value, {
+          expires: 1, // Thời gian tồn tại của token, hay Thời gian tồn tại của cookie
+          secure: true, // Đảm bảo chỉ gửi cookies qua HTTPS
+          sameSite: "Strict", // Chỉ cho phép cookies được gửi cùng trang nguồn. Tức là,
+          // Kiểm soát cách thức cookie được gửi trong các yêu cầu cross-site. Strict ngăn không cho gửi cookie
+          // trong các yêu cầu bên ngoài.
+        });
+        Cookies.set("refreshToken", res.data.data.refreshToken.value, {
+          expires: 7, // Ví dụ: refreshToken tồn tại lâu hơn accessToken
+          secure: true,
+          sameSite: "Strict",
+        });
+
+        setSuccessAlert(true);
         setCodeLogin(res.data.data.code); // sau khi gọi thành công API đăng nhập thì lấy cái code;
+        navigate({ to: "/" });
         // Mở cái Trường/ Modal OTP ra
-        setOpen(true);
-        setOtpSend(true); // OTP đã gửi
+        //setOpen(true);
+        //setOtpSend(true); // OTP đã gửi
       } catch (error) {
         console.error("Lỗi đăng ký:", error);
       }
     }
   };
+
   const handleOTP = async () => {
     // Xử lý dữ liệu sau khi nhấn nút
     try {
       const OtpRes = await athorizedAxiosInstance.post(
-        `${API_ROOT}/auth/login/mfa/verify`,
+        `/auth/login/mfa/verify`,
         { code: codeLogin, otp: inputOTP }
       );
 
-      console.log(OtpRes.data);
+      console.log("res register", OtpRes.data);
 
       // Lưu accessToken và refreshToken vào cookies
       Cookies.set("accessToken", OtpRes.data.data.accessToken.value, {
@@ -84,28 +108,6 @@ const Login = () => {
         sameSite: "Strict",
       });
 
-      // Gọi API lấy thông tin người dùng, không cần truyền Authorization header
-      const userResponse = await athorizedAxiosInstance.get(
-        `${API_ROOT}/store/info`
-      );
-      Cookies.set("userInfo", userResponse.data.data, {
-        expires: 7, // Ví dụ: refreshToken tồn tại lâu hơn accessToken
-        secure: true,
-        sameSite: "Strict",
-      });
-      console.log("Người dùng: ", userResponse.data.data);
-      if (userResponse.status === 404) {
-        console.error("Bạn chưa có cửa hàng, hãy tạo cửa hàng ngay!.");
-        navigate({ to: "/Store/CreatStore" });
-      }
-
-      if (userResponse.status === 200) {
-        console.error("Bạn chưa có cửa hàng, hãy tạo cửa hàng ngay!.");
-        navigate({ to: "/" });
-      }
-
-      const userData = userResponse.data.data;
-      setUser(userData);
       setSuccessAlert(true);
       // Gọi check store
       navigate({ to: "/" });
@@ -116,10 +118,9 @@ const Login = () => {
   };
   const handleResendOTP = async () => {
     try {
-      const res = await athorizedAxiosInstance.post(
-        `${API_ROOT}/auth/login/mfa/resend`,
-        { code: codeLogin }
-      );
+      const res = await athorizedAxiosInstance.post(`/auth/login/mfa/resend`, {
+        code: codeLogin,
+      });
       if (res.data.success) {
         setOpenAlert(true);
       }
@@ -127,15 +128,6 @@ const Login = () => {
       console.error("Lỗi khi gửi lại OTP:", error);
       setErrorAlert(true);
     }
-  };
-  const handleCloseAlert = () => {
-    setOpenAlert(false);
-  };
-  const handleCloseSuccessAlert = () => {
-    setSuccessAlert(false);
-  };
-  const handleCloseErrorAlert = () => {
-    setErrorAlert(false);
   };
 
   return (
@@ -185,12 +177,12 @@ const Login = () => {
                   label="Enter Email..."
                   type="text"
                   variant="outlined"
-                  error={!!errors.email}
-                  {...register("email", {
+                  error={!!errors.accountName}
+                  {...register("accountName", {
                     required: "This field is required.",
                   })}
                 />
-                {errors.email && (
+                {errors.accountName && (
                   <Alert
                     severity="error"
                     sx={{

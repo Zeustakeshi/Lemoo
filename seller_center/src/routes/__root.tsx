@@ -10,7 +10,6 @@ export const Route = createRootRoute({
       <LayoutSystem>
         <LayoutRoutes />
       </LayoutSystem>
-
       <TanStackRouterDevtools />
     </>
   ),

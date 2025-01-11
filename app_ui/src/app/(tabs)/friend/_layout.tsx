@@ -1,6 +1,6 @@
-import FriendTabs from "@/components/friend/tab/FriendTabs";
 import HeaderProfile from "@/components/header/HeaderProfile";
 import AppWrapper from "@/components/wrapper/AppWrapper";
+import FriendTabs from "@/modules/friend/tab/FriendTabs";
 import { Slot } from "expo-router";
 import React from "react";
 import { View } from "react-native";

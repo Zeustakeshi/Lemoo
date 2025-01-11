@@ -1,5 +1,5 @@
 import { getAllRecommentVideo } from "@/api/shorts.api";
-import ShortVideo from "@/components/shorts/video/ShortVideo";
+import ShortVideo from "@/modules/shorts/video/ShortVideo";
 import { FlashList } from "@shopify/flash-list";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import React, { useCallback, useRef, useState } from "react";

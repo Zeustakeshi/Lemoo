@@ -1,3 +1,4 @@
+import Button from "@/components/ui/Button";
 import { cn } from "@/lib/cn";
 import { Feather } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
@@ -6,7 +7,6 @@ import LottieView from "lottie-react-native";
 import React, { useState } from "react";
 import { Text, View } from "react-native";
 import Toast from "react-native-toast-message";
-import Button from "../ui/Button";
 
 type Props = {
     onChange?: (video: ImagePicker.ImagePickerAsset) => void;

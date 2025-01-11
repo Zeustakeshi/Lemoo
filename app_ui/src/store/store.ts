@@ -1,5 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import categoryReducer from "./category/categorySlice";
+import productDetailReducer from "./product/productDetailSlice";
 import ChannelReducer from "./shorts/ChannelSlice";
 import videoViewReducer from "./shorts/VideoViewSlice";
 
@@ -8,6 +9,7 @@ export const store = configureStore({
         videoView: videoViewReducer,
         channel: ChannelReducer,
         category: categoryReducer,
+        productDetail: productDetailReducer,
     },
 });
 

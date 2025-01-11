@@ -6,6 +6,7 @@
 
 package com.lemoo.product.repository;
 
+import com.lemoo.product.common.enums.ProductStatus;
 import com.lemoo.product.entity.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,6 +22,8 @@ public interface ProductRepository extends MongoRepository<Product, String> {
 
     @Query(value = "{ 'status': 'DRAFT', 'storeId': ?0 }", count = true)
     long countDraftProducts(String storeId);
+
+    Optional<Product> findByIdAndStatus(String productId, ProductStatus status);
 
     Optional<Product> findByIdAndStoreId(String id, String storeId);
 

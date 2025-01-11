@@ -1,14 +1,17 @@
 import { useNavigate } from "@tanstack/react-router";
 import React from "react";
 import { handleLogoutAPI } from "../../../apis";
+import { useUserContext } from "../../Context/UserContext";
 
 // Đường dẫn import hàm API của bạn
 
 const LogoutButton: React.FC = () => {
   const navigate = useNavigate();
+  const { setUser } = useUserContext(); // Lấy hàm setUser từ UserContext
 
   const handleLogout = async () => {
     try {
+      setUser(null);
       // Gọi API để đăng xuất
       await handleLogoutAPI();
       // Chuyển hướng đến trang đăng nhập sau khi đăng xuất thành công

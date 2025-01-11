@@ -40,3 +40,11 @@ export const searchTextSuggestions = [
     "Đèn LED bàn học",
     "Quạt điều hòa",
 ];
+
+export const searchSuggestionTagsTest = [
+    "Tai nghe",
+    "Loa bluetooth",
+    "Máy ảnh",
+    "Ống kính máy ảnh",
+    "Ghế văn phòng",
+];

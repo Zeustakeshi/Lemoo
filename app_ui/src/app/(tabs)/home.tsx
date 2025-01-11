@@ -1,9 +1,10 @@
 import Cart from "@/components/header/Cart";
-import ProductSearch from "@/components/search/ProductSearch";
+import GlobalSearch from "@/components/search/GlobalSearch";
 import Banner from "@/components/slider/Banner";
 import { cn } from "@/lib/cn";
 import CategoriesSlide from "@/modules/categories/CategoriesSlide";
 import ProductFeature from "@/modules/feature/ProductFeature";
+import { router } from "expo-router";
 import React, { useRef, useState } from "react";
 import {
     Animated,
@@ -53,7 +54,15 @@ const home = (props: Props) => {
                 )}
                 style={{ backgroundColor, borderColor }}
             >
-                <ProductSearch className="flex-1"></ProductSearch>
+                <GlobalSearch
+                    onPress={() =>
+                        router.push({
+                            pathname: "/search/[keyword]",
+                            params: { keyword: "____" },
+                        })
+                    }
+                    className="flex-1"
+                ></GlobalSearch>
                 <Cart></Cart>
             </AnimatedSafeAreaView>
 

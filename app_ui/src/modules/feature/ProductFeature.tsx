@@ -23,7 +23,7 @@ const ProductFeature = ({ className }: Props) => {
             <View className="px-4 flex-row flex-wrap gap-2 justify-center">
                 {data?.content.map((item) => (
                     <ProductCard
-                        className="w-[48%] "
+                        className="w-[48%]"
                         key={item.id}
                         id={item.id}
                         name={item.name}

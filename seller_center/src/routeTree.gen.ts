@@ -15,11 +15,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Route as rootRoute } from './routes/__root'
 import { Route as Test2Import } from './routes/test2'
 import { Route as TestImport } from './routes/Test'
-
-
 import { Route as ReviewsoverReviewImport } from './routes/Reviews_overReview'
-import { Route as PromotionImport } from './routes/Promotion'
-
 import { Route as StoreCreatStoreImport } from './routes/Store/CreatStore'
 import { Route as PromotionStoreFlashSaleImport } from './routes/Promotion/StoreFlashSale'
 import { Route as PromotionRegularVoucherImport } from './routes/Promotion/RegularVoucher'
@@ -51,19 +47,11 @@ const TestRoute = TestImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-
 const ReviewsoverReviewRoute = ReviewsoverReviewImport.update({
   id: '/Reviews_overReview',
   path: '/Reviews_overReview',
   getParentRoute: () => rootRoute,
 } as any)
-
-const PromotionRoute = PromotionImport.update({
-  id: '/Promotion',
-  path: '/Promotion',
-  getParentRoute: () => rootRoute,
-} as any)
-
 
 const IndexLazyRoute = IndexLazyImport.update({
   id: '/',
@@ -154,14 +142,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexLazyImport
       parentRoute: typeof rootRoute
     }
-
-    '/Promotion': {
-      id: '/Promotion'
-      path: '/Promotion'
-      fullPath: '/Promotion'
-      preLoaderRoute: typeof PromotionImport
-      parentRoute: typeof rootRoute
-    }
     '/Reviews_overReview': {
       id: '/Reviews_overReview'
       path: '/Reviews_overReview'
@@ -169,7 +149,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ReviewsoverReviewImport
       parentRoute: typeof rootRoute
     }
-
     '/Test': {
       id: '/Test'
       path: '/Test'
@@ -275,10 +254,7 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
-
-  '/Promotion': typeof PromotionRoute
   '/Reviews_overReview': typeof ReviewsoverReviewRoute
-
   '/Test': typeof TestRoute
   '/test2': typeof Test2Route
   '/Accout/AccoutSetting': typeof AccoutAccoutSettingRoute
@@ -297,10 +273,7 @@ export interface FileRoutesByFullPath {
 
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
-
-  '/Promotion': typeof PromotionRoute
   '/Reviews_overReview': typeof ReviewsoverReviewRoute
-
   '/Test': typeof TestRoute
   '/test2': typeof Test2Route
   '/Accout/AccoutSetting': typeof AccoutAccoutSettingRoute
@@ -320,10 +293,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexLazyRoute
-
-  '/Promotion': typeof PromotionRoute
   '/Reviews_overReview': typeof ReviewsoverReviewRoute
-
   '/Test': typeof TestRoute
   '/test2': typeof Test2Route
   '/Accout/AccoutSetting': typeof AccoutAccoutSettingRoute
@@ -344,10 +314,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-
-    | '/Promotion'
     | '/Reviews_overReview'
-
     | '/Test'
     | '/test2'
     | '/Accout/AccoutSetting'
@@ -365,10 +332,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-
-    | '/Promotion'
     | '/Reviews_overReview'
-
     | '/Test'
     | '/test2'
     | '/Accout/AccoutSetting'
@@ -386,10 +350,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
-
-    | '/Promotion'
     | '/Reviews_overReview'
-
     | '/Test'
     | '/test2'
     | '/Accout/AccoutSetting'
@@ -409,10 +370,7 @@ export interface FileRouteTypes {
 
 export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
-
-  PromotionRoute: typeof PromotionRoute
   ReviewsoverReviewRoute: typeof ReviewsoverReviewRoute
-
   TestRoute: typeof TestRoute
   Test2Route: typeof Test2Route
   AccoutAccoutSettingRoute: typeof AccoutAccoutSettingRoute
@@ -431,10 +389,7 @@ export interface RootRouteChildren {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
-
-  PromotionRoute: PromotionRoute,
   ReviewsoverReviewRoute: ReviewsoverReviewRoute,
-
   TestRoute: TestRoute,
   Test2Route: Test2Route,
   AccoutAccoutSettingRoute: AccoutAccoutSettingRoute,
@@ -462,10 +417,7 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-
-        "/Promotion",
         "/Reviews_overReview",
-
         "/Test",
         "/test2",
         "/Accout/AccoutSetting",
@@ -485,14 +437,9 @@ export const routeTree = rootRoute
     "/": {
       "filePath": "index.lazy.tsx"
     },
-
-    "/Promotion": {
-      "filePath": "Promotion.tsx"
-    },
     "/Reviews_overReview": {
       "filePath": "Reviews_overReview.tsx"
     },
-
     "/Test": {
       "filePath": "Test.tsx"
     },

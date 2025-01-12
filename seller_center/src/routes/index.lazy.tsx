@@ -28,6 +28,7 @@ function Index() {
 
           if (res.status === 200) {
             setUser(res.data.data);
+            sessionStorage.setItem("StoreId", JSON.stringify(res.data.data.id));
           }
         }
       } catch (error: any) {

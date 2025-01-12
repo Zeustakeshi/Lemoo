@@ -1,18 +1,18 @@
-name: store_service_deployment
+name: promotion_service_deployment
 on:
   push:
     branches:
       - test/deployment
     paths:
-      - 'api/Store/**'
-      - '.github/workflows/ci_store_service_deployment.yml'
+      - 'api/Promotion/**'
+      - '.github/workflows/ci_promotion_service_deployment.yml'
 jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      DB_URL: "jdbc:postgresql://autorack.proxy.rlwy.net:33704/railway"
-      DB_USER: "postgres"
-      DB_PASSWORD: JdGXWHZoVsWJPLDJkrmEnJZjHCpZHDSw
+      MONGODB_URI: "mongodb://mongo:qoLbqVMtdXjdjMffkGZJHvBwnBesfhbm@autorack.proxy.rlwy.net:34326"
+      MONGODB_NAME: "test"
+      REDIS_URL: "redis://default:BsvLfndXtjrJYAWvYiOAlTvAYFaRPRgj@autorack.proxy.rlwy.net:29810"
       CLOUDINARY_NAME: ${{secrets.CLOUDINARY_NAME}}
       CLOUDINARY_API_KEY: ${{secrets.CLOUDINARY_API_KEY}}
       CLOUDINARY_API_SECRET: ${{secrets.CLOUDINARY_API_SECRET}}
@@ -26,15 +26,15 @@ jobs:
           distribution: 'temurin'
           cache: maven
       - name: Build with Maven
-        working-directory: ./api/Store
+        working-directory: ./api/Promotion
         run: mvn clean package
       - name: Build the Docker image
-        working-directory: ./api/Store
-        run: docker build . --file Dockerfile --tag zeustakeshi/lemoo-store-service:latest
+        working-directory: ./api/Promotion
+        run: docker build . --file Dockerfile --tag zeustakeshi/lemoo-promotion-service:latest
       - name: login Dockerhub
         run: |
           docker login -u "zeustakeshi" -p ${{ secrets.DOCKER_HUB_TOKEN }}
-          docker push zeustakeshi/lemoo-store-service:latest
+          docker push zeustakeshi/lemoo-promotion-service:latest
           
           
           

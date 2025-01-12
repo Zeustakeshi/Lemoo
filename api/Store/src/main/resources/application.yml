@@ -49,7 +49,6 @@ server:
     context-path: /store
 services:
   auth-service: ${AUTH_SERVICE_URL:http://localhost:8082/auth}
-
 cloudinary:
   cloud-name: ${CLOUDINARY_NAME}
   api-key: ${CLOUDINARY_API_KEY}

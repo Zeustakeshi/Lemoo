@@ -7,6 +7,7 @@
 package com.lemoo.auth.common.enums;
 
 public enum Role {
-	USER,
-	SELLER
+    USER,
+    SELLER,
+    ADMIN
 }

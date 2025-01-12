@@ -21,7 +21,7 @@ const ProductFeature = ({ className }: Props) => {
                 Sản phẩm nổi bật
             </Text>
             <View className="px-4 flex-row flex-wrap gap-2 justify-center">
-                {data?.content.map((item) => (
+                {data?.content?.map((item) => (
                     <ProductCard
                         className="w-[48%]"
                         key={item.id}

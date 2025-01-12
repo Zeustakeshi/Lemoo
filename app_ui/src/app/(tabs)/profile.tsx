@@ -80,6 +80,9 @@ const profile = (props: Props) => {
                     <MyOrderSection></MyOrderSection>
                     <View className="min-h-[1000]"></View>
                 </View>
+                <Button onPress={logout}>
+                    <Text>Đăng xuất</Text>
+                </Button>
             </ScrollView>
         </View>
     );

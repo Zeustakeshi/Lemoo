@@ -5,8 +5,8 @@ import { Alert } from "react-native";
 import { getTokenValue, removeToken, saveToken } from "./tokenStore";
 
 export const api = axios.create({
-    baseURL: "https://mock.apidog.com/m1/730971-0-default",
-    // baseURL: "http://toomeet.click/api/v1",
+    // baseURL: "https://mock.apidog.com/m1/730971-0-default",
+    baseURL: "http://toomeet.click/api/v1",
 });
 
 api.interceptors.request.use(async (request) => {

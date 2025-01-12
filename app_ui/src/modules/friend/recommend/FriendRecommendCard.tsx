@@ -23,7 +23,7 @@ const FriendRecommendCard = ({ user }: Props) => {
         try {
             await mutateAsync();
             Toast.show({
-                text1: `Đã gửi lời mời kết bạn đến ${user.username}`,
+                text1: `Đã gửi lời mời kết bạn đến ${user.displayName}`,
             });
             setDeleted(true);
         } catch (error: any) {
@@ -39,7 +39,7 @@ const FriendRecommendCard = ({ user }: Props) => {
 
     return (
         <FriendCard avatar={user.avatar}>
-            <Text className="text-xl font-semibold">{user.username}</Text>
+            <Text className="text-xl font-semibold">{user.displayName}</Text>
             <Text numberOfLines={1} className="text-sm text-muded line-clamp-1">
                 {/* Lorem ipsum dolor sit amet consectetur adipisicing elit.
                 Doloribus, repudiandae! */}

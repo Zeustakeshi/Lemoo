@@ -4,7 +4,9 @@ export type FriendResponse = {
     username: string;
 };
 
-export type FriendRecommend = {} & FriendResponse;
+export type FriendRecommend = {
+    displayName: string;
+} & FriendResponse;
 
 export type FriendInvitation = {
     timestamp: string;

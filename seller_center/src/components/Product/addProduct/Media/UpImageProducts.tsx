@@ -3,7 +3,6 @@ import { DataMedia } from "../../../../type/formAddProduct";
 import { Modal, Box, Typography, Button, IconButton } from "@mui/material";
 import { Delete, Upload } from "@mui/icons-material";
 import athorizedAxiosInstance from "../../../../utils/athorizedAxios";
-import { useUserContext } from "../../../../Context/UserContext";
 
 type PropsItem = {
   isOpen: boolean;
@@ -24,12 +23,12 @@ const UpImageProducts: React.FC<PropsItem> = ({
 }) => {
   const [images, setImages] = useState<ImageData[]>([]);
   const [newImage, setNewImage] = useState<ImageData>();
-  const { user } = useUserContext();
-  const storeID = user?.id;
+  const storeId = JSON.parse(sessionStorage.getItem("StoreId") || "{}");
+
   useEffect(() => {
     const getImages = async () => {
       const res = await athorizedAxiosInstance.get(
-        `/media/stores/${storeID}/images`
+        `/media/stores/${storeId}/images`
       );
       setImages(res.data.data.content);
     };
@@ -41,7 +40,7 @@ const UpImageProducts: React.FC<PropsItem> = ({
       const formData = new FormData();
       formData.append("image", newImage.file);
       const resIMG = await athorizedAxiosInstance.post(
-        `/media/stores/${storeID}/images`,
+        `/media/stores/${storeId}/images`,
         formData
       );
       const updatedImages = [...images, resIMG.data.data];
@@ -53,7 +52,7 @@ const UpImageProducts: React.FC<PropsItem> = ({
   const handleDeleteImage = async (imageId: string, imageName: string) => {
     setImages(images.filter((img) => img.url !== imageName));
     await athorizedAxiosInstance.delete(
-      `/media/stores/${storeID}/images/${imageId}`
+      `/media/stores/${storeId}/images/${imageId}`
     );
   };
 

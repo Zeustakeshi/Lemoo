@@ -22,11 +22,11 @@ import NoteAddProduct from "./Note/NoteAddProduct";
 import UpSmallImage from "./Media/UpSmallImage";
 import UpImageProducts from "./Media/UpImageProducts";
 import { FileInput } from "../../../utils/UploadFile/FileInput";
-import { useUserContext } from "../../../Context/UserContext";
 import athorizedAxiosInstance from "../../../utils/athorizedAxios";
 
 const FormAddProduct = () => {
-  const { user } = useUserContext();
+  const storeId = JSON.parse(sessionStorage.getItem("StoreId") || "{}");
+  console.log("id cửa hàng: ", storeId);
   const [selectedCategories, setSelectedCategories] = useState<Category>();
   const [selectedImage, setSelectedImage] = useState<DataMedia>();
   const [selectedProductImage, setSelectedProductImage] = useState<DataMedia[]>(
@@ -42,12 +42,12 @@ const FormAddProduct = () => {
 
   const getStore = async () => {
     try {
-      const getstore = await athorizedAxiosInstance.get("/products/store", {
+      const getStore = await athorizedAxiosInstance.get("/products/store", {
         headers: {
-          "X-store-Id": user?.id,
+          "X-store-Id": storeId,
         },
       });
-      console.log(getstore.data);
+      console.log("Tất cả sản phẩm của cửa hàng: ", getStore.data);
     } catch (error) {
       console.log(error);
     }
@@ -218,15 +218,11 @@ const FormAddProduct = () => {
       }
 
       if (complete && VariantsArray.length != 1) {
-        console.log("Dữ liệu sao khi complete: ", data);
         data.categoryId = selectedCategories?.id || "";
         data.smallImage.mediaId = selectedImage?.mediaId || "";
         data.smallImage.url = selectedImage?.url || "";
         data.images = selectedProductImage;
         data.variants = result;
-        console.log("Dữ liệu sao khi thêm đủ dữ liệu: ", data);
-
-        const storeId = user?.id;
         //Gửi yêu cầu API
         const response = await athorizedAxiosInstance.post(
           "/products/store",
@@ -526,7 +522,7 @@ const FormAddProduct = () => {
 
                               const response =
                                 await athorizedAxiosInstance.post(
-                                  `/media/stores/${user?.id}/images`, // API upload ảnh
+                                  `/media/stores/${storeId}/images`, // API upload ảnh
                                   formData
                                 );
 

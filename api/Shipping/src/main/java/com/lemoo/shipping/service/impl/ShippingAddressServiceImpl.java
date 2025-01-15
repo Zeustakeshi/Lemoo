@@ -9,12 +9,16 @@ package com.lemoo.shipping.service.impl;
 
 import com.lemoo.shipping.dto.common.AuthenticatedAccount;
 import com.lemoo.shipping.dto.request.ShippingAddressRequest;
+import com.lemoo.shipping.dto.response.PageableResponse;
 import com.lemoo.shipping.dto.response.ShippingAddressResponse;
 import com.lemoo.shipping.entity.ShippingAddress;
+import com.lemoo.shipping.mapper.PageMapper;
 import com.lemoo.shipping.mapper.ShippingAddressMapper;
 import com.lemoo.shipping.repository.ShippingAddressRepository;
 import com.lemoo.shipping.service.ShippingAddressService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,6 +26,7 @@ import org.springframework.stereotype.Service;
 public class ShippingAddressServiceImpl implements ShippingAddressService {
     private final ShippingAddressRepository shippingAddressRepository;
     private final ShippingAddressMapper shippingAddressMapper;
+    private final PageMapper pageMapper;
 
     @Override
     public ShippingAddressResponse createShippingAddress(AuthenticatedAccount account, ShippingAddressRequest request) {
@@ -33,5 +38,12 @@ public class ShippingAddressServiceImpl implements ShippingAddressService {
         shippingAddress.setUserId(account.getUserId());
 
         return shippingAddressMapper.toShippingAddressResponse(shippingAddressRepository.save(shippingAddress));
+    }
+
+    @Override
+    public PageableResponse<ShippingAddressResponse> getAllShipAddress(AuthenticatedAccount account, int page, int limit) {
+        PageRequest request = PageRequest.of(page, limit);
+        Page<?> shippingAddresses = shippingAddressRepository.findAllByUserId(account.getUserId(), request);
+        return pageMapper.toPageableResponse(shippingAddresses);
     }
 }

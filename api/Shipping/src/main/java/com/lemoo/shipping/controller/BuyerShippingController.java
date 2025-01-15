@@ -23,6 +23,15 @@ import org.springframework.web.bind.annotation.*;
 public class BuyerShippingController {
     private final ShippingAddressService shippingAddressService;
 
+    @GetMapping
+    public ApiResponse<?> getAllShippingAddress(
+            @RequestParam(name = "page", required = false, defaultValue = "0") int page,
+            @RequestParam(name = "limit", required = false, defaultValue = "10") int limit,
+            @AuthenticationPrincipal AuthenticatedAccount account
+    ) {
+        return ApiResponse.success(shippingAddressService.getAllShipAddress(account, page, limit));
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ApiResponse<?> createShippingAddress(

@@ -1,0 +1,38 @@
+spring:
+  application:
+    name: shipping-service
+  data:
+    mongodb:
+      uri: ${MONGODB_URI}
+      database: ${MONGODB_NAME}
+      auto-index-creation: true
+  jackson:
+    default-property-inclusion: non_null
+    serialization:
+      fail-on-empty-beans: false
+      close-closeable: true
+      flush-after-write-value: true
+      write-date-keys-as-timestamps: false
+    deserialization:
+      fail-on-unknown-properties: false
+  kafka:
+    producer:
+      bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVER:127.0.0.1:9092}
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    consumer:
+      bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVER:127.0.0.1:9092}
+      group-id: shipping_group
+      auto-offset-reset: earliest
+      properties:
+        spring.json.trusted.packages: '*'
+server:
+  port: 4003
+  servlet:
+    context-path: /shipping
+services:
+  auth-service: ${AUTH_SERVICE_URL:http://localhost:8082/auth}
+  user-service: ${USER_SERVICE_URL:http://localhost:8004/users}
+
+#cache:
+#  redis_url: ${REDIS_URL}

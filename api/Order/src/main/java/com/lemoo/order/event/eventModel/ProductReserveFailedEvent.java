@@ -9,8 +9,6 @@ package com.lemoo.order.event.eventModel;
 
 import lombok.*;
 
-import java.util.Set;
-
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,5 +16,5 @@ import java.util.Set;
 @Data
 public class ProductReserveFailedEvent extends Event {
     private String orderId;
-    private Set<OrderSkuPayload> skus;
+    private String errorMessage;
 }

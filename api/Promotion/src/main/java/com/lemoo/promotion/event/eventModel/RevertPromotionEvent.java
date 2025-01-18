@@ -5,15 +5,18 @@
  * */
 
 
-package com.lemoo.order.event.eventModel;
+package com.lemoo.promotion.event.eventModel;
 
 import lombok.*;
+
+import java.util.Set;
 
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Data
-public class PromotionRevertFailedEvent extends Event {
+public class RevertPromotionEvent extends Event {
     private String orderId;
+    private Set<String> promotions;
 }

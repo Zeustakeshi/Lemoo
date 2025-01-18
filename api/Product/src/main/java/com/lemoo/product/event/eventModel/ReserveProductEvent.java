@@ -5,15 +5,19 @@
  * */
 
 
-package com.lemoo.order.event.eventModel;
+package com.lemoo.product.event.eventModel;
 
+import com.lemoo.product.domain.OrderSku;
 import lombok.*;
+
+import java.util.Map;
 
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Data
-public class PromotionRevertFailedEvent extends Event {
+public class ReserveProductEvent extends Event {
     private String orderId;
+    private Map<String, OrderSku> skus;
 }

@@ -9,7 +9,7 @@ package com.lemoo.order.event.eventModel;
 
 import lombok.*;
 
-import java.util.Set;
+import java.util.Map;
 
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
@@ -18,5 +18,5 @@ import java.util.Set;
 @Data
 public class ReserveProductEvent extends Event {
     private String orderId;
-    private Set<OrderSkuPayload> skus;
+    private Map<String, OrderSkuPayload> skus;
 }

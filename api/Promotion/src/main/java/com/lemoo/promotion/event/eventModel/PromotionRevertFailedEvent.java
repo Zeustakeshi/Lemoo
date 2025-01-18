@@ -5,7 +5,7 @@
  * */
 
 
-package com.lemoo.order.event.eventModel;
+package com.lemoo.promotion.event.eventModel;
 
 import lombok.*;
 

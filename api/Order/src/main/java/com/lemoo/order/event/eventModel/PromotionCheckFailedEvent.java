@@ -9,14 +9,11 @@ package com.lemoo.order.event.eventModel;
 
 import lombok.*;
 
-import java.util.Set;
-
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Data
 public class PromotionCheckFailedEvent extends Event {
-    private Set<String> promotions;
     private String orderId;
 }

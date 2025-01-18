@@ -23,6 +23,7 @@ public class PromotionProducer {
     }
 
     public void revertPromotion(RevertPromotionEvent event) {
+        System.out.println("revert promotion");
         promotionReducer.send("promotion-service.promotion.revert-requested", event);
     }
 }

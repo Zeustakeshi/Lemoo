@@ -5,7 +5,7 @@
  * */
 
 
-package com.lemoo.order.event.eventModel;
+package com.lemoo.product.event.eventModel;
 
 import lombok.*;
 
@@ -14,6 +14,6 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 @Data
-public class PromotionRevertFailedEvent extends Event {
+public class ProductReservedEvent extends Event {
     private String orderId;
 }

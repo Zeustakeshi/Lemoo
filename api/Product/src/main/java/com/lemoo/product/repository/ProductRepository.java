@@ -15,6 +15,7 @@ import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
+import java.util.Set;
 
 @Repository
 public interface ProductRepository extends MongoRepository<Product, String> {
@@ -29,4 +30,6 @@ public interface ProductRepository extends MongoRepository<Product, String> {
 
     Page<Product> findAllByStoreId(String storeId, Pageable pageable);
 
+    @Query(value = "{ '_id': { '$in': ?0 }, 'status': 'LIVE' }", count = true)
+    long countActiveProducts(Set<String> productIds);
 }

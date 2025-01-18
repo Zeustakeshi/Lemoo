@@ -7,7 +7,6 @@
 
 package com.lemoo.order.dto.response;
 
-import com.lemoo.order.common.enums.OrderProcessStatus;
 import com.lemoo.order.common.enums.OrderStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,5 +24,4 @@ public class OrderResponse {
     private LocalDateTime orderDate;
     private Integer totalItems;
     private OrderStatus status;
-    private OrderProcessStatus processStatus;
 }

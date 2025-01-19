@@ -12,9 +12,10 @@ import com.lemoo.promotion.dto.request.VerifyStoreRequest;
 import com.lemoo.promotion.exception.ForbiddenException;
 import com.lemoo.promotion.service.StoreService;
 import lombok.RequiredArgsConstructor;
+import org.redisson.api.RBucket;
+import org.redisson.api.RedissonClient;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-import redis.clients.jedis.Jedis;
 
 import java.time.Duration;
 
@@ -23,11 +24,12 @@ import java.time.Duration;
 public class StoreServiceImpl implements StoreService {
 
     private final StoreClient storeClient;
-    private final Jedis jedis;
+    private final RedissonClient redisson;
 
     @Override
     public void verifyStore(String accountId, String storeId) {
-        if (jedis.exists(generateStoreOwnerVerifyKey(storeId))) return;
+        RBucket<String> storeOwner = redisson.getBucket(generateStoreOwnerVerifyKey(storeId));
+        if (storeOwner.isExists() && storeOwner.get().equals(accountId)) return;
         boolean isStoreOwner = storeClient.verifyStore(new VerifyStoreRequest(accountId, storeId)).getData();
         if (!isStoreOwner) throw new ForbiddenException("Can't access this store");
         saveStoreOwnerToCacheAsync(accountId, storeId);
@@ -38,8 +40,8 @@ public class StoreServiceImpl implements StoreService {
     protected void saveStoreOwnerToCacheAsync(String accountId, String storeId) {
         String key = generateStoreOwnerVerifyKey(storeId);
         try {
-            long ttl = Duration.ofMinutes(30).toSeconds();
-            jedis.setex(key, ttl, accountId);
+            RBucket<String> storeOwner = redisson.getBucket(key);
+            storeOwner.set(accountId, Duration.ofMinutes(30));
         } catch (Exception ex) {
             throw new RuntimeException("Save store verify to cache failed with key: " + key);
         }

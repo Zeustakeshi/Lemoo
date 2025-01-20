@@ -1,5 +1,4 @@
-import { Button } from "@/components/ui/button";
-import { useTheme } from "@/context/ThemeContext";
+import Header from "@/components/modules/header/Header";
 import { Outlet, createRootRoute } from "@tanstack/react-router";
 import * as React from "react";
 export const Route = createRootRoute({
@@ -7,15 +6,9 @@ export const Route = createRootRoute({
 });
 
 function RootComponent() {
-    const { setTheme } = useTheme();
     return (
         <React.Fragment>
-            <div className="text-2xl font-semibold w-screen h-screen bg-blue-50 dark:bg-slate-900">
-                <Button onClick={() => setTheme("light")}>Light theme</Button>
-                <Button onClick={() => setTheme("dark")} variant="secondary">
-                    Dark theme
-                </Button>
-            </div>
+            <Header></Header>
             <Outlet />
         </React.Fragment>
     );

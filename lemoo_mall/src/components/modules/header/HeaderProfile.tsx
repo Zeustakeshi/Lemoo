@@ -1,25 +1,13 @@
-import { Button } from "@/components/ui/button";
-import { useNavigate } from "@tanstack/react-router";
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
 
 type Props = {};
 
 const HeaderProfile = ({}: Props) => {
-    const navigation = useNavigate();
-
     return (
         <div className="flex justify-end items-center gap-2">
-            {/* <Avatar>
+            <Avatar>
                 <AvatarImage src="https://i.pravatar.cc/300"></AvatarImage>
-            </Avatar> */}
-            <Button
-                onClick={() =>
-                    navigation({
-                        to: "/auth/login",
-                    })
-                }
-            >
-                Đăng nhập
-            </Button>
+            </Avatar>
         </div>
     );
 };

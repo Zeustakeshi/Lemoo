@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { createAccountSchema, CreateAccountType } from "@/schema/auth.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
-import { useNavigate } from "@tanstack/react-router";
+import { useNavigate, useSearch } from "@tanstack/react-router";
 import { useForm } from "react-hook-form";
 
 type Props = {};
@@ -20,6 +20,10 @@ type Props = {};
 const RegisterForm = ({}: Props) => {
     const form = useForm<CreateAccountType>({
         resolver: zodResolver(createAccountSchema),
+    });
+
+    const { callback_url }: any = useSearch({
+        strict: false,
     });
 
     const navigation = useNavigate();
@@ -35,7 +39,11 @@ const RegisterForm = ({}: Props) => {
             const data: any = await mutateAsync(value);
             if (!data?.code) return;
             navigation({
-                to: `/auth/otp/new-account?code=${data.code}`,
+                to: `/auth/otp/new-account`,
+                search: {
+                    code: data.code,
+                    callback_url,
+                },
             });
         } catch (error: any) {
             console.log(error);

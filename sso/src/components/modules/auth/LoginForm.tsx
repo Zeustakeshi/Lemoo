@@ -13,13 +13,17 @@ import { saveToken } from "@/lib/tokenStore";
 import { loginSchema, LoginType } from "@/schema/auth.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
-import { useNavigate } from "@tanstack/react-router";
+import { useNavigate, useSearch } from "@tanstack/react-router";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
 type Props = {};
 
 const LoginForm = ({}: Props) => {
+    const { callback_url }: any = useSearch({
+        strict: false,
+    });
+
     const form = useForm<LoginType>({
         resolver: zodResolver(loginSchema),
     });
@@ -36,9 +40,13 @@ const LoginForm = ({}: Props) => {
             const data: any = await mutateAsync(value);
             saveToken(data.accessToken);
             saveToken(data.refreshToken);
-            navigation({
-                to: "/",
-            });
+            if (!callback_url) {
+                navigation({
+                    to: "/",
+                });
+            } else {
+                window.location.href = callback_url;
+            }
         } catch (error: any) {
             toast.error(JSON.stringify(error));
         }

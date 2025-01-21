@@ -1,4 +1,5 @@
 import HomeBanner from "@/components/modules/banner/HomeBanner";
+import HomeCategoryList from "@/components/modules/categories/HomeCategoryList";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/(home)/")({
@@ -7,8 +8,9 @@ export const Route = createFileRoute("/(home)/")({
 
 function RouteComponent() {
     return (
-        <div className="">
+        <div className="space-y-5">
             <HomeBanner></HomeBanner>
+            <HomeCategoryList></HomeCategoryList>
         </div>
     );
 }

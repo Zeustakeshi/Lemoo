@@ -9,7 +9,7 @@ export const Route = createFileRoute("/(home)/")({
 function RouteComponent() {
     const { logout } = useAuth();
     return (
-        <div>
+        <div className="">
             Hello "/(home)/home"!
             <Button onClick={() => logout()}>đăng xuất</Button>
         </div>

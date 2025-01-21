@@ -13,10 +13,11 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as homeIndexImport } from './routes/(home)/index'
+import { Route as dashboardIndexImport } from './routes/(dashboard)/index'
 import { Route as AuthAuthImport } from './routes/auth/_auth'
 import { Route as AuthAuthRegisterImport } from './routes/auth/_auth.register'
 import { Route as AuthAuthLoginImport } from './routes/auth/_auth.login'
+import { Route as AuthAuthOtpNewAccountImport } from './routes/auth/_auth.otp/new-account'
 
 // Create Virtual Routes
 
@@ -30,8 +31,8 @@ const AuthRoute = AuthImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const homeIndexRoute = homeIndexImport.update({
-  id: '/(home)/',
+const dashboardIndexRoute = dashboardIndexImport.update({
+  id: '/(dashboard)/',
   path: '/',
   getParentRoute: () => rootRoute,
 } as any)
@@ -53,6 +54,12 @@ const AuthAuthLoginRoute = AuthAuthLoginImport.update({
   getParentRoute: () => AuthAuthRoute,
 } as any)
 
+const AuthAuthOtpNewAccountRoute = AuthAuthOtpNewAccountImport.update({
+  id: '/otp/new-account',
+  path: '/otp/new-account',
+  getParentRoute: () => AuthAuthRoute,
+} as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -71,11 +78,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthAuthImport
       parentRoute: typeof AuthRoute
     }
-    '/(home)/': {
-      id: '/(home)/'
+    '/(dashboard)/': {
+      id: '/(dashboard)/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof homeIndexImport
+      preLoaderRoute: typeof dashboardIndexImport
       parentRoute: typeof rootRoute
     }
     '/auth/_auth/login': {
@@ -92,6 +99,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthAuthRegisterImport
       parentRoute: typeof AuthAuthImport
     }
+    '/auth/_auth/otp/new-account': {
+      id: '/auth/_auth/otp/new-account'
+      path: '/otp/new-account'
+      fullPath: '/auth/otp/new-account'
+      preLoaderRoute: typeof AuthAuthOtpNewAccountImport
+      parentRoute: typeof AuthAuthImport
+    }
   }
 }
 
@@ -100,11 +114,13 @@ declare module '@tanstack/react-router' {
 interface AuthAuthRouteChildren {
   AuthAuthLoginRoute: typeof AuthAuthLoginRoute
   AuthAuthRegisterRoute: typeof AuthAuthRegisterRoute
+  AuthAuthOtpNewAccountRoute: typeof AuthAuthOtpNewAccountRoute
 }
 
 const AuthAuthRouteChildren: AuthAuthRouteChildren = {
   AuthAuthLoginRoute: AuthAuthLoginRoute,
   AuthAuthRegisterRoute: AuthAuthRegisterRoute,
+  AuthAuthOtpNewAccountRoute: AuthAuthOtpNewAccountRoute,
 }
 
 const AuthAuthRouteWithChildren = AuthAuthRoute._addFileChildren(
@@ -123,50 +139,59 @@ const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 
 export interface FileRoutesByFullPath {
   '/auth': typeof AuthAuthRouteWithChildren
-  '/': typeof homeIndexRoute
+  '/': typeof dashboardIndexRoute
   '/auth/login': typeof AuthAuthLoginRoute
   '/auth/register': typeof AuthAuthRegisterRoute
+  '/auth/otp/new-account': typeof AuthAuthOtpNewAccountRoute
 }
 
 export interface FileRoutesByTo {
   '/auth': typeof AuthAuthRouteWithChildren
-  '/': typeof homeIndexRoute
+  '/': typeof dashboardIndexRoute
   '/auth/login': typeof AuthAuthLoginRoute
   '/auth/register': typeof AuthAuthRegisterRoute
+  '/auth/otp/new-account': typeof AuthAuthOtpNewAccountRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/auth': typeof AuthRouteWithChildren
   '/auth/_auth': typeof AuthAuthRouteWithChildren
-  '/(home)/': typeof homeIndexRoute
+  '/(dashboard)/': typeof dashboardIndexRoute
   '/auth/_auth/login': typeof AuthAuthLoginRoute
   '/auth/_auth/register': typeof AuthAuthRegisterRoute
+  '/auth/_auth/otp/new-account': typeof AuthAuthOtpNewAccountRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/auth' | '/' | '/auth/login' | '/auth/register'
+  fullPaths:
+    | '/auth'
+    | '/'
+    | '/auth/login'
+    | '/auth/register'
+    | '/auth/otp/new-account'
   fileRoutesByTo: FileRoutesByTo
-  to: '/auth' | '/' | '/auth/login' | '/auth/register'
+  to: '/auth' | '/' | '/auth/login' | '/auth/register' | '/auth/otp/new-account'
   id:
     | '__root__'
     | '/auth'
     | '/auth/_auth'
-    | '/(home)/'
+    | '/(dashboard)/'
     | '/auth/_auth/login'
     | '/auth/_auth/register'
+    | '/auth/_auth/otp/new-account'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   AuthRoute: typeof AuthRouteWithChildren
-  homeIndexRoute: typeof homeIndexRoute
+  dashboardIndexRoute: typeof dashboardIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRouteWithChildren,
-  homeIndexRoute: homeIndexRoute,
+  dashboardIndexRoute: dashboardIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -180,7 +205,7 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/auth",
-        "/(home)/"
+        "/(dashboard)/"
       ]
     },
     "/auth": {
@@ -194,11 +219,12 @@ export const routeTree = rootRoute
       "parent": "/auth",
       "children": [
         "/auth/_auth/login",
-        "/auth/_auth/register"
+        "/auth/_auth/register",
+        "/auth/_auth/otp/new-account"
       ]
     },
-    "/(home)/": {
-      "filePath": "(home)/index.tsx"
+    "/(dashboard)/": {
+      "filePath": "(dashboard)/index.tsx"
     },
     "/auth/_auth/login": {
       "filePath": "auth/_auth.login.tsx",
@@ -206,6 +232,10 @@ export const routeTree = rootRoute
     },
     "/auth/_auth/register": {
       "filePath": "auth/_auth.register.tsx",
+      "parent": "/auth/_auth"
+    },
+    "/auth/_auth/otp/new-account": {
+      "filePath": "auth/_auth.otp/new-account.tsx",
       "parent": "/auth/_auth"
     }
   }

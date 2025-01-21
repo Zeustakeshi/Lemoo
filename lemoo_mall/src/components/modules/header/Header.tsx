@@ -1,9 +1,9 @@
 import GlobalSearch from "@/components/search/GlobalSearch";
-import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import Logo from "@/components/ui/logo";
 import AppWrapper from "@/components/wrappers/AppWrapper";
 import { ShoppingBag } from "lucide-react";
+import HeaderProfile from "./HeaderProfile";
 import TopHeader from "./TopHeader";
 
 type Props = {};
@@ -28,9 +28,7 @@ const Header = ({}: Props) => {
                         >
                             <ShoppingBag />
                         </Button>
-                        <Avatar>
-                            <AvatarImage src="https://i.pravatar.cc/300"></AvatarImage>
-                        </Avatar>
+                        <HeaderProfile></HeaderProfile>
                     </div>
                 </AppWrapper>
             </div>

@@ -1,11 +1,14 @@
 import AppWrapper from "@/components/wrappers/AppWrapper";
+import { cn } from "@/lib/utils";
 import { Link } from "@tanstack/react-router";
 
-type Props = {};
+type Props = {
+    className?: string;
+};
 
-function TopHeader({}: Props) {
+function TopHeader({ className }: Props) {
     return (
-        <div className="bg-background-black">
+        <div className={cn("bg-background-black", className)}>
             <AppWrapper className="py-1 flex justify-between items-center">
                 <div className="flex-1 flex justify-start items-center gap-2 text-[12px]">
                     <Link className="text-white" to=".">

@@ -58,3 +58,15 @@
         --chart-5: 340 75% 55%;
     }
 }
+
+html,
+body {
+    height: 100%;
+    overflow: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+body::-webkit-scrollbar {
+    display: none;
+}

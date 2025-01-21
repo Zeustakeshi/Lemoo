@@ -17,16 +17,20 @@ import { saveToken } from "@/lib/tokenStore";
 import { otpSchema, OtpType } from "@/schema/auth.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
-import { useNavigate } from "@tanstack/react-router";
+import { useNavigate, useSearch } from "@tanstack/react-router";
 import { useForm } from "react-hook-form";
 
 type Props = {};
 
 const NewAccountOtpForm = ({}: Props) => {
+    const { callback_url, code }: any = useSearch({
+        strict: false,
+    });
+
     const form = useForm<OtpType>({
         resolver: zodResolver(otpSchema),
         defaultValues: {
-            code: "1",
+            code: code,
         },
     });
 
@@ -42,9 +46,13 @@ const NewAccountOtpForm = ({}: Props) => {
             const data: any = await mutateAsync(value);
             saveToken(data.accessToken);
             saveToken(data.refreshToken);
-            navigation({
-                to: "/",
-            });
+            if (!callback_url) {
+                navigation({
+                    to: "/",
+                });
+            } else {
+                window.location.href = callback_url;
+            }
         } catch (error: any) {
             console.log("verify error failed");
         }

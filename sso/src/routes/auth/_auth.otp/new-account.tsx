@@ -1,6 +1,10 @@
 import NewAccountOtpForm from "@/components/modules/auth/NewAccountOtpForm";
 import { Button } from "@/components/ui/button";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import {
+    createFileRoute,
+    useNavigate,
+    useSearch,
+} from "@tanstack/react-router";
 
 export const Route = createFileRoute("/auth/_auth/otp/new-account")({
     component: RouteComponent,
@@ -8,6 +12,11 @@ export const Route = createFileRoute("/auth/_auth/otp/new-account")({
 
 function RouteComponent() {
     const navigation = useNavigate();
+
+    const { callback_url }: any = useSearch({
+        strict: false,
+    });
+
     return (
         <div className="p-5 my-10  flex flex-col justify-center items-center">
             <h1 className="text-3xl font-semibold text-center">Xác thực OTP</h1>
@@ -23,7 +32,17 @@ function RouteComponent() {
                 <Button variant="link">Gửi lại</Button>
             </div>
             <div className="w-full flex justify-center">
-                <Button variant="link">Quay lại</Button>
+                <Button
+                    variant="link"
+                    onClick={() =>
+                        navigation({
+                            to: "/auth/register",
+                            search: { callback_url },
+                        })
+                    }
+                >
+                    Quay lại
+                </Button>
             </div>
         </div>
     );

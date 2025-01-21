@@ -1,7 +1,7 @@
 import GlobalSearch from "@/components/search/GlobalSearch";
 import Logo from "@/components/ui/logo";
 import AppWrapper from "@/components/wrappers/AppWrapper";
-import CartHeader from "./CartHeader";
+import CartSheet from "../cart/CartSheet";
 import HeaderProfile from "./HeaderProfile";
 import TopHeader from "./TopHeader";
 
@@ -20,7 +20,7 @@ const Header = ({}: Props) => {
                         <GlobalSearch className="flex-1 max-w-[600px]"></GlobalSearch>
                     </div>
                     <div className=" flex justify-end items-center gap-4">
-                        <CartHeader></CartHeader>
+                        <CartSheet></CartSheet>
                         <HeaderProfile></HeaderProfile>
                     </div>
                 </AppWrapper>

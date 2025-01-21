@@ -23,6 +23,7 @@ const HomeCategoryList = (props: Props) => {
                         <div className="p-3" key={category.id}>
                             <div className="min-size-[120px] size-[120px] border rounded-md overflow-hidden">
                                 <img
+                                    loading="lazy"
                                     className="size-full object-cover"
                                     src={category.image}
                                     alt=""

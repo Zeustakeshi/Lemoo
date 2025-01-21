@@ -7,7 +7,7 @@ export const Route = createRootRoute({
 
 function RootComponent() {
     return (
-        <div className="dark:bg-slate-800 w-screen h-screen hide-scrollbar">
+        <div className="w-screen h-screen hide-scrollbar">
             <Header></Header>
             <AppWrapper className="min-h-[calc(100svh-104px)]">
                 <Outlet />

@@ -16,9 +16,6 @@ const HomeBanner = ({}: Props) => {
     return (
         <div className=" grid-cols-10 gap-2">
             <Carousel
-                opts={{
-                    loop: true,
-                }}
                 plugins={[
                     Autoplay({
                         delay: 4000,

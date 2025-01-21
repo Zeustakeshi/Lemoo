@@ -9,7 +9,9 @@ function RootComponent() {
     return (
         <React.Fragment>
             <Header></Header>
-            <Outlet />
+            <div className="dark:bg-slate-800 h-[calc(100svh-104px)]">
+                <Outlet />
+            </div>
         </React.Fragment>
     );
 }

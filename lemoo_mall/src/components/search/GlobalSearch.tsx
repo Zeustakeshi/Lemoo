@@ -14,14 +14,14 @@ const GlobalSearch = ({ className }: Props) => {
         >
             <div
                 className={cn(
-                    "flex-1 bg-color-1 flex justify-between items-center pr-2 rounded-md overflow-hidden"
+                    "flex-1 bg-color-1 dark:bg-slate-800 flex justify-between items-center pr-2 rounded-md overflow-hidden"
                 )}
             >
                 <input
-                    className="bg-transparent border-none outline-none flex-1 p-4 py-3"
+                    className="bg-transparent border-none outline-none flex-1 p-4 py-3 dark:text-white"
                     placeholder="Bạn muốn tìm gì?"
                 ></input>
-                <Button className="" size="icon">
+                <Button className="dark:text-white" size="icon">
                     <Search />
                 </Button>
             </div>

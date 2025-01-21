@@ -1,8 +1,7 @@
 import GlobalSearch from "@/components/search/GlobalSearch";
-import { Button } from "@/components/ui/button";
 import Logo from "@/components/ui/logo";
 import AppWrapper from "@/components/wrappers/AppWrapper";
-import { ShoppingBag } from "lucide-react";
+import CartHeader from "./CartHeader";
 import HeaderProfile from "./HeaderProfile";
 import TopHeader from "./TopHeader";
 
@@ -12,7 +11,7 @@ const Header = ({}: Props) => {
     return (
         <div>
             <TopHeader></TopHeader>
-            <div className="w-screen bg-white shadow-sm">
+            <div className="w-screen bg-white dark:bg-slate-900 shadow-sm">
                 <AppWrapper className=" px-4 py-3 flex ">
                     <div className="justify-start items-center gap-4">
                         <Logo size="lg"></Logo>
@@ -21,13 +20,7 @@ const Header = ({}: Props) => {
                         <GlobalSearch className="flex-1 max-w-[600px]"></GlobalSearch>
                     </div>
                     <div className=" flex justify-end items-center gap-4">
-                        <Button
-                            size="icon"
-                            variant="ghost"
-                            className="  [&_svg]:size-6 [&_svg]:shrink-0"
-                        >
-                            <ShoppingBag />
-                        </Button>
+                        <CartHeader></CartHeader>
                         <HeaderProfile></HeaderProfile>
                     </div>
                 </AppWrapper>

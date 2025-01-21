@@ -9,9 +9,9 @@ type Props = {};
 
 const Header = ({}: Props) => {
     return (
-        <div>
+        <div className="h-[104px] sticky top-0 z-20">
             <TopHeader></TopHeader>
-            <div className="w-screen bg-white dark:bg-slate-900 shadow-sm">
+            <div className="  bg-white dark:bg-slate-900 shadow-sm">
                 <AppWrapper className=" px-4 py-3 flex ">
                     <div className="justify-start items-center gap-4">
                         <Logo size="lg"></Logo>

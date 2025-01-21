@@ -1,17 +1,17 @@
 import Header from "@/components/modules/header/Header";
+import AppWrapper from "@/components/wrappers/AppWrapper";
 import { Outlet, createRootRoute } from "@tanstack/react-router";
-import * as React from "react";
 export const Route = createRootRoute({
     component: RootComponent,
 });
 
 function RootComponent() {
     return (
-        <React.Fragment>
+        <div className="dark:bg-slate-800 w-screen h-screen hide-scrollbar">
             <Header></Header>
-            <div className="dark:bg-slate-800 h-[calc(100svh-104px)]">
+            <AppWrapper className="min-h-[calc(100svh-104px)]">
                 <Outlet />
-            </div>
-        </React.Fragment>
+            </AppWrapper>
+        </div>
     );
 }

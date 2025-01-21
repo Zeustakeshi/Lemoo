@@ -1,5 +1,4 @@
-import { Button } from "@/components/ui/button";
-import { useAuth } from "@/context/AuthContext";
+import HomeBanner from "@/components/modules/banner/HomeBanner";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/(home)/")({
@@ -7,11 +6,9 @@ export const Route = createFileRoute("/(home)/")({
 });
 
 function RouteComponent() {
-    const { logout } = useAuth();
     return (
         <div className="">
-            Hello "/(home)/home"!
-            <Button onClick={() => logout()}>đăng xuất</Button>
+            <HomeBanner></HomeBanner>
         </div>
     );
 }

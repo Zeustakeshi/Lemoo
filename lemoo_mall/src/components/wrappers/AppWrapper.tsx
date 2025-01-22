@@ -8,7 +8,7 @@ type Props = {
 
 const AppWrapper = ({ children, className }: Props) => {
     return (
-        <div className={cn("max-w-6xl w-full mx-auto px-4 py-2", className)}>
+        <div className={cn("max-w-7xl w-full mx-auto px-4 py-2", className)}>
             {children}
         </div>
     );

@@ -73,4 +73,19 @@
     body {
         @apply dark:bg-slate-800 dark:text-white;
     }
+
+    .custom-scroll::-webkit-scrollbar {
+        @apply w-1 rounded-full overflow-hidden;
+    }
+
+    .custom-scroll::-webkit-scrollbar-track {
+    }
+
+    .custom-scroll::-webkit-scrollbar-thumb {
+        @apply bg-primary;
+    }
+
+    .abs-center {
+        @apply absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%];
+    }
 }

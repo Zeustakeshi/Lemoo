@@ -11,10 +11,17 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as SearchIndexImport } from './routes/search/index'
 import { Route as homeIndexImport } from './routes/(home)/index'
 import { Route as ProductsProductIdImport } from './routes/products/$productId'
 
 // Create/Update Routes
+
+const SearchIndexRoute = SearchIndexImport.update({
+  id: '/search/',
+  path: '/search/',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const homeIndexRoute = homeIndexImport.update({
   id: '/(home)/',
@@ -46,6 +53,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof homeIndexImport
       parentRoute: typeof rootRoute
     }
+    '/search/': {
+      id: '/search/'
+      path: '/search'
+      fullPath: '/search'
+      preLoaderRoute: typeof SearchIndexImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -54,36 +68,41 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/products/$productId': typeof ProductsProductIdRoute
   '/': typeof homeIndexRoute
+  '/search': typeof SearchIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/products/$productId': typeof ProductsProductIdRoute
   '/': typeof homeIndexRoute
+  '/search': typeof SearchIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/products/$productId': typeof ProductsProductIdRoute
   '/(home)/': typeof homeIndexRoute
+  '/search/': typeof SearchIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/products/$productId' | '/'
+  fullPaths: '/products/$productId' | '/' | '/search'
   fileRoutesByTo: FileRoutesByTo
-  to: '/products/$productId' | '/'
-  id: '__root__' | '/products/$productId' | '/(home)/'
+  to: '/products/$productId' | '/' | '/search'
+  id: '__root__' | '/products/$productId' | '/(home)/' | '/search/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   ProductsProductIdRoute: typeof ProductsProductIdRoute
   homeIndexRoute: typeof homeIndexRoute
+  SearchIndexRoute: typeof SearchIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   ProductsProductIdRoute: ProductsProductIdRoute,
   homeIndexRoute: homeIndexRoute,
+  SearchIndexRoute: SearchIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -97,7 +116,8 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/products/$productId",
-        "/(home)/"
+        "/(home)/",
+        "/search/"
       ]
     },
     "/products/$productId": {
@@ -105,6 +125,9 @@ export const routeTree = rootRoute
     },
     "/(home)/": {
       "filePath": "(home)/index.tsx"
+    },
+    "/search/": {
+      "filePath": "search/index.tsx"
     }
   }
 }

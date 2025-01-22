@@ -3,6 +3,7 @@ import { SearchHistoryModel } from "@/db/models/search.model";
 import useClickOutSide from "@/hooks/useClickOutSide";
 import useDebounce from "@/hooks/useDebounce";
 import { cn } from "@/lib/utils";
+import { useNavigate } from "@tanstack/react-router";
 import { History, Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Button } from "../ui/button";
@@ -22,6 +23,8 @@ const GlobalSearch = ({ className }: Props) => {
 
     const searchDebounce = useDebounce(searchValue, 800);
 
+    const navigation = useNavigate();
+
     const { nodeRef: searchContainerRef } = useClickOutSide(() => {
         setShowSuggestion(false);
     });
@@ -33,10 +36,14 @@ const GlobalSearch = ({ className }: Props) => {
 
     const handleSearch = async (value: string) => {
         if (!value.trim()) return;
-        console.log({ value });
-        await db.searchHistories.add({
+        await db.searchHistories.put({
             keyword: value,
         });
+        navigation({
+            to: "/search",
+            search: { q: value },
+        });
+        setShowSuggestion(false);
     };
 
     const handleGetSearchSuggestion = async (value: string) => {
@@ -80,13 +87,17 @@ const GlobalSearch = ({ className }: Props) => {
                         <Search />
                     </Button>
                     {showSuggestion && (
-                        <div className=" absolute overflow-hidden top-[120%] left-[50%] -translate-x-[50%] z-20  w-[100%] h-min max-h-[500px] overflow-y-auto custom-scroll bg-white shadow-xl  rounded-xl">
+                        <div className=" absolute overflow-hidden top-[120%] left-[50%] -translate-x-[50%] z-20  w-[100%] h-min max-h-[500px] overflow-y-auto custom-scroll bg-white dark:bg-slate-900 shadow-xl  rounded-xl">
                             {searchHistories.length > 0 &&
                                 searchHistories.map((history, index) => (
                                     <SearchSuggestionItem
                                         key={index}
                                         value={history.keyword}
                                         isHistory
+                                        handleSearch={(value) => {
+                                            setSearchValue(value);
+                                            handleSearch(value);
+                                        }}
                                         onRemoveHistory={(value) =>
                                             setSearchHistories(
                                                 searchHistories.filter(
@@ -102,7 +113,12 @@ const GlobalSearch = ({ className }: Props) => {
                     )}
                 </form>
             </div>
-            <VoiceSearch handleSearch={handleSearch}></VoiceSearch>
+            <VoiceSearch
+                handleSearch={(value) => {
+                    setSearchValue(value);
+                    handleSearch(value);
+                }}
+            ></VoiceSearch>
         </div>
     );
 };
@@ -111,13 +127,17 @@ type SearchSuggestionItemProps = {
     value: string;
     isHistory?: boolean;
     onRemoveHistory?: (value: string) => void;
+    handleSearch?: (value: string) => void;
 };
 
 const SearchSuggestionItem = ({
     value,
     isHistory = false,
     onRemoveHistory,
+    handleSearch,
 }: SearchSuggestionItemProps) => {
+    const navigation = useNavigate();
+
     const handleRemoveSearchHistory = async () => {
         if (!isHistory) return;
         await db.searchHistories.delete(value);
@@ -125,8 +145,13 @@ const SearchSuggestionItem = ({
     };
 
     return (
-        <div className="w-full flex justify-between items-center px-5 py-3 transition-all hover:bg-slate-100 cursor-pointer   [&_svg]:text-slate-500 dark:[&_svg]:text-white">
-            <div className="flex justify-start items-center gap-2">
+        <div className="w-full flex justify-between items-center px-5 py-3 transition-all hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer    [&_svg]:text-slate-500 dark:[&_svg]:text-white">
+            <div
+                onClick={() => {
+                    handleSearch?.(value);
+                }}
+                className="flex flex-1 justify-start items-center gap-2"
+            >
                 {isHistory && <History size={18} />}
                 <span>{value}</span>
             </div>

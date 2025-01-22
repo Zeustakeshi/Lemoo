@@ -29,7 +29,7 @@ const ProductFeature = (props: Props) => {
                     className="w-full col-span-8"
                 >
                     <CarouselContent className="">
-                        {Array.from({ length: 20 }).map((_, index) => (
+                        {Array.from({ length: 10 }).map((_, index) => (
                             <CarouselItem
                                 className="w-max max-w-max"
                                 key={index}

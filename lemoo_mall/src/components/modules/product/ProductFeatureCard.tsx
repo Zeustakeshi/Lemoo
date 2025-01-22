@@ -1,11 +1,21 @@
 import Ratting from "@/components/ui/ratting";
 import { formatMoneyVND } from "@/lib/utils";
+import { useNavigate } from "@tanstack/react-router";
 
 type Props = {};
 
-const ProductFeatureCard = (props: Props) => {
+const ProductFeatureCard = ({}: Props) => {
+    const navigation = useNavigate();
     return (
-        <div className="w-[200px] rounded-t-xl  hover:shadow-lg cursor-pointer my-5 transition-all">
+        <div
+            onClick={() =>
+                navigation({
+                    to: "/products/$productId",
+                    params: { productId: "1" },
+                })
+            }
+            className="w-[200px] rounded-t-xl  hover:shadow-lg cursor-pointer my-5 transition-all"
+        >
             <div className="w-full aspect-square overflow-hidden">
                 <img
                     className="size-full object-cover"

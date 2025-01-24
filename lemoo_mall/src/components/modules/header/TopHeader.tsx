@@ -8,7 +8,7 @@ type Props = {
 
 function TopHeader({ className }: Props) {
     return (
-        <div className={cn("bg-background-black", className)}>
+        <div className={cn("bg-background-black md:block hidden", className)}>
             <AppWrapper className="py-1 flex justify-between items-center">
                 <div className="flex-1 flex justify-start items-center gap-2 text-[12px]">
                     <Link className="text-white" to=".">

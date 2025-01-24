@@ -1,5 +1,5 @@
 import ProductFeature from "@/components/modules/product/ProductFeature";
-import VoucherList from "@/components/modules/store/VoucherList";
+import VoucherList from "@/components/voucher/VoucherList";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/store/_layout/$storeId/")({

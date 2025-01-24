@@ -34,7 +34,7 @@ const StoreNavItem = ({ children, to }: StoreNavItemProps) => {
                 exact: true,
             }}
             activeProps={{
-                className: "border-b-primary text-primary",
+                className: "!border-b-2 !border-b-primary text-primary",
             }}
         >
             <p>{children}</p>

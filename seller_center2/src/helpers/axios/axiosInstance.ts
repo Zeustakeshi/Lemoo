@@ -29,7 +29,7 @@ axiosInstance.interceptors.request.use(
 axiosInstance.interceptors.response.use(
   function (response) {
     // Bất kỳ mã trạng thái nào nằm trong khoảng 2xx đều được xử lý tại đây
-    return response.data.data;
+    return response;
   },
   function (error) {
     // Bất kỳ mã trạng thái nào không nằm trong khoảng 2xx đều được xử lý tại đây

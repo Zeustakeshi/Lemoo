@@ -18,7 +18,7 @@ function App() {
     const checkAuth = async () => {
       const authToken = getRefreshToken();
       if (!authToken) {
-        redirectToSSO();
+        // redirectToSSO();
         console.log("docucment", document.cookie);
         return;
       }
@@ -27,7 +27,7 @@ function App() {
         sessionStorage.setItem("userInfo", JSON.stringify(userInfo));
       } catch {
         console.error("Invalid token, redirecting to SSO");
-        redirectToSSO();
+        //redirectToSSO();
       }
     };
     checkAuth();

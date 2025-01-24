@@ -1,11 +1,20 @@
 import { Link, Outlet, createRootRoute } from "@tanstack/react-router";
 import LogoLemo from "../assets/LeMooEco.svg";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import { useState } from "react";
 
 export const Route = createRootRoute({
   component: RootComponent,
 });
 
 function RootComponent() {
+  const [isDropdownOpenPr, setIsDropdownOpenPr] = useState(false);
+
+  const toggleDropdown = () => {
+    setIsDropdownOpenPr(!isDropdownOpenPr);
+  };
+
   return (
     <div className="min-h-screen flex">
       <aside className="w-64 flex flex-col">
@@ -23,13 +32,33 @@ function RootComponent() {
         <nav className="flex-1 p-4">
           <ul className="space-y-4">
             <li>
-              <Link
-                to="/profile"
-                className="block px-4 py-2 rounded hover:bg-gray-200 transition"
+              <button
+                onClick={toggleDropdown}
+                className="block px-4 py-2 rounded hover:bg-gray-200 transition flex items-center justify-between"
               >
-                Profile
-              </Link>
+                Products
+                <span
+                  className={`transition-transform duration-300 ${
+                    isDropdownOpenPr ? "rotate-0" : "rotate-180"
+                  }`}
+                >
+                  <KeyboardArrowUpIcon fontSize="medium" />
+                </span>
+              </button>
             </li>
+
+            {isDropdownOpenPr && (
+              <ul className="space-y-2 ml-4">
+                <li>
+                  <Link
+                    to="/product/addProduct"
+                    className="block px-4 py-2 rounded hover:bg-gray-200 transition"
+                  >
+                    Add Product
+                  </Link>
+                </li>
+              </ul>
+            )}
             <li>
               <Link
                 to="/"

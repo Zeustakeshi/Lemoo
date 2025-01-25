@@ -39,7 +39,7 @@ const ProductImage = (props: Props) => {
     });
   };
   return (
-    <div className="w-full">
+    <div className="w-full flex flex-col items-center gap-2 p-4 ">
       {/* Hình ảnh chính */}
 
       <div
@@ -88,7 +88,7 @@ const ProductImage = (props: Props) => {
       </div>
 
       {/* Carousel */}
-      <Carousel className="w-full my-3">
+      <Carousel className="p-2 w-full">
         <div className="relative">
           <CarouselContent>
             {Array.from({ length: 3 }).map((_, index) => (

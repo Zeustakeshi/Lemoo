@@ -18,7 +18,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/buyers")
+@RequestMapping("/orders/buyers")
 @RequiredArgsConstructor
 public class BuyerOrderController {
     private final BuyerOrderService orderService;

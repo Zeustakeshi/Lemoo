@@ -40,7 +40,7 @@ spring:
         spring.json.trusted.packages: '*'
 server:
   port: 4002
-  servlet:
-    context-path: /orders
+
 services:
   auth-service: ${AUTH_SERVICE_URL:http://localhost:8082/auth}
+  product-service: ${PRODUCT_SERVICE_URL:http://localhost:8090/products}

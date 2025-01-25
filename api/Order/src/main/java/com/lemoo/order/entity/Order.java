@@ -24,7 +24,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "orders")
+@Table(name = "order")
 public class Order extends BaseEntity {
 
     @Column(nullable = false)

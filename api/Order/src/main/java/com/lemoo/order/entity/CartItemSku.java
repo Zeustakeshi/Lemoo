@@ -7,6 +7,7 @@
 
 package com.lemoo.order.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,15 +20,21 @@ import lombok.*;
 @Table
 public class CartItemSku extends BaseEntity {
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     private CartItem cartItem;
 
     @Column(nullable = false)
     private String skuCode;
 
+    private String image;
+
     @Column(nullable = false)
     private String productId;
 
     @Column(nullable = false)
     private Long quantity;
+
+    @Column(nullable = false)
+    private Long price;
 }

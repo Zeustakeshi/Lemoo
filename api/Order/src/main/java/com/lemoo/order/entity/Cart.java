@@ -20,8 +20,8 @@ import lombok.*;
 @Entity
 @Table(name = "cart")
 public class Cart extends BaseEntity {
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String userId;
-    
+
 }
 

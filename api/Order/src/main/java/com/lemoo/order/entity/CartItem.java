@@ -8,6 +8,7 @@
 package com.lemoo.order.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,6 +23,7 @@ public class CartItem extends BaseEntity {
     @Column(nullable = false)
     private String storeId;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     private Cart cart;
 }

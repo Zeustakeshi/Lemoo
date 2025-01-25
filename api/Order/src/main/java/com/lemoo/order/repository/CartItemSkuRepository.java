@@ -10,6 +10,9 @@ import com.lemoo.order.entity.CartItemSku;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface CartItemSkuRepository extends JpaRepository<CartItemSku, String> {
+    List<CartItemSku> findAllByCartItemId(String cartItemId);
 }

@@ -6,5 +6,11 @@
 
 package com.lemoo.order.service;
 
+import com.lemoo.order.dto.response.CartResponse;
+import com.lemoo.order.entity.Cart;
+
 public interface CartService {
+    Cart initCart(String userId);
+
+    CartResponse getUserCart(String userId);
 }

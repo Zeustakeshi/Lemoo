@@ -21,7 +21,7 @@ const CartItemRecommendProduct = ({ setShow }: Props) => {
     return (
         <div
             onMouseLeave={() => setShow(false)}
-            className="absolute w-full h-max top-0 bg-white shadow-2xl z-10 p-5 rounded-md"
+            className="absolute w-full h-max top-[100%] bg-white shadow-2xl z-10 p-5 rounded-md"
         >
             <div className="w-full flex justify-between items-center mb-1">
                 <h4 className="text-xl font-semibold ">Sản phẩm tương tự</h4>

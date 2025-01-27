@@ -1,18 +1,63 @@
-import { CartItemSkuResponse } from "@/common/type/cart.type";
+import { CartItemSkuType } from "@/common/type/cart.type";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import { formatMoneyVND } from "@/lib/utils";
+import {
+    clearSelectedCartItemSku,
+    removeCartItemSku,
+    selectCart,
+    selectCartItemSku,
+} from "@/store/cart/cartSlice";
 import { Heart, Trash2 } from "lucide-react";
+import { useMemo } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import CartItemQuantity from "./CartItemQuantity";
 
 type Props = {
     cartItemId: string;
-    data: CartItemSkuResponse;
+    data: CartItemSkuType;
 };
 
 const CartItem = ({ data, cartItemId }: Props) => {
+    const { selectedCartItems } = useSelector(selectCart);
+
+    const dispatch = useDispatch();
+
+    const isSelected = useMemo(() => {
+        const selectedCartItem = selectedCartItems.find(
+            (item) => item.id === cartItemId
+        );
+        if (!selectedCartItem) return false;
+        return selectedCartItem.skus.some(
+            (sku) => sku.lemooSku === data.lemooSku
+        );
+    }, [selectedCartItems]);
+
     return (
         <div className="grid grid-cols-10 mt-3 hover:bg-slate-50 px-2 py-1 cursor-pointer">
             <div className="col-span-6 flex justify-start items-start gap-2">
+                <div className="flex p-2 h-full">
+                    <Checkbox
+                        onCheckedChange={(checked) => {
+                            if (checked) {
+                                dispatch(
+                                    selectCartItemSku({
+                                        skuCode: data.lemooSku,
+                                        cartItemId: cartItemId,
+                                    })
+                                );
+                            } else {
+                                dispatch(
+                                    clearSelectedCartItemSku({
+                                        skuCode: data.lemooSku,
+                                        cartItemId: cartItemId,
+                                    })
+                                );
+                            }
+                        }}
+                        checked={isSelected}
+                    />
+                </div>
                 <div className="w-[80px] aspect-square">
                     <img src={data.image} alt="" />
                 </div>
@@ -38,7 +83,18 @@ const CartItem = ({ data, cartItemId }: Props) => {
                     {formatMoneyVND(data.price)}
                 </h4>
                 <div className="flex justify-center items-center gap-2 mt-2">
-                    <Button size="icon" variant="ghost">
+                    <Button
+                        onClick={() => {
+                            const payload = {
+                                cartItemId: cartItemId,
+                                skuCode: data.lemooSku,
+                            };
+                            dispatch(clearSelectedCartItemSku(payload));
+                            dispatch(removeCartItemSku(payload));
+                        }}
+                        size="icon"
+                        variant="ghost"
+                    >
                         <Trash2 />
                     </Button>
                     <Button size="icon" variant="ghost">

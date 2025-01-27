@@ -14,6 +14,7 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as SearchIndexImport } from './routes/search/index'
+import { Route as CartIndexImport } from './routes/cart/index'
 import { Route as homeIndexImport } from './routes/(home)/index'
 import { Route as StoreLayoutImport } from './routes/store/_layout'
 import { Route as ProductsProductIdImport } from './routes/products/$productId'
@@ -36,6 +37,12 @@ const StoreRoute = StoreImport.update({
 const SearchIndexRoute = SearchIndexImport.update({
   id: '/search/',
   path: '/search/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const CartIndexRoute = CartIndexImport.update({
+  id: '/cart/',
+  path: '/cart/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -108,6 +115,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof homeIndexImport
       parentRoute: typeof rootRoute
     }
+    '/cart/': {
+      id: '/cart/'
+      path: '/cart'
+      fullPath: '/cart'
+      preLoaderRoute: typeof CartIndexImport
+      parentRoute: typeof rootRoute
+    }
     '/search/': {
       id: '/search/'
       path: '/search'
@@ -172,6 +186,7 @@ export interface FileRoutesByFullPath {
   '/products/$productId': typeof ProductsProductIdRoute
   '/store': typeof StoreLayoutRouteWithChildren
   '/': typeof homeIndexRoute
+  '/cart': typeof CartIndexRoute
   '/search': typeof SearchIndexRoute
   '/store/$storeId': typeof StoreLayoutStoreIdIndexRoute
   '/store/$storeId/products': typeof StoreLayoutStoreIdProductsIndexRoute
@@ -182,6 +197,7 @@ export interface FileRoutesByTo {
   '/products/$productId': typeof ProductsProductIdRoute
   '/store': typeof StoreLayoutRouteWithChildren
   '/': typeof homeIndexRoute
+  '/cart': typeof CartIndexRoute
   '/search': typeof SearchIndexRoute
   '/store/$storeId': typeof StoreLayoutStoreIdIndexRoute
   '/store/$storeId/products': typeof StoreLayoutStoreIdProductsIndexRoute
@@ -194,6 +210,7 @@ export interface FileRoutesById {
   '/store': typeof StoreRouteWithChildren
   '/store/_layout': typeof StoreLayoutRouteWithChildren
   '/(home)/': typeof homeIndexRoute
+  '/cart/': typeof CartIndexRoute
   '/search/': typeof SearchIndexRoute
   '/store/_layout/$storeId/': typeof StoreLayoutStoreIdIndexRoute
   '/store/_layout/$storeId/products/': typeof StoreLayoutStoreIdProductsIndexRoute
@@ -206,6 +223,7 @@ export interface FileRouteTypes {
     | '/products/$productId'
     | '/store'
     | '/'
+    | '/cart'
     | '/search'
     | '/store/$storeId'
     | '/store/$storeId/products'
@@ -215,6 +233,7 @@ export interface FileRouteTypes {
     | '/products/$productId'
     | '/store'
     | '/'
+    | '/cart'
     | '/search'
     | '/store/$storeId'
     | '/store/$storeId/products'
@@ -225,6 +244,7 @@ export interface FileRouteTypes {
     | '/store'
     | '/store/_layout'
     | '/(home)/'
+    | '/cart/'
     | '/search/'
     | '/store/_layout/$storeId/'
     | '/store/_layout/$storeId/products/'
@@ -236,6 +256,7 @@ export interface RootRouteChildren {
   ProductsProductIdRoute: typeof ProductsProductIdRoute
   StoreRoute: typeof StoreRouteWithChildren
   homeIndexRoute: typeof homeIndexRoute
+  CartIndexRoute: typeof CartIndexRoute
   SearchIndexRoute: typeof SearchIndexRoute
 }
 
@@ -243,6 +264,7 @@ const rootRouteChildren: RootRouteChildren = {
   ProductsProductIdRoute: ProductsProductIdRoute,
   StoreRoute: StoreRouteWithChildren,
   homeIndexRoute: homeIndexRoute,
+  CartIndexRoute: CartIndexRoute,
   SearchIndexRoute: SearchIndexRoute,
 }
 
@@ -259,6 +281,7 @@ export const routeTree = rootRoute
         "/products/$productId",
         "/store",
         "/(home)/",
+        "/cart/",
         "/search/"
       ]
     },
@@ -282,6 +305,9 @@ export const routeTree = rootRoute
     },
     "/(home)/": {
       "filePath": "(home)/index.tsx"
+    },
+    "/cart/": {
+      "filePath": "cart/index.tsx"
     },
     "/search/": {
       "filePath": "search/index.tsx"

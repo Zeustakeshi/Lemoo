@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useTheme } from "@/context/ThemeContext";
 
-import { ReactNode } from "@tanstack/react-router";
+import { ReactNode, useRouter } from "@tanstack/react-router";
 import {
     BellDot,
     Heart,
@@ -33,6 +33,8 @@ type Props = {};
 const HeaderProfile = ({}: Props) => {
     const { setTheme, theme } = useTheme();
 
+    const router = useRouter();
+
     return (
         <div className="flex justify-end items-center gap-2">
             <DropdownMenu>
@@ -50,7 +52,9 @@ const HeaderProfile = ({}: Props) => {
                         <DropdownMenuSeparator />
                     </DropdownMenuGroup>
                     <DropdownMenuGroup>
-                        <DropdownMenuItem>
+                        <DropdownMenuItem
+                            onClick={() => router.navigate({ to: "/cart" })}
+                        >
                             <ShoppingBag size={20} />
                             <span>Giỏ hàng của tôi</span>
                         </DropdownMenuItem>

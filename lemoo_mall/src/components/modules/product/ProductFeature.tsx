@@ -18,9 +18,6 @@ const ProductFeature = (props: Props) => {
             </div>
             <div className="">
                 <Carousel
-                    opts={{
-                        loop: true,
-                    }}
                     plugins={[
                         Autoplay({
                             delay: 4000,

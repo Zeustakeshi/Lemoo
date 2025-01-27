@@ -1,15 +1,15 @@
-export type CartResponse = {
+export type CartType = {
     id: string;
-    items: CartItemResponse[];
+    items: CartItemType[];
 };
 
-export type CartItemResponse = {
+export type CartItemType = {
     id: string;
     storeId: string;
-    skus: CartItemSkuResponse[];
+    skus: CartItemSkuType[];
 };
 
-export type CartItemSkuResponse = {
+export type CartItemSkuType = {
     lemooSku: string;
     productId: string;
     image: string;

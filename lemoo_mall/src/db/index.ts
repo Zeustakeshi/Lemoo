@@ -8,6 +8,7 @@ const db = new Dexie("LemooDatabase") as Dexie & {
 // Schema declaration:
 db.version(1).stores({
     searchHistories: "keyword",
+    cartItems: "id, storeId",
 });
 
 export { db };

@@ -1,4 +1,4 @@
-import { CartItemSkuResponse } from "@/common/type/cart.type";
+import { CartItemSkuType } from "@/common/type/cart.type";
 import { Separator } from "@/components/ui/separator";
 import CartItem from "./CartItem";
 import CartItemGroupHeader from "./CartItemGroupHeader";
@@ -6,13 +6,16 @@ import CartItemGroupHeader from "./CartItemGroupHeader";
 type Props = {
     storeId: string;
     cartItemId: string;
-    skus: CartItemSkuResponse[];
+    skus: CartItemSkuType[];
 };
 
 const CartItemGroup = ({ storeId, skus, cartItemId }: Props) => {
     return (
         <div className="py-3 px-3">
-            <CartItemGroupHeader storeId={storeId}></CartItemGroupHeader>
+            <CartItemGroupHeader
+                storeId={storeId}
+                numberOfSku={skus.length}
+            ></CartItemGroupHeader>
             <Separator></Separator>
             <div className="my-2">
                 {skus.map((sku) => (

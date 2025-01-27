@@ -1,3 +1,4 @@
+import { CartItemSkuType, CartItemType } from "@/common/type/cart.type";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -22,4 +23,14 @@ export const formatMoneyVND = (amount: number): string => {
         style: "currency",
         currency: "VND",
     });
+};
+
+export const calculateTotalSku = (cartItems?: CartItemType[]): number => {
+    if (!cartItems) return 0;
+
+    const sumSkuQuantity = (skus: CartItemSkuType[]) => {
+        return skus.reduce((acc, curr) => acc + curr.quantity, 0);
+    };
+
+    return cartItems.reduce((acc, curr) => acc + sumSkuQuantity(curr.skus), 0);
 };

@@ -1,6 +1,6 @@
-import { CartResponse } from "@/common/type/cart.type";
+import { CartType } from "@/common/type/cart.type";
 
-export const cartData: CartResponse = {
+export const cartData: CartType = {
     id: "cart-001",
     items: [
         {

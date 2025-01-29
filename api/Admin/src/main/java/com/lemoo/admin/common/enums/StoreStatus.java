@@ -1,14 +1,14 @@
 /*
  *  StoreStatus
  *  @author: Minhhieuano
- *  @created 12/14/2024 2:14 PM
+ *  @created 1/29/2025 1:12 PM
  * */
 
-package com.lemoo.store.common.enums;
+package com.lemoo.admin.common.enums;
 
 public enum StoreStatus {
-    PENDING,
     ACTIVE,
+    PENDING,
     NOT_ACTIVE,
     DELETED
 }

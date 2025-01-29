@@ -1,22 +1,19 @@
 /*
- *  CreateUserProfileEvent
+ *  ApproveStoreEvent
  *  @author: Minhhieuano
- *  @created 10/27/2024 11:38 AM
+ *  @created 1/28/2025 3:47 PM
  * */
+
 
 package com.lemoo.auth.event.eventModel;
 
 import lombok.*;
 
-@Data
-@Builder
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class NewUserEvent extends Event {
-
-    private String displayName;
+@Builder
+@Data
+public class SellerRoleCreatedEvent extends Event {
     private String accountId;
-    private String userId;
-
 }

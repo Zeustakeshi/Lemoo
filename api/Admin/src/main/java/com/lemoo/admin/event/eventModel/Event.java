@@ -4,7 +4,7 @@
  *  @created 12/10/2024 8:39 PM
  * */
 
-package com.lemoo.store.event.eventModel;
+package com.lemoo.admin.event.eventModel;
 
 import com.aventrix.jnanoid.jnanoid.NanoIdUtils;
 import lombok.AllArgsConstructor;

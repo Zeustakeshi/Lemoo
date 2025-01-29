@@ -43,6 +43,7 @@ server:
   servlet:
     context-path: /auth
 jwt:
+  kid: ${TOKEN_KID:lemoo-client}
   key:
     access-token:
       public-key: ${ACCESS_TOKEN_PUBLIC_KEY_PATH:../../keys/accessToken/publicKey.pem}

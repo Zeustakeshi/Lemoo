@@ -14,6 +14,8 @@ import com.lemoo.store.dto.request.CreateCorporateStoreRequest;
 import com.lemoo.store.dto.request.CreateIndividualStoreRequest;
 import com.lemoo.store.dto.response.StoreResponse;
 import com.lemoo.store.entity.*;
+import com.lemoo.store.event.eventModel.NewStoreEvent;
+import com.lemoo.store.event.producer.AdminProducer;
 import com.lemoo.store.exception.ConflictException;
 import com.lemoo.store.exception.NotfoundException;
 import com.lemoo.store.mapper.StoreMapper;
@@ -38,6 +40,7 @@ public class StoreServiceImpl implements StoreService {
     private final StoreRepository storeRepository;
     private final StoreMapper storeMapper;
     private final StoreDocumentService documentService;
+    private final AdminProducer adminProducer;
 
     @Value("${assets.default-avatar}")
     private String defaultAvatar;
@@ -65,8 +68,7 @@ public class StoreServiceImpl implements StoreService {
                 .phone(account.getPhone())
                 .name(request.getName())
                 .ownerId(account.getId())
-                .verified(false)
-                .status(StoreStatus.ACTIVE)
+                .status(StoreStatus.PENDING)
                 .build();
 
         String shortCode = ShortCodeGenerator.generateShortCode(
@@ -109,7 +111,14 @@ public class StoreServiceImpl implements StoreService {
         documentService.uploadBankDocumentAsync(
                 newStore.getId(), request.getBankDocument().getBytes());
 
-        // TODO: send event to admin to update verify store
+        adminProducer.approveNewStore(NewStoreEvent.builder()
+                .name(newStore.getName())
+                .storeEmail(newStore.getEmail())
+                .accountId(account.getId())
+                .shortCode(newStore.getShortCode())
+                .storeId(newStore.getId())
+                .type(newStore.getType())
+                .build());
 
         return storeMapper.storeToStoreResponse(newStore);
     }
@@ -132,8 +141,7 @@ public class StoreServiceImpl implements StoreService {
                 .phone(account.getPhone())
                 .name(request.getName())
                 .ownerId(account.getId())
-                .status(StoreStatus.ACTIVE)
-                .verified(false)
+                .status(StoreStatus.PENDING)
                 .build();
 
         BusinessRegistration businessRegistration = BusinessRegistration.builder()
@@ -175,7 +183,27 @@ public class StoreServiceImpl implements StoreService {
         documentService.uploadBankDocumentAsync(
                 newStore.getId(), request.getBankDocument().getBytes());
 
+        adminProducer.approveNewStore(NewStoreEvent.builder()
+                .name(newStore.getName())
+                .storeEmail(newStore.getEmail())
+                .accountId(account.getId())
+                .shortCode(newStore.getShortCode())
+                .storeId(newStore.getId())
+                .type(newStore.getType())
+                .build());
+
         return storeMapper.storeToStoreResponse(newStore);
+    }
+
+    @Override
+    public void updateStoreStatus(String storeId, StoreStatus status) {
+        Store store = storeRepository.findById(storeId)
+                .orElseThrow(() -> new NotfoundException("Store not found."));
+
+        store.setStatus(status);
+
+        storeRepository.save(store);
+
     }
 
     private void addStoreVerifyFailedMessages(String storeId, String message) {

@@ -10,23 +10,28 @@ import com.lemoo.auth.service.InternalTokenService;
 import com.lemoo.auth.service.KeyService;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
-import java.util.Map;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
 public class InternalTokenServiceImpl implements InternalTokenService {
 
-	private final KeyService keyService;
+    private final KeyService keyService;
 
-	@Override
-	public Map<String, Object> getJwkSets() {
-		RSAKey rsaKey = new RSAKey.Builder(keyService.getAccessTokenPublicKey())
-				.privateKey(keyService.getAccessTokenPrivateKey())
-				.keyID("lemoo-client")
-				.build();
-		JWKSet jwkSet = new JWKSet(rsaKey);
-		return jwkSet.toJSONObject();
-	}
+    @Value("${jwt.kid}")
+    private String jwtKid;
+
+    @Override
+    public Map<String, Object> getJwkSets() {
+        RSAKey rsaKey = new RSAKey.Builder(keyService.getAccessTokenPublicKey())
+                .privateKey(keyService.getAccessTokenPrivateKey())
+                .keyID(jwtKid)
+                .build();
+        JWKSet jwkSet = new JWKSet(rsaKey);
+        return jwkSet.toJSONObject();
+    }
 }

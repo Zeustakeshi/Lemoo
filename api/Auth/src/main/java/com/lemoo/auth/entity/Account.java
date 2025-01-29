@@ -9,14 +9,15 @@ package com.lemoo.auth.entity;
 import com.aventrix.jnanoid.jnanoid.NanoIdUtils;
 import com.lemoo.auth.common.enums.Role;
 import jakarta.persistence.*;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.stream.Collectors;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Data
@@ -26,34 +27,38 @@ import org.springframework.security.core.userdetails.UserDetails;
 @EqualsAndHashCode(callSuper = true)
 public class Account extends BaseEntity implements UserDetails {
 
-	@Builder.Default
-	@Column(nullable = false, unique = true, updatable = false)
-	private String profileId = NanoIdUtils.randomNanoId();
+    @Builder.Default
+    @Column(nullable = false, unique = true, updatable = false)
+    private String profileId = NanoIdUtils.randomNanoId();
 
-	@Column(nullable = false)
-	private String username;
+    @Column(nullable = false)
+    private String username;
 
-	@Column(unique = true, nullable = false)
-	private String phone;
+    @Column(unique = true, nullable = false)
+    private String phone;
 
-	@Column(unique = true, nullable = false)
-	private String email;
+    @Column(unique = true, nullable = false)
+    private String email;
 
-	@Builder.Default
-	private Boolean activeMfa = false;
+    @Builder.Default
+    private Boolean activeMfa = false;
 
-	@ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
-	@Enumerated(EnumType.STRING)
-	@Builder.Default
-	private Set<Role> authorities = new HashSet<>();
+    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
+    @Enumerated(EnumType.STRING)
+    @Builder.Default
+    private Set<Role> authorities = new HashSet<>();
 
-	@Column(nullable = false)
-	private String password;
+    @Column(nullable = false)
+    private String password;
 
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return authorities.stream()
-				.map(role -> new SimpleGrantedAuthority("ROLE_" + role))
-				.collect(Collectors.toSet());
-	}
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return authorities.stream()
+                .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
+                .collect(Collectors.toSet());
+    }
+
+    public void addAuthority(Role role) {
+        this.authorities.add(role);
+    }
 }

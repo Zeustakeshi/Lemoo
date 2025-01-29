@@ -19,17 +19,17 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/token")
 @RequiredArgsConstructor
 public class TokenController {
-	private final TokenService tokenService;
+    private final TokenService tokenService;
 
-	@PostMapping("/refresh")
-	@ResponseStatus(HttpStatus.CREATED)
-	public ApiResponse<?> refreshToken(@RequestBody @Valid RefreshTokenRequest request) {
-		return ApiResponse.success(tokenService.refreshToken(request));
-	}
+    @PostMapping("/refresh")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ApiResponse<?> refreshToken(@RequestBody @Valid RefreshTokenRequest request) {
+        return ApiResponse.success(tokenService.refreshToken(request));
+    }
 
-	@PostMapping("/introspect")
-	@ResponseStatus(HttpStatus.OK)
-	public ApiResponse<?> introspectToken(@RequestBody @Valid IntrospectTokenRequest request) {
-		return ApiResponse.success(tokenService.introspectToken(request));
-	}
+    @PostMapping("/introspect")
+    @ResponseStatus(HttpStatus.OK)
+    public ApiResponse<?> introspectToken(@RequestBody @Valid IntrospectTokenRequest request) {
+        return ApiResponse.success(tokenService.introspectToken(request));
+    }
 }

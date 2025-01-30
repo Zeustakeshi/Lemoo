@@ -7,7 +7,7 @@ type Props = {
 const Logo = ({ className }: Props) => {
     return (
         <div className={cn("text-xl font-bold text-primary", className)}>
-            Lemoo
+            Lemoo Admin
         </div>
     );
 };

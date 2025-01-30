@@ -13,8 +13,9 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as homeIndexImport } from './routes/(home)/index'
+import { Route as SidebarImport } from './routes/_sidebar'
 import { Route as AuthAuthImport } from './routes/auth/_auth'
+import { Route as SidebarhomeIndexImport } from './routes/_sidebar.(home)/index'
 import { Route as AuthAuthLoginImport } from './routes/auth/_auth.login'
 
 // Create Virtual Routes
@@ -29,15 +30,20 @@ const AuthRoute = AuthImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const homeIndexRoute = homeIndexImport.update({
-  id: '/(home)/',
-  path: '/',
+const SidebarRoute = SidebarImport.update({
+  id: '/_sidebar',
   getParentRoute: () => rootRoute,
 } as any)
 
 const AuthAuthRoute = AuthAuthImport.update({
   id: '/_auth',
   getParentRoute: () => AuthRoute,
+} as any)
+
+const SidebarhomeIndexRoute = SidebarhomeIndexImport.update({
+  id: '/(home)/',
+  path: '/',
+  getParentRoute: () => SidebarRoute,
 } as any)
 
 const AuthAuthLoginRoute = AuthAuthLoginImport.update({
@@ -50,6 +56,13 @@ const AuthAuthLoginRoute = AuthAuthLoginImport.update({
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/_sidebar': {
+      id: '/_sidebar'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof SidebarImport
+      parentRoute: typeof rootRoute
+    }
     '/auth': {
       id: '/auth'
       path: '/auth'
@@ -64,13 +77,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthAuthImport
       parentRoute: typeof AuthRoute
     }
-    '/(home)/': {
-      id: '/(home)/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof homeIndexImport
-      parentRoute: typeof rootRoute
-    }
     '/auth/_auth/login': {
       id: '/auth/_auth/login'
       path: '/login'
@@ -78,10 +84,28 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthAuthLoginImport
       parentRoute: typeof AuthAuthImport
     }
+    '/_sidebar/(home)/': {
+      id: '/_sidebar/(home)/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof SidebarhomeIndexImport
+      parentRoute: typeof SidebarImport
+    }
   }
 }
 
 // Create and export the route tree
+
+interface SidebarRouteChildren {
+  SidebarhomeIndexRoute: typeof SidebarhomeIndexRoute
+}
+
+const SidebarRouteChildren: SidebarRouteChildren = {
+  SidebarhomeIndexRoute: SidebarhomeIndexRoute,
+}
+
+const SidebarRouteWithChildren =
+  SidebarRoute._addFileChildren(SidebarRouteChildren)
 
 interface AuthAuthRouteChildren {
   AuthAuthLoginRoute: typeof AuthAuthLoginRoute
@@ -106,42 +130,50 @@ const AuthRouteChildren: AuthRouteChildren = {
 const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 
 export interface FileRoutesByFullPath {
+  '': typeof SidebarRouteWithChildren
   '/auth': typeof AuthAuthRouteWithChildren
-  '/': typeof homeIndexRoute
   '/auth/login': typeof AuthAuthLoginRoute
+  '/': typeof SidebarhomeIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/auth': typeof AuthAuthRouteWithChildren
-  '/': typeof homeIndexRoute
   '/auth/login': typeof AuthAuthLoginRoute
+  '/': typeof SidebarhomeIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
+  '/_sidebar': typeof SidebarRouteWithChildren
   '/auth': typeof AuthRouteWithChildren
   '/auth/_auth': typeof AuthAuthRouteWithChildren
-  '/(home)/': typeof homeIndexRoute
   '/auth/_auth/login': typeof AuthAuthLoginRoute
+  '/_sidebar/(home)/': typeof SidebarhomeIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/auth' | '/' | '/auth/login'
+  fullPaths: '' | '/auth' | '/auth/login' | '/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/auth' | '/' | '/auth/login'
-  id: '__root__' | '/auth' | '/auth/_auth' | '/(home)/' | '/auth/_auth/login'
+  to: '/auth' | '/auth/login' | '/'
+  id:
+    | '__root__'
+    | '/_sidebar'
+    | '/auth'
+    | '/auth/_auth'
+    | '/auth/_auth/login'
+    | '/_sidebar/(home)/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
+  SidebarRoute: typeof SidebarRouteWithChildren
   AuthRoute: typeof AuthRouteWithChildren
-  homeIndexRoute: typeof homeIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
+  SidebarRoute: SidebarRouteWithChildren,
   AuthRoute: AuthRouteWithChildren,
-  homeIndexRoute: homeIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -154,8 +186,14 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/auth",
-        "/(home)/"
+        "/_sidebar",
+        "/auth"
+      ]
+    },
+    "/_sidebar": {
+      "filePath": "_sidebar.tsx",
+      "children": [
+        "/_sidebar/(home)/"
       ]
     },
     "/auth": {
@@ -171,12 +209,13 @@ export const routeTree = rootRoute
         "/auth/_auth/login"
       ]
     },
-    "/(home)/": {
-      "filePath": "(home)/index.tsx"
-    },
     "/auth/_auth/login": {
       "filePath": "auth/_auth.login.tsx",
       "parent": "/auth/_auth"
+    },
+    "/_sidebar/(home)/": {
+      "filePath": "_sidebar.(home)/index.tsx",
+      "parent": "/_sidebar"
     }
   }
 }

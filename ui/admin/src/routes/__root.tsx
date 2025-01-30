@@ -3,7 +3,7 @@ import { selectAuth } from "@/store/auth/auth";
 import { setUserAsync } from "@/store/auth/auth.thunk";
 import { useMutation } from "@tanstack/react-query";
 import { Outlet, createRootRoute, useRouter } from "@tanstack/react-router";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 export const Route = createRootRoute({
@@ -36,8 +36,8 @@ function RootComponent() {
     }, [user]);
 
     return (
-        <React.Fragment>
+        <>
             <Outlet />
-        </React.Fragment>
+        </>
     );
 }

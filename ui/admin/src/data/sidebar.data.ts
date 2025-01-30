@@ -14,7 +14,7 @@ export const sidebarItems: SidebarItemType[] = [
         items: [
             {
                 title: "Danh sách cửa hàng",
-                url: "/",
+                url: "/stores",
             },
             {
                 title: "Cửa hàng chờ duyệt",

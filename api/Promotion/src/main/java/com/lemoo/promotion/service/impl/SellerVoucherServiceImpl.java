@@ -131,5 +131,4 @@ public class SellerVoucherServiceImpl implements SellerVoucherService {
         return newVoucher.getId();
     }
 
-
 }

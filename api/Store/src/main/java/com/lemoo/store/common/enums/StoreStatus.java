@@ -7,7 +7,8 @@
 package com.lemoo.store.common.enums;
 
 public enum StoreStatus {
-	ACTIVE,
-	INACTIVE,
-	DELETED
+    PENDING,
+    ACTIVE,
+    NOT_ACTIVE,
+    DELETED
 }

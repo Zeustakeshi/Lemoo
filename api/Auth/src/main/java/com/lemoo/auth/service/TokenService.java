@@ -6,17 +6,20 @@
 
 package com.lemoo.auth.service;
 
+import com.lemoo.auth.domain.Token;
 import com.lemoo.auth.dto.request.IntrospectTokenRequest;
 import com.lemoo.auth.dto.request.RefreshTokenRequest;
 import com.lemoo.auth.dto.response.TokenResponse;
 import com.lemoo.auth.entity.Account;
 
 public interface TokenService {
-	TokenResponse generateTokenPair(Account account);
+    TokenResponse generateTokenPair(Account account);
 
-	TokenResponse refreshToken(RefreshTokenRequest request);
+    Token generateAccessToken(Account account);
 
-	void removeToken(String token);
+    TokenResponse refreshToken(RefreshTokenRequest request);
 
-	Boolean introspectToken(IntrospectTokenRequest request);
+    void removeToken(String token);
+
+    Boolean introspectToken(IntrospectTokenRequest request);
 }

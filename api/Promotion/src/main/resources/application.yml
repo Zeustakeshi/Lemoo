@@ -15,6 +15,17 @@ spring:
       write-date-keys-as-timestamps: false
     deserialization:
       fail-on-unknown-properties: false
+  kafka:
+    producer:
+      bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVER:127.0.0.1:9092}
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    consumer:
+      bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVER:127.0.0.1:9092}
+      group-id: promotion_group
+      auto-offset-reset: earliest
+      properties:
+        spring.json.trusted.packages: '*'
 server:
   port: 8098
   servlet:

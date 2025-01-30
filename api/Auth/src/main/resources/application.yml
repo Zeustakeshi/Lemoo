@@ -43,6 +43,7 @@ server:
   servlet:
     context-path: /auth
 jwt:
+  kid: ${TOKEN_KID:lemoo-client}
   key:
     access-token:
       public-key: ${ACCESS_TOKEN_PUBLIC_KEY_PATH:../../keys/accessToken/publicKey.pem}
@@ -55,3 +56,6 @@ jwt:
 cache:
   redis_url: ${REDIS_URL}
 
+admin:
+  email: ${ADMIN_ACCOUNT:admin@gmail.com}
+  password: ${ADMIN_PASSWORD:12345678}

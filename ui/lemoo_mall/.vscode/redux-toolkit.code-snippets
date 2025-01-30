@@ -1,0 +1,28 @@
+{
+    "Create Redux Toolkit Slice": {
+        "prefix": "createSliceRTK",
+        "body": [
+            "import { createSlice } from \"@reduxjs/toolkit\";",
+            "import { RootState } from \"../store\";",
+            "",
+            "// Define a type for the slice state",
+            "interface ${1:${TM_FILENAME_BASE/^([a-z])/${1:/upcase}/}}State {}",
+            "",
+            "// Define the initial state using that type",
+            "const initialState: ${1:${TM_FILENAME_BASE/^([a-z])/${1:/upcase}/}}State = {};",
+            "",
+            "export const ${1:${TM_FILENAME_BASE/^([a-z])/${1:/upcase}/}}Slice = createSlice({",
+            "    name: \"${1:${TM_FILENAME_BASE/^([a-z])/${1:/upcase}/}}\",",
+            "    initialState,",
+            "    reducers: {},",
+            "});",
+            "",
+            "export const {} = ${1:${TM_FILENAME_BASE/^([a-z])/${1:/upcase}/}}Slice.actions;",
+            "",
+            "export const select${1:${TM_FILENAME_BASE/^([a-z])/${1:/upcase}/}} = (state: RootState) => state.${1:${TM_FILENAME_BASE/^([a-z])/${1:/upcase}/}}.value;",
+            "",
+            "export default ${1:${TM_FILENAME_BASE/^([a-z])/${1:/upcase}/}}Slice.reducer;",
+        ],
+        "description": "Create a Redux Toolkit slice",
+    },
+}

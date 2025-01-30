@@ -10,10 +10,10 @@ package com.lemoo.promotion.service.impl;
 import com.lemoo.promotion.service.VoucherCacheService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.redisson.api.RSet;
+import org.redisson.api.RedissonClient;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.Pipeline;
 
 import java.time.Duration;
 import java.util.Set;
@@ -23,7 +23,7 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class VoucherCacheServiceImpl implements VoucherCacheService {
 
-    private final Jedis jedis;
+    private final RedissonClient redisson;
 
 
     @Override
@@ -34,17 +34,13 @@ public class VoucherCacheServiceImpl implements VoucherCacheService {
     @Async
     @Override
     public void addProductVoucherAsyncBulkAsync(Set<String> skus, String voucherId) {
-        long ttl = Duration.ofDays(1).getSeconds();
         try {
-            Pipeline pipeline = jedis.pipelined();
-
             for (var sku : skus) {
                 String key = generateProductVoucherKey(sku);
-                pipeline.sadd(key, voucherId);
-                pipeline.expire(key, ttl);
+                RSet<String> skuVouchers = redisson.getSet(key);
+                skuVouchers.add(voucherId);
+                skuVouchers.expire(Duration.ofHours(12));
             }
-
-            pipeline.sync();
         } catch (Exception exception) {
             log.error("addProductVoucherAsyncBulkAsync failed message: {}", exception.getMessage());
         }
@@ -54,10 +50,10 @@ public class VoucherCacheServiceImpl implements VoucherCacheService {
     @Async
     public void addProductVoucherAsync(String sku, String voucherId) {
         String key = generateProductVoucherKey(sku);
-        long ttl = Duration.ofDays(1).getSeconds();
+        RSet<String> skuVouchers = redisson.getSet(key);
         try {
-            jedis.sadd(key, voucherId);
-            jedis.expire(key, ttl);
+            skuVouchers.add(voucherId);
+            skuVouchers.expire(Duration.ofHours(12));
         } catch (Exception exception) {
             log.error("addProductVoucherAsync failed key: {} message: {}", key, exception.getMessage());
         }
@@ -67,14 +63,10 @@ public class VoucherCacheServiceImpl implements VoucherCacheService {
     @Override
     public void updateVoucherProductsAsync(String sku, Set<String> vouchers) {
         String key = generateProductVoucherKey(sku);
-        long ttl = Duration.ofDays(1).getSeconds();
+        RSet<String> skuVouchers = redisson.getSet(key);
         try {
-            Pipeline pipeline = jedis.pipelined();
-            for (String voucher : vouchers) {
-                pipeline.sadd(key, voucher);
-            }
-            pipeline.expire(key, ttl);
-            pipeline.sync();
+            skuVouchers.addAll(vouchers);
+            skuVouchers.expire(Duration.ofHours(12));
         } catch (Exception exception) {
             log.error("updateVoucherProducts failed key: {} message: {}", key, exception.getMessage());
         }

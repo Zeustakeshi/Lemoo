@@ -12,6 +12,7 @@ import com.lemoo.admin.entity.Store;
 import com.lemoo.admin.event.eventModel.NewStoreEvent;
 import com.lemoo.admin.event.eventModel.NotifyStoreStatusEvent;
 import com.lemoo.admin.event.eventModel.StoreActivatedEvent;
+import com.lemoo.admin.event.eventModel.StoreDeactivatedEvent;
 import com.lemoo.admin.event.producer.NotificationProducer;
 import com.lemoo.admin.mapper.StoreMapper;
 import com.lemoo.admin.service.StoreService;
@@ -40,6 +41,15 @@ public class StoreConsumer {
         notificationProducer.notifyStoreStatus(NotifyStoreStatusEvent.builder()
                 .email(store.getStoreEmail())
                 .status(StoreStatus.ACTIVE)
+                .build());
+    }
+
+    @KafkaListener(topics = "store-service.store.deactivated", groupId = "${spring.kafka.consumer.group-id}")
+    public void storeDeactivatedEventListener(StoreDeactivatedEvent event) {
+        Store store = storeService.findByStoreId(event.getStoreId());
+        notificationProducer.notifyStoreStatus(NotifyStoreStatusEvent.builder()
+                .email(store.getStoreEmail())
+                .status(StoreStatus.NOT_ACTIVE)
                 .build());
     }
 }

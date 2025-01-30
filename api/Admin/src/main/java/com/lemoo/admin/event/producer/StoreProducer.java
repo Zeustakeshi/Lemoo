@@ -8,6 +8,7 @@
 package com.lemoo.admin.event.producer;
 
 import com.lemoo.admin.event.eventModel.ActivateStoreEvent;
+import com.lemoo.admin.event.eventModel.DeactivateStoreEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
@@ -19,5 +20,9 @@ public class StoreProducer {
 
     public void activateStore(ActivateStoreEvent event) {
         storeTemplate.send("admin-service.store.activate", event);
+    }
+
+    public void deactivateStore(DeactivateStoreEvent event) {
+        storeTemplate.send("admin-service.store.deactivate", event);
     }
 }

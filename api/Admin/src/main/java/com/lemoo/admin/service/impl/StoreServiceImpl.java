@@ -10,8 +10,10 @@ package com.lemoo.admin.service.impl;
 import com.lemoo.admin.common.enums.StoreStatus;
 import com.lemoo.admin.dto.response.PageableResponse;
 import com.lemoo.admin.entity.Store;
+import com.lemoo.admin.event.eventModel.DeactivateStoreEvent;
 import com.lemoo.admin.event.eventModel.NewSellerEvent;
 import com.lemoo.admin.event.producer.AuthProducer;
+import com.lemoo.admin.event.producer.StoreProducer;
 import com.lemoo.admin.exception.NotfoundException;
 import com.lemoo.admin.mapper.PageMapper;
 import com.lemoo.admin.repository.StoreRepository;
@@ -28,6 +30,7 @@ public class StoreServiceImpl implements StoreService {
     private final StoreRepository storeRepository;
     private final PageMapper pageMapper;
     private final AuthProducer authProducer;
+    private final StoreProducer storeProducer;
 
     @Override
     public void saveStore(Store store) {
@@ -74,6 +77,10 @@ public class StoreServiceImpl implements StoreService {
         store.setStatus(StoreStatus.NOT_ACTIVE);
 
         storeRepository.save(store);
+
+        storeProducer.deactivateStore(DeactivateStoreEvent.builder()
+                .storeId(storeId)
+                .build());
 
         return store.getStatus() == StoreStatus.NOT_ACTIVE;
     }

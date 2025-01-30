@@ -8,7 +8,7 @@
 package com.lemoo.auth.service.impl;
 
 import com.lemoo.auth.common.enums.Role;
-import com.lemoo.auth.dto.request.AdminCreateAccountRequest;
+import com.lemoo.auth.common.properties.AdminProperties;
 import com.lemoo.auth.dto.request.AdminLoginRequest;
 import com.lemoo.auth.dto.response.TokenResponse;
 import com.lemoo.auth.entity.Account;
@@ -33,18 +33,19 @@ public class AdminAuthServiceImpl implements AdminAuthService {
     private final PasswordEncoder passwordEncoder;
     private final TokenService tokenService;
     private final UserProducer userProducer;
+    private final AdminProperties adminProperties;
 
     @Override
-    public TokenResponse createAccount(AdminCreateAccountRequest request) {
-        if (accountRepository.existsByEmailAndAuthority(request.getEmail(), Role.ADMIN)) {
+    public TokenResponse createAccount() {
+        if (accountRepository.existsByEmailAndAuthority(adminProperties.email(), Role.ADMIN)) {
             throw new ConflictException("The admin account already exists. You cannot create an admin account directly. Please contact the admin to add an account.");
         }
 
         Account account = accountRepository.save(Account.builder()
-                .email(request.getEmail())
+                .email(adminProperties.email())
                 .phone("none")
-                .password(passwordEncoder.encode(request.getPassword()))
-                .username(request.getEmail())
+                .password(passwordEncoder.encode(adminProperties.password()))
+                .username(adminProperties.email())
                 .authorities(Set.of(Role.ADMIN))
                 .build());
 

@@ -6,12 +6,11 @@
 
 package com.lemoo.auth.service;
 
-import com.lemoo.auth.dto.request.AdminCreateAccountRequest;
 import com.lemoo.auth.dto.request.AdminLoginRequest;
 import com.lemoo.auth.dto.response.TokenResponse;
 
 public interface AdminAuthService {
-    TokenResponse createAccount(AdminCreateAccountRequest request);
+    TokenResponse createAccount();
 
     TokenResponse login(AdminLoginRequest request);
 }

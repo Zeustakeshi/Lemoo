@@ -9,8 +9,8 @@ package com.lemoo.auth.service.impl;
 
 import com.lemoo.auth.common.enums.Role;
 import com.lemoo.auth.common.properties.AdminProperties;
+import com.lemoo.auth.domain.Token;
 import com.lemoo.auth.dto.request.AdminLoginRequest;
-import com.lemoo.auth.dto.response.TokenResponse;
 import com.lemoo.auth.entity.Account;
 import com.lemoo.auth.event.eventModel.NewUserEvent;
 import com.lemoo.auth.event.producer.UserProducer;
@@ -36,7 +36,7 @@ public class AdminAuthServiceImpl implements AdminAuthService {
     private final AdminProperties adminProperties;
 
     @Override
-    public TokenResponse createAccount() {
+    public void createAccount() {
         if (accountRepository.existsByEmailAndAuthority(adminProperties.email(), Role.ADMIN)) {
             throw new ConflictException("The admin account already exists. You cannot create an admin account directly. Please contact the admin to add an account.");
         }
@@ -54,17 +54,16 @@ public class AdminAuthServiceImpl implements AdminAuthService {
                 .userId(account.getProfileId())
                 .displayName(account.getUsername())
                 .build());
-        return tokenService.generateTokenPair(account);
     }
 
     @Override
-    public TokenResponse login(AdminLoginRequest request) {
+    public Token login(AdminLoginRequest request) {
         Account account = accountRepository.findByEmailAndAuthority(request.getEmail(), Role.ADMIN)
                 .orElseThrow(() -> new ForbiddenException("Wrong username or password"));
 
         if (!passwordEncoder.matches(request.getPassword(), account.getPassword())) {
             throw new ForbiddenException("Wrong username or password");
         }
-        return tokenService.generateTokenPair(account);
+        return tokenService.generateAccessToken(account);
     }
 }

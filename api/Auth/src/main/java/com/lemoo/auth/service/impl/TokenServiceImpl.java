@@ -105,7 +105,8 @@ public class TokenServiceImpl implements TokenService {
         }
     }
 
-    private Token generateAccessToken(Account account) {
+    @Override
+    public Token generateAccessToken(Account account) {
 
         LocalDateTime now = LocalDateTime.now();
 

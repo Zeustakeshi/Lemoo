@@ -10,9 +10,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      DB_URL: "jdbc:postgresql://autorack.proxy.rlwy.net:34753/railway"
+      DB_URL: "jdbc:postgresql://junction.proxy.rlwy.net:56778/railway"
       DB_USER: "postgres"
-      DB_PASSWORD: "wtrKZzhksHRspzZmFfzmsXrQuAbPDyaB"
+      DB_PASSWORD: "IgmIwkgXApiNWOAcQluqHWaIwLeDTUEb"
     steps:
       - name: checkout
         uses: actions/checkout@v4

@@ -14,7 +14,7 @@ jobs:
       DB_USER: "postgres" # test
       DB_PASSWORD: "UcyppsbFlWfhKPWsYDUoSKMcTuwlXpqq" # test
       REDIS_URL: "redis://default:GPfEhzIaKFxlKctuPFiEfGwIfuddjFBD@junction.proxy.rlwy.net:10681" # test
-      KAFKA_BOOTSTRAP_SERVER: "143.244.150.42:9093
+      KAFKA_BOOTSTRAP_SERVER: "143.244.150.42:9093"
     steps:
       - name: checkout
         uses: actions/checkout@v4
@@ -36,7 +36,7 @@ jobs:
       - name: login Dockerhub
         run: |
           docker login -u "zeustakeshi" -p ${{ secrets.DOCKER_HUB_TOKEN }}
-                                docker push zeustakeshi/lemoo-auth-service:latest
+          docker push zeustakeshi/lemoo-auth-service:latest
           
           
           

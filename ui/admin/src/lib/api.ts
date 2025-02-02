@@ -5,14 +5,15 @@ import axios from "axios";
 import Cookies from "js-cookie";
 
 export const api = axios.create({
-    baseURL: BASE_URL + "/admin",
+    baseURL: BASE_URL,
+    withCredentials: false,
 });
 
 api.interceptors.request.use((request) => {
     const tokenString = Cookies.get(ACCESS_TOKEN_KEY);
     if (tokenString) {
         const token: TokenType = JSON.parse(tokenString);
-        request.headers.Authorization = `Bearer ${token}`;
+        request.headers.Authorization = `Bearer ${token.value}`;
     }
     return request;
 });

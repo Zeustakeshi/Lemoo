@@ -72,7 +72,7 @@ public class StoreServiceImpl implements StoreService {
 
     @Override
     public boolean deactivateStore(String storeId) {
-        Store store = storeRepository.findById(storeId)
+        Store store = storeRepository.findByStoreId(storeId)
                 .orElseThrow(() -> new NotfoundException("Store " + storeId + " not found"));
         store.setStatus(StoreStatus.NOT_ACTIVE);
 

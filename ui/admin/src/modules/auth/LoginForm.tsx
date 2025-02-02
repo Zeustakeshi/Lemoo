@@ -71,6 +71,7 @@ const LoginForm = ({}: Props) => {
                             <FormLabel>Mật khẩu</FormLabel>
                             <FormControl {...field}>
                                 <Input
+                                    type="password"
                                     placeholder="••••••••••••"
                                     {...field}
                                 ></Input>

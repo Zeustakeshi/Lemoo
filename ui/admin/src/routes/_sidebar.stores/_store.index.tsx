@@ -30,7 +30,7 @@ const storeStatusSchema = z.enum([
 ]);
 
 const searchSchema = z.object({
-    status: storeStatusSchema.default("PENDING"),
+    status: storeStatusSchema.default("ACTIVE"),
     page: z.number().int().min(1).max(999999).default(1),
 });
 
@@ -57,7 +57,7 @@ function RouteComponent() {
 
     const { data, isLoading } = useQuery({
         queryKey: ["all-store", page, status],
-        queryFn: async () => await getAllStore(page - 1),
+        queryFn: async () => await getAllStore(page - 1, status),
     });
 
     if (!data || isLoading) return <div>loading ....</div>;
@@ -107,7 +107,7 @@ function RouteComponent() {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {data.content.map((store) => (
+                    {data.content?.map((store) => (
                         <TableRow key={store.storeId}>
                             <TableCell className="font-medium">
                                 {store.storeId}

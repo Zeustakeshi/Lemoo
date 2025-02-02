@@ -1,18 +1,18 @@
-name: user_service_deployment
+name: admin_service_deployment
 on:
   push:
     branches:
       - test/deployment
     paths:
-      - 'api/User/**'
-      - '.github/workflows/ci_user_service_deployment.yml'
+      - 'api/Admin/**'
+      - '.github/workflows/ci_admin_service_deployment.yml'
 jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      DB_URL: "jdbc:postgresql://roundhouse.proxy.rlwy.net:21712/railway"
+      DB_URL: "jdbc:postgresql://junction.proxy.rlwy.net:56778/railway"
       DB_USER: "postgres"
-      DB_PASSWORD: "DZtuSyWyFQPpAZQhZAHCAfPFJhaqBbvz"
+      DB_PASSWORD: "IgmIwkgXApiNWOAcQluqHWaIwLeDTUEb"
     steps:
       - name: checkout
         uses: actions/checkout@v4
@@ -23,15 +23,15 @@ jobs:
           distribution: 'temurin'
           cache: maven
       - name: Build with Maven
-        working-directory: ./api/User
+        working-directory: ./api/Admin
         run: mvn clean package
       - name: Build the Docker image
-        working-directory: ./api/User
-        run: docker build . --file Dockerfile --tag zeustakeshi/lemoo-user-service:latest
+        working-directory: ./api/Admin
+        run: docker build . --file Dockerfile --tag zeustakeshi/lemoo-admin-service:latest
       - name: login Dockerhub
         run: |
           docker login -u "zeustakeshi" -p ${{ secrets.DOCKER_HUB_TOKEN }}
-          docker push zeustakeshi/lemoo-user-service:latest
+          docker push zeustakeshi/lemoo-admin-service:latest
           
           
           

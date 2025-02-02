@@ -10,10 +10,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      DB_URL: "jdbc:postgresql://monorail.proxy.rlwy.net:14003/railway" # test
+      DB_URL: "jdbc:postgresql://autorack.proxy.rlwy.net:13184/railway" # test
       DB_USER: "postgres" # test
-      DB_PASSWORD: "tGmKHsRfIiHUPerXWUIQmYJRWpfgcxpd" # test
-      REDIS_URL: "redis://default:BsvLfndXtjrJYAWvYiOAlTvAYFaRPRgj@autorack.proxy.rlwy.net:29810" # test
+      DB_PASSWORD: "UcyppsbFlWfhKPWsYDUoSKMcTuwlXpqq" # test
+      REDIS_URL: "redis://default:GPfEhzIaKFxlKctuPFiEfGwIfuddjFBD@junction.proxy.rlwy.net:10681" # test
+      KAFKA_BOOTSTRAP_SERVER: "143.244.150.42:9093"
     steps:
       - name: checkout
         uses: actions/checkout@v4

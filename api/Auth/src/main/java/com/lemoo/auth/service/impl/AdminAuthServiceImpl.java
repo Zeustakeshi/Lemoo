@@ -14,7 +14,6 @@ import com.lemoo.auth.dto.request.AdminLoginRequest;
 import com.lemoo.auth.entity.Account;
 import com.lemoo.auth.event.eventModel.NewUserEvent;
 import com.lemoo.auth.event.producer.UserProducer;
-import com.lemoo.auth.exception.ConflictException;
 import com.lemoo.auth.exception.ForbiddenException;
 import com.lemoo.auth.repository.AccountRepository;
 import com.lemoo.auth.service.AdminAuthService;
@@ -38,7 +37,8 @@ public class AdminAuthServiceImpl implements AdminAuthService {
     @Override
     public void createAccount() {
         if (accountRepository.existsByEmailAndAuthority(adminProperties.email(), Role.ADMIN)) {
-            throw new ConflictException("The admin account already exists. You cannot create an admin account directly. Please contact the admin to add an account.");
+            return;
+//            throw new ConflictException("The admin account already exists. You cannot create an admin account directly. Please contact the admin to add an account.");
         }
 
         Account account = accountRepository.save(Account.builder()

@@ -44,8 +44,8 @@ const NewAccountOtpForm = ({}: Props) => {
     const handleVerifyOtp = async (value: OtpType) => {
         try {
             const data: any = await mutateAsync(value);
-            saveToken(data.accessToken);
-            saveToken(data.refreshToken);
+            await saveToken(data.accessToken);
+            await saveToken(data.refreshToken);
             if (!callback_url) {
                 navigation({
                     to: "/",

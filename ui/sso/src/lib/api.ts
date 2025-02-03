@@ -1,8 +1,7 @@
-import { ACCESS_TOKEN_KEY } from "@/common/constants/auth";
-import { Token } from "@/common/type/token";
+import { TokenType } from "@/common/enums/token";
 import axios from "axios";
-import Cookies from "js-cookie";
 import { memoizedRefreshToken } from "./refreshToken";
+import * as tokenStore from "./tokenStore";
 
 export const api = axios.create({
     // baseURL: "https://mock.apidog.com/m1/730971-0-default",
@@ -10,21 +9,21 @@ export const api = axios.create({
     withCredentials: false,
 });
 
-api.interceptors.request.use((request) => {
-    const tokenString = Cookies.get(ACCESS_TOKEN_KEY);
-    if (tokenString) {
-        const token: Token = JSON.parse(tokenString);
-        request.headers.Authorization = `Bearer ${token.value}`;
-    }
+api.interceptors.request.use(async (request) => {
+    const accessToken = await tokenStore.getTokenValue(TokenType.ACCESS_TOKEN);
+    if (accessToken) request.headers.Authorization = `Bearer ${accessToken}`;
     return request;
 });
 
 api.interceptors.response.use(
     (response) => response.data.data,
     async (error) => {
-        if (error.request.status === 401) {
+        if (error?.request?.status === 401) {
             await memoizedRefreshToken();
-            if (Cookies.get(ACCESS_TOKEN_KEY)) return api(error.config);
+            const accessToken = await tokenStore.getTokenValue(
+                TokenType.ACCESS_TOKEN
+            );
+            if (accessToken) return api(error.config);
         }
         if (error?.response?.data?.errors) {
             return Promise.reject(error?.response?.data?.errors);

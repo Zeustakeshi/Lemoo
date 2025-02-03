@@ -13,7 +13,10 @@ export const saveToken = async (token: Token) => {
     const key = getTokenKey(token.type);
 
     try {
-        Cookies.set(key, JSON.stringify(token), { domain: ".lemoo.com" });
+        Cookies.set(key, JSON.stringify(token), {
+            domain: ".lemoo.com",
+            expires: new Date(token.expiresIn * 1000),
+        });
     } catch (error) {
         console.error("Save token error", error);
     }

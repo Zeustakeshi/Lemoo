@@ -38,8 +38,8 @@ const LoginForm = ({}: Props) => {
     const handleLogin = async (value: LoginType) => {
         try {
             const data: any = await mutateAsync(value);
-            saveToken(data.accessToken);
-            saveToken(data.refreshToken);
+            await saveToken(data.accessToken);
+            await saveToken(data.refreshToken);
             if (!callback_url) {
                 navigation({
                     to: "/",
@@ -48,6 +48,7 @@ const LoginForm = ({}: Props) => {
                 window.location.href = callback_url;
             }
         } catch (error: any) {
+            console.log(error);
             toast.error(JSON.stringify(error));
         }
     };

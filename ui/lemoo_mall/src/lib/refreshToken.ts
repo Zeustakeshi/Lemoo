@@ -5,9 +5,20 @@ import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from "@/common/constants/auth";
 import { api } from "./api";
 import { clearLocalStorage, clearSessionStorage } from "./storage";
 
-const refreshToken = async () => {
-    const refreshToken = Cookies.get(REFRESH_TOKEN_KEY);
+const clearAuth = () => {
+    clearLocalStorage();
+    clearSessionStorage();
+    Cookies.remove(REFRESH_TOKEN_KEY, { domain: ".lemoo.com" });
+    Cookies.remove(ACCESS_TOKEN_KEY, { domain: ".lemoo.com" });
+};
 
+const refreshToken = async () => {
+    const refreshTokenString = Cookies.get(REFRESH_TOKEN_KEY);
+    if (!refreshTokenString) {
+        clearAuth();
+        return;
+    }
+    const refreshToken = JSON.parse(refreshTokenString);
     alert("Refresh token");
     try {
         const data: any = await api({
@@ -28,10 +39,7 @@ const refreshToken = async () => {
         });
     } catch (error) {
         console.log("Refresh token error " + error);
-        clearLocalStorage();
-        clearSessionStorage();
-        Cookies.remove(REFRESH_TOKEN_KEY, { domain: ".lemoo.com" });
-        Cookies.remove(ACCESS_TOKEN_KEY, { domain: ".lemoo.com" });
+        clearAuth();
     }
 };
 

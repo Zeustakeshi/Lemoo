@@ -1,16 +1,21 @@
 import { ACCESS_TOKEN_KEY } from "@/common/constants/auth";
+import { Token } from "@/common/type/token.type";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { memoizedRefreshToken } from "./refreshToken";
 
 export const api = axios.create({
-    baseURL: "https://mock.apidog.com/m1/730971-0-default",
+    // baseURL: "https://mock.apidog.com/m1/730971-0-default",
+    baseURL: "http://143.244.150.42/api/v1",
+    withCredentials: false,
 });
 
 api.interceptors.request.use((request) => {
-    const token = Cookies.get(ACCESS_TOKEN_KEY);
-    if (token) {
-        request.headers.Authorization = `Bearer ${token}`;
+    const tokenString = Cookies.get(ACCESS_TOKEN_KEY);
+
+    if (tokenString) {
+        const token: Token = JSON.parse(tokenString);
+        request.headers.Authorization = `Bearer ${token.value}`;
     }
     return request;
 });

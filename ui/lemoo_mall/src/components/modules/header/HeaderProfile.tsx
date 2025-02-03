@@ -11,6 +11,7 @@ import {
     DropdownMenuSubTrigger,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useAuth } from "@/context/AuthContext";
 import { useTheme } from "@/context/ThemeContext";
 
 import { ReactNode, useRouter } from "@tanstack/react-router";
@@ -32,6 +33,7 @@ type Props = {};
 
 const HeaderProfile = ({}: Props) => {
     const { setTheme, theme } = useTheme();
+    const { logout, user } = useAuth();
 
     const router = useRouter();
 
@@ -40,7 +42,7 @@ const HeaderProfile = ({}: Props) => {
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                     <Avatar>
-                        <AvatarImage src="https://i.pravatar.cc/300"></AvatarImage>
+                        <AvatarImage src={user?.avatar}></AvatarImage>
                     </Avatar>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="min-w-[220px]">
@@ -138,7 +140,10 @@ const HeaderProfile = ({}: Props) => {
                         <DropdownMenuSeparator />
                     </DropdownMenuGroup>
 
-                    <DropdownMenuItem className="!text-rose-500">
+                    <DropdownMenuItem
+                        onClick={logout}
+                        className="!text-rose-500"
+                    >
                         <LogOut />
                         <span>Đăng xuất</span>
                     </DropdownMenuItem>

@@ -16,10 +16,10 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class UserConsumer {
 
-	private final UserService userService;
+    private final UserService userService;
 
-	@KafkaListener(topics = "new_user", groupId = "${spring.kafka.consumer.group-id}")
-	public void newUserEventListener(NewUserEvent event) {
-		userService.createUser(event.getAccountId(), event.getUserId(), event.getDisplayName());
-	}
+    @KafkaListener(topics = "auth-service.user.new", groupId = "${spring.kafka.consumer.group-id}")
+    public void newUserEventListener(NewUserEvent event) {
+        userService.createUser(event.getAccountId(), event.getUserId(), event.getDisplayName());
+    }
 }

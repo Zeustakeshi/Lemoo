@@ -1,12 +1,14 @@
-import Cookies from "js-cookie";
 import memoize from "memoize";
 
-import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from "@/common/constants/auth";
+import { TokenType } from "@/common/enums/token";
+import * as tokenStore from "@/lib/tokenStore";
 import { api } from "./api";
 import { clearLocalStorage, clearSessionStorage } from "./storage";
 
 const refreshToken = async () => {
-    const refreshToken = Cookies.get(REFRESH_TOKEN_KEY);
+    const refreshToken = await tokenStore.getTokenValue(
+        TokenType.REFRESH_TOKEN
+    );
 
     alert("Refresh token");
     try {
@@ -18,20 +20,14 @@ const refreshToken = async () => {
             },
         });
 
-        Cookies.set(ACCESS_TOKEN_KEY, data.accessToken.value, {
-            expires: new Date(data.accessToken.expiresIn * 1000),
-            domain: ".lemoo.com",
-        });
-        Cookies.set(REFRESH_TOKEN_KEY, data.refreshToken.value, {
-            expires: new Date(data.refreshToken.expiresIn * 1000),
-            domain: ".lemoo.com",
-        });
+        await tokenStore.saveToken(data.accessToken);
+        await tokenStore.saveToken(data.refreshToken);
     } catch (error) {
         console.log("Refresh token error " + error);
         clearLocalStorage();
         clearSessionStorage();
-        Cookies.remove(REFRESH_TOKEN_KEY, { domain: ".lemoo.com" });
-        Cookies.remove(ACCESS_TOKEN_KEY, { domain: ".lemoo.com" });
+        tokenStore.removeToken(TokenType.ACCESS_TOKEN);
+        tokenStore.removeToken(TokenType.REFRESH_TOKEN);
     }
 };
 

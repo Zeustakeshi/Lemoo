@@ -1,7 +1,6 @@
-import { ACCESS_TOKEN_KEY } from "@/common/constants/auth";
-import { Token } from "@/common/type/token.type";
+import { TokenType } from "@/common/enum/token.enum";
+import * as tokenStore from "@/lib/tokenStore";
 import axios from "axios";
-import Cookies from "js-cookie";
 import { memoizedRefreshToken } from "./refreshToken";
 
 export const api = axios.create({
@@ -10,12 +9,11 @@ export const api = axios.create({
     withCredentials: false,
 });
 
-api.interceptors.request.use((request) => {
-    const tokenString = Cookies.get(ACCESS_TOKEN_KEY);
+api.interceptors.request.use(async (request) => {
+    const accessToken = await tokenStore.getTokenValue(TokenType.ACCESS_TOKEN);
 
-    if (tokenString) {
-        const token: Token = JSON.parse(tokenString);
-        request.headers.Authorization = `Bearer ${token.value}`;
+    if (accessToken) {
+        request.headers.Authorization = `Bearer ${accessToken}`;
     }
     return request;
 });
@@ -25,7 +23,10 @@ api.interceptors.response.use(
     async (error) => {
         if (error.request.status === 401) {
             await memoizedRefreshToken();
-            if (Cookies.get(ACCESS_TOKEN_KEY)) return api(error.config);
+            const accessToken = await tokenStore.getTokenValue(
+                TokenType.ACCESS_TOKEN
+            );
+            if (accessToken) return api(error.config);
         }
         if (error?.response?.data?.errors) {
             return Promise.reject(error?.response?.data?.errors);

@@ -67,6 +67,22 @@ function RootComponent() {
                 Home
               </Link>
             </li>
+            <li>
+              <Link
+                to="/store/dashboard"
+                className="block px-4 py-2 rounded hover:bg-gray-200 transition"
+              >
+                Store Dashboard
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/store/create"
+                className="block px-4 py-2 rounded hover:bg-gray-200 transition"
+              >
+                Store Create
+              </Link>
+            </li>
           </ul>
         </nav>
       </aside>

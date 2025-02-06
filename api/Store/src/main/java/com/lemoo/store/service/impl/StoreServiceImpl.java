@@ -48,8 +48,8 @@ public class StoreServiceImpl implements StoreService {
     @Override
     public StoreResponse getStoreInfo(AuthenticatedAccount account) {
         Store store = storeRepository
-                .findActiveStore(account.getId())
-                .orElseThrow(() -> new NotfoundException("Store doesn't exist or is not verified."));
+                .findByOwnerId(account.getId())
+                .orElseThrow(() -> new NotfoundException("Store doesn't exist."));
         return storeMapper.storeToStoreResponse(store);
     }
 

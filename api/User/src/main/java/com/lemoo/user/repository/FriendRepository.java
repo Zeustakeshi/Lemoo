@@ -23,8 +23,6 @@ public interface FriendRepository extends JpaRepository<Friend, String> {
 			+ "FROM Friend f WHERE f.user1Id = :userId OR f.user2Id = :userId)")
 	Page<String> findNonFriendUserIds(@Param("userId") String userId, Pageable pageable);
 
-	@Query(
-			value =
-					"select case when count(f) > 0 then true else false end from Friend  f where (f.user1Id = ?1 and f.user2Id = ?2) or (f.user2Id = ?1 and f.user1Id = ?2)")
+	@Query(value = "select case when count(f) > 0 then true else false end from Friend  f where (f.user1Id = ?1 and f.user2Id = ?2) or (f.user2Id = ?1 and f.user1Id = ?2)")
 	boolean existsFriendByUser1IdAndUser2Id(String user1Id, String user2Id);
 }

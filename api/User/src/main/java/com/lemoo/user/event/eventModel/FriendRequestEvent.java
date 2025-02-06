@@ -7,13 +7,10 @@ import lombok.*;
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class NewFriendRequestEvent extends Event {
+public class FriendRequestEvent extends Event {
 
-	private String invitationId;
 	private String receiverId;
 	private String senderId;
-	private String senderName;
-	private String senderAvatar;
 
 	@Override
 	protected void setGroupId(String groupId) {

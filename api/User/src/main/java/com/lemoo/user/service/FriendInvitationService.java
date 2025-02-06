@@ -11,7 +11,13 @@ public interface FriendInvitationService {
 
 	PageableResponse<FriendInvitationResponse> getCurrentFriendRequestList(String userId, int page, int limit);
 
-	void rejectFriendRequest(String requestId);
+	void rejectFriendRequest(String senderId, String receiverId);
 
-	void acceptFriendRequest(String requestId);
+	void acceptFriendRequest(String senderId, String receiverId);
+
+	public void acceptedFriend(String senderId, String receiverId);
+
+	void receivedFriendRequest(String senderId, String receiverId);
+
+	void notifyFriendRequest(String senderId, String receiverId);
 }

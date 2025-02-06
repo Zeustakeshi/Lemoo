@@ -1,6 +1,5 @@
 package com.lemoo.user.service.impl;
 
-import com.lemoo.user.common.enums.FriendStatus;
 import com.lemoo.user.dto.response.FriendResponse;
 import com.lemoo.user.dto.response.PageableResponse;
 import com.lemoo.user.dto.response.UserResponse;
@@ -47,7 +46,6 @@ public class FriendServiceImpl implements FriendService {
 		Friend friend = Friend.builder()
 				.user1Id(user1Id)
 				.user2Id(user2Id)
-				.status(FriendStatus.ACCEPTED)
 				.build();
 
 		friendRepository.save(friend);

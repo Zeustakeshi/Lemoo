@@ -36,7 +36,7 @@ public class FriendInvitationController {
 	public ApiResponse<?> acceptFriendRequest(
 			@AuthenticationPrincipal AuthenticatedAccount user,
 			@RequestBody @Valid UpdateFriendInvitationRequest request) {
-		friendInvitationService.acceptFriendRequest(request.getRequestId());
+		friendInvitationService.acceptFriendRequest(request.getSenderId(),user.getId());
 
 		return ApiResponse.success("Accepted friend request");
 	}
@@ -45,7 +45,7 @@ public class FriendInvitationController {
 	public ApiResponse<?> rejectFriendRequest(
 			@AuthenticationPrincipal AuthenticatedAccount user,
 			@RequestBody @Valid UpdateFriendInvitationRequest request) {
-		friendInvitationService.rejectFriendRequest(request.getRequestId());
+		friendInvitationService.rejectFriendRequest(user.getId(),request.getSenderId());
 		return ApiResponse.success("Rejected friend request");
 	}
 }

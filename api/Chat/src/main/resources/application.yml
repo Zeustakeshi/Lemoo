@@ -1,23 +1,11 @@
 spring:
   application:
     name: chat-service
-  datasource:
-    url: ${DB_URL}
-    username: ${DB_USER}
-    password: ${DB_PASSWORD}
-    driver-class-name: org.postgresql.Driver
-  jpa:
-    open-in-view: false
-    database: postgresql
-    generate-ddl: true
-    hibernate:
-      ddl-auto: update
-    properties:
-      hibernate:
-        format_sql: true
-        show_sql: true
-        globally_quoted_identifiers: true
-        globally_quoted_identifiers_skip_column_definitions: true
+  data:
+    mongodb:
+      uri: ${MONGODB_URI}
+      database: ${MONGODB_NAME}
+      auto-index-creation: true
   jackson:
     default-property-inclusion: non_null
     serialization:
@@ -27,20 +15,13 @@ spring:
       write-date-keys-as-timestamps: false
     deserialization:
       fail-on-unknown-properties: false
-  kafka:
-    producer:
-      bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVER:127.0.0.1:9092}
-      key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
-    consumer:
-      bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVER:127.0.0.1:9092}
-      group-id: chat_group
-      auto-offset-reset: earliest
-      properties:
-        spring.json.trusted.packages: '*'
 server:
-  port: 8086
+  port: 4006
   servlet:
     context-path: /chats
 services:
   auth-service: ${AUTH_SERVICE_URL:http://localhost:8082/auth}
+  user-service: ${USER_SERVICE_URL:http://localhost:8082/users}
+
+cache:
+  redis_url: ${REDIS_URL}

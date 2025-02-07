@@ -55,7 +55,7 @@ public class RoomServiceImpl implements RoomService {
         Page<Room> rooms = roomRepository.findAllByAccountInMember(account.getUserId(), request);
 
         Page<RoomResponse> responses = rooms.map(
-                (room) -> CompletableFuture.supplyAsync(() -> roomMapper.toRoomResponse(room, account.getUserId()))
+                room -> CompletableFuture.supplyAsync(() -> roomMapper.toRoomResponse(room, account.getUserId()))
         ).map(CompletableFuture::join);
         return pageMapper.toPageableResponse(responses);
     }

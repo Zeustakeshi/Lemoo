@@ -1,6 +1,9 @@
 spring:
+  cloud:
+    compatibility-verifier:
+      enabled: false
   application:
-    name: chat-service
+  name: chat-service
   data:
     mongodb:
       uri: ${MONGODB_URI}

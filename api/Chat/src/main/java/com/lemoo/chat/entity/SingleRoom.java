@@ -1,26 +1,28 @@
 /*
- *  Message
+ *  SingleRoom
  *  @author: Minhhieuano
- *  @created 2/6/2025 1:13 AM
+ *  @created 2/7/2025 4:35 PM
  * */
 
 package com.lemoo.chat.entity;
 
-import lombok.AllArgsConstructor;
+import com.lemoo.chat.common.enums.RoomType;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @EqualsAndHashCode(callSuper = true)
 @Document
-@AllArgsConstructor
-@NoArgsConstructor
 @SuperBuilder
 @Data
-public class Message extends BaseEntity {
-	private String senderId;
-	private String roomId;
-	private String text;
+public class SingleRoom extends Room {
+
+	@Builder.Default
+	private boolean isSA = false; // seller account
+
+	public SingleRoom() {
+		setType(RoomType.SINGLE);
+	}
 }

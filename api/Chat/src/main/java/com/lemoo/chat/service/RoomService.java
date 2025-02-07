@@ -9,10 +9,13 @@ package com.lemoo.chat.service;
 import com.lemoo.chat.dto.common.AuthenticatedAccount;
 import com.lemoo.chat.dto.request.RoomRequest;
 import com.lemoo.chat.dto.response.PageableResponse;
+import com.lemoo.chat.dto.response.RoomDetailResponse;
 import com.lemoo.chat.dto.response.RoomResponse;
 
 public interface RoomService {
-	boolean createRoom(AuthenticatedAccount account, RoomRequest request);
+    boolean createRoom(AuthenticatedAccount account, RoomRequest request);
 
-	PageableResponse<RoomResponse> getAllRoom(int page, int limit, AuthenticatedAccount account);
+    PageableResponse<RoomResponse> getAllRoom(int page, int limit, AuthenticatedAccount account);
+
+    RoomDetailResponse getRoomDetail(String roomId, AuthenticatedAccount account);
 }

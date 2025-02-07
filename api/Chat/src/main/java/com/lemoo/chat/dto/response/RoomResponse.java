@@ -6,19 +6,13 @@
 
 package com.lemoo.chat.dto.response;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.lemoo.chat.common.enums.RoomType;
-import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.SuperBuilder;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
-@Builder
-public class RoomResponse {
-	private String id;
-	private String name;
-	private String avatar;
-	private RoomType type;
+@SuperBuilder
+public class RoomResponse extends BaseRoomResponse {
 
-	@JsonProperty("isSA")
-	private boolean isSA;
 }

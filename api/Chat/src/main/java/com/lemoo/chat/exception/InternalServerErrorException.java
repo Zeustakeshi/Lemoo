@@ -8,8 +8,8 @@ package com.lemoo.chat.exception;
 
 import org.springframework.http.HttpStatus;
 
-public class ForbiddenException extends ApiException {
-	public ForbiddenException(String message) {
+public class InternalServerErrorException extends ApiException {
+	public InternalServerErrorException(String message) {
 		super(HttpStatus.FORBIDDEN, message);
 	}
 }

@@ -10,9 +10,12 @@ import com.lemoo.chat.common.enums.RoomType;
 import com.lemoo.chat.dto.common.AuthenticatedAccount;
 import com.lemoo.chat.dto.request.RoomRequest;
 import com.lemoo.chat.dto.response.PageableResponse;
+import com.lemoo.chat.dto.response.RoomDetailResponse;
 import com.lemoo.chat.dto.response.RoomResponse;
 import com.lemoo.chat.entity.Room;
 import com.lemoo.chat.entity.SingleRoom;
+import com.lemoo.chat.exception.ForbiddenException;
+import com.lemoo.chat.exception.NotfoundException;
 import com.lemoo.chat.mapper.PageMapper;
 import com.lemoo.chat.mapper.RoomMapper;
 import com.lemoo.chat.repository.RoomRepository;
@@ -58,5 +61,17 @@ public class RoomServiceImpl implements RoomService {
                 room -> CompletableFuture.supplyAsync(() -> roomMapper.toRoomResponse(room, account.getUserId()))
         ).map(CompletableFuture::join);
         return pageMapper.toPageableResponse(responses);
+    }
+
+    @Override
+    public RoomDetailResponse getRoomDetail(String roomId, AuthenticatedAccount account) {
+        Room room = roomRepository.findById(roomId)
+                .orElseThrow(() -> new NotfoundException("Room not found!"));
+
+        if (!roomValidatorService.validateRoomAccessPermission(room, account.getUserId())) {
+            throw new ForbiddenException("You don't have permission to access this room");
+        }
+
+        return roomMapper.toRoomDetailResponse(room, account.getUserId());
     }
 }

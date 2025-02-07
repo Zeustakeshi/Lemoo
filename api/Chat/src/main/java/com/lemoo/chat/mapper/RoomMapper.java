@@ -6,48 +6,68 @@
 
 package com.lemoo.chat.mapper;
 
-import com.lemoo.chat.client.UserClient;
 import com.lemoo.chat.common.enums.RoomType;
+import com.lemoo.chat.dto.response.BaseRoomResponse;
+import com.lemoo.chat.dto.response.RoomDetailResponse;
 import com.lemoo.chat.dto.response.RoomResponse;
 import com.lemoo.chat.entity.Room;
 import com.lemoo.chat.entity.SingleRoom;
 import com.lemoo.chat.service.UserService;
 import org.mapstruct.Mapper;
 import org.mapstruct.Named;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.Optional;
+import java.util.Set;
 
 @Mapper(componentModel = "spring")
 public abstract class RoomMapper {
 
-    protected final UserClient userClient;
-    protected final UserService userService;
+    @Autowired
+    protected UserService userService;
 
-    RoomMapper(UserClient userClient, UserService userService) {
-        this.userClient = userClient;
-        this.userService = userService;
+
+    public RoomDetailResponse toRoomDetailResponse(Room room, String currentUserId) {
+        RoomDetailResponse response = RoomDetailResponse
+                .builder()
+                .id(room.getId())
+                .type(room.getType())
+                .totalMembers(room.getMembers().size())
+                .build();
+
+        if (room.getType().equals(RoomType.SINGLE)) {
+            handleSingleRoom(response, (SingleRoom) room, currentUserId);
+        }
+
+        return response;
     }
 
     @Named("toRoomResponse")
     public RoomResponse toRoomResponse(Room room, String currentUserId) {
-        RoomResponse response =
-                RoomResponse.builder().id(room.getId()).type(room.getType()).build();
-
+        RoomResponse response = RoomResponse.builder().id(room.getId()).type(room.getType()).build();
         if (room.getType().equals(RoomType.SINGLE)) {
-            SingleRoom singleRoom = (SingleRoom) room;
-            response.setSA(singleRoom.isSA());
-            var userIdOptional = room.getMembers().stream()
-                    .filter(member -> !member.equals(currentUserId))
-                    .findFirst();
-            if (userIdOptional.isPresent()) {
-                String userId = userIdOptional.get();
-                var userOptional = userService.getUserInfo(userId);
-                userOptional.ifPresent(user -> {
-                    response.setAvatar(user.getAvatar());
-                    response.setName(user.getName());
-                });
-            } else {
-                response.setName("Unknown");
-            }
+            handleSingleRoom(response, (SingleRoom) room, currentUserId);
         }
         return response;
     }
+
+    private void handleSingleRoom(BaseRoomResponse response, SingleRoom room, String currentUserId) {
+        response.setSA(room.isSA());
+        getOtherUserId(room.getMembers(), currentUserId)
+                .flatMap(userService::getUserInfo)
+                .ifPresentOrElse(
+                        user -> {
+                            response.setAvatar(user.getAvatar());
+                            response.setName(user.getName());
+                        },
+                        () -> response.setName("Unknown")
+                );
+    }
+
+    private Optional<String> getOtherUserId(Set<String> members, String currentUserId) {
+        return members.stream()
+                .filter(memberId -> !memberId.equals(currentUserId))
+                .findFirst();
+    }
+
 }

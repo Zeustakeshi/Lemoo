@@ -6,8 +6,12 @@
 
 package com.lemoo.chat.service;
 
+import com.lemoo.chat.entity.Room;
+
 import java.util.Set;
 
 public interface RoomValidatorService {
-	Set<String> validateMemberRequest(Set<String> members);
+    Set<String> validateMemberRequest(Set<String> members);
+
+    boolean validateRoomAccessPermission(Room room, String memberId);
 }

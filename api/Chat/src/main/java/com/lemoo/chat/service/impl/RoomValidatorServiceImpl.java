@@ -8,36 +8,43 @@ package com.lemoo.chat.service.impl;
 
 import com.lemoo.chat.client.UserClient;
 import com.lemoo.chat.dto.request.BatchFetchUserInfoRequest;
+import com.lemoo.chat.entity.Room;
 import com.lemoo.chat.exception.InternalServerErrorException;
 import com.lemoo.chat.service.RoomValidatorService;
-import java.util.HashSet;
-import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
 public class RoomValidatorServiceImpl implements RoomValidatorService {
-	private final UserClient userClient;
+    private final UserClient userClient;
 
-	@Override
-	public Set<String> validateMemberRequest(Set<String> members) {
+    @Override
+    public Set<String> validateMemberRequest(Set<String> members) {
 
-		var batchFetchUserResponse = userClient.batchFetchUserInfo(
-				BatchFetchUserInfoRequest.builder().users(members).build());
+        var batchFetchUserResponse = userClient.batchFetchUserInfo(
+                BatchFetchUserInfoRequest.builder().users(members).build());
 
-		if (batchFetchUserResponse.getErrors() != null) {
-			throw new InternalServerErrorException(
-					batchFetchUserResponse.getErrors().toString());
-		}
-		var users = batchFetchUserResponse.getData();
-		Set<String> validMembers = new HashSet<>();
+        if (batchFetchUserResponse.getErrors() != null) {
+            throw new InternalServerErrorException(
+                    batchFetchUserResponse.getErrors().toString());
+        }
+        var users = batchFetchUserResponse.getData();
+        Set<String> validMembers = new HashSet<>();
 
-		for (var member : members) {
-			if (users.stream().noneMatch(user -> user.getId().equals(member))) continue;
-			validMembers.add(member);
-		}
+        for (var member : members) {
+            if (users.stream().noneMatch(user -> user.getId().equals(member))) continue;
+            validMembers.add(member);
+        }
 
-		return validMembers;
-	}
+        return validMembers;
+    }
+
+    @Override
+    public boolean validateRoomAccessPermission(Room room, String memberId) {
+        return room.getMembers().contains(memberId);
+    }
 }

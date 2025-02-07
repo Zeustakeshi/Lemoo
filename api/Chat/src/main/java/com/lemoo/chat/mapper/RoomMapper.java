@@ -14,16 +14,17 @@ import com.lemoo.chat.entity.SingleRoom;
 import com.lemoo.chat.service.UserService;
 import org.mapstruct.Mapper;
 import org.mapstruct.Named;
-import org.springframework.beans.factory.annotation.Autowired;
 
 @Mapper(componentModel = "spring")
 public abstract class RoomMapper {
 
-    @Autowired
-    protected UserClient userClient;
+    protected final UserClient userClient;
+    protected final UserService userService;
 
-    @Autowired
-    protected UserService userService;
+    RoomMapper(UserClient userClient, UserService userService) {
+        this.userClient = userClient;
+        this.userService = userService;
+    }
 
     @Named("toRoomResponse")
     public RoomResponse toRoomResponse(Room room, String currentUserId) {

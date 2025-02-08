@@ -13,27 +13,29 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as ContactsIndexImport } from './routes/contacts/index'
 import { Route as SettingsGeneralImport } from './routes/settings/general'
-import { Route as ContactsSentImport } from './routes/contacts/sent'
-import { Route as ContactsRequestImport } from './routes/contacts/request'
+import { Route as ContactsContactImport } from './routes/contacts/_contact'
 import { Route as chatschatImport } from './routes/(chats)/__chat'
+import { Route as ContactsContactIndexImport } from './routes/contacts/_contact.index'
 import { Route as chatschatIndexImport } from './routes/(chats)/__chat.index'
+import { Route as ContactsContactSentImport } from './routes/contacts/_contact.sent'
+import { Route as ContactsContactRequestImport } from './routes/contacts/_contact.request'
 
 // Create Virtual Routes
 
+const ContactsImport = createFileRoute('/contacts')()
 const chatsImport = createFileRoute('/(chats)')()
 
 // Create/Update Routes
 
-const chatsRoute = chatsImport.update({
-  id: '/(chats)',
+const ContactsRoute = ContactsImport.update({
+  id: '/contacts',
+  path: '/contacts',
   getParentRoute: () => rootRoute,
 } as any)
 
-const ContactsIndexRoute = ContactsIndexImport.update({
-  id: '/contacts/',
-  path: '/contacts/',
+const chatsRoute = chatsImport.update({
+  id: '/(chats)',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -43,16 +45,9 @@ const SettingsGeneralRoute = SettingsGeneralImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const ContactsSentRoute = ContactsSentImport.update({
-  id: '/contacts/sent',
-  path: '/contacts/sent',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const ContactsRequestRoute = ContactsRequestImport.update({
-  id: '/contacts/request',
-  path: '/contacts/request',
-  getParentRoute: () => rootRoute,
+const ContactsContactRoute = ContactsContactImport.update({
+  id: '/_contact',
+  getParentRoute: () => ContactsRoute,
 } as any)
 
 const chatschatRoute = chatschatImport.update({
@@ -60,10 +55,28 @@ const chatschatRoute = chatschatImport.update({
   getParentRoute: () => chatsRoute,
 } as any)
 
+const ContactsContactIndexRoute = ContactsContactIndexImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ContactsContactRoute,
+} as any)
+
 const chatschatIndexRoute = chatschatIndexImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => chatschatRoute,
+} as any)
+
+const ContactsContactSentRoute = ContactsContactSentImport.update({
+  id: '/sent',
+  path: '/sent',
+  getParentRoute: () => ContactsContactRoute,
+} as any)
+
+const ContactsContactRequestRoute = ContactsContactRequestImport.update({
+  id: '/request',
+  path: '/request',
+  getParentRoute: () => ContactsContactRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
@@ -84,19 +97,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof chatschatImport
       parentRoute: typeof chatsRoute
     }
-    '/contacts/request': {
-      id: '/contacts/request'
-      path: '/contacts/request'
-      fullPath: '/contacts/request'
-      preLoaderRoute: typeof ContactsRequestImport
+    '/contacts': {
+      id: '/contacts'
+      path: '/contacts'
+      fullPath: '/contacts'
+      preLoaderRoute: typeof ContactsImport
       parentRoute: typeof rootRoute
     }
-    '/contacts/sent': {
-      id: '/contacts/sent'
-      path: '/contacts/sent'
-      fullPath: '/contacts/sent'
-      preLoaderRoute: typeof ContactsSentImport
-      parentRoute: typeof rootRoute
+    '/contacts/_contact': {
+      id: '/contacts/_contact'
+      path: '/contacts'
+      fullPath: '/contacts'
+      preLoaderRoute: typeof ContactsContactImport
+      parentRoute: typeof ContactsRoute
     }
     '/settings/general': {
       id: '/settings/general'
@@ -105,12 +118,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SettingsGeneralImport
       parentRoute: typeof rootRoute
     }
-    '/contacts/': {
-      id: '/contacts/'
-      path: '/contacts'
-      fullPath: '/contacts'
-      preLoaderRoute: typeof ContactsIndexImport
-      parentRoute: typeof rootRoute
+    '/contacts/_contact/request': {
+      id: '/contacts/_contact/request'
+      path: '/request'
+      fullPath: '/contacts/request'
+      preLoaderRoute: typeof ContactsContactRequestImport
+      parentRoute: typeof ContactsContactImport
+    }
+    '/contacts/_contact/sent': {
+      id: '/contacts/_contact/sent'
+      path: '/sent'
+      fullPath: '/contacts/sent'
+      preLoaderRoute: typeof ContactsContactSentImport
+      parentRoute: typeof ContactsContactImport
     }
     '/(chats)/__chat/': {
       id: '/(chats)/__chat/'
@@ -118,6 +138,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof chatschatIndexImport
       parentRoute: typeof chatschatImport
+    }
+    '/contacts/_contact/': {
+      id: '/contacts/_contact/'
+      path: '/'
+      fullPath: '/contacts/'
+      preLoaderRoute: typeof ContactsContactIndexImport
+      parentRoute: typeof ContactsContactImport
     }
   }
 }
@@ -146,19 +173,48 @@ const chatsRouteChildren: chatsRouteChildren = {
 
 const chatsRouteWithChildren = chatsRoute._addFileChildren(chatsRouteChildren)
 
+interface ContactsContactRouteChildren {
+  ContactsContactRequestRoute: typeof ContactsContactRequestRoute
+  ContactsContactSentRoute: typeof ContactsContactSentRoute
+  ContactsContactIndexRoute: typeof ContactsContactIndexRoute
+}
+
+const ContactsContactRouteChildren: ContactsContactRouteChildren = {
+  ContactsContactRequestRoute: ContactsContactRequestRoute,
+  ContactsContactSentRoute: ContactsContactSentRoute,
+  ContactsContactIndexRoute: ContactsContactIndexRoute,
+}
+
+const ContactsContactRouteWithChildren = ContactsContactRoute._addFileChildren(
+  ContactsContactRouteChildren,
+)
+
+interface ContactsRouteChildren {
+  ContactsContactRoute: typeof ContactsContactRouteWithChildren
+}
+
+const ContactsRouteChildren: ContactsRouteChildren = {
+  ContactsContactRoute: ContactsContactRouteWithChildren,
+}
+
+const ContactsRouteWithChildren = ContactsRoute._addFileChildren(
+  ContactsRouteChildren,
+)
+
 export interface FileRoutesByFullPath {
   '/': typeof chatschatIndexRoute
-  '/contacts/request': typeof ContactsRequestRoute
-  '/contacts/sent': typeof ContactsSentRoute
+  '/contacts': typeof ContactsContactRouteWithChildren
   '/settings/general': typeof SettingsGeneralRoute
-  '/contacts': typeof ContactsIndexRoute
+  '/contacts/request': typeof ContactsContactRequestRoute
+  '/contacts/sent': typeof ContactsContactSentRoute
+  '/contacts/': typeof ContactsContactIndexRoute
 }
 
 export interface FileRoutesByTo {
-  '/contacts/request': typeof ContactsRequestRoute
-  '/contacts/sent': typeof ContactsSentRoute
+  '/contacts': typeof ContactsContactIndexRoute
   '/settings/general': typeof SettingsGeneralRoute
-  '/contacts': typeof ContactsIndexRoute
+  '/contacts/request': typeof ContactsContactRequestRoute
+  '/contacts/sent': typeof ContactsContactSentRoute
   '/': typeof chatschatIndexRoute
 }
 
@@ -166,54 +222,55 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/(chats)': typeof chatsRouteWithChildren
   '/(chats)/__chat': typeof chatschatRouteWithChildren
-  '/contacts/request': typeof ContactsRequestRoute
-  '/contacts/sent': typeof ContactsSentRoute
+  '/contacts': typeof ContactsRouteWithChildren
+  '/contacts/_contact': typeof ContactsContactRouteWithChildren
   '/settings/general': typeof SettingsGeneralRoute
-  '/contacts/': typeof ContactsIndexRoute
+  '/contacts/_contact/request': typeof ContactsContactRequestRoute
+  '/contacts/_contact/sent': typeof ContactsContactSentRoute
   '/(chats)/__chat/': typeof chatschatIndexRoute
+  '/contacts/_contact/': typeof ContactsContactIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/contacts'
+    | '/settings/general'
     | '/contacts/request'
     | '/contacts/sent'
-    | '/settings/general'
-    | '/contacts'
+    | '/contacts/'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/contacts'
+    | '/settings/general'
     | '/contacts/request'
     | '/contacts/sent'
-    | '/settings/general'
-    | '/contacts'
     | '/'
   id:
     | '__root__'
     | '/(chats)'
     | '/(chats)/__chat'
-    | '/contacts/request'
-    | '/contacts/sent'
+    | '/contacts'
+    | '/contacts/_contact'
     | '/settings/general'
-    | '/contacts/'
+    | '/contacts/_contact/request'
+    | '/contacts/_contact/sent'
     | '/(chats)/__chat/'
+    | '/contacts/_contact/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   chatsRoute: typeof chatsRouteWithChildren
-  ContactsRequestRoute: typeof ContactsRequestRoute
-  ContactsSentRoute: typeof ContactsSentRoute
+  ContactsRoute: typeof ContactsRouteWithChildren
   SettingsGeneralRoute: typeof SettingsGeneralRoute
-  ContactsIndexRoute: typeof ContactsIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   chatsRoute: chatsRouteWithChildren,
-  ContactsRequestRoute: ContactsRequestRoute,
-  ContactsSentRoute: ContactsSentRoute,
+  ContactsRoute: ContactsRouteWithChildren,
   SettingsGeneralRoute: SettingsGeneralRoute,
-  ContactsIndexRoute: ContactsIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -227,10 +284,8 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/(chats)",
-        "/contacts/request",
-        "/contacts/sent",
-        "/settings/general",
-        "/contacts/"
+        "/contacts",
+        "/settings/general"
       ]
     },
     "/(chats)": {
@@ -246,21 +301,39 @@ export const routeTree = rootRoute
         "/(chats)/__chat/"
       ]
     },
-    "/contacts/request": {
-      "filePath": "contacts/request.tsx"
+    "/contacts": {
+      "filePath": "contacts",
+      "children": [
+        "/contacts/_contact"
+      ]
     },
-    "/contacts/sent": {
-      "filePath": "contacts/sent.tsx"
+    "/contacts/_contact": {
+      "filePath": "contacts/_contact.tsx",
+      "parent": "/contacts",
+      "children": [
+        "/contacts/_contact/request",
+        "/contacts/_contact/sent",
+        "/contacts/_contact/"
+      ]
     },
     "/settings/general": {
       "filePath": "settings/general.tsx"
     },
-    "/contacts/": {
-      "filePath": "contacts/index.tsx"
+    "/contacts/_contact/request": {
+      "filePath": "contacts/_contact.request.tsx",
+      "parent": "/contacts/_contact"
+    },
+    "/contacts/_contact/sent": {
+      "filePath": "contacts/_contact.sent.tsx",
+      "parent": "/contacts/_contact"
     },
     "/(chats)/__chat/": {
       "filePath": "(chats)/__chat.index.tsx",
       "parent": "/(chats)/__chat"
+    },
+    "/contacts/_contact/": {
+      "filePath": "contacts/_contact.index.tsx",
+      "parent": "/contacts/_contact"
     }
   }
 }

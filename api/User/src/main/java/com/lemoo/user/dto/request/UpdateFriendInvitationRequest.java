@@ -7,5 +7,6 @@ import lombok.Data;
 public class UpdateFriendInvitationRequest {
 
 	@NotEmpty
-	private String requestId;
+	private String senderId;
+
 }

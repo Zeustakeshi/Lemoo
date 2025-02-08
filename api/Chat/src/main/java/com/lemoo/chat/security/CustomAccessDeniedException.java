@@ -20,7 +20,7 @@ import java.io.IOException;
 @Component
 public class CustomAccessDeniedException implements AccessDeniedHandler {
 
-    private HandlerExceptionResolver resolver;
+    private final HandlerExceptionResolver resolver;
 
     public CustomAccessDeniedException(
             @Qualifier("handlerExceptionResolver") HandlerExceptionResolver handlerExceptionResolver) {

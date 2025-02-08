@@ -19,12 +19,13 @@ import {
   FormVariants,
   SkusVar,
 } from "../../common/type/formAddProduct";
-import axiosInstance from "../../helpers/axios/axiosInstance";
+
 import CategoryMenu from "./category/CategoryMenu";
 import NoteAddProduct from "./note/NoteAddProduct";
 import UpImageProducts from "./media/UpImageProducts";
 import UpSmallImage from "./media/UpSmallImage";
 import { FileInput } from "../../helpers/utils/UploadFile/FileInput";
+import { api } from "../../lib/api";
 
 const FormAddProduct = () => {
   const storeId = JSON.parse(sessionStorage.getItem("StoreId") || "{}");
@@ -44,7 +45,7 @@ const FormAddProduct = () => {
 
   const getStore = async () => {
     try {
-      const getStore = await axiosInstance.get("/products/store", {
+      const getStore = await api.get("/products/store", {
         headers: {
           "X-store-Id": storeId,
         },
@@ -226,7 +227,7 @@ const FormAddProduct = () => {
         data.images = selectedProductImage;
         data.variants = result;
         //Gửi yêu cầu API
-        const response = await axiosInstance.post(
+        const response = await api.post(
           "/products/store",
           JSON.stringify(data),
           {
@@ -522,7 +523,7 @@ const FormAddProduct = () => {
                               const formData = new FormData();
                               formData.append("image", files[0]); // Thêm file vào formData
 
-                              const response = await axiosInstance.post(
+                              const response = await api.post(
                                 `/media/stores/${storeId}/images`, // API upload ảnh
                                 formData
                               );

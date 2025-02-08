@@ -7,6 +7,8 @@ import com.lemoo.user.dto.response.FriendInvitationResponse;
 import com.lemoo.user.dto.response.PageableResponse;
 import com.lemoo.user.dto.response.UserResponse;
 import com.lemoo.user.entity.FriendInvitation;
+import com.lemoo.user.event.eventModel.*;
+import com.lemoo.user.event.producer.UserProducer;
 import com.lemoo.user.exception.BadRequestException;
 import com.lemoo.user.exception.NotfoundException;
 import com.lemoo.user.mapper.FriendInvitationMapper;
@@ -32,6 +34,9 @@ public class FriendInvitationServiceImpl implements FriendInvitationService {
 	private final UserService userService;
 
 	private final FriendService friendService;
+
+	private final UserProducer userProducer;
+
 	private final PageMapper pageMapper;
 
 	@Override
@@ -49,12 +54,12 @@ public class FriendInvitationServiceImpl implements FriendInvitationService {
 
 		UserResponse user = userService.getUserProfile(account.getUserId());
 
-		//		friendProducer.newFriendRequest(NewFriendRequestEvent.builder()
-		//				.invitationId(friendInvitation.getId())
-		//				.receiverId(user.getId())
-		//				.senderAvatar(user.getAvatar())
-		//				.senderName(user.getDisplayName())
-		//				.build());
+		userProducer.FriendRequest(FriendRequestEvent.builder()
+				.senderId(friendInvitation.getSenderId())
+				.receiverId(friendInvitation.getReceiverId())
+				.build());
+
+
 
 		return friendInvitationMapper.invitationToResponse(friendInvitation, user);
 	}
@@ -74,25 +79,58 @@ public class FriendInvitationServiceImpl implements FriendInvitationService {
 	}
 
 	@Override
-	public void acceptFriendRequest(String requestId) {
+	public void acceptFriendRequest(String senderId, String receiverId) {
 
+		userProducer.AcceptFriend(AcceptFriendEvent.builder()
+				.receiverId(receiverId)
+				.senderId(senderId)
+				.build());
+
+	}
+
+	public void acceptedFriend(String senderId, String receiverId){
 		FriendInvitation invitation = friendInvitationRepository
-				.findById(requestId)
+				.findFriendInvitationBySenderIdAndReceiverId(senderId,receiverId)
 				.orElseThrow(() -> new NotfoundException("Friend not found!"));
 
 		invitation.setStatus(FriendInvitationStatus.ACCEPTED);
 		friendInvitationRepository.save(invitation);
 
+		userProducer.NotifyAcceptedFriend(NotifyAcceptFriendEvent.builder()
+				.senderId(senderId)
+				.receiverId(receiverId)
+				.build());
+
 		friendService.createFriend(invitation.getSenderId(), invitation.getReceiverId());
 	}
 
 	@Override
-	public void rejectFriendRequest(String requestId) {
+	public void receivedFriendRequest(String senderId, String receiverId) {
+
+		userProducer.ReceivedFriend(ReceivedFriendRequestEvent.builder()
+						.receiverId(receiverId)
+						.senderId(senderId)
+				.build());
+
+	}
+
+	@Override
+	public void notifyFriendRequest(String senderId, String receiverId) {
+		userProducer.NotifyFriendRequest(NotifyFriendRequestEvent
+				.builder()
+						.senderId(senderId)
+						.receiverId(receiverId)
+				.build());
+	}
+
+	@Override
+	public void rejectFriendRequest(String senderId, String receiverId) {
 
 		FriendInvitation invitation = friendInvitationRepository
-				.findById(requestId)
-				.orElseThrow(() -> new NotfoundException("Friend Request not found!"));
+				.findFriendInvitationBySenderIdAndReceiverId(senderId,receiverId)
+				.orElseThrow(() -> new NotfoundException("Friend not found!"));
 
 		friendInvitationRepository.delete(invitation);
+
 	}
 }

@@ -57,10 +57,11 @@ public class MessageServiceImpl implements MessageService {
         Room room = roomService.findRoomById(roomId);
         roomValidatorService.validateRoomAccessPermission(room, account.getUserId());
 
-        PageRequest request = PageRequest.of(page, limit, Sort.by(Sort.Direction.ASC, "createdAt"));
+        PageRequest request = PageRequest.of(page, limit, Sort.by(Sort.Direction.DESC, "createdAt"));
         Page<Message> messages = messageRepository.findAllByRoomId(roomId, request);
 
-        Page<MessageResponse> messageResponses = messages.map((message) ->
+     
+        Page<MessageResponse> messageResponses = messages.map(message ->
                 CompletableFuture.supplyAsync(() -> {
                     boolean isSelf = message.getSenderId().equals(account.getUserId());
                     if (isSelf) return messageMapper.toMessageResponse(message);

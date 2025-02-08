@@ -14,7 +14,6 @@ import com.lemoo.chat.dto.response.RoomDetailResponse;
 import com.lemoo.chat.dto.response.RoomResponse;
 import com.lemoo.chat.entity.Room;
 import com.lemoo.chat.entity.SingleRoom;
-import com.lemoo.chat.exception.ForbiddenException;
 import com.lemoo.chat.exception.NotfoundException;
 import com.lemoo.chat.mapper.PageMapper;
 import com.lemoo.chat.mapper.RoomMapper;
@@ -65,13 +64,16 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public RoomDetailResponse getRoomDetail(String roomId, AuthenticatedAccount account) {
-        Room room = roomRepository.findById(roomId)
-                .orElseThrow(() -> new NotfoundException("Room not found!"));
-
-        if (!roomValidatorService.validateRoomAccessPermission(room, account.getUserId())) {
-            throw new ForbiddenException("You don't have permission to access this room");
-        }
+        Room room = findRoomById(roomId);
+        
+        roomValidatorService.validateRoomAccessPermission(room, account.getUserId());
 
         return roomMapper.toRoomDetailResponse(room, account.getUserId());
+    }
+
+    @Override
+    public Room findRoomById(String roomId) {
+        return roomRepository.findById(roomId)
+                .orElseThrow(() -> new NotfoundException("Room not found"));
     }
 }

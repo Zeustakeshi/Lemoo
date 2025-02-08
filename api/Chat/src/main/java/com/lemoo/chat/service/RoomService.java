@@ -11,6 +11,7 @@ import com.lemoo.chat.dto.request.RoomRequest;
 import com.lemoo.chat.dto.response.PageableResponse;
 import com.lemoo.chat.dto.response.RoomDetailResponse;
 import com.lemoo.chat.dto.response.RoomResponse;
+import com.lemoo.chat.entity.Room;
 
 public interface RoomService {
     boolean createRoom(AuthenticatedAccount account, RoomRequest request);
@@ -18,4 +19,6 @@ public interface RoomService {
     PageableResponse<RoomResponse> getAllRoom(int page, int limit, AuthenticatedAccount account);
 
     RoomDetailResponse getRoomDetail(String roomId, AuthenticatedAccount account);
+
+    Room findRoomById(String roomId);
 }

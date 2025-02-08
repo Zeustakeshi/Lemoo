@@ -13,5 +13,5 @@ import java.util.Set;
 public interface RoomValidatorService {
     Set<String> validateMemberRequest(Set<String> members);
 
-    boolean validateRoomAccessPermission(Room room, String memberId);
+    void validateRoomAccessPermission(Room room, String memberId);
 }

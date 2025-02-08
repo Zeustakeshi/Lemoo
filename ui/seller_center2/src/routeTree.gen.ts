@@ -17,18 +17,14 @@ import { Route as ProfileImport } from './routes/profile'
 import { Route as IndexImport } from './routes/index'
 import { Route as StoreStoreImport } from './routes/store/_store'
 import { Route as ProductProductImport } from './routes/product/_product'
-import { Route as AuthAuthImport } from './routes/auth/_auth'
 import { Route as StoreStoreDashboardImport } from './routes/store/_store.dashboard'
 import { Route as StoreStoreCreateImport } from './routes/store/_store.create'
 import { Route as ProductProductAddProductImport } from './routes/product/_product.addProduct'
-import { Route as AuthAuthRegisterImport } from './routes/auth/_auth.register'
-import { Route as AuthAuthLoginImport } from './routes/auth/_auth.login'
 
 // Create Virtual Routes
 
 const StoreImport = createFileRoute('/store')()
 const ProductImport = createFileRoute('/product')()
-const AuthImport = createFileRoute('/auth')()
 
 // Create/Update Routes
 
@@ -41,12 +37,6 @@ const StoreRoute = StoreImport.update({
 const ProductRoute = ProductImport.update({
   id: '/product',
   path: '/product',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const AuthRoute = AuthImport.update({
-  id: '/auth',
-  path: '/auth',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -72,11 +62,6 @@ const ProductProductRoute = ProductProductImport.update({
   getParentRoute: () => ProductRoute,
 } as any)
 
-const AuthAuthRoute = AuthAuthImport.update({
-  id: '/_auth',
-  getParentRoute: () => AuthRoute,
-} as any)
-
 const StoreStoreDashboardRoute = StoreStoreDashboardImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -93,18 +78,6 @@ const ProductProductAddProductRoute = ProductProductAddProductImport.update({
   id: '/addProduct',
   path: '/addProduct',
   getParentRoute: () => ProductProductRoute,
-} as any)
-
-const AuthAuthRegisterRoute = AuthAuthRegisterImport.update({
-  id: '/register',
-  path: '/register',
-  getParentRoute: () => AuthAuthRoute,
-} as any)
-
-const AuthAuthLoginRoute = AuthAuthLoginImport.update({
-  id: '/login',
-  path: '/login',
-  getParentRoute: () => AuthAuthRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
@@ -124,20 +97,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/profile'
       preLoaderRoute: typeof ProfileImport
       parentRoute: typeof rootRoute
-    }
-    '/auth': {
-      id: '/auth'
-      path: '/auth'
-      fullPath: '/auth'
-      preLoaderRoute: typeof AuthImport
-      parentRoute: typeof rootRoute
-    }
-    '/auth/_auth': {
-      id: '/auth/_auth'
-      path: '/auth'
-      fullPath: '/auth'
-      preLoaderRoute: typeof AuthAuthImport
-      parentRoute: typeof AuthRoute
     }
     '/product': {
       id: '/product'
@@ -167,20 +126,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StoreStoreImport
       parentRoute: typeof StoreRoute
     }
-    '/auth/_auth/login': {
-      id: '/auth/_auth/login'
-      path: '/login'
-      fullPath: '/auth/login'
-      preLoaderRoute: typeof AuthAuthLoginImport
-      parentRoute: typeof AuthAuthImport
-    }
-    '/auth/_auth/register': {
-      id: '/auth/_auth/register'
-      path: '/register'
-      fullPath: '/auth/register'
-      preLoaderRoute: typeof AuthAuthRegisterImport
-      parentRoute: typeof AuthAuthImport
-    }
     '/product/_product/addProduct': {
       id: '/product/_product/addProduct'
       path: '/addProduct'
@@ -206,30 +151,6 @@ declare module '@tanstack/react-router' {
 }
 
 // Create and export the route tree
-
-interface AuthAuthRouteChildren {
-  AuthAuthLoginRoute: typeof AuthAuthLoginRoute
-  AuthAuthRegisterRoute: typeof AuthAuthRegisterRoute
-}
-
-const AuthAuthRouteChildren: AuthAuthRouteChildren = {
-  AuthAuthLoginRoute: AuthAuthLoginRoute,
-  AuthAuthRegisterRoute: AuthAuthRegisterRoute,
-}
-
-const AuthAuthRouteWithChildren = AuthAuthRoute._addFileChildren(
-  AuthAuthRouteChildren,
-)
-
-interface AuthRouteChildren {
-  AuthAuthRoute: typeof AuthAuthRouteWithChildren
-}
-
-const AuthRouteChildren: AuthRouteChildren = {
-  AuthAuthRoute: AuthAuthRouteWithChildren,
-}
-
-const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 
 interface ProductProductRouteChildren {
   ProductProductAddProductRoute: typeof ProductProductAddProductRoute
@@ -281,11 +202,8 @@ const StoreRouteWithChildren = StoreRoute._addFileChildren(StoreRouteChildren)
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/profile': typeof ProfileRoute
-  '/auth': typeof AuthAuthRouteWithChildren
   '/product': typeof ProductProductRouteWithChildren
   '/store': typeof StoreStoreRouteWithChildren
-  '/auth/login': typeof AuthAuthLoginRoute
-  '/auth/register': typeof AuthAuthRegisterRoute
   '/product/addProduct': typeof ProductProductAddProductRoute
   '/store/create': typeof StoreStoreCreateRoute
   '/store/dashboard': typeof StoreStoreDashboardRoute
@@ -294,11 +212,8 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/profile': typeof ProfileRoute
-  '/auth': typeof AuthAuthRouteWithChildren
   '/product': typeof ProductProductRouteWithChildren
   '/store': typeof StoreStoreRouteWithChildren
-  '/auth/login': typeof AuthAuthLoginRoute
-  '/auth/register': typeof AuthAuthRegisterRoute
   '/product/addProduct': typeof ProductProductAddProductRoute
   '/store/create': typeof StoreStoreCreateRoute
   '/store/dashboard': typeof StoreStoreDashboardRoute
@@ -308,14 +223,10 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/profile': typeof ProfileRoute
-  '/auth': typeof AuthRouteWithChildren
-  '/auth/_auth': typeof AuthAuthRouteWithChildren
   '/product': typeof ProductRouteWithChildren
   '/product/_product': typeof ProductProductRouteWithChildren
   '/store': typeof StoreRouteWithChildren
   '/store/_store': typeof StoreStoreRouteWithChildren
-  '/auth/_auth/login': typeof AuthAuthLoginRoute
-  '/auth/_auth/register': typeof AuthAuthRegisterRoute
   '/product/_product/addProduct': typeof ProductProductAddProductRoute
   '/store/_store/create': typeof StoreStoreCreateRoute
   '/store/_store/dashboard': typeof StoreStoreDashboardRoute
@@ -326,11 +237,8 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/profile'
-    | '/auth'
     | '/product'
     | '/store'
-    | '/auth/login'
-    | '/auth/register'
     | '/product/addProduct'
     | '/store/create'
     | '/store/dashboard'
@@ -338,11 +246,8 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/profile'
-    | '/auth'
     | '/product'
     | '/store'
-    | '/auth/login'
-    | '/auth/register'
     | '/product/addProduct'
     | '/store/create'
     | '/store/dashboard'
@@ -350,14 +255,10 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/profile'
-    | '/auth'
-    | '/auth/_auth'
     | '/product'
     | '/product/_product'
     | '/store'
     | '/store/_store'
-    | '/auth/_auth/login'
-    | '/auth/_auth/register'
     | '/product/_product/addProduct'
     | '/store/_store/create'
     | '/store/_store/dashboard'
@@ -367,7 +268,6 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ProfileRoute: typeof ProfileRoute
-  AuthRoute: typeof AuthRouteWithChildren
   ProductRoute: typeof ProductRouteWithChildren
   StoreRoute: typeof StoreRouteWithChildren
 }
@@ -375,7 +275,6 @@ export interface RootRouteChildren {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ProfileRoute: ProfileRoute,
-  AuthRoute: AuthRouteWithChildren,
   ProductRoute: ProductRouteWithChildren,
   StoreRoute: StoreRouteWithChildren,
 }
@@ -392,7 +291,6 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/profile",
-        "/auth",
         "/product",
         "/store"
       ]
@@ -402,20 +300,6 @@ export const routeTree = rootRoute
     },
     "/profile": {
       "filePath": "profile.tsx"
-    },
-    "/auth": {
-      "filePath": "auth",
-      "children": [
-        "/auth/_auth"
-      ]
-    },
-    "/auth/_auth": {
-      "filePath": "auth/_auth.tsx",
-      "parent": "/auth",
-      "children": [
-        "/auth/_auth/login",
-        "/auth/_auth/register"
-      ]
     },
     "/product": {
       "filePath": "product",
@@ -443,14 +327,6 @@ export const routeTree = rootRoute
         "/store/_store/create",
         "/store/_store/dashboard"
       ]
-    },
-    "/auth/_auth/login": {
-      "filePath": "auth/_auth.login.tsx",
-      "parent": "/auth/_auth"
-    },
-    "/auth/_auth/register": {
-      "filePath": "auth/_auth.register.tsx",
-      "parent": "/auth/_auth"
     },
     "/product/_product/addProduct": {
       "filePath": "product/_product.addProduct.tsx",

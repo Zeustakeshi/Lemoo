@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Modal, Box, Typography, Button, IconButton } from "@mui/material";
 import { Delete, Upload } from "@mui/icons-material";
 import { DataMedia } from "../../../common/type/formAddProduct";
-import axiosInstance from "../../../helpers/axios/axiosInstance";
+import { api } from "../../../lib/api";
 
 type PropsItem = {
   isOpen: boolean;
@@ -27,7 +27,7 @@ const UpSmallImage: React.FC<PropsItem> = ({
   const storeId = JSON.parse(sessionStorage.getItem("StoreId") || "{}");
   useEffect(() => {
     const getImages = async () => {
-      const res = await axiosInstance.get(`/media/stores/${storeId}/images`);
+      const res = await api.get(`/media/stores/${storeId}/images`);
       setImages(res.data.data.content);
     };
     getImages();
@@ -37,7 +37,7 @@ const UpSmallImage: React.FC<PropsItem> = ({
     if (newImage) {
       const formData = new FormData();
       formData.append("image", newImage.file);
-      const resIMG = await axiosInstance.post(
+      const resIMG = await api.post(
         `/media/stores/${storeId}/images`,
         formData
       );
@@ -49,7 +49,7 @@ const UpSmallImage: React.FC<PropsItem> = ({
 
   const handleDeleteImage = async (imageId: string, imageName: string) => {
     setImages(images.filter((img) => img.url !== imageName));
-    await axiosInstance.delete(`/media/stores/${storeId}/images/${imageId}`);
+    await api.delete(`/media/stores/${storeId}/images/${imageId}`);
   };
 
   const handleSelectImage = (id: string, url: string) => {

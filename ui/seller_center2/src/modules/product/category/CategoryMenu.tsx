@@ -1,21 +1,21 @@
 import { ChevronRight } from "@mui/icons-material";
 import React, { useEffect, useState } from "react";
 import { Category } from "../../../common/type/category/category.type";
-import axiosInstance from "../../../helpers/axios/axiosInstance";
+import { api } from "../../../lib/api";
 
 type CategoryMenuProps = {
   onSelectCategory: (selectedCategories: Category) => void;
 };
 
 const GetCategory = async () => {
-  const response = await axiosInstance.get("/categories");
+  const response = await api.get("/categories");
   const categories = response.data?.data?.content || [];
   console.log("Danh mục từ API:", categories);
   return categories;
 };
 // Hàm gọi API lấy danh mục con
 const GetChildCategories = async (categoryId: string) => {
-  const response = await axiosInstance.get(`/categories?parent=${categoryId}`);
+  const response = await api.get(`/categories?parent=${categoryId}`);
   const categoriesChil = response.data?.data?.content || [];
   return categoriesChil;
 };

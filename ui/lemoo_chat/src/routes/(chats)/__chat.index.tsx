@@ -5,5 +5,11 @@ export const Route = createFileRoute("/(chats)/__chat/")({
 });
 
 function RouteComponent() {
-    return <div>Hello "/(chats)/"!</div>;
+    return (
+        <div>
+            <a href="http://sso.lemoo.com:5172/auth/login?callback_url=http://chat.lemoo.com:5174">
+                logout
+            </a>
+        </div>
+    );
 }

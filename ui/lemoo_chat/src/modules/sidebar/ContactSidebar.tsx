@@ -5,12 +5,12 @@ type Props = {
     className?: string;
 };
 
-const ChatSidebar = ({ className }: Props) => {
+const ContactSidebar = ({ className }: Props) => {
     return (
         <div className={cn("", className)}>
-            <Header></Header>
+            <Header></Header>{" "}
         </div>
     );
 };
 
-export default ChatSidebar;
+export default ContactSidebar;

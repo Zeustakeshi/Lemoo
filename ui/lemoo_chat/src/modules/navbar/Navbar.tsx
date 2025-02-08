@@ -1,6 +1,6 @@
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { useAuth } from "@/context/AuthContext";
-import { CircleUser, MessageSquareMore, Settings2 } from "lucide-react";
+import { MessageSquareMore, Settings2, SquareUser } from "lucide-react";
 import NavItem from "./NavItem";
 
 type Props = {};
@@ -19,7 +19,7 @@ const Navbar = (props: Props) => {
                         <MessageSquareMore />
                     </NavItem>
                     <NavItem to="/contacts">
-                        <CircleUser />
+                        <SquareUser />
                     </NavItem>
                 </div>
             </div>

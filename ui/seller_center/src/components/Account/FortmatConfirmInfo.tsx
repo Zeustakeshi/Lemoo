@@ -200,57 +200,57 @@ function FortmatConfirmInfo({ option }: FormatConfirmInfoProps) {
         )
         :
         (
-          // <div className="flex flex-col gap-8">
-          //   <div className="flex flex-col gap-4 bg-white w-full p-5 rounded-xl ">
-          //     <p className="font-bold text-[20px]">Thông tin kinh doanh</p>
-          //     <p className="text-gray-400">Hình thức kinh doanh</p>
-          //     {/* Loại giấy tờ */}
-          //     <div className="flex gap-1 items-center ">
-          //       <input
-          //         type="radio"
-          //         value={0}
-          //         checked={typeSubTitile == 0}
-          //         onChange={() => setTypeSubTitle(0)}
-          //         className=" h-5 w-5 accent-blue-500 text-blue-600 focus:ring-blue-500"
-          //       />
-          //       <span className="text-gray-700">Company</span>
-          //       <input
-          //         type="radio"
-          //         value={1}
-          //         checked={typeSubTitile == 1}
-          //         onChange={() => setTypeSubTitle(1)}
-          //         className=" h-5 w-5 accent-blue-500 text-blue-600 focus:ring-blue-500"
-          //       />
-          //       <span className="text-gray-700">Business Household</span>
-          //     </div>
-          //     {/* Nội dung mỗi loại */}
-          //     <div className="flex flex-col gap-4  ">
-          //       {/* tải mặt trước cuả căn cước  */}
-          //       <div className="flex flex-col gap-1">
-          //         <p>Giấy chứng nhận đăng ký kinh doanh tải lên</p>
-          //         <p className="text-gray-400">Kích thước giữa 330x330 và 5000x5000 px，Kích thước hình ảnh nhỏ hơn 10M.</p>
-          //       </div>
-          //       {typeSubTitile == 0 ? (<>
-          //         <FormInfo info={info[4]} >
-          //           <FormInput {...register('bankDocument', { required: true })} />
-          //         </FormInfo>
-          //       </>) : (<>
-          //         <FormInfo info={info[4]} >
-          //           <FormInput {...register('bankDocument', { required: true })} />
-          //         </FormInfo>
-          //       </>)}
-          //       {/* tải mặt sau cuả căn cước  */}
-          //       <div className="flex flex-col gap-1">
-          //         <p className="text-xl font-bold">Thông Tin ID</p>
-          //         <p className="mt-2">Tên trên CCCD hoặc hộ chiếu</p>
-          //         <input type="text" placeholder="Nhập giống hệt ảnh đã tải lên" className="w-[500px] p-2  border-2 border-gray-400 rounded-xl" />
-          //         <p className="mt-2">Số chứng minh nhân dân/số hộ chiếu</p>
-          //         <input type="text" placeholder="xxxxxxxxxxx" className="w-[500px] p-2  border-2 border-gray-400 rounded-xl " {...register('identityCardNumber', { required: true })} />
-          //       </div>
-          //     </div>
-          //   </div>
-          // </div>
-          <></>
+          <div className="flex flex-col gap-8">
+            <div className="flex flex-col gap-4 bg-white w-full p-5 rounded-xl ">
+              <p className="font-bold text-[20px]">Thông tin kinh doanh</p>
+              <p className="text-gray-400">Hình thức kinh doanh</p>
+              {/* Loại giấy tờ */}
+              <div className="flex gap-1 items-center ">
+                <input
+                  type="radio"
+                  value={0}
+                  checked={typeSubTitile == 0}
+                  onChange={() => setTypeSubTitle(0)}
+                  className=" h-5 w-5 accent-blue-500 text-blue-600 focus:ring-blue-500"
+                />
+                <span className="text-gray-700">Company</span>
+                <input
+                  type="radio"
+                  value={1}
+                  checked={typeSubTitile == 1}
+                  onChange={() => setTypeSubTitle(1)}
+                  className=" h-5 w-5 accent-blue-500 text-blue-600 focus:ring-blue-500"
+                />
+                <span className="text-gray-700">Business Household</span>
+              </div>
+              {/* Nội dung mỗi loại */}
+              <div className="flex flex-col gap-4  ">
+                {/* tải mặt trước cuả căn cước  */}
+                <div className="flex flex-col gap-1">
+                  <p>Giấy chứng nhận đăng ký kinh doanh tải lên</p>
+                  <p className="text-gray-400">Kích thước giữa 330x330 và 5000x5000 px，Kích thước hình ảnh nhỏ hơn 10M.</p>
+                </div>
+                {typeSubTitile == 0 ? (<>
+                  <FormInfo info={info[4]} >
+                    <FormInput {...register('bankDocument', { required: true })} />
+                  </FormInfo>
+                </>) : (<>
+                  <FormInfo info={info[4]} >
+                    <FormInput {...register('bankDocument', { required: true })} />
+                  </FormInfo>
+                </>)}
+                {/* tải mặt sau cuả căn cước  */}
+                <div className="flex flex-col gap-1">
+                  <p className="text-xl font-bold">Thông Tin ID</p>
+                  <p className="mt-2">Tên trên CCCD hoặc hộ chiếu</p>
+                  <input type="text" placeholder="Nhập giống hệt ảnh đã tải lên" className="w-[500px] p-2  border-2 border-gray-400 rounded-xl" />
+                  <p className="mt-2">Số chứng minh nhân dân/số hộ chiếu</p>
+                  <input type="text" placeholder="xxxxxxxxxxx" className="w-[500px] p-2  border-2 border-gray-400 rounded-xl " {...register('identityCardNumber', { required: true })} />
+                </div>
+              </div>
+            </div>
+          </div>
+      
         )}
       <div className="flex flex-col gap-4 bg-white w-full p-5 rounded-xl  ">
         <p className="font-bold text-xl">Tax Identification Number (TIN)</p>

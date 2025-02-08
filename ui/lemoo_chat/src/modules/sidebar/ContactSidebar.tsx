@@ -9,7 +9,7 @@ type Props = {
 
 const ContactSidebar = ({ className }: Props) => {
     return (
-        <div className={cn("", className)}>
+        <div className={cn("border-r", className)}>
             <Header></Header>
             <div>
                 <ContactSidebarItem to="/contacts" icon={<UsersRound />}>

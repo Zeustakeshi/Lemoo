@@ -10,7 +10,7 @@ const ChatSidebar = ({ className }: Props) => {
     return (
         <div
             className={cn(
-                "flex flex-col justify-start items-center h-full",
+                "flex flex-col justify-start items-center h-full border-r",
                 className
             )}
         >

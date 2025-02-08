@@ -7,7 +7,7 @@ export const Route = createFileRoute("/(chats)/__chat/")({
 
 function RouteComponent() {
     return (
-        <div className="w-full h-full flex justify-center items-center flex-col">
+        <div className="w-full h-full flex justify-center items-center flex-col bg-white">
             <h1 className="text-xl">
                 Chào mừng đến với
                 <span className="font-semibold text-2xl text-primary mx-3">

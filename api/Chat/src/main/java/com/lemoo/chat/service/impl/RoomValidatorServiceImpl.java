@@ -9,6 +9,7 @@ package com.lemoo.chat.service.impl;
 import com.lemoo.chat.client.UserClient;
 import com.lemoo.chat.dto.request.BatchFetchUserInfoRequest;
 import com.lemoo.chat.entity.Room;
+import com.lemoo.chat.exception.ForbiddenException;
 import com.lemoo.chat.exception.InternalServerErrorException;
 import com.lemoo.chat.service.RoomValidatorService;
 import lombok.RequiredArgsConstructor;
@@ -44,7 +45,9 @@ public class RoomValidatorServiceImpl implements RoomValidatorService {
     }
 
     @Override
-    public boolean validateRoomAccessPermission(Room room, String memberId) {
-        return room.getMembers().contains(memberId);
+    public void validateRoomAccessPermission(Room room, String memberId) {
+        if (!room.getMembers().contains(memberId)) {
+            throw new ForbiddenException("You don't have permission to access this room");
+        }
     }
 }

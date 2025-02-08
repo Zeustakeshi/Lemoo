@@ -1,9 +1,14 @@
-import { createFileRoute } from '@tanstack/react-router'
+import ContactHeader from "@/components/header/ContactHeader";
+import { createFileRoute } from "@tanstack/react-router";
 
-export const Route = createFileRoute('/contacts/_contact/request')({
-  component: RouteComponent,
-})
+export const Route = createFileRoute("/contacts/_contact/request")({
+    component: RouteComponent,
+});
 
 function RouteComponent() {
-  return <div>Hello "/contacts/request"!</div>
+    return (
+        <div className="w-full h-full">
+            <ContactHeader>Lời mời kết bạn</ContactHeader>
+        </div>
+    );
 }

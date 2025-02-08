@@ -1,5 +1,5 @@
 import AddGroupButton from "./AddGroupButton";
-import UserSearch from "./userSearch";
+import UserSearch from "./UserSearch";
 
 type Props = {};
 

@@ -9,7 +9,7 @@ function RouteComponent() {
     return (
         <div className="grid grid-cols-12 w-full h-full">
             <ChatSidebar className="col-span-3 h-full"></ChatSidebar>
-            <div className="col-span-9 bg-orange-600 h-full">
+            <div className="col-span-9  h-full">
                 <Outlet></Outlet>
             </div>
         </div>

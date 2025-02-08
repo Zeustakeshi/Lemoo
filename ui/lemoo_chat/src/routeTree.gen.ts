@@ -20,6 +20,7 @@ import { Route as ContactsContactIndexImport } from './routes/contacts/_contact.
 import { Route as chatschatIndexImport } from './routes/(chats)/__chat.index'
 import { Route as ContactsContactSentImport } from './routes/contacts/_contact.sent'
 import { Route as ContactsContactRequestImport } from './routes/contacts/_contact.request'
+import { Route as chatschatRoomsRoomIdImport } from './routes/(chats)/__chat.rooms/$roomId'
 
 // Create Virtual Routes
 
@@ -77,6 +78,12 @@ const ContactsContactRequestRoute = ContactsContactRequestImport.update({
   id: '/request',
   path: '/request',
   getParentRoute: () => ContactsContactRoute,
+} as any)
+
+const chatschatRoomsRoomIdRoute = chatschatRoomsRoomIdImport.update({
+  id: '/rooms/$roomId',
+  path: '/rooms/$roomId',
+  getParentRoute: () => chatschatRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
@@ -146,6 +153,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContactsContactIndexImport
       parentRoute: typeof ContactsContactImport
     }
+    '/(chats)/__chat/rooms/$roomId': {
+      id: '/(chats)/__chat/rooms/$roomId'
+      path: '/rooms/$roomId'
+      fullPath: '/rooms/$roomId'
+      preLoaderRoute: typeof chatschatRoomsRoomIdImport
+      parentRoute: typeof chatschatImport
+    }
   }
 }
 
@@ -153,10 +167,12 @@ declare module '@tanstack/react-router' {
 
 interface chatschatRouteChildren {
   chatschatIndexRoute: typeof chatschatIndexRoute
+  chatschatRoomsRoomIdRoute: typeof chatschatRoomsRoomIdRoute
 }
 
 const chatschatRouteChildren: chatschatRouteChildren = {
   chatschatIndexRoute: chatschatIndexRoute,
+  chatschatRoomsRoomIdRoute: chatschatRoomsRoomIdRoute,
 }
 
 const chatschatRouteWithChildren = chatschatRoute._addFileChildren(
@@ -208,6 +224,7 @@ export interface FileRoutesByFullPath {
   '/contacts/request': typeof ContactsContactRequestRoute
   '/contacts/sent': typeof ContactsContactSentRoute
   '/contacts/': typeof ContactsContactIndexRoute
+  '/rooms/$roomId': typeof chatschatRoomsRoomIdRoute
 }
 
 export interface FileRoutesByTo {
@@ -216,6 +233,7 @@ export interface FileRoutesByTo {
   '/contacts/request': typeof ContactsContactRequestRoute
   '/contacts/sent': typeof ContactsContactSentRoute
   '/': typeof chatschatIndexRoute
+  '/rooms/$roomId': typeof chatschatRoomsRoomIdRoute
 }
 
 export interface FileRoutesById {
@@ -229,6 +247,7 @@ export interface FileRoutesById {
   '/contacts/_contact/sent': typeof ContactsContactSentRoute
   '/(chats)/__chat/': typeof chatschatIndexRoute
   '/contacts/_contact/': typeof ContactsContactIndexRoute
+  '/(chats)/__chat/rooms/$roomId': typeof chatschatRoomsRoomIdRoute
 }
 
 export interface FileRouteTypes {
@@ -240,6 +259,7 @@ export interface FileRouteTypes {
     | '/contacts/request'
     | '/contacts/sent'
     | '/contacts/'
+    | '/rooms/$roomId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/contacts'
@@ -247,6 +267,7 @@ export interface FileRouteTypes {
     | '/contacts/request'
     | '/contacts/sent'
     | '/'
+    | '/rooms/$roomId'
   id:
     | '__root__'
     | '/(chats)'
@@ -258,6 +279,7 @@ export interface FileRouteTypes {
     | '/contacts/_contact/sent'
     | '/(chats)/__chat/'
     | '/contacts/_contact/'
+    | '/(chats)/__chat/rooms/$roomId'
   fileRoutesById: FileRoutesById
 }
 
@@ -298,7 +320,8 @@ export const routeTree = rootRoute
       "filePath": "(chats)/__chat.tsx",
       "parent": "/(chats)",
       "children": [
-        "/(chats)/__chat/"
+        "/(chats)/__chat/",
+        "/(chats)/__chat/rooms/$roomId"
       ]
     },
     "/contacts": {
@@ -334,6 +357,10 @@ export const routeTree = rootRoute
     "/contacts/_contact/": {
       "filePath": "contacts/_contact.index.tsx",
       "parent": "/contacts/_contact"
+    },
+    "/(chats)/__chat/rooms/$roomId": {
+      "filePath": "(chats)/__chat.rooms/$roomId.tsx",
+      "parent": "/(chats)/__chat"
     }
   }
 }

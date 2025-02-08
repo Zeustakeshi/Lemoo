@@ -1,5 +1,6 @@
 import Header from "@/components/header/Header";
 import { cn } from "@/lib/utils";
+import ChatSidebarItem from "./ChatSidebarItem";
 
 type Props = {
     className?: string;
@@ -7,8 +8,22 @@ type Props = {
 
 const ChatSidebar = ({ className }: Props) => {
     return (
-        <div className={cn("", className)}>
+        <div
+            className={cn(
+                "flex flex-col justify-start items-center h-full",
+                className
+            )}
+        >
             <Header></Header>
+            <div className="flex-1  w-full overflow-y-scroll custom-scroll max-h-[calc(100svh-75px)]">
+                {Array.from({ length: 40 }).map((_, index) => (
+                    <ChatSidebarItem
+                        to="/rooms/$roomId"
+                        params={{ roomId: `room-${index + 1}` }}
+                        key={index}
+                    ></ChatSidebarItem>
+                ))}
+            </div>
         </div>
     );
 };

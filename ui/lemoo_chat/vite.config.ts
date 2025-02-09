@@ -14,4 +14,7 @@ export default defineConfig({
     server: {
         allowedHosts: ["chat.lemoo.com"],
     },
+    define: {
+        global: {},
+    },
 });

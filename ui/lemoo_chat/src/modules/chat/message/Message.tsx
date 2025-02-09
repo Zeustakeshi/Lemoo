@@ -1,5 +1,6 @@
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
+import { useEffect, useRef } from "react";
 import MessageContent from "./MessageContent";
 import MessageStatus from "./MessageStatus";
 
@@ -8,8 +9,15 @@ type Props = {
 };
 
 const Message = ({ isSelf = false }: Props) => {
+    const messagesEndRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, []);
+
     return (
         <div
+            ref={messagesEndRef}
             className={cn("my-5 flex justify-start items-start gap-2", {
                 "justify-end": isSelf,
             })}

@@ -1,23 +1,31 @@
 import { Separator } from "@/components/ui/separator";
 import TextArea from "@/components/ui/textarea";
+import { useSocket } from "@/context/SocketContext";
 import { useState } from "react";
 import { IoSend } from "react-icons/io5";
 import { LuClipboardList, LuTicketPercent } from "react-icons/lu";
 type Props = {};
 
 const ChatInput = (props: Props) => {
+    const { client } = useSocket();
     const [message, setMessage] = useState<string>("");
 
-    const handleKeyDown = (e) => {
-        // Khi nhấn Enter mà không giữ Shift, gửi tin nhắn
+    const handleKeyDown = (e: any) => {
         if (e.key === "Enter" && !e.shiftKey) {
-            e.preventDefault(); // Ngăn không cho thêm ký tự xuống dòng
+            e.preventDefault();
             if (message.trim() !== "") {
-                // onSend(message); // Gọi hàm gửi tin nhắn từ props
-                alert("message: " + message);
-                setMessage(""); // Reset textarea sau khi gửi
+                handleSendMessage();
             }
         }
+    };
+
+    const handleSendMessage = () => {
+        client?.publish({
+            destination: "/chat.send-message",
+            body: JSON.stringify({ content: message, sender: "Minh Hiếu" }),
+        });
+
+        setMessage("");
     };
 
     return (
@@ -37,7 +45,10 @@ const ChatInput = (props: Props) => {
                     onKeyDown={handleKeyDown}
                 />
                 <div className="col-span-1 flex justify-end items-center">
-                    <button className="text-primary p-1 [&_svg]:size-[25px]">
+                    <button
+                        onClick={handleSendMessage}
+                        className="text-primary p-1 [&_svg]:size-[25px]"
+                    >
                         <IoSend />
                     </button>
                 </div>

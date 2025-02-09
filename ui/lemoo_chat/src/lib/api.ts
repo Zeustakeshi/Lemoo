@@ -4,8 +4,7 @@ import axios from "axios";
 import { memoizedRefreshToken } from "./refreshToken";
 
 export const api = axios.create({
-    baseURL: "https://mock.apidog.com/m1/730971-0-default",
-    // baseURL: "http://143.244.150.42/api/v1",
+    baseURL: import.meta.env.VITE_API_BASE_URL,
     withCredentials: false,
 });
 

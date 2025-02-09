@@ -34,7 +34,7 @@ const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
         }
 
         const newClient = new Client({
-            brokerURL: "ws://localhost:4008/ws",
+            brokerURL: import.meta.env.VITE_SOCKET_BASE_URL,
             debug: function (str) {
                 // console.log("STOMP Debug:", str);
             },

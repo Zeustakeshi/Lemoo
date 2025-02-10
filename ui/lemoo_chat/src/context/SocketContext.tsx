@@ -1,5 +1,6 @@
+import { TokenType } from "@/common/enum/token.enum";
+import * as tokenStore from "@/lib/tokenStore";
 import { Client } from "@stomp/stompjs";
-import Cookies from "js-cookie";
 import React, { useContext, useEffect, useState } from "react";
 
 type SocketProviderProps = {
@@ -27,11 +28,15 @@ const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
         };
     }, []);
 
-    const connect = () => {
+    const connect = async () => {
         if (client && client.connected) {
             console.log("WebSocket is already connected.");
             return;
         }
+
+        const accessToken = await tokenStore.getTokenValue(
+            TokenType.ACCESS_TOKEN
+        );
 
         const newClient = new Client({
             brokerURL: import.meta.env.VITE_SOCKET_BASE_URL,
@@ -42,7 +47,7 @@ const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
             heartbeatIncoming: 4000,
             heartbeatOutgoing: 4000,
             connectHeaders: {
-                Authorization: "Bearer " + Cookies.get("access_token"),
+                Authorization: "Bearer " + accessToken,
             },
             onConnect: (frame) => {
                 console.log("WebSocket connected successfully:", frame);

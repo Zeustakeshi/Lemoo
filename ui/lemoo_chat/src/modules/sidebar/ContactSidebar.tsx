@@ -1,6 +1,6 @@
 import Header from "@/components/header/Header";
 import { cn } from "@/lib/utils";
-import { Send, UserCheck, UsersRound } from "lucide-react";
+import { Send, Telescope, UserCheck, UsersRound } from "lucide-react";
 import ContactSidebarItem from "./ContactSidebarItem";
 
 type Props = {
@@ -12,6 +12,12 @@ const ContactSidebar = ({ className }: Props) => {
         <div className={cn("border-r", className)}>
             <Header></Header>
             <div>
+                <ContactSidebarItem
+                    to="/contacts/recommend"
+                    icon={<Telescope />}
+                >
+                    Khám phá
+                </ContactSidebarItem>
                 <ContactSidebarItem to="/contacts" icon={<UsersRound />}>
                     Danh sách bạn bè
                 </ContactSidebarItem>

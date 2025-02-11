@@ -1,4 +1,7 @@
 import { getAllContact } from "@/api/friend.api";
+
+import { UserContact } from "@/common/type/contact.type";
+
 import { useInfiniteQuery } from "@tanstack/react-query";
 import ContactItem from "./ContactItem";
 
@@ -22,12 +25,15 @@ const ContactList = (props: Props) => {
         <div className="h-min bg-white p-4 rounded-xl space-y-2">
             {data &&
                 data?.pages
-                    .flatMap(({ content }: any) => content ?? [])
-                    .map((contact: any, index, content) => {
+                    .flatMap(({ content }) => content ?? [])
+                    .map((contact: UserContact, index, content) => {
                         const lastIndex = content.length - 1;
                         if (index === Math.ceil(lastIndex * 0.8))
-                            return <ContactItem key={index} />;
-                        return <ContactItem key={index} />;
+                            return (
+                                <ContactItem contact={contact} key={index} />
+                            );
+                        return <ContactItem contact={contact} key={index} />;
+
                     })}
 
             {!hasNextPage && status !== "pending" && <p>Hết rồi</p>}

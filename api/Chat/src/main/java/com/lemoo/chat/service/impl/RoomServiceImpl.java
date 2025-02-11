@@ -8,7 +8,6 @@ package com.lemoo.chat.service.impl;
 
 import com.lemoo.chat.common.enums.RoomType;
 import com.lemoo.chat.dto.common.AuthenticatedAccount;
-import com.lemoo.chat.dto.request.RoomRequest;
 import com.lemoo.chat.dto.response.PageableResponse;
 import com.lemoo.chat.dto.response.RoomDetailResponse;
 import com.lemoo.chat.dto.response.RoomResponse;
@@ -43,21 +42,14 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public void createSingleRoom(String user1Id, String user2Id) {
-        log.info("room created");
-    }
-
-    @Override
-    public boolean createRoom(AuthenticatedAccount account, RoomRequest request) {
-        Set<String> validMembers = roomValidatorService.validateMemberRequest(request.getMembers());
-        validMembers.add(account.getUserId());
+        Set<String> members = Set.of(user1Id, user2Id);
 
         Room room =
-                SingleRoom.builder().members(validMembers).type(RoomType.SINGLE).build();
+                SingleRoom.builder().members(members).type(RoomType.SINGLE).build();
 
         roomRepository.save(room);
-
-        return true;
     }
+
 
     @Override
     public PageableResponse<RoomResponse> getAllRoom(int page, int limit, AuthenticatedAccount account) {

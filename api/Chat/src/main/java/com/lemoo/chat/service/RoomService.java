@@ -7,14 +7,12 @@
 package com.lemoo.chat.service;
 
 import com.lemoo.chat.dto.common.AuthenticatedAccount;
-import com.lemoo.chat.dto.request.RoomRequest;
 import com.lemoo.chat.dto.response.PageableResponse;
 import com.lemoo.chat.dto.response.RoomDetailResponse;
 import com.lemoo.chat.dto.response.RoomResponse;
 import com.lemoo.chat.entity.Room;
 
 public interface RoomService {
-    boolean createRoom(AuthenticatedAccount account, RoomRequest request);
 
     void createSingleRoom(String user1Id, String user2Id);
 

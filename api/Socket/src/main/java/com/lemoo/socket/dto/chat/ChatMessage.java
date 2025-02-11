@@ -1,11 +1,11 @@
 /*
  *  ChatMessage
  *  @author: Minhhieuano
- *  @created 2/9/2025 12:26 AM
+ *  @created 2/11/2025 4:57 PM
  * */
 
 
-package com.lemoo.socket.chat;
+package com.lemoo.socket.dto.chat;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,10 +13,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 public class ChatMessage {
-    private String content;
-    private String sender;
+    private String message;
 }

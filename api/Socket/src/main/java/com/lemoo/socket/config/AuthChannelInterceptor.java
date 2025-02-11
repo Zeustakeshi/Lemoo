@@ -34,10 +34,9 @@ public class AuthChannelInterceptor implements ChannelInterceptor {
     }
 
     private AuthenticatedAccount callAuthServer(String token) {
-        System.out.println("token = " + token);
         return AuthenticatedAccount.builder()
                 .email("example.user@gmail.com")
-                .userId("user-1")
+                .userId("user-id-1")
                 .id("id-1")
                 .build();
     }

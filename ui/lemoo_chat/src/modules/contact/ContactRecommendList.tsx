@@ -8,7 +8,7 @@ type Props = {};
 const ContactRecommendList = (props: Props) => {
     const { data, fetchNextPage, hasNextPage, isFetchingNextPage, refetch } =
         useInfiniteQuery({
-            queryKey: ["friend-list"],
+            queryKey: ["contact-recommend"],
             queryFn: async ({ pageParam }) =>
                 await getContactSuggestions(pageParam),
             getNextPageParam: (lastPage: any) => {

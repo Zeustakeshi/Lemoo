@@ -23,6 +23,18 @@ export const getContactRequests = async (
     });
 };
 
+export const getAllContact = async (
+    page: number,
+    limit?: number
+): Promise<Pageable<ContactRequest>> => {
+    return await api.get("/users/friends", {
+        params: {
+            page,
+            limit: limit ?? 10,
+        },
+    });
+};
+
 export const sendContactRequest = async (target: string) => {
     return await api.post("/users/friends/request", {
         target,

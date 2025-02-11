@@ -8,7 +8,7 @@ type Props = {};
 const FriendRequestList = (props: Props) => {
     const { data, fetchNextPage, hasNextPage, isFetchingNextPage, refetch } =
         useInfiniteQuery({
-            queryKey: ["friend-list"],
+            queryKey: ["contact-request-list"],
             queryFn: async ({ pageParam }) =>
                 await getContactRequests(pageParam),
             getNextPageParam: (lastPage: any) => {
@@ -17,8 +17,6 @@ const FriendRequestList = (props: Props) => {
             },
             initialPageParam: 0,
         });
-
-    console.log({ data });
 
     return (
         <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-3 p-4">

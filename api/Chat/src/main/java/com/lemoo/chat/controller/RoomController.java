@@ -7,13 +7,11 @@
 package com.lemoo.chat.controller;
 
 import com.lemoo.chat.dto.common.AuthenticatedAccount;
-import com.lemoo.chat.dto.request.RoomRequest;
 import com.lemoo.chat.dto.response.ApiResponse;
 import com.lemoo.chat.dto.response.PageableResponse;
 import com.lemoo.chat.dto.response.RoomDetailResponse;
 import com.lemoo.chat.dto.response.RoomResponse;
 import com.lemoo.chat.service.RoomService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -24,12 +22,6 @@ import org.springframework.web.bind.annotation.*;
 public class RoomController {
 
     private final RoomService roomService;
-
-    @PostMapping
-    public ApiResponse<Boolean> createChatRoom(
-            @AuthenticationPrincipal AuthenticatedAccount account, @RequestBody @Valid RoomRequest request) {
-        return ApiResponse.success(roomService.createRoom(account, request));
-    }
 
     @GetMapping
     public ApiResponse<PageableResponse<RoomResponse>> getAllRooms(

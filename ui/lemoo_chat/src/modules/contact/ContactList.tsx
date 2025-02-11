@@ -1,5 +1,7 @@
 import { getAllContact } from "@/api/friend.api";
+
 import { UserContact } from "@/common/type/contact.type";
+
 import { useInfiniteQuery } from "@tanstack/react-query";
 import ContactItem from "./ContactItem";
 
@@ -31,6 +33,7 @@ const ContactList = (props: Props) => {
                                 <ContactItem contact={contact} key={index} />
                             );
                         return <ContactItem contact={contact} key={index} />;
+
                     })}
 
             {!hasNextPage && status !== "pending" && <p>Hết rồi</p>}

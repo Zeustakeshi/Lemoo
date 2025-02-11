@@ -63,7 +63,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         Cookies.remove(REFRESH_TOKEN_KEY);
         setUser(null);
         setIsAuthenticated(false);
-        window.location.href = `http://sso.lemoo.com:5172/auth/login?callback_url=http://lemoo.com:5173`;
+        window.location.href = import.meta.env.VITE_SSO_CALLBACK_URL;
     }, []);
 
     return (

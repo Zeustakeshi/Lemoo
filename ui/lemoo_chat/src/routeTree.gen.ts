@@ -20,6 +20,7 @@ import { Route as ContactsContactIndexImport } from './routes/contacts/_contact.
 import { Route as chatschatIndexImport } from './routes/(chats)/__chat.index'
 import { Route as ContactsContactSentImport } from './routes/contacts/_contact.sent'
 import { Route as ContactsContactRequestImport } from './routes/contacts/_contact.request'
+import { Route as ContactsContactRecommendImport } from './routes/contacts/_contact.recommend'
 import { Route as chatschatRoomsRoomIdImport } from './routes/(chats)/__chat.rooms/$roomId'
 
 // Create Virtual Routes
@@ -80,6 +81,12 @@ const ContactsContactRequestRoute = ContactsContactRequestImport.update({
   getParentRoute: () => ContactsContactRoute,
 } as any)
 
+const ContactsContactRecommendRoute = ContactsContactRecommendImport.update({
+  id: '/recommend',
+  path: '/recommend',
+  getParentRoute: () => ContactsContactRoute,
+} as any)
+
 const chatschatRoomsRoomIdRoute = chatschatRoomsRoomIdImport.update({
   id: '/rooms/$roomId',
   path: '/rooms/$roomId',
@@ -124,6 +131,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/settings/general'
       preLoaderRoute: typeof SettingsGeneralImport
       parentRoute: typeof rootRoute
+    }
+    '/contacts/_contact/recommend': {
+      id: '/contacts/_contact/recommend'
+      path: '/recommend'
+      fullPath: '/contacts/recommend'
+      preLoaderRoute: typeof ContactsContactRecommendImport
+      parentRoute: typeof ContactsContactImport
     }
     '/contacts/_contact/request': {
       id: '/contacts/_contact/request'
@@ -190,12 +204,14 @@ const chatsRouteChildren: chatsRouteChildren = {
 const chatsRouteWithChildren = chatsRoute._addFileChildren(chatsRouteChildren)
 
 interface ContactsContactRouteChildren {
+  ContactsContactRecommendRoute: typeof ContactsContactRecommendRoute
   ContactsContactRequestRoute: typeof ContactsContactRequestRoute
   ContactsContactSentRoute: typeof ContactsContactSentRoute
   ContactsContactIndexRoute: typeof ContactsContactIndexRoute
 }
 
 const ContactsContactRouteChildren: ContactsContactRouteChildren = {
+  ContactsContactRecommendRoute: ContactsContactRecommendRoute,
   ContactsContactRequestRoute: ContactsContactRequestRoute,
   ContactsContactSentRoute: ContactsContactSentRoute,
   ContactsContactIndexRoute: ContactsContactIndexRoute,
@@ -221,6 +237,7 @@ export interface FileRoutesByFullPath {
   '/': typeof chatschatIndexRoute
   '/contacts': typeof ContactsContactRouteWithChildren
   '/settings/general': typeof SettingsGeneralRoute
+  '/contacts/recommend': typeof ContactsContactRecommendRoute
   '/contacts/request': typeof ContactsContactRequestRoute
   '/contacts/sent': typeof ContactsContactSentRoute
   '/contacts/': typeof ContactsContactIndexRoute
@@ -230,6 +247,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/contacts': typeof ContactsContactIndexRoute
   '/settings/general': typeof SettingsGeneralRoute
+  '/contacts/recommend': typeof ContactsContactRecommendRoute
   '/contacts/request': typeof ContactsContactRequestRoute
   '/contacts/sent': typeof ContactsContactSentRoute
   '/': typeof chatschatIndexRoute
@@ -243,6 +261,7 @@ export interface FileRoutesById {
   '/contacts': typeof ContactsRouteWithChildren
   '/contacts/_contact': typeof ContactsContactRouteWithChildren
   '/settings/general': typeof SettingsGeneralRoute
+  '/contacts/_contact/recommend': typeof ContactsContactRecommendRoute
   '/contacts/_contact/request': typeof ContactsContactRequestRoute
   '/contacts/_contact/sent': typeof ContactsContactSentRoute
   '/(chats)/__chat/': typeof chatschatIndexRoute
@@ -256,6 +275,7 @@ export interface FileRouteTypes {
     | '/'
     | '/contacts'
     | '/settings/general'
+    | '/contacts/recommend'
     | '/contacts/request'
     | '/contacts/sent'
     | '/contacts/'
@@ -264,6 +284,7 @@ export interface FileRouteTypes {
   to:
     | '/contacts'
     | '/settings/general'
+    | '/contacts/recommend'
     | '/contacts/request'
     | '/contacts/sent'
     | '/'
@@ -275,6 +296,7 @@ export interface FileRouteTypes {
     | '/contacts'
     | '/contacts/_contact'
     | '/settings/general'
+    | '/contacts/_contact/recommend'
     | '/contacts/_contact/request'
     | '/contacts/_contact/sent'
     | '/(chats)/__chat/'
@@ -334,6 +356,7 @@ export const routeTree = rootRoute
       "filePath": "contacts/_contact.tsx",
       "parent": "/contacts",
       "children": [
+        "/contacts/_contact/recommend",
         "/contacts/_contact/request",
         "/contacts/_contact/sent",
         "/contacts/_contact/"
@@ -341,6 +364,10 @@ export const routeTree = rootRoute
     },
     "/settings/general": {
       "filePath": "settings/general.tsx"
+    },
+    "/contacts/_contact/recommend": {
+      "filePath": "contacts/_contact.recommend.tsx",
+      "parent": "/contacts/_contact"
     },
     "/contacts/_contact/request": {
       "filePath": "contacts/_contact.request.tsx",

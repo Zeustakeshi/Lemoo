@@ -42,6 +42,7 @@
         "react-dom": "^18.3.1",
         "react-hook-form": "^7.54.2",
         "react-icons": "^5.4.0",
+        "react-intersection-observer": "^9.15.1",
         "react-redux": "^9.2.0",
         "sockjs-client": "^1.6.1",
         "stompjs": "^2.3.3",

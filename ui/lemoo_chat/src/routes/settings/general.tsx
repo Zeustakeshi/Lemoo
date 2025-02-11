@@ -1,3 +1,5 @@
+import { Button } from "@/components/ui/button";
+import { useAuth } from "@/context/AuthContext";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/settings/general")({
@@ -5,5 +7,18 @@ export const Route = createFileRoute("/settings/general")({
 });
 
 function RouteComponent() {
-    return <div>Hello "/settings/general"!</div>;
+    const { logout } = useAuth();
+
+    return (
+        <div>
+            <Button
+                onClick={() => {
+                    logout();
+                }}
+                variant="destructive"
+            >
+                Đăng xuất
+            </Button>
+        </div>
+    );
 }

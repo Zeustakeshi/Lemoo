@@ -8,6 +8,8 @@ import com.lemoo.user.dto.response.PageableResponse;
 import com.lemoo.user.dto.response.UserResponse;
 import com.lemoo.user.entity.FriendInvitation;
 import com.lemoo.user.event.eventModel.*;
+import com.lemoo.user.event.producer.FriendProducer;
+import com.lemoo.user.event.producer.NotificationProducer;
 import com.lemoo.user.event.producer.UserProducer;
 import com.lemoo.user.exception.BadRequestException;
 import com.lemoo.user.exception.NotfoundException;
@@ -28,15 +30,12 @@ import org.springframework.stereotype.Service;
 public class FriendInvitationServiceImpl implements FriendInvitationService {
 
     private final FriendInvitationRepository friendInvitationRepository;
-
     private final FriendInvitationMapper friendInvitationMapper;
-
     private final UserService userService;
-
     private final FriendService friendService;
-
     private final UserProducer userProducer;
-
+    private final FriendProducer friendProducer;
+    private final NotificationProducer notificationProducer;
     private final PageMapper pageMapper;
 
     @Override
@@ -53,7 +52,7 @@ public class FriendInvitationServiceImpl implements FriendInvitationService {
 
         UserResponse user = userService.getUserProfile(account.getUserId());
 
-        userProducer.FriendRequest(FriendRequestEvent.builder()
+        friendProducer.friendRequest(FriendRequestEvent.builder()
                 .senderId(friendInvitation.getSenderId())
                 .receiverId(friendInvitation.getReceiverId())
                 .build());
@@ -79,7 +78,7 @@ public class FriendInvitationServiceImpl implements FriendInvitationService {
     @Override
     public void acceptFriendRequest(String senderId, String receiverId) {
 
-        userProducer.AcceptFriend(AcceptFriendEvent.builder()
+        friendProducer.acceptFriend(AcceptFriendEvent.builder()
                 .receiverId(receiverId)
                 .senderId(senderId)
                 .build());
@@ -94,7 +93,7 @@ public class FriendInvitationServiceImpl implements FriendInvitationService {
         invitation.setStatus(FriendInvitationStatus.ACCEPTED);
         friendInvitationRepository.save(invitation);
 
-        userProducer.NotifyAcceptedFriend(NotifyAcceptFriendEvent.builder()
+        notificationProducer.notifyAcceptedFriend(NotifyAcceptFriendEvent.builder()
                 .senderId(senderId)
                 .receiverId(receiverId)
                 .build());
@@ -105,7 +104,7 @@ public class FriendInvitationServiceImpl implements FriendInvitationService {
     @Override
     public void receivedFriendRequest(String senderId, String receiverId) {
 
-        userProducer.ReceivedFriend(ReceivedFriendRequestEvent.builder()
+        friendProducer.receivedFriend(ReceivedFriendRequestEvent.builder()
                 .receiverId(receiverId)
                 .senderId(senderId)
                 .build());
@@ -114,7 +113,7 @@ public class FriendInvitationServiceImpl implements FriendInvitationService {
 
     @Override
     public void notifyFriendRequest(String senderId, String receiverId) {
-        userProducer.NotifyFriendRequest(NotifyFriendRequestEvent
+        notificationProducer.notifyFriendRequest(NotifyFriendRequestEvent
                 .builder()
                 .senderId(senderId)
                 .receiverId(receiverId)

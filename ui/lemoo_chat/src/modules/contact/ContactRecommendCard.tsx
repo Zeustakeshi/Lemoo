@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { useMutation } from "@tanstack/react-query";
 import moment from "moment";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 type Props = {
     contact: UserContact;
@@ -27,7 +28,7 @@ const ContactRecommendCard = ({ contact }: Props) => {
             setIsRequestSent(true);
         } catch (error: any) {
             setIsRequestSent(false);
-            console.log({ error });
+            toast.error(error);
         }
     };
 

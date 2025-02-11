@@ -16,6 +16,8 @@ import com.lemoo.chat.entity.Room;
 public interface RoomService {
     boolean createRoom(AuthenticatedAccount account, RoomRequest request);
 
+    void createSingleRoom(String user1Id, String user2Id);
+
     PageableResponse<RoomResponse> getAllRoom(int page, int limit, AuthenticatedAccount account);
 
     RoomDetailResponse getRoomDetail(String roomId, AuthenticatedAccount account);

@@ -21,6 +21,8 @@ import com.lemoo.chat.repository.RoomRepository;
 import com.lemoo.chat.service.RoomService;
 import com.lemoo.chat.service.RoomValidatorService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -33,10 +35,16 @@ import java.util.concurrent.CompletableFuture;
 @RequiredArgsConstructor
 public class RoomServiceImpl implements RoomService {
 
+    private static final Logger log = LoggerFactory.getLogger(RoomServiceImpl.class);
     private final RoomRepository roomRepository;
     private final RoomValidatorService roomValidatorService;
     private final RoomMapper roomMapper;
     private final PageMapper pageMapper;
+
+    @Override
+    public void createSingleRoom(String user1Id, String user2Id) {
+        log.info("room created");
+    }
 
     @Override
     public boolean createRoom(AuthenticatedAccount account, RoomRequest request) {
@@ -65,7 +73,7 @@ public class RoomServiceImpl implements RoomService {
     @Override
     public RoomDetailResponse getRoomDetail(String roomId, AuthenticatedAccount account) {
         Room room = findRoomById(roomId);
-        
+
         roomValidatorService.validateRoomAccessPermission(room, account.getUserId());
 
         return roomMapper.toRoomDetailResponse(room, account.getUserId());

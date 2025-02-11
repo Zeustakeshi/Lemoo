@@ -32,6 +32,7 @@ const FriendRequestCard = ({ contactRequest }: Props) => {
     const handleAcceptContactRequest = async () => {
         try {
             await acceptContactMutate();
+            toast.success("Kết bạn thành công");
         } catch (error: any) {
             toast.error("Kết bạn thất bại");
         }
@@ -40,6 +41,7 @@ const FriendRequestCard = ({ contactRequest }: Props) => {
     const handleRejectContactRequest = async () => {
         try {
             await rejectContactMutate();
+            toast("Từ chối kết bạn thành công");
         } catch (error: any) {
             toast.error("Từ chối kết bạn thất bại");
         }

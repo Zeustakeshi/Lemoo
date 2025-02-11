@@ -1,3 +1,4 @@
+import { UserContact } from "@/common/type/contact.type";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -8,23 +9,22 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Ellipsis } from "lucide-react";
 
-type Props = {};
+type Props = {
+    contact: UserContact;
+};
 
-const ContactItem = (props: Props) => {
+const ContactItem = ({ contact }: Props) => {
     return (
         <div
             onClick={() => alert("oke")}
             className="flex justify-start items-center gap-2 cursor-pointer"
         >
             <Avatar>
-                <AvatarImage src="https://i.pravatar.cc/150?img=12"></AvatarImage>
+                <AvatarImage src={contact.avatar}></AvatarImage>
             </Avatar>
             <div className=" flex justify-between items-center flex-1 h-full border-b py-3">
                 <p className="max-w-[80%] line-clamp-1">
-                    Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                    Aspernatur culpa ad accusamus ullam, vero aut? Cupiditate
-                    atque voluptatum culpa corporis odio sed animi blanditiis
-                    iure magni, quia minus sint voluptate!
+                    {contact.displayName}
                 </p>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>

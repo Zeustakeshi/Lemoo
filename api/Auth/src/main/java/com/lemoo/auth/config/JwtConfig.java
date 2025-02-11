@@ -40,7 +40,7 @@ public class JwtConfig {
     public JwtEncoder accessTokenEncoder() {
         JWK jwk = new RSAKey.Builder(keyService.getAccessTokenPublicKey())
                 .privateKey(keyService.getAccessTokenPrivateKey())
-                .keyID(jwtKid)
+//                .keyID(jwtKid)
                 .build();
         JWKSource<SecurityContext> jwkSource = new ImmutableJWKSet<>(new JWKSet(jwk));
 

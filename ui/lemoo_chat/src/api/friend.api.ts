@@ -26,7 +26,7 @@ export const getContactRequests = async (
 export const getAllContact = async (
     page: number,
     limit?: number
-): Promise<Pageable<ContactRequest>> => {
+): Promise<Pageable<UserContact>> => {
     return await api.get("/users/friends", {
         params: {
             page,

@@ -27,110 +27,108 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class FriendInvitationServiceImpl implements FriendInvitationService {
 
-	private final FriendInvitationRepository friendInvitationRepository;
+    private final FriendInvitationRepository friendInvitationRepository;
 
-	private final FriendInvitationMapper friendInvitationMapper;
+    private final FriendInvitationMapper friendInvitationMapper;
 
-	private final UserService userService;
+    private final UserService userService;
 
-	private final FriendService friendService;
+    private final FriendService friendService;
 
-	private final UserProducer userProducer;
+    private final UserProducer userProducer;
 
-	private final PageMapper pageMapper;
+    private final PageMapper pageMapper;
 
-	@Override
-	public FriendInvitationResponse newFriendInvitation(
-			AuthenticatedAccount account, NewFriendInvitationRequest request) {
-		FriendInvitation invitation = FriendInvitation.builder()
-				.senderId(account.getUserId())
-				.receiverId(request.getTarget())
-				.status(FriendInvitationStatus.PENDING)
-				.build();
-		System.out.println(invitation.getReceiverId());
-		if (friendService.isExistingFriend(account.getUserId(), request.getTarget()))
-			throw new BadRequestException("This Friend Relationship had been existed!");
-		FriendInvitation friendInvitation = friendInvitationRepository.save(invitation);
+    @Override
+    public FriendInvitationResponse newFriendInvitation(
+            AuthenticatedAccount account, NewFriendInvitationRequest request) {
+        FriendInvitation invitation = FriendInvitation.builder()
+                .senderId(account.getUserId())
+                .receiverId(request.getTarget())
+                .status(FriendInvitationStatus.PENDING)
+                .build();
+        if (friendService.isExistingFriend(account.getUserId(), request.getTarget()))
+            throw new BadRequestException("This Friend Relationship had been existed!");
+        FriendInvitation friendInvitation = friendInvitationRepository.save(invitation);
 
-		UserResponse user = userService.getUserProfile(account.getUserId());
+        UserResponse user = userService.getUserProfile(account.getUserId());
 
-		userProducer.FriendRequest(FriendRequestEvent.builder()
-				.senderId(friendInvitation.getSenderId())
-				.receiverId(friendInvitation.getReceiverId())
-				.build());
-
+        userProducer.FriendRequest(FriendRequestEvent.builder()
+                .senderId(friendInvitation.getSenderId())
+                .receiverId(friendInvitation.getReceiverId())
+                .build());
 
 
-		return friendInvitationMapper.invitationToResponse(friendInvitation, user);
-	}
+        return friendInvitationMapper.invitationToResponse(friendInvitation, user);
+    }
 
-	@Override
-	public PageableResponse<FriendInvitationResponse> getCurrentFriendRequestList(String userId, int page, int limit) {
+    @Override
+    public PageableResponse<FriendInvitationResponse> getCurrentFriendRequestList(String userId, int page, int limit) {
 
-		Page<FriendInvitation> invitations = friendInvitationRepository.findByReceiverIdAndStatus(
-				userId,
-				FriendInvitationStatus.PENDING,
-				PageRequest.of(page, limit, Sort.by("createdAt").descending()));
+        Page<FriendInvitation> invitations = friendInvitationRepository.findByReceiverIdAndStatus(
+                userId,
+                FriendInvitationStatus.PENDING,
+                PageRequest.of(page, limit, Sort.by("createdAt").descending()));
 
-		return pageMapper.toPageableResponse(invitations.map(invitation -> {
-			UserResponse userResponse = userService.getUserProfile(invitation.getSenderId());
-			return friendInvitationMapper.invitationToResponse(invitation, userResponse);
-		}));
-	}
+        return pageMapper.toPageableResponse(invitations.map(invitation -> {
+            UserResponse userResponse = userService.getUserProfile(invitation.getSenderId());
+            return friendInvitationMapper.invitationToResponse(invitation, userResponse);
+        }));
+    }
 
-	@Override
-	public void acceptFriendRequest(String senderId, String receiverId) {
+    @Override
+    public void acceptFriendRequest(String senderId, String receiverId) {
 
-		userProducer.AcceptFriend(AcceptFriendEvent.builder()
-				.receiverId(receiverId)
-				.senderId(senderId)
-				.build());
+        userProducer.AcceptFriend(AcceptFriendEvent.builder()
+                .receiverId(receiverId)
+                .senderId(senderId)
+                .build());
 
-	}
+    }
 
-	public void acceptedFriend(String senderId, String receiverId){
-		FriendInvitation invitation = friendInvitationRepository
-				.findFriendInvitationBySenderIdAndReceiverId(senderId,receiverId)
-				.orElseThrow(() -> new NotfoundException("Friend not found!"));
+    public void acceptedFriend(String senderId, String receiverId) {
+        FriendInvitation invitation = friendInvitationRepository
+                .findFriendInvitationBySenderIdAndReceiverId(senderId, receiverId)
+                .orElseThrow(() -> new NotfoundException("Friend not found!"));
 
-		invitation.setStatus(FriendInvitationStatus.ACCEPTED);
-		friendInvitationRepository.save(invitation);
+        invitation.setStatus(FriendInvitationStatus.ACCEPTED);
+        friendInvitationRepository.save(invitation);
 
-		userProducer.NotifyAcceptedFriend(NotifyAcceptFriendEvent.builder()
-				.senderId(senderId)
-				.receiverId(receiverId)
-				.build());
+        userProducer.NotifyAcceptedFriend(NotifyAcceptFriendEvent.builder()
+                .senderId(senderId)
+                .receiverId(receiverId)
+                .build());
 
-		friendService.createFriend(invitation.getSenderId(), invitation.getReceiverId());
-	}
+        friendService.createFriend(invitation.getSenderId(), invitation.getReceiverId());
+    }
 
-	@Override
-	public void receivedFriendRequest(String senderId, String receiverId) {
+    @Override
+    public void receivedFriendRequest(String senderId, String receiverId) {
 
-		userProducer.ReceivedFriend(ReceivedFriendRequestEvent.builder()
-						.receiverId(receiverId)
-						.senderId(senderId)
-				.build());
+        userProducer.ReceivedFriend(ReceivedFriendRequestEvent.builder()
+                .receiverId(receiverId)
+                .senderId(senderId)
+                .build());
 
-	}
+    }
 
-	@Override
-	public void notifyFriendRequest(String senderId, String receiverId) {
-		userProducer.NotifyFriendRequest(NotifyFriendRequestEvent
-				.builder()
-						.senderId(senderId)
-						.receiverId(receiverId)
-				.build());
-	}
+    @Override
+    public void notifyFriendRequest(String senderId, String receiverId) {
+        userProducer.NotifyFriendRequest(NotifyFriendRequestEvent
+                .builder()
+                .senderId(senderId)
+                .receiverId(receiverId)
+                .build());
+    }
 
-	@Override
-	public void rejectFriendRequest(String senderId, String receiverId) {
+    @Override
+    public void rejectFriendRequest(String senderId, String receiverId) {
 
-		FriendInvitation invitation = friendInvitationRepository
-				.findFriendInvitationBySenderIdAndReceiverId(senderId,receiverId)
-				.orElseThrow(() -> new NotfoundException("Friend not found!"));
+        FriendInvitation invitation = friendInvitationRepository
+                .findFriendInvitationBySenderIdAndReceiverId(senderId, receiverId)
+                .orElseThrow(() -> new NotfoundException("Friend not found!"));
 
-		friendInvitationRepository.delete(invitation);
+        friendInvitationRepository.delete(invitation);
 
-	}
+    }
 }

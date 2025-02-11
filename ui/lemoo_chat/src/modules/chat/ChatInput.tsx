@@ -1,14 +1,17 @@
 import { Separator } from "@/components/ui/separator";
 import TextArea from "@/components/ui/textarea";
 import { useSocket } from "@/context/SocketContext";
+import { useParams } from "@tanstack/react-router";
 import { useState } from "react";
 import { IoSend } from "react-icons/io5";
 import { LuClipboardList, LuTicketPercent } from "react-icons/lu";
 type Props = {};
 
 const ChatInput = (props: Props) => {
-    const { client } = useSocket();
     const [message, setMessage] = useState<string>("");
+
+    const { roomId } = useParams({ strict: false });
+    const { client } = useSocket();
 
     const handleKeyDown = (e: any) => {
         if (e.key === "Enter" && !e.shiftKey) {
@@ -21,8 +24,8 @@ const ChatInput = (props: Props) => {
 
     const handleSendMessage = () => {
         client?.publish({
-            destination: "/chat.send-message",
-            body: JSON.stringify({ content: message, sender: "Minh Hiếu" }),
+            destination: `/chats/${roomId}/messages/send-message`,
+            body: JSON.stringify({ message }),
         });
 
         setMessage("");

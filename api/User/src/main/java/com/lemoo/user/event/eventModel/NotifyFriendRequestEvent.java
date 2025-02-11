@@ -7,13 +7,10 @@ import lombok.*;
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class NotifyFriendRequestEvent extends Event{
+public class NotifyFriendRequestEvent extends Event {
 
     private String receiverId;
     private String senderId;
 
-    @Override
-    protected void setGroupId(String groupId) {
-        this.groupId = "E_006";
-    }
+
 }

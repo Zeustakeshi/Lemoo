@@ -8,12 +8,6 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AcceptFriendEvent extends Event {
-
-	private String receiverId;
-	private String senderId;
-
-	@Override
-	protected void setGroupId(String groupId) {
-		this.groupId = "E_007";
-	}
+    private String receiverId;
+    private String senderId;
 }

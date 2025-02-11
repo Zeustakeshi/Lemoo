@@ -8,12 +8,6 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FriendRequestEvent extends Event {
-
-	private String receiverId;
-	private String senderId;
-
-	@Override
-	protected void setGroupId(String groupId) {
-		this.groupId = "E_004";
-	}
+    private String receiverId;
+    private String senderId;
 }

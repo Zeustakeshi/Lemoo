@@ -4,7 +4,7 @@
  *  @created 9/27/2024 9:19 PM
  * */
 
-package com.lemoo.chat.event.eventModel;
+package com.lemoo.chat.event.event.model;
 
 import com.aventrix.jnanoid.jnanoid.NanoIdUtils;
 import lombok.AllArgsConstructor;

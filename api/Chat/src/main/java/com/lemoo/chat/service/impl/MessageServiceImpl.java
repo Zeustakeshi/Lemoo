@@ -7,8 +7,8 @@
 
 package com.lemoo.chat.service.impl;
 
+import com.lemoo.chat.common.enums.MessageStatus;
 import com.lemoo.chat.dto.common.AuthenticatedAccount;
-import com.lemoo.chat.dto.request.MessageRequest;
 import com.lemoo.chat.dto.response.MessageResponse;
 import com.lemoo.chat.dto.response.PageableResponse;
 import com.lemoo.chat.entity.Message;
@@ -16,9 +16,7 @@ import com.lemoo.chat.entity.Room;
 import com.lemoo.chat.mapper.MessageMapper;
 import com.lemoo.chat.mapper.PageMapper;
 import com.lemoo.chat.repository.MessageRepository;
-import com.lemoo.chat.service.MessageService;
-import com.lemoo.chat.service.RoomService;
-import com.lemoo.chat.service.RoomValidatorService;
+import com.lemoo.chat.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -35,21 +33,26 @@ public class MessageServiceImpl implements MessageService {
     private final RoomService roomService;
     private final MessageMapper messageMapper;
     private final PageMapper pageMapper;
+    private final NotificationService notificationService;
+    private final SocketService socketService;
 
     @Override
-    public MessageResponse createMessage(MessageRequest request, String roomId, AuthenticatedAccount account) {
+    public void createMessage(String senderId, String roomId, String text) {
         Room room = roomService.findRoomById(roomId);
-        // check member permission
-        roomValidatorService.validateRoomAccessPermission(room, account.getUserId());
+        roomValidatorService.validateRoomAccessPermission(room, senderId);
 
         Message message = messageRepository.save(Message
                 .builder()
                 .roomId(roomId)
-                .senderId(account.getUserId())
-                .text(request.getText())
+                .status(MessageStatus.SENT)
+                .senderId(senderId)
+                .text(text)
                 .build()
         );
-        return messageMapper.toMessageResponse(message);
+
+        notificationService.sendNewMessageNotification(text, roomId, senderId);
+        socketService.sendRealtimeMessage(message);
+
     }
 
     @Override
@@ -60,7 +63,7 @@ public class MessageServiceImpl implements MessageService {
         PageRequest request = PageRequest.of(page, limit, Sort.by(Sort.Direction.DESC, "createdAt"));
         Page<Message> messages = messageRepository.findAllByRoomId(roomId, request);
 
-     
+
         Page<MessageResponse> messageResponses = messages.map(message ->
                 CompletableFuture.supplyAsync(() -> {
                     boolean isSelf = message.getSenderId().equals(account.getUserId());

@@ -1,4 +1,4 @@
-package com.lemoo.chat.event.eventModel;
+package com.lemoo.chat.event.event.model;
 
 import lombok.*;
 

@@ -1,9 +1,12 @@
+import { ChatRoomType } from "@/common/type/room.type";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Link, LinkOptions } from "@tanstack/react-router";
 import moment from "moment";
-type Props = {} & LinkOptions;
+type Props = {
+    room: ChatRoomType;
+} & LinkOptions;
 
-const ChatSidebarItem = ({ ...props }: Props) => {
+const ChatSidebarItem = ({ room, ...props }: Props) => {
     return (
         <Link
             className="flex justify-start items-center gap-2 px-2 py-3 hover:bg-stone-400/10 cursor-pointer transition-all"
@@ -12,14 +15,11 @@ const ChatSidebarItem = ({ ...props }: Props) => {
             {...props}
         >
             <Avatar className="size-[45px]">
-                <AvatarImage src="https://i.pravatar.cc/150?img=31"></AvatarImage>
+                <AvatarImage src={room.avatar}></AvatarImage>
             </Avatar>
             <div className="flex flex-col justify-start items-start gap-1">
                 <div className="flex justify-between items-center w-full">
-                    <p className=" max-w-full line-clamp-1">
-                        Lorem ipsum dolor sit, amet consectetur adipisicing
-                        elit. Commodi, praesentium!
-                    </p>
+                    <p className=" max-w-full line-clamp-1">{room.name}</p>
                     <span className="text-xs text-muted-foreground">
                         {moment(new Date()).format("hh:mm")}
                     </span>

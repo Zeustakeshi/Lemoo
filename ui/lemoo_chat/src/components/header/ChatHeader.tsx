@@ -1,11 +1,10 @@
-import { ChatRoomDetailType } from "@/common/type/room.type";
+import { useChatRoom } from "@/context/ChatRoomContext";
 import ChatRoomInfo from "@/modules/chat/ChatRoomInfo";
 
-type Props = {
-    room: ChatRoomDetailType;
-};
+type Props = {};
 
-const ChatHeader = ({ room }: Props) => {
+const ChatHeader = ({}: Props) => {
+    const { room } = useChatRoom();
     return (
         <div className="bg-white border-b px-5 py-3 h-[72px] flex justify-start items-start gap-3">
             <ChatRoomInfo room={room}></ChatRoomInfo>

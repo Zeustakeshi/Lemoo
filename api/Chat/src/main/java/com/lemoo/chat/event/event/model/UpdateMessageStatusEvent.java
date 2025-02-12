@@ -18,6 +18,6 @@ import lombok.*;
 public class UpdateMessageStatusEvent extends Event {
     private String messageId;
     private MessageStatus status;
-    private String senderId;
+    private String updateBy;
     private String roomId;
 }

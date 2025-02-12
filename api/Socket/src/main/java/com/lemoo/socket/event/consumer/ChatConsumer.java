@@ -22,7 +22,7 @@ public class ChatConsumer {
 
     @KafkaListener(topics = "chat-service.message.status.update", groupId = "${spring.kafka.consumer.group-id}")
     public void updateMessageStatusEventListener(UpdateMessageStatusEvent event) {
-        messagingTemplate.convertAndSend("/topic/chats/" + event.getRoomId() + "/messages/status", event);
+        messagingTemplate.convertAndSend("/topic/chats/" + event.getRoomId() + "/messages/" + event.getMessageId() + "/status", event);
     }
 
     @KafkaListener(topics = "chat-service.message.realtime.send", groupId = "${spring.kafka.consumer.group-id}")

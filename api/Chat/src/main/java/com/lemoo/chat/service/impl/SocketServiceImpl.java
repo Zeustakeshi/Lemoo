@@ -40,10 +40,10 @@ public class SocketServiceImpl implements SocketService {
 
     @Async
     @Override
-    public void updateMessageStatus(String messageId, String senderId, String roomId, MessageStatus status) {
+    public void updateMessageStatus(String messageId, String roomId, MessageStatus status, String updateBy) {
         socketProducer.updateMessageStatus(UpdateMessageStatusEvent.builder()
                 .messageId(messageId)
-                .senderId(senderId)
+                .updateBy(updateBy)
                 .status(status)
                 .roomId(roomId)
                 .build());

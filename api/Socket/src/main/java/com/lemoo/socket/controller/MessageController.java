@@ -51,8 +51,8 @@ public class MessageController {
         AuthenticatedAccount account = AuthHeaderExtractorService.extractAccountFormHeaderAccessor(headerAccessor);
         chatProducer.updateMessageStatus(UpdateMessageStatusEvent.builder()
                 .messageId(messageId)
+                .updateBy(account.getUserId())
                 .roomId(roomId)
-                .senderId(account.getUserId())
                 .status(MessageStatus.RECEIVED)
                 .build());
     }

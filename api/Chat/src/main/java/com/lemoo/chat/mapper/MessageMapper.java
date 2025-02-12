@@ -22,6 +22,7 @@ public abstract class MessageMapper {
     private UserService userService;
 
     @Mapping(target = "sender", ignore = true)
+    @Mapping(target = "isSelf", constant = "true")
     public abstract MessageResponse toMessageResponse(Message message);
 
     public MessageResponse toMessageResponse(Message message, String senderId) {
@@ -29,6 +30,7 @@ public abstract class MessageMapper {
                 .orElse(UserResponse.builder().name("Unknown user").build());
         MessageResponse messageResponse = toMessageResponse(message);
         messageResponse.setSender(sender);
+        messageResponse.setSelf(false);
         return messageResponse;
     }
 

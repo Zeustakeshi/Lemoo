@@ -8,3 +8,9 @@ export type User = {
     address: string;
     gender: Gender;
 };
+
+export type UserBase = {
+    id: string;
+    avatar: string;
+    name: string;
+};

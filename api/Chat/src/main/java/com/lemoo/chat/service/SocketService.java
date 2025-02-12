@@ -12,6 +12,6 @@ import com.lemoo.chat.entity.Message;
 public interface SocketService {
     void sendRealtimeMessage(Message message);
 
-    void updateMessageStatus(String messageId, String senderId, String roomId, MessageStatus status);
+    void updateMessageStatus(String messageId, String roomId, MessageStatus status, String updateBy);
 }
 

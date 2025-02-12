@@ -29,7 +29,7 @@ public class SocketConsumer {
 
     @KafkaListener(topics = "socket-service.chat.message.status.update", groupId = "${spring.kafka.consumer.group-id}")
     public void updateMessageStatusEventListener(UpdateMessageStatusEvent event) {
-        messageStatusService.updateMessageStatus(event.getMessageId(), event.getStatus());
+        messageStatusService.updateMessageStatus(event.getMessageId(), event.getStatus(), event.getUpdateBy());
     }
 
 }

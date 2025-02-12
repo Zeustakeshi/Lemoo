@@ -1,5 +1,6 @@
 import { getChatRoomInfo } from "@/api/chat.api";
 import ChatHeader from "@/components/header/ChatHeader";
+import { ChatRoomProvider } from "@/context/ChatRoomContext";
 import ChatInput from "@/modules/chat/ChatInput";
 import MessageList from "@/modules/chat/message/MessageList";
 import { useQuery } from "@tanstack/react-query";
@@ -21,9 +22,11 @@ function RouteComponent() {
 
     return (
         <div className="w-full grid grid-rows-[auto,1fr,auto] h-screen">
-            <ChatHeader room={data}></ChatHeader>
-            <MessageList></MessageList>
-            <ChatInput></ChatInput>
+            <ChatRoomProvider room={data}>
+                <ChatHeader></ChatHeader>
+                <MessageList></MessageList>
+                <ChatInput></ChatInput>
+            </ChatRoomProvider>
         </div>
     );
 }

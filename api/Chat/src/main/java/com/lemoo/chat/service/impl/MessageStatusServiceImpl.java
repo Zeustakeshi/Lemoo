@@ -24,12 +24,18 @@ public class MessageStatusServiceImpl implements MessageStatusService {
     private final SocketService socketService;
 
     @Override
-    public void updateMessageStatus(String messageId, MessageStatus status) {
+    public void updateMessageStatus(String messageId, MessageStatus status, String updateBy) {
         Message message = messageRepository.findById(messageId)
                 .orElseThrow(() -> new NotfoundException("Message " + messageId + " not found."));
         message.setStatus(status);
+
+        if (status == MessageStatus.RECEIVED) {
+            message.getViewers().add(updateBy);
+        }
+
         messageRepository.save(message);
-        socketService.updateMessageStatus(messageId, message.getSenderId(), message.getRoomId(), status);
+        
+        socketService.updateMessageStatus(messageId, message.getRoomId(), status, updateBy);
     }
 
 }

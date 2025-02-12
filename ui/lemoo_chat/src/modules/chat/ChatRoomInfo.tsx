@@ -1,3 +1,4 @@
+import { ChatRoomDetailType } from "@/common/type/room.type";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import {
     Dialog,
@@ -8,14 +9,16 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog";
 
-type Props = {};
+type Props = {
+    room: ChatRoomDetailType;
+};
 
-const ChatRoomInfo = (props: Props) => {
+const ChatRoomInfo = ({ room }: Props) => {
     return (
         <Dialog>
             <DialogTrigger asChild>
                 <Avatar className="size-[45px] cursor-pointer">
-                    <AvatarImage src="https://i.pravatar.cc/150?img=31"></AvatarImage>
+                    <AvatarImage src={room.avatar}></AvatarImage>
                 </Avatar>
             </DialogTrigger>
             <DialogContent>

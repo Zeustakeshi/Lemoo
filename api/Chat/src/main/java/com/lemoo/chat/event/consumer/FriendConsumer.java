@@ -7,7 +7,7 @@
 
 package com.lemoo.chat.event.consumer;
 
-import com.lemoo.chat.event.eventModel.FriendCreatedEvent;
+import com.lemoo.chat.event.event.model.FriendCreatedEvent;
 import com.lemoo.chat.service.RoomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.annotation.KafkaListener;

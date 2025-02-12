@@ -6,6 +6,7 @@
 
 package com.lemoo.chat.entity;
 
+import com.lemoo.chat.common.enums.MessageStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -20,7 +21,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @SuperBuilder
 @Data
 public class Message extends BaseEntity {
-	private String senderId;
-	private String roomId;
-	private String text;
+    private String senderId;
+    private String roomId;
+    private String text;
+    private MessageStatus status;
 }

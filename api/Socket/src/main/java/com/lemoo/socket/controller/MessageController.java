@@ -8,9 +8,11 @@
 package com.lemoo.socket.controller;
 
 
+import com.lemoo.socket.common.enums.MessageStatus;
 import com.lemoo.socket.dto.chat.ChatMessage;
 import com.lemoo.socket.dto.common.AuthenticatedAccount;
 import com.lemoo.socket.event.event.model.NewMessageEvent;
+import com.lemoo.socket.event.event.model.UpdateMessageStatusEvent;
 import com.lemoo.socket.event.producer.ChatProducer;
 import com.lemoo.socket.utils.AuthHeaderExtractorService;
 import lombok.RequiredArgsConstructor;
@@ -37,6 +39,21 @@ public class MessageController {
                 .message(message.getMessage())
                 .roomId(roomId)
                 .senderId(account.getUserId())
+                .build());
+    }
+
+    @MessageMapping("/chats/{roomId}/messages/{messageId}/ack")
+    public void ackReceiveMessage(
+            @DestinationVariable("roomId") String roomId,
+            @DestinationVariable("messageId") String messageId,
+            SimpMessageHeaderAccessor headerAccessor
+    ) {
+        AuthenticatedAccount account = AuthHeaderExtractorService.extractAccountFormHeaderAccessor(headerAccessor);
+        chatProducer.updateMessageStatus(UpdateMessageStatusEvent.builder()
+                .messageId(messageId)
+                .roomId(roomId)
+                .senderId(account.getUserId())
+                .status(MessageStatus.RECEIVED)
                 .build());
     }
 

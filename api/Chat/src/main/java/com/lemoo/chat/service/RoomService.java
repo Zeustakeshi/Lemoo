@@ -7,6 +7,7 @@
 package com.lemoo.chat.service;
 
 import com.lemoo.chat.dto.common.AuthenticatedAccount;
+import com.lemoo.chat.dto.request.GroupRoomRequest;
 import com.lemoo.chat.dto.response.PageableResponse;
 import com.lemoo.chat.dto.response.RoomDetailResponse;
 import com.lemoo.chat.dto.response.RoomResponse;
@@ -21,4 +22,6 @@ public interface RoomService {
     RoomDetailResponse getRoomDetail(String roomId, AuthenticatedAccount account);
 
     Room findRoomById(String roomId);
+
+    boolean createGroupRoom(GroupRoomRequest request, AuthenticatedAccount account);
 }

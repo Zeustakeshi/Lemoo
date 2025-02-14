@@ -8,11 +8,9 @@ package com.lemoo.chat.service.impl;
 
 import com.lemoo.chat.common.enums.RoomType;
 import com.lemoo.chat.dto.common.AuthenticatedAccount;
-import com.lemoo.chat.dto.request.GroupRoomRequest;
 import com.lemoo.chat.dto.response.PageableResponse;
 import com.lemoo.chat.dto.response.RoomDetailResponse;
 import com.lemoo.chat.dto.response.RoomResponse;
-import com.lemoo.chat.entity.GroupRoom;
 import com.lemoo.chat.entity.Room;
 import com.lemoo.chat.entity.SingleRoom;
 import com.lemoo.chat.exception.NotfoundException;
@@ -51,19 +49,7 @@ public class RoomServiceImpl implements RoomService {
 
         roomRepository.save(room);
     }
-
-    @Override
-    public boolean createGroupRoom(GroupRoomRequest request, AuthenticatedAccount account) {
-        Set<String> validMembers = roomValidatorService.validateMemberRequest(request.getMembers());
-        validMembers.add(account.getUserId());
-
-        roomRepository.save(GroupRoom.builder()
-                .owner(account.getUserId())
-                .members(validMembers)
-                .build());
-        return true;
-    }
-
+    
     @Override
     public PageableResponse<RoomResponse> getAllRoom(int page, int limit, AuthenticatedAccount account) {
         PageRequest request = PageRequest.of(page, limit, Sort.by(Sort.Direction.DESC, "updatedAt"));

@@ -1,10 +1,11 @@
 package com.lemoo.user.service.impl;
 
-import com.lemoo.user.common.enums.FriendStatus;
 import com.lemoo.user.dto.response.FriendResponse;
 import com.lemoo.user.dto.response.PageableResponse;
 import com.lemoo.user.dto.response.UserResponse;
 import com.lemoo.user.entity.Friend;
+import com.lemoo.user.event.eventModel.FriendCreatedEvent;
+import com.lemoo.user.event.producer.ChatProducer;
 import com.lemoo.user.mapper.FriendMapper;
 import com.lemoo.user.mapper.PageMapper;
 import com.lemoo.user.repository.FriendRepository;
@@ -20,57 +21,50 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class FriendServiceImpl implements FriendService {
 
-	private final FriendRepository friendRepository;
+    private final FriendRepository friendRepository;
+    private final FriendMapper mapper;
+    private final PageMapper pageMapper;
+    private final UserService userService;
+    private final ChatProducer chatProducer;
 
-	private final FriendMapper mapper;
+    @Override
+    public PageableResponse<FriendResponse> getCurrentFriendList(String userId, int page, int limit) {
+        Page<Friend> friends = friendRepository.findAllByUserId(
+                userId, PageRequest.of(page, limit, Sort.by("createdAt").descending()));
 
-	private final PageMapper pageMapper;
+        return pageMapper.toPageableResponse(friends.map(friend -> {
+            String friendUserId = userId.equals(friend.getUser1Id()) ? friend.getUser2Id() : friend.getUser1Id();
 
-	private final UserService userService;
+            UserResponse friendInfo = userService.getUserProfile(friendUserId);
 
-	@Override
-	public PageableResponse<FriendResponse> getCurrentFriendList(String userId, int page, int limit) {
-		Page<Friend> friends = friendRepository.findAllByUserId(
-				userId, PageRequest.of(page, limit, Sort.by("createdAt").descending()));
+            return mapper.friendToResponse(friend, friendInfo);
+        }));
+    }
 
-		return pageMapper.toPageableResponse(friends.map(friend -> {
-			String friendUserId = userId.equals(friend.getUser1Id()) ? friend.getUser2Id() : friend.getUser1Id();
+    @Override
+    public void createFriend(String user1Id, String user2Id) {
+        Friend friend = friendRepository.save(Friend.builder()
+                .user1Id(user1Id)
+                .user2Id(user2Id)
+                .build());
 
-			UserResponse friendInfo = userService.getUserProfile(friendUserId);
+        chatProducer.createChatRoom(FriendCreatedEvent.builder()
+                .friendId(friend.getId())
+                .user1Id(friend.getUser1Id())
+                .user2Id(friend.getUser2Id())
+                .build());
+    }
 
-			return mapper.friendToResponse(friend, friendInfo);
-		}));
-	}
+    @Override
+    public PageableResponse<UserResponse> getRecommendFriendList(String userId, int page, int limit) {
+        Page<String> recommendFriends = friendRepository.findNonFriendUserIds(userId, PageRequest.of(page, limit));
+        Page<UserResponse> recommendFriendResponses = recommendFriends.map(userService::getUserProfile);
 
-	@Override
-	public void createFriend(String user1Id, String user2Id) {
-		Friend friend = Friend.builder()
-				.user1Id(user1Id)
-				.user2Id(user2Id)
-				.status(FriendStatus.ACCEPTED)
-				.build();
+        return pageMapper.toPageableResponse(recommendFriendResponses);
+    }
 
-		friendRepository.save(friend);
-		UserResponse user = userService.getUserProfile(user1Id);
-
-		//		friendProducer.acceptFriendRequest(AcceptFriendRequestEvent.builder()
-		//				.senderId(user1Id)
-		//				.receiverId(user.getId())
-		//				.receiverAvatar(user.getAvatar())
-		//				.receiverName(user.getDisplayName())
-		//				.build());
-	}
-
-	@Override
-	public PageableResponse<UserResponse> getRecommendFriendList(String userId, int page, int limit) {
-		Page<String> recommendFriends = friendRepository.findNonFriendUserIds(userId, PageRequest.of(page, limit));
-		Page<UserResponse> recommendFriendResponses = recommendFriends.map(userService::getUserProfile);
-
-		return pageMapper.toPageableResponse(recommendFriendResponses);
-	}
-
-	@Override
-	public boolean isExistingFriend(String user1Id, String user2Id) {
-		return friendRepository.existsFriendByUser1IdAndUser2Id(user1Id, user2Id);
-	}
+    @Override
+    public boolean isExistingFriend(String user1Id, String user2Id) {
+        return friendRepository.existsFriendByUser1IdAndUser2Id(user1Id, user2Id);
+    }
 }

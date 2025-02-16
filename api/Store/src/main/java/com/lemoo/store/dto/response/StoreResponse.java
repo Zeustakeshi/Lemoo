@@ -13,13 +13,12 @@ import lombok.Data;
 @Data
 @Builder
 public class StoreResponse {
-	private String id;
-	private String shortCode;
-	private String name;
-	private String companyName;
-	private boolean verified;
-	private String logo;
-	private String email;
-	private String phone;
-	private StoreStatus status;
+    private String id;
+    private String shortCode;
+    private String name;
+    private String companyName;
+    private String logo;
+    private String email;
+    private String phone;
+    private StoreStatus status;
 }

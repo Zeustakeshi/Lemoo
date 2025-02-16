@@ -1,7 +1,7 @@
 import memoize from "memoize";
-import * as tokenStore from "./tokenStore";
 
 import { TokenType } from "@/common/enums/token";
+import * as tokenStore from "@/lib/tokenStore";
 import { api } from "./api";
 import { clearLocalStorage, clearSessionStorage } from "./storage";
 
@@ -9,7 +9,8 @@ const refreshToken = async () => {
     const refreshToken = await tokenStore.getTokenValue(
         TokenType.REFRESH_TOKEN
     );
-    console.log("Refresh token");
+
+    alert("Refresh token");
     try {
         const data: any = await api({
             method: "POST",

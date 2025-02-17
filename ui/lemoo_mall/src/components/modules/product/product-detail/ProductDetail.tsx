@@ -1,12 +1,16 @@
-import { BadgeDollarSign, Star } from "lucide-react";
+import { Star } from "lucide-react";
 import ProductImage from "./ProductImage";
 import { Button } from "@/components/ui/button";
+import VoucherList from "@/components/voucher/VoucherList";
+import { ProductDetailData } from "@/data/product-detail.data";
+import { useState } from "react";
+import { formatMoneyVND } from "@/lib/utils";
+import { api } from "@/lib/api";
 
 const ProductDetail = () => {
-  // Các biến hằng số để dễ cấu hình
+  const respone = ProductDetailData;
   const productRating = 4;
   const maxRating = 5;
-  const sizes = ["S", "M", "L", "XL", "XXL", "XXXL"];
   const discountCodes = [
     {
       code: "ABCXYZ",
@@ -24,7 +28,6 @@ const ProductDetail = () => {
         "Nhập mã ABCXYZ để nhận ưu đãi giảm giá 10% cho đơn hàng từ 500.000đ",
     },
   ];
-
   // Dữ liệu sản phẩm liên quan (giả lập)
   const relatedProducts = [
     {
@@ -93,6 +96,54 @@ const ProductDetail = () => {
     },
   ];
 
+  const [selectSku, setSelectSku] = useState<SkuType>({
+    id: respone.data.content.id,
+    price: respone.data.content.price,
+  });
+
+  const [quantity, setQuantity] = useState(1);
+
+  const handleIncrease = () => setQuantity((prev) => prev + 1);
+  const handleDecrease = () => {
+    if (quantity > 1) setQuantity((prev) => prev - 1);
+  };
+  // Thêm vào giỏ hàng
+  const addToCart = async () => {
+    try {
+      // Thực hiện thêm vào giỏ hàng
+      const res = await api.post("/cart/add", {
+        productId: respone.data.content.id,
+        skuId: selectSku.id,
+        price: selectSku.price,
+        quantity: quantity, // sửa lại onchange
+      });
+      console.log("Thêm vào giỏ hàng thành công!");
+    } catch (error) {
+      console.error("Lỗi thêm vào giỏ hàng: ", error);
+    }
+  };
+
+  // Thêm vào giỏ hàng
+  const buyNow = async () => {
+    try {
+      // Thực hiện thêm vào giỏ hàng
+      const res = await api.post("/order/add", {
+        productId: respone.data.content.id,
+        skuId: selectSku.id,
+        price: selectSku.price,
+        quantity: quantity, // sửa lại onchange
+      });
+      console.log("Thêm vào giỏ hàng thành công!");
+    } catch (error) {
+      console.error("Lỗi thêm vào giỏ hàng: ", error);
+    }
+  };
+
+  type SkuType = {
+    id: string;
+    price: number;
+  };
+
   return (
     <div className="w-full p-6 bg-gray-50">
       {/* Responsive grid: 1 cột trên mobile, 12 cột trên md trở lên */}
@@ -102,7 +153,7 @@ const ProductDetail = () => {
           className="col-span-1 md:col-span-7 bg-white rounded-2xl shadow-lg flex items-center justify-center p-4"
           aria-label="Hình ảnh sản phẩm"
         >
-          <ProductImage />
+          <ProductImage images={respone.data.content.image} />
         </section>
 
         {/* --- Product Details Section --- */}
@@ -111,18 +162,38 @@ const ProductDetail = () => {
           aria-label="Thông tin chi tiết sản phẩm"
         >
           {/* Tên sản phẩm */}
-          <h1 className="text-4xl font-semibold text-gray-800">
-            Thun Polo Nam Thêu Chữ U
+          <h1 className="text-2xl font-semibold text-gray-800">
+            {respone.data.content.name}
           </h1>
 
-          {/* Danh mục */}
-          <div className="text-gray-600">
-            <span className="font-semibold">Danh mục:</span> Quần áo
-          </div>
-
-          {/* Giá sản phẩm */}
+          {/* Giá sản phẩm ---PHẢI ĐỘNG */}
           <div className="text-2xl font-semibold">
-            <span>₫</span> <span>1.200.000</span>
+            <span>{formatMoneyVND(selectSku.price)}</span>
+          </div>
+          <div className="flex items-center gap-4">
+            <span className="font-semibold">Số lượng:</span>
+            <div className="flex items-center border rounded-lg">
+              <Button
+                variant="outline"
+                onClick={handleDecrease}
+                className="px-3 py-1"
+              >
+                -
+              </Button>
+              <input
+                type="text"
+                value={quantity}
+                readOnly
+                className="w-12 text-center border-none outline-none"
+              />
+              <Button
+                variant="outline"
+                onClick={handleIncrease}
+                className="px-3 py-1"
+              >
+                +
+              </Button>
+            </div>
           </div>
 
           {/* Đánh giá sản phẩm */}
@@ -141,21 +212,16 @@ const ProductDetail = () => {
             </span>
           </div>
 
-          {/* Số lượng đã bán */}
-          <div className="flex items-center gap-2 text-gray-600">
-            <BadgeDollarSign />
-            <span className="font-semibold">Đã bán: 1000</span>
-          </div>
-
           {/* Biến thể – lựa chọn kích thước */}
           <div className="flex flex-wrap gap-2" aria-label="Chọn kích thước">
-            {sizes.map((size) => (
+            {respone.data.content.skus.map((item) => (
               <Button
-                key={size}
+                key={item.id}
                 variant="outline"
-                className="px-6 py-3 min-w-[3rem] font-semibold rounded-3xl hover:bg-gray-200 transition duration-300"
+                onClick={() => setSelectSku({ id: item.id, price: item.price })}
+                className="px-6 py-3 min-w-[3rem] font-semibold rounded-lg hover:bg-gray-200 transition duration-300"
               >
-                {size}
+                {item.name}
               </Button>
             ))}
           </div>
@@ -175,11 +241,8 @@ const ProductDetail = () => {
 
           {/* Mô tả sản phẩm */}
           <article className="text-gray-600">
-            <span className="font-semibold">Mô tả:</span> ÁO THUN POLO - Áo thun
-            Cotton 100% co dãn 4 chiều. ✔️ Size sz M L XL XXL. Size M: 35-45kg,
-            Size L: 45-55kg, Size XL: 55-65kg, Size XXL: 65-75kg. Tuỳ chiều cao,
-            có thể nhích size cho phù hợp. (Bảng cân nặng chỉ mang tính tương
-            đối.)
+            <span className="font-semibold">Mô tả:</span>{" "}
+            {respone.data.content.description}
           </article>
         </section>
 
@@ -193,12 +256,17 @@ const ProductDetail = () => {
             <div className="flex items-center gap-4">
               <img
                 className="w-12 h-12 rounded-full"
-                src="https://i.pinimg.com/474x/bb/84/e8/bb84e8891c5b8aea249381b5d7c936e5.jpg"
+                src={respone.data.content.store.storeLogo}
                 alt="Logo Shop"
               />
               <div>
-                <p className="font-semibold">Tên Shop</p>
-                <p className="text-sm text-gray-500">100+ sản phẩm | 4.8 sao</p>
+                <p className="font-semibold">
+                  {respone.data.content.store.storeName}
+                </p>
+                <p className="text-sm text-gray-500">
+                  {respone.data.content.store.followers} lượt theo dõi |{" "}
+                  {respone.data.content.store.rating} sao
+                </p>
               </div>
             </div>
             <div className="flex gap-2 mt-4 md:mt-0">
@@ -213,30 +281,14 @@ const ProductDetail = () => {
             <div className="md:w-2/3 p-4 border rounded-2xl shadow-sm bg-white">
               <h2 className="text-lg font-semibold">MÔ TẢ SẢN PHẨM</h2>
               <p className="text-gray-600 mt-2">
-                Mô tả chi tiết về sản phẩm, các tính năng và hướng dẫn sử
-                dụng...
+                {respone.data.content.long_description}
               </p>
-              <ul className="mt-2 text-gray-500 text-sm space-y-1 list-disc pl-5">
-                <li>Kích thước: 30x20 cm</li>
-                <li>Chất liệu: Cotton</li>
-                <li>Xuất xứ: Việt Nam</li>
-              </ul>
             </div>
             {/* Discount Codes */}
             <div className="md:w-1/3 p-4 border rounded-2xl shadow-sm bg-white">
-              <h2 className="text-lg font-semibold">Mã giảm giá của shop</h2>
               <div className="flex flex-col gap-4 overflow-auto max-h-60 mt-2">
                 {discountCodes.map((item, index) => (
-                  <div key={index} className="p-2 border-b last:border-b-0">
-                    <div className="border p-2 rounded-lg bg-red-300">
-                      <p className="text-red-900">{item.description}</p>
-                      <div className="flex items-center justify-end mt-2">
-                        <button className="mt-2 px-4 py-2 rounded-lg text-right text-sm bg-red-500">
-                          <p className="text-white"> Lưu</p>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
+                  <VoucherList key={index}></VoucherList>
                 ))}
               </div>
             </div>
@@ -244,7 +296,7 @@ const ProductDetail = () => {
 
           {/* Reviews Section */}
           <div className="p-4 border rounded-2xl shadow-sm bg-white">
-            <h2 className="text-lg font-semibold">ĐÁNH GIÁ SẢN PHẨM</h2>
+            <h2 className="text-lg font-semibold">ĐÁNH GIÁ SẢN PHẨM </h2>
             <div className="mt-4 space-y-4">
               {[1, 2, 3].map((review) => (
                 <div key={review} className="border-b pb-4">

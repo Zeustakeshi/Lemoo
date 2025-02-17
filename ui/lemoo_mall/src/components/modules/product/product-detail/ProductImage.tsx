@@ -6,14 +6,17 @@ import {
 
 import { useRef, useState } from "react";
 
-type Props = {};
+type Props = {
+  images: string[];
+};
 
-const ProductImage = (props: Props) => {
+const ProductImage = ({ images }: Props) => {
   const [zoomStyle, setZoomStyle] = useState({
     display: "none",
     zoomX: "0%",
     zoomY: "0%",
   });
+  const [selectedImage, setSelectedImage] = useState<string>(images[0]);
 
   const imageZoomRef = useRef<HTMLDivElement>(null);
 
@@ -50,8 +53,7 @@ const ProductImage = (props: Props) => {
             width: "550px",
             height: "700px",
             position: "relative",
-            "--url":
-              "url(https://i.pinimg.com/736x/d9/a6/61/d9a6614827a5b1ef4135119fb0e04398.jpg)",
+            "--url": `url(${selectedImage})`,
             "--zoom-x": zoomStyle.zoomX,
             "--zoom-y": zoomStyle.zoomY,
             "--display": zoomStyle.display,
@@ -61,7 +63,7 @@ const ProductImage = (props: Props) => {
         onMouseOut={handleMouseOut}
       >
         <img
-          src="https://i.pinimg.com/736x/d9/a6/61/d9a6614827a5b1ef4135119fb0e04398.jpg"
+          src={selectedImage}
           alt=""
           style={{
             width: "100%",
@@ -91,15 +93,16 @@ const ProductImage = (props: Props) => {
       <Carousel className="p-2 w-full">
         <div className="relative">
           <CarouselContent>
-            {Array.from({ length: 3 }).map((_, index) => (
+            {images.map((image, index) => (
               <CarouselItem
                 key={index}
                 className="max-w-max w-max cursor-pointer"
+                onClick={() => setSelectedImage(image)}
               >
                 <div className="w-[50px] p-1 rounded-md border border-primary aspect-square">
                   <img
                     className="size-full object-contain"
-                    src="https://picsum.photos/200"
+                    src={image}
                     alt={`Thumbnail ${index + 1}`}
                   />
                 </div>

@@ -1,0 +1,40 @@
+name: chat_service_deployment
+on:
+  push:
+    branches:
+      - test/deployment
+    paths:
+      - 'api/Chat/**'
+      - '.github/workflows/ci_chat_service_deployment.yml'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      MONGODB_URI: "mongodb://mongo:XjGzleHCOCKjCqXTmVkfmhHKNYeHFowG@trolley.proxy.rlwy.net:58540"
+      MONGODB_NAME: "test"
+      REDIS_URL: "redis://default:UoSwtXHXZiJSlIaqiWtayviaNGOibxQL@yamanote.proxy.rlwy.net:20625"
+      USER_SERVICE_URL: "http://user-service"
+      AUTH_SERVICE_URL: "http://auth-service"
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+      - name: Build with Maven
+        working-directory: ./api/Chat
+        run: mvn clean package
+      - name: Build the Docker image
+        working-directory: ./api/Chat
+        run: docker build . --file Dockerfile --tag zeustakeshi/lemoo-chat-service:latest
+      - name: login Dockerhub
+        run: |
+          docker login -u "zeustakeshi" -p ${{ secrets.DOCKER_HUB_TOKEN }}
+          docker push zeustakeshi/lemoo-chat-service:latest
+          
+          
+          
+          

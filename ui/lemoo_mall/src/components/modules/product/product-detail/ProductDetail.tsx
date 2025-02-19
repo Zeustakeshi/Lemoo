@@ -112,9 +112,10 @@ const ProductDetail = () => {
     try {
       // Thực hiện thêm vào giỏ hàng
       const res = await api.post("/cart/add", {
+        // storeID
         productId: respone.data.content.id,
         skuId: selectSku.id,
-        price: selectSku.price,
+        // price: selectSku.price,
         quantity: quantity, // sửa lại onchange
       });
       console.log("Thêm vào giỏ hàng thành công!");

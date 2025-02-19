@@ -10,7 +10,8 @@ type CategoryMenuProps = {
 const GetCategory = async () => {
   const response = await api.get("/categories");
   const categories = response.data?.data?.content || [];
-  console.log("Danh mục từ API:", categories);
+  console.log("Danh mục từ categories:", categories);
+  console.log("Danh mục từ response:", response);
   return categories;
 };
 // Hàm gọi API lấy danh mục con

@@ -28,8 +28,8 @@ spring:
         spring.json.trusted.packages: '*'
 server:
   port: 8090
-#  servlet:
-#    context-path: /products
+  servlet:
+    context-path: /products
 services:
   auth-service: ${AUTH_SERVICE_URL:http://localhost:8082/auth}
   store-service: ${STORE_SERVICE_URL:http://localhost:8088/store}

@@ -8,7 +8,7 @@ import { LoginType } from "@/schemas/auth.schema";
 
 export const login = async (data: LoginType): Promise<TokenType> => {
     if (ENVIRONMENT === "dev") return await sleep<TokenType>(token, 500);
-    return await api.post("admin/auth/login", data);
+    return await api.post("/auth/admin/login", data);
 };
 
 export const getUseInfo = async (): Promise<User> => {

@@ -2,6 +2,8 @@ import { z } from "zod";
 
 // Schema cho form
 export const schema = z.object({
+  name: z.string({message: "Trường bắt buộc"}).min(8, "This is so large"),
+
     identityCardName: z.string({message: "Trường bắt buộc"}).min(8, "This is so large"),
     identityCardNumber: z.string({message: "Trường bắt buộc"}).min(12, 'Đúng 12 chữ số'),
     // avatar: z
@@ -18,3 +20,5 @@ export const schema = z.object({
     bankCode: z.string({message:"Trường bắt buộc"}),
     bankBin:z.string({message:"Trường bắt buộc"}),
   });
+
+ export type FormUsers = z.infer<typeof schema>;

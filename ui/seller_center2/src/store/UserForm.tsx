@@ -3,7 +3,8 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { schema } from "../schema/StoreCreate";
 
-
+import { FormUsers } from "../schema/StoreCreate";
+ 
 import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
 import TypeBusiness from "./TypeBusiness";
 import { useState } from "react";
@@ -11,20 +12,36 @@ import Individual from "./Individual";
 import Corporate from "./Corporate";
 import TaxIdentificationNumber from "./TaxIdentificationNumber";
 import Bank from "./Bank";
+import InputText from "./InputText";
+
+import FormData from "form-data"
+import { createIndividualStore} from "../api/store.api";
 
 
-type FormUsers = z.infer<typeof schema>;
 
 const UserForm = () => {
   const { register, handleSubmit, setValue, formState:{errors} } = useForm<FormUsers>({
     resolver: zodResolver(schema),
   });
 
-  const onSubmit: SubmitHandler<FormUsers> = (data) => {
-    console.log("Submitted Data:", {
-      ...data,
-      // avatar: data.avatar ? data.avatar.name : "No file selected",
-    });
+  const onSubmit:  SubmitHandler<FormUsers> = async (data) => {
+    
+    const formdata = new FormData();
+    formdata.append('name' , data.name)
+    formdata.append('identityCardName' , data.identityCardName)
+    formdata.append('identityCardNumber' , data.identityCardNumber)
+    formdata.append('identityCardFrontSide' , data.identityCardFrontSide)
+    formdata.append('identityCardBackSide' , data.identityCardBackSide)
+    formdata.append('TIN' , data.TIN)
+    formdata.append('taxRegistrationDocument' , data.taxRegistrationDocument)
+    formdata.append('bankDocument' , data.bankDocument)
+    formdata.append('bankAccountName' , data.bankAccountName)
+    formdata.append('bankAccountNumber' , data.bankAccountNumber)
+    formdata.append('bankName' , data.bankName)
+    formdata.append('bankCode' , data.bankCode)
+    formdata.append('bankBin' , data.bankBin)
+
+    await createIndividualStore(formdata)
   };
 
   const [selectedTypeBusiness, setSelectedTypeBusiness] =
@@ -34,6 +51,7 @@ const UserForm = () => {
 
   return (
     <div className="flex flex-col gap-2">
+      
       <p className="font-sans font-bold text-[22px]">
         Xác minh Thông tin Chủ gian hàng để nhận Thanh Toán!
       </p>
@@ -42,6 +60,7 @@ const UserForm = () => {
         <p className="font-sans">Thông tin tài khoản của bạn được bảo mật</p>
       </div>
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+      <InputText label="Nhập tên cửa hàng" name="name" register={register} errors={errors} />
         <TypeBusiness
           selectedType={selectedTypeBusiness}
           setSelectedType={setSelectedTypeBusiness}
@@ -62,5 +81,7 @@ const UserForm = () => {
     </div>
   );
 };
+
+
 
 export default UserForm;

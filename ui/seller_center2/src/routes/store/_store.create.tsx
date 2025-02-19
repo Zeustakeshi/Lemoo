@@ -1,7 +1,3 @@
-
-import { createFileRoute } from '@tanstack/react-router'
-import CreateStore from '../../modules/store/CreateStore'
-
 import { createFileRoute } from "@tanstack/react-router";
 import UserForm from "../../store/UserForm";
 
@@ -13,7 +9,6 @@ function RouteComponent() {
 
   return (
     <div>
-      <p></p>
       <UserForm />
     </div>
   );

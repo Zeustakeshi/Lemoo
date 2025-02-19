@@ -52,7 +52,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             setIsAuthenticated(true);
         } catch (error: any) {
             console.log({ error });
-            await logout();
+            // await logout();
         }
     }, []);
 

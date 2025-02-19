@@ -2,6 +2,7 @@
 <project version="4">
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/api/Admin/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/api/Admin/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/api/Auth/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/api/Chat/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/api/Chats/src/main/java" charset="UTF-8" />
@@ -12,6 +13,7 @@
     <file url="file://$PROJECT_DIR$/api/Product/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/api/Promotion/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/api/Shipping/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/api/Socket/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/api/Store/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/api/User/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/api/Video/src/main/java" charset="UTF-8" />

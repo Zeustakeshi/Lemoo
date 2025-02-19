@@ -9,22 +9,6 @@
         <outputRelativeToContentRoot value="true" />
         <module name="Gateway" />
       </profile>
-      <profile name="Annotation profile for Chat" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct/1.5.5.Final/mapstruct-1.5.5.Final.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.34/lombok-1.18.34.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct/1.5.5.Final/mapstruct-1.5.5.Final.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.34/lombok-1.18.34.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
-        </processorPath>
-        <module name="Chat" />
-      </profile>
       <profile name="Annotation profile for User" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
@@ -35,6 +19,7 @@
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.34/lombok-1.18.34.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
         </processorPath>
+        <module name="Chat" />
         <module name="Store" />
         <module name="User" />
         <module name="Auth" />
@@ -56,19 +41,16 @@
         <module name="Shipping" />
         <module name="Promotion" />
         <module name="Admin" />
+        <module name="Socket" />
         <module name="Notification" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="Voucher" target="17" />
-    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="Admin" options="-parameters -Amapstruct.defaultComponentModel=spring" />
       <module name="Auth" options="-parameters -Amapstruct.defaultComponentModel=spring" />
       <module name="Chat" options="-parameters -Amapstruct.defaultComponentModel=spring" />
-      <module name="Chats" options="-parameters" />
       <module name="Gateway" options="-parameters" />
       <module name="Media" options="-parameters -Amapstruct.defaultComponentModel=spring" />
       <module name="Notification" options="-parameters -Amapstruct.defaultComponentModel=spring" />
@@ -76,10 +58,10 @@
       <module name="Product" options="-parameters -Amapstruct.defaultComponentModel=spring" />
       <module name="Promotion" options="-parameters -Amapstruct.defaultComponentModel=spring" />
       <module name="Shipping" options="-parameters -Amapstruct.defaultComponentModel=spring" />
+      <module name="Socket" options="-parameters -Amapstruct.defaultComponentModel=spring" />
       <module name="Store" options="-parameters -Amapstruct.defaultComponentModel=spring" />
       <module name="User" options="-parameters -Amapstruct.defaultComponentModel=spring" />
       <module name="Video" options="-parameters -Amapstruct.defaultComponentModel=spring" />
-      <module name="Voucher" options="-parameters -Amapstruct.defaultComponentModel=spring" />
     </option>
   </component>
 </project>

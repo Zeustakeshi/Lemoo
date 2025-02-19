@@ -6,7 +6,6 @@
 
 package com.lemoo.user.event.producer;
 
-import com.lemoo.user.event.eventModel.NewUserEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
@@ -14,9 +13,6 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class UserProducer {
-	private final KafkaTemplate<String, Object> userTemplate;
+    private final KafkaTemplate<String, Object> userTemplate;
 
-	public void createUserProfile(NewUserEvent event) {
-		userTemplate.send("new_user", event);
-	}
 }

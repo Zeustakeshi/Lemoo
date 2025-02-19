@@ -1,9 +1,14 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute } from "@tanstack/react-router";
+import StoreDashboard from "../../modules/store/StoreDashboard";
 
-export const Route = createFileRoute('/store/_store/dashboard')({
+export const Route = createFileRoute("/store/_store/dashboard")({
   component: RouteComponent,
-})
+});
 
 function RouteComponent() {
-  return <div>Hello "/store/_store/dashboard"!</div>
+  return (
+    <div>
+      <StoreDashboard />
+    </div>
+  );
 }

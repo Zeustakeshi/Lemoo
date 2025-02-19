@@ -2,6 +2,12 @@ import { z } from "zod";
 
 // Tạo schema với Zod
 export const CreateStoreSchema = z.object({
+
+    identityCardFrontSide: z
+        .custom<File>((val) => val instanceof File, {
+            message: "Mặt trước CMND/CCCD phải là một tệp hợp lệ",
+        })
+        .nullable(),
   name: z.string()
     .min(1, "Tên cửa hàng là bắt buộc")
     .max(100, "Tên cửa hàng không được vượt quá 100 ký tự"),
@@ -52,7 +58,7 @@ export const CreateStoreSchema = z.object({
 
   bankBin: z.string()
     .regex(/^\d{6}$/, "Mã BIN ngân hàng phải là 6 chữ số"),
+
 });
 
 // Suy ra kiểu dữ liệu từ schema
-

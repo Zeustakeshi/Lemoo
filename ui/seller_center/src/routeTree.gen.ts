@@ -16,6 +16,7 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as Test2Import } from './routes/test2'
 import { Route as TestImport } from './routes/Test'
 import { Route as ReviewsoverReviewImport } from './routes/Reviews_overReview'
+import { Route as TestStoreCreateIndexImport } from './routes/test-store-create/index'
 import { Route as StoreCreatStoreImport } from './routes/Store/CreatStore'
 import { Route as PromotionStoreFlashSaleImport } from './routes/Promotion/StoreFlashSale'
 import { Route as PromotionRegularVoucherImport } from './routes/Promotion/RegularVoucher'
@@ -58,6 +59,12 @@ const IndexLazyRoute = IndexLazyImport.update({
   path: '/',
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
+
+const TestStoreCreateIndexRoute = TestStoreCreateIndexImport.update({
+  id: '/test-store-create/',
+  path: '/test-store-create/',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const StoreCreatStoreRoute = StoreCreatStoreImport.update({
   id: '/Store/CreatStore',
@@ -247,6 +254,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StoreCreatStoreImport
       parentRoute: typeof rootRoute
     }
+    '/test-store-create/': {
+      id: '/test-store-create/'
+      path: '/test-store-create'
+      fullPath: '/test-store-create'
+      preLoaderRoute: typeof TestStoreCreateIndexImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -269,6 +283,7 @@ export interface FileRoutesByFullPath {
   '/Promotion/RegularVoucher': typeof PromotionRegularVoucherRoute
   '/Promotion/StoreFlashSale': typeof PromotionStoreFlashSaleRoute
   '/Store/CreatStore': typeof StoreCreatStoreRoute
+  '/test-store-create': typeof TestStoreCreateIndexRoute
 }
 
 export interface FileRoutesByTo {
@@ -288,6 +303,7 @@ export interface FileRoutesByTo {
   '/Promotion/RegularVoucher': typeof PromotionRegularVoucherRoute
   '/Promotion/StoreFlashSale': typeof PromotionStoreFlashSaleRoute
   '/Store/CreatStore': typeof StoreCreatStoreRoute
+  '/test-store-create': typeof TestStoreCreateIndexRoute
 }
 
 export interface FileRoutesById {
@@ -308,6 +324,7 @@ export interface FileRoutesById {
   '/Promotion/RegularVoucher': typeof PromotionRegularVoucherRoute
   '/Promotion/StoreFlashSale': typeof PromotionStoreFlashSaleRoute
   '/Store/CreatStore': typeof StoreCreatStoreRoute
+  '/test-store-create/': typeof TestStoreCreateIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -329,6 +346,7 @@ export interface FileRouteTypes {
     | '/Promotion/RegularVoucher'
     | '/Promotion/StoreFlashSale'
     | '/Store/CreatStore'
+    | '/test-store-create'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -347,6 +365,7 @@ export interface FileRouteTypes {
     | '/Promotion/RegularVoucher'
     | '/Promotion/StoreFlashSale'
     | '/Store/CreatStore'
+    | '/test-store-create'
   id:
     | '__root__'
     | '/'
@@ -365,6 +384,7 @@ export interface FileRouteTypes {
     | '/Promotion/RegularVoucher'
     | '/Promotion/StoreFlashSale'
     | '/Store/CreatStore'
+    | '/test-store-create/'
   fileRoutesById: FileRoutesById
 }
 
@@ -385,6 +405,7 @@ export interface RootRouteChildren {
   PromotionRegularVoucherRoute: typeof PromotionRegularVoucherRoute
   PromotionStoreFlashSaleRoute: typeof PromotionStoreFlashSaleRoute
   StoreCreatStoreRoute: typeof StoreCreatStoreRoute
+  TestStoreCreateIndexRoute: typeof TestStoreCreateIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -404,6 +425,7 @@ const rootRouteChildren: RootRouteChildren = {
   PromotionRegularVoucherRoute: PromotionRegularVoucherRoute,
   PromotionStoreFlashSaleRoute: PromotionStoreFlashSaleRoute,
   StoreCreatStoreRoute: StoreCreatStoreRoute,
+  TestStoreCreateIndexRoute: TestStoreCreateIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -431,7 +453,8 @@ export const routeTree = rootRoute
         "/Promotion/Promotion",
         "/Promotion/RegularVoucher",
         "/Promotion/StoreFlashSale",
-        "/Store/CreatStore"
+        "/Store/CreatStore",
+        "/test-store-create/"
       ]
     },
     "/": {
@@ -481,6 +504,9 @@ export const routeTree = rootRoute
     },
     "/Store/CreatStore": {
       "filePath": "Store/CreatStore.tsx"
+    },
+    "/test-store-create/": {
+      "filePath": "test-store-create/index.tsx"
     }
   }
 }

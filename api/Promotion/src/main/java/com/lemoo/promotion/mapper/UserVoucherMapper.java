@@ -7,10 +7,10 @@
 package com.lemoo.promotion.mapper;
 
 import com.lemoo.promotion.dto.response.UserVoucherResponse;
-import com.lemoo.promotion.entity.UserVoucher;
+import com.lemoo.promotion.entity.CollectedVoucher;
 import org.mapstruct.Mapper;
 
 @Mapper
 public interface UserVoucherMapper {
-    UserVoucherResponse toUserVoucherResponse(UserVoucher userVoucher);
+    UserVoucherResponse toUserVoucherResponse(CollectedVoucher collectedVoucher);
 }

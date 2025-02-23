@@ -7,7 +7,7 @@
 
 package com.lemoo.promotion.dto.response;
 
-import com.lemoo.promotion.common.enums.UserVoucherStatus;
+import com.lemoo.promotion.common.enums.CollectedVoucherStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,6 +21,6 @@ import java.time.LocalDateTime;
 @Builder
 public class UserVoucherResponse {
     private String voucherId;
-    private UserVoucherStatus status;
+    private CollectedVoucherStatus status;
     private LocalDateTime collectedAt;
 }

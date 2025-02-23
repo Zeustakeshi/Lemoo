@@ -19,8 +19,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class RegularVoucherRequest extends SellerVoucherRequest {
-    @Min(100000)
+public class RegularVoucherRequest extends BaseVoucherRequest {
+    @Min(100_000)
     private Long budget;
 
     @NotNull

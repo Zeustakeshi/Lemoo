@@ -16,6 +16,6 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @SuperBuilder
-public class FirstPurchaseVoucherResponse extends SellerVoucherResponse {
+public class FirstPurchaseVoucherResponse extends BaseVoucherResponse {
     private LocalDateTime voucherExpireIn;
 }

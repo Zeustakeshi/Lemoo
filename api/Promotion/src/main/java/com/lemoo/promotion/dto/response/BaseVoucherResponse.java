@@ -1,54 +1,41 @@
 /*
- *  BaseVouchderRequest
+ *  VoucherResponse
  *  @author: Minhhieuano
- *  @created 12/28/2024 1:00 AM
+ *  @created 12/31/2024 1:35 PM
  * */
 
-package com.lemoo.promotion.dto.request;
+
+package com.lemoo.promotion.dto.response;
 
 import com.lemoo.promotion.common.enums.DiscountType;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import com.lemoo.promotion.common.enums.VoucherScope;
+import com.lemoo.promotion.common.enums.VoucherStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public abstract class SellerVoucherRequest {
-    @NotEmpty
-    @Size(min = 5, max = 50)
+@SuperBuilder
+public abstract class BaseVoucherResponse {
+    private String id;
     private String name;
-
-    @NotNull
+    private VoucherStatus status;
     private LocalDateTime periodStartTime;
-
-    @NotNull
     private LocalDateTime periodEndTime;
-
     private LocalDateTime collectStartTime;
-
-    @NotNull
+    private VoucherScope scope;
     private DiscountType discountType;
-
-    @NotNull
-    @Min(1)
     private Long discountValue;
-
-    @Min(1000)
-    @NotNull
     private Long minimumOrderValue;
-
-    private Long maximumDiscountValue;
-
-    @Min(1)
-    @NotNull
+    private Long
+            maximumDiscountValue;
     private Long totalAvailable;
-
-
+    private Long limit;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }

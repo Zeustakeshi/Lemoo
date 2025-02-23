@@ -7,7 +7,7 @@
 
 package com.lemoo.promotion.entity;
 
-import com.lemoo.promotion.common.enums.UserVoucherStatus;
+import com.lemoo.promotion.common.enums.CollectedVoucherStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -22,7 +22,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
-public class UserVoucher extends BaseEntity {
+public class CollectedVoucher extends BaseEntity {
 
     @Indexed
     private String voucherId;
@@ -30,7 +30,7 @@ public class UserVoucher extends BaseEntity {
     @Indexed
     private String userId;
 
-    private UserVoucherStatus status;
-    
+    private CollectedVoucherStatus status;
+
     private LocalDateTime collectedAt;
 }

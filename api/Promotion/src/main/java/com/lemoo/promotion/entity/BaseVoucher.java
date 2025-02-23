@@ -22,7 +22,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
-public abstract class SellerVoucher extends BaseEntity {
+public class BaseVoucher extends BaseEntity {
     private String name; // Title or description of the voucher
 
     @Indexed

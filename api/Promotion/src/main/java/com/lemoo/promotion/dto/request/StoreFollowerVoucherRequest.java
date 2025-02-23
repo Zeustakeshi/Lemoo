@@ -7,8 +7,6 @@
 
 package com.lemoo.promotion.dto.request;
 
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -16,10 +14,7 @@ import java.time.LocalDateTime;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class StoreFollowerVoucherRequest extends SellerVoucherRequest {
+public class StoreFollowerVoucherRequest extends BaseVoucherRequest {
     private LocalDateTime voucherExpireIn;
-
-    @Min(1)
-    @NotNull
-    private Long limit;
+    private Integer limit;
 }

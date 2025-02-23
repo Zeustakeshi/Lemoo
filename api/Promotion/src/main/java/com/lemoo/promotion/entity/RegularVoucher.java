@@ -18,6 +18,6 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class RegularVoucher extends SellerVoucher {
+public class RegularVoucher extends BaseVoucher {
     private Long budget;
 }

@@ -20,6 +20,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
-public class StoreFollowerVoucher extends SellerVoucher {
+public class StoreFollowerVoucher extends BaseVoucher {
     private LocalDateTime voucherExpireIn;
 }

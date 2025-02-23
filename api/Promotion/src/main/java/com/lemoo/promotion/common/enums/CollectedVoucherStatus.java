@@ -9,7 +9,7 @@ package com.lemoo.promotion.common.enums;
 /**
  * Enum representing the various statuses of a user's voucher in the application.
  */
-public enum UserVoucherStatus {
+public enum CollectedVoucherStatus {
 
     /**
      * The voucher is active and can be used.

@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class FirstPurchaseVoucherRequest extends SellerVoucherRequest {
+public class FirstPurchaseVoucherRequest extends BaseVoucherRequest {
     @NotNull
     private VoucherScope scope;
     private LocalDateTime voucherExpireIn;

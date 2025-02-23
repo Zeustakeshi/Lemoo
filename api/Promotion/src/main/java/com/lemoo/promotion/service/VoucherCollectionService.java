@@ -11,7 +11,7 @@ import com.lemoo.promotion.dto.response.UserVoucherResponse;
 
 import java.util.Set;
 
-public interface UserVoucherService {
+public interface VoucherCollectionService {
     void checkOrderVoucher(String orderId, String userId, Set<String> promotions);
 
     UserVoucherResponse collectVoucher(AuthenticatedAccount account, String voucherId);

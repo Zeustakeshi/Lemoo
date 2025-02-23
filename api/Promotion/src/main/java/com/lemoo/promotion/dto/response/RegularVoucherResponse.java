@@ -14,6 +14,6 @@ import lombok.experimental.SuperBuilder;
 @EqualsAndHashCode(callSuper = true)
 @SuperBuilder
 @Data
-public class RegularVoucherResponse extends SellerVoucherResponse {
+public class RegularVoucherResponse extends BaseVoucherResponse {
     private Long budget;
 }

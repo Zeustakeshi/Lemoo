@@ -2,13 +2,14 @@ import { Star } from "lucide-react";
 import ProductImage from "./ProductImage";
 import { Button } from "@/components/ui/button";
 import VoucherList from "@/components/voucher/VoucherList";
-import { ProductDetailData } from "@/data/product-detail.data";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { formatMoneyVND } from "@/lib/utils";
 import { api } from "@/lib/api";
+import { TypeProdcutDetail } from "@/common/type/product.type";
+import { ProductCardRatting } from "@/components/product/ProductCard";
+import Ratting from "@/components/ui/ratting";
 
 const ProductDetail = () => {
-  const respone = ProductDetailData;
   const productRating = 4;
   const maxRating = 5;
   const discountCodes = [
@@ -95,53 +96,58 @@ const ProductDetail = () => {
       rating: 4,
     },
   ];
-
-  const [selectSku, setSelectSku] = useState<SkuType>({
-    id: respone.data.content.id,
-    price: respone.data.content.price,
-  });
-
+  type SkuType = {
+    id: string;
+    price: number;
+  };
+  const [dataRespone, setDataRespone] = useState<TypeProdcutDetail>();
+  const [selectSku, setSelectSku] = useState<SkuType>();
   const [quantity, setQuantity] = useState(1);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await api.get("/products/buyer/{productId}");
+        setDataRespone(response);
+        setSelectSku({
+          id: response?.skus[0].lemooSku ?? "",
+          price: response?.skus[0].originPrice ?? 0,
+        });
+        console.log(response);
+      } catch (error) {
+        console.error("Error fetching product details:", error);
+      }
+    };
+    fetchData();
+  }, []);
 
   const handleIncrease = () => setQuantity((prev) => prev + 1);
   const handleDecrease = () => {
     if (quantity > 1) setQuantity((prev) => prev - 1);
   };
+
   // Thêm vào giỏ hàng
   const addToCart = async () => {
-    try {
+    const data = {
       // Thực hiện thêm vào giỏ hàng
-      const res = await api.post("/cart/add", {
-        productId: respone.data.content.id,
-        skuId: selectSku.id,
-        price: selectSku.price,
-        quantity: quantity, // sửa lại onchange
-      });
-      console.log("Thêm vào giỏ hàng thành công!");
-    } catch (error) {
-      console.error("Lỗi thêm vào giỏ hàng: ", error);
-    }
+      productId: dataRespone?.id ?? "",
+      skuId: selectSku?.id,
+      price: selectSku?.price,
+      quantity: quantity, // sửa lại onchange
+    };
+    console.log("Thêm vào giỏ hàng thành công!, dữ liệu: ", data);
   };
 
   // Thêm vào giỏ hàng
   const buyNow = async () => {
-    try {
+    const data = {
       // Thực hiện thêm vào giỏ hàng
-      const res = await api.post("/order/add", {
-        productId: respone.data.content.id,
-        skuId: selectSku.id,
-        price: selectSku.price,
-        quantity: quantity, // sửa lại onchange
-      });
-      console.log("Thêm vào giỏ hàng thành công!");
-    } catch (error) {
-      console.error("Lỗi thêm vào giỏ hàng: ", error);
-    }
-  };
-
-  type SkuType = {
-    id: string;
-    price: number;
+      productId: dataRespone?.id ?? "",
+      skuId: selectSku?.id,
+      price: selectSku?.price,
+      quantity: quantity,
+    };
+    console.log("Mua thành công!, dữ liệu: ", data);
   };
 
   return (
@@ -153,7 +159,7 @@ const ProductDetail = () => {
           className="col-span-1 md:col-span-7 bg-white rounded-2xl shadow-lg flex items-center justify-center p-4"
           aria-label="Hình ảnh sản phẩm"
         >
-          <ProductImage images={respone.data.content.image} />
+          {dataRespone && <ProductImage images={dataRespone.images} />}
         </section>
 
         {/* --- Product Details Section --- */}
@@ -163,12 +169,12 @@ const ProductDetail = () => {
         >
           {/* Tên sản phẩm */}
           <h1 className="text-2xl font-semibold text-gray-800">
-            {respone.data.content.name}
+            {dataRespone?.name}
           </h1>
 
           {/* Giá sản phẩm ---PHẢI ĐỘNG */}
           <div className="text-2xl font-semibold">
-            <span>{formatMoneyVND(selectSku.price)}</span>
+            <span>{selectSku ? formatMoneyVND(selectSku.price) : ""}</span>
           </div>
           <div className="flex items-center gap-4">
             <span className="font-semibold">Số lượng:</span>
@@ -197,28 +203,22 @@ const ProductDetail = () => {
           </div>
 
           {/* Đánh giá sản phẩm */}
-          <div className="flex items-center gap-1">
-            {Array.from({ length: maxRating }, (_, i) => (
-              <Star
-                key={i}
-                size={20}
-                className={
-                  i < productRating ? "text-yellow-400" : "text-gray-300"
-                }
-              />
-            ))}
-            <span className="ml-2 text-gray-600">
-              {productRating}/{maxRating}
-            </span>
-          </div>
+          <Ratting
+            value={dataRespone?.ratting ?? 0}
+            readOnly
+            className="my-1"
+            size={100}
+          ></Ratting>
 
           {/* Biến thể – lựa chọn kích thước */}
           <div className="flex flex-wrap gap-2" aria-label="Chọn kích thước">
-            {respone.data.content.skus.map((item) => (
+            {dataRespone?.skus.map((item) => (
               <Button
                 key={item.id}
                 variant="outline"
-                onClick={() => setSelectSku({ id: item.id, price: item.price })}
+                onClick={() =>
+                  setSelectSku({ id: item.lemooSku, price: item.originPrice })
+                }
                 className="px-6 py-3 min-w-[3rem] font-semibold rounded-lg hover:bg-gray-200 transition duration-300"
               >
                 {item.name}
@@ -228,10 +228,14 @@ const ProductDetail = () => {
 
           {/* Nút hành động */}
           <div className="flex flex-col gap-2">
-            <Button className="px-6 py-3 bg-gray-700 text-white font-semibold rounded-3xl hover:bg-blue-600 transition duration-300">
+            <Button
+              onClick={buyNow}
+              className="px-6 py-3 bg-gray-700 text-white font-semibold rounded-3xl hover:bg-blue-600 transition duration-300"
+            >
               Mua Ngay
             </Button>
             <Button
+              onClick={addToCart}
               variant="outline"
               className="px-6 py-3 border border-gray-800 text-gray-800 font-semibold rounded-3xl hover:bg-gray-200 transition duration-300"
             >
@@ -242,7 +246,7 @@ const ProductDetail = () => {
           {/* Mô tả sản phẩm */}
           <article className="text-gray-600">
             <span className="font-semibold">Mô tả:</span>{" "}
-            {respone.data.content.description}
+            {dataRespone?.description}
           </article>
         </section>
 
@@ -256,17 +260,12 @@ const ProductDetail = () => {
             <div className="flex items-center gap-4">
               <img
                 className="w-12 h-12 rounded-full"
-                src={respone.data.content.store.storeLogo}
+                src="https://i.pinimg.com/736x/bb/84/e8/bb84e8891c5b8aea249381b5d7c936e5.jpg"
                 alt="Logo Shop"
               />
               <div>
-                <p className="font-semibold">
-                  {respone.data.content.store.storeName}
-                </p>
-                <p className="text-sm text-gray-500">
-                  {respone.data.content.store.followers} lượt theo dõi |{" "}
-                  {respone.data.content.store.rating} sao
-                </p>
+                <p className="font-semibold">{dataRespone?.storeId}</p>
+                <p className="text-sm text-gray-500">lượt theo dõi | sao</p>
               </div>
             </div>
             <div className="flex gap-2 mt-4 md:mt-0">
@@ -280,9 +279,7 @@ const ProductDetail = () => {
             {/* Product Information */}
             <div className="md:w-2/3 p-4 border rounded-2xl shadow-sm bg-white">
               <h2 className="text-lg font-semibold">MÔ TẢ SẢN PHẨM</h2>
-              <p className="text-gray-600 mt-2">
-                {respone.data.content.long_description}
-              </p>
+              <p className="text-gray-600 mt-2">{dataRespone?.description}</p>
             </div>
             {/* Discount Codes */}
             <div className="md:w-1/3 p-4 border rounded-2xl shadow-sm bg-white">

@@ -13,7 +13,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserVoucherRepository extends MongoRepository<CollectedVoucher, String> {
+public interface CollectedVoucherRepository extends MongoRepository<CollectedVoucher, String> {
     Page<CollectedVoucher> findAllByUserId(String userId, Pageable pageable);
 
     boolean existsByUserIdAndVoucherId(String userId, String voucherId);

@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class VoucherProductController {
     private final VoucherProductService voucherProductService;
-
+    
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ApiResponse<?> updateVoucherProduct(
@@ -34,5 +34,4 @@ public class VoucherProductController {
     ) {
         return ApiResponse.success(voucherProductService.updateVoucherProduct(storeId, account, voucherId, request));
     }
-
 }

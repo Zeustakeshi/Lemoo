@@ -9,4 +9,6 @@ package com.lemoo.promotion.service;
 
 public interface StoreService {
     void verifyStore(String accountId, String storeId);
+
+    boolean isFollowedStore(String userId, String storeId);
 }

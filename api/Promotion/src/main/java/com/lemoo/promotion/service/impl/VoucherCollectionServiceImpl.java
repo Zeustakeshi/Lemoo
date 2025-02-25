@@ -6,10 +6,12 @@
 
 package com.lemoo.promotion.service.impl;
 
+import com.lemoo.promotion.client.StoreClient;
 import com.lemoo.promotion.common.enums.CollectedVoucherStatus;
 import com.lemoo.promotion.common.enums.VoucherStatus;
 import com.lemoo.promotion.dto.common.AuthenticatedAccount;
-import com.lemoo.promotion.dto.response.UserVoucherResponse;
+import com.lemoo.promotion.dto.response.CollectedVoucherResponse;
+import com.lemoo.promotion.dto.response.PageableResponse;
 import com.lemoo.promotion.entity.BaseVoucher;
 import com.lemoo.promotion.entity.CollectedVoucher;
 import com.lemoo.promotion.entity.RegularVoucher;
@@ -18,18 +20,25 @@ import com.lemoo.promotion.event.eventModel.PromotionCheckedEvent;
 import com.lemoo.promotion.event.producer.OrderProducer;
 import com.lemoo.promotion.exception.ForbiddenException;
 import com.lemoo.promotion.exception.NotfoundException;
+import com.lemoo.promotion.mapper.PageMapper;
 import com.lemoo.promotion.mapper.UserVoucherMapper;
+import com.lemoo.promotion.mapper.VoucherMapper;
 import com.lemoo.promotion.repository.BaseVoucherRepository;
-import com.lemoo.promotion.repository.UserVoucherRepository;
+import com.lemoo.promotion.repository.CollectedVoucherRepository;
+import com.lemoo.promotion.service.StoreService;
 import com.lemoo.promotion.service.VoucherCollectionService;
 import lombok.RequiredArgsConstructor;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -38,13 +47,17 @@ public class VoucherCollectionServiceImpl implements VoucherCollectionService {
 
     private final OrderProducer orderProducer;
     private final BaseVoucherRepository baseVoucherRepository;
-    private final UserVoucherRepository userVoucherRepository;
+    private final CollectedVoucherRepository collectedVoucherRepository;
     private final UserVoucherMapper userVoucherMapper;
     private final RedissonClient redisson;
+    private final PageMapper pageMapper;
+    private final VoucherMapper voucherMapper;
+    private final StoreClient storeClient;
+    private final StoreService storeService;
 
     @Override
     @Transactional
-    public UserVoucherResponse collectVoucher(AuthenticatedAccount account, String voucherId) {
+    public CollectedVoucherResponse collectVoucher(AuthenticatedAccount account, String voucherId) {
         RLock lock = redisson.getLock("voucherLock:" + voucherId);
         try {
             if (!lock.tryLock(20, 30, TimeUnit.SECONDS)) {
@@ -61,22 +74,34 @@ public class VoucherCollectionServiceImpl implements VoucherCollectionService {
         }
     }
 
-    private UserVoucherResponse processVoucherCollection(AuthenticatedAccount account, String voucherId) {
+    @Override
+    public PageableResponse<CollectedVoucherResponse> getAllCollectedVoucher(AuthenticatedAccount account, int page, int limit) {
+        PageRequest request = PageRequest.of(page, limit, Sort.by(Sort.Direction.DESC, "createdAt"));
+        Page<CollectedVoucher> vouchers = collectedVoucherRepository.findAllByUserId(account.getUserId(), request);
+
+        return pageMapper.toPageableResponse(vouchers.map(collectedVoucher -> CompletableFuture.supplyAsync(() -> {
+            BaseVoucher voucher = baseVoucherRepository.findById(collectedVoucher.getVoucherId())
+                    .orElseThrow(() -> new NotfoundException("Voucher not found"));
+            return userVoucherMapper.toCollectedVoucherResponse(collectedVoucher, voucher);
+        })).map(CompletableFuture::join));
+
+    }
+
+    private CollectedVoucherResponse processVoucherCollection(AuthenticatedAccount account, String voucherId) {
         BaseVoucher voucher = baseVoucherRepository.findById(voucherId)
                 .orElseThrow(() -> new NotfoundException("Voucher " + voucherId + " not found"));
         return switch (voucher.getVoucherType()) {
             case REGULAR_VOUCHER -> collectRegularVoucher((RegularVoucher) voucher, account);
             case STORE_FOLLOWER_VOUCHER -> collectStoreFollowerVoucher((StoreFollowerVoucher) voucher, account);
-//            case FIRST_PURCHASE -> collectFirstPurchaseVoucher((FirstPurchaseVoucher) voucher, account);
             default -> throw new UnsupportedOperationException("Unsupported voucher type: " + voucher.getVoucherType());
         };
     }
 
-    private UserVoucherResponse collectRegularVoucher(RegularVoucher voucher, AuthenticatedAccount account) {
+    private CollectedVoucherResponse collectRegularVoucher(RegularVoucher voucher, AuthenticatedAccount account) {
         validateVoucherEligibility(voucher, account);
 
         boolean isActiveNow = voucher.getPeriodStartTime().isBefore(LocalDateTime.now());
-        CollectedVoucher collectedVoucher = userVoucherRepository.save(
+        CollectedVoucher collectedVoucher = collectedVoucherRepository.save(
                 CollectedVoucher.builder()
                         .userId(account.getUserId())
                         .voucherId(voucher.getId())
@@ -86,24 +111,35 @@ public class VoucherCollectionServiceImpl implements VoucherCollectionService {
         );
 
         updateVoucherAvailability(voucher);
-        return userVoucherMapper.toUserVoucherResponse(collectedVoucher);
+
+        return userVoucherMapper.toCollectedVoucherResponse(collectedVoucher, voucher);
     }
 
-    private UserVoucherResponse collectStoreFollowerVoucher(StoreFollowerVoucher voucher, AuthenticatedAccount account) {
+    private CollectedVoucherResponse collectStoreFollowerVoucher(StoreFollowerVoucher voucher, AuthenticatedAccount account) {
         validateVoucherAvailability(voucher);
-        // Custom logic for Store Follower Voucher
-        return null; // Placeholder
-    }
+        if (!canCollecteVoucher(voucher, account.getUserId())) {
+            throw new ForbiddenException("You do not meet the conditions to collect this voucher.");
+        }
+        boolean isFollowed = storeService.isFollowedStore(account.getUserId(), voucher.getStoreId());
 
-//    private UserVoucherResponse collectFirstPurchaseVoucher(FirstPurchaseVoucher voucher, AuthenticatedAccount account) {
-//        validateVoucherEligibility(voucher, account);
-//        // Custom logic for First Purchase Voucher
-//        return null; // Placeholder
-//    }
+        if (!isFollowed) {
+            throw new ForbiddenException(": You cannot collect this voucher as you have not yet followed our store. Please follow our store to unlock this offer.");
+        }
+        CollectedVoucher collectedVoucher = collectedVoucherRepository.save(
+                CollectedVoucher.builder()
+                        .userId(account.getUserId())
+                        .voucherId(voucher.getId())
+                        .status(CollectedVoucherStatus.ACTIVE)
+                        .collectedAt(LocalDateTime.now())
+                        .build()
+        );
+        updateVoucherAvailability(voucher);
+        return userVoucherMapper.toCollectedVoucherResponse(collectedVoucher, voucher);
+    }
 
     private void validateVoucherEligibility(BaseVoucher voucher, AuthenticatedAccount account) {
         validateVoucherAvailability(voucher);
-        if (!canCollectedVoucher(voucher, account.getUserId())) {
+        if (!canCollecteVoucher(voucher, account.getUserId())) {
             throw new ForbiddenException("You do not meet the conditions to collect this voucher.");
         }
     }
@@ -120,8 +156,8 @@ public class VoucherCollectionServiceImpl implements VoucherCollectionService {
                 VoucherStatus.ACTIVE.equals(voucher.getStatus());
     }
 
-    private boolean canCollectedVoucher(BaseVoucher voucher, String userId) {
-        boolean alreadyCollected = userVoucherRepository.existsByUserIdAndVoucherId(userId, voucher.getId());
+    private boolean canCollecteVoucher(BaseVoucher voucher, String userId) {
+        boolean alreadyCollected = collectedVoucherRepository.existsByUserIdAndVoucherId(userId, voucher.getId());
         if (alreadyCollected && voucher.getLimit() == 1) {
             return false;
         }

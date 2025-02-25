@@ -15,6 +15,7 @@ import java.util.Optional;
 
 @Repository
 public interface BaseVoucherRepository extends MongoRepository<BaseVoucher, String> {
+
     Optional<BaseVoucher> findByNameAndStoreId(String name, String storeId);
 
     Optional<BaseVoucher> findByIdAndStoreId(String id, String storeId);

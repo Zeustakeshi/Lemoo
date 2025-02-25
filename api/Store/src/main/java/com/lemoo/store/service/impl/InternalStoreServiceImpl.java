@@ -16,6 +16,8 @@ import com.lemoo.store.service.InternalStoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Set;
+
 @Service
 @RequiredArgsConstructor
 public class InternalStoreServiceImpl implements InternalStoreService {
@@ -33,5 +35,13 @@ public class InternalStoreServiceImpl implements InternalStoreService {
         Store store = storeRepository.findActiveStore(accountId)
                 .orElseThrow(() -> new NotfoundException("Store not found"));
         return storeMapper.toInternalStoreResponse(store);
+    }
+
+
+    @Override
+    public Set<String> getStoreFollowers(String storeId) {
+        Store store = storeRepository.findById(storeId)
+                .orElseThrow(() -> new NotfoundException("Store " + storeId + " not found"));
+        return store.getFollowers();
     }
 }

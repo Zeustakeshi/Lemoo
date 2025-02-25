@@ -13,6 +13,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Set;
+
 @RestController()
 @RequestMapping("/internal")
 @RequiredArgsConstructor
@@ -27,5 +29,12 @@ public class InternalStoreController {
     @PostMapping("/verify")
     public ApiResponse<?> verifyStore(@RequestBody @Valid VerifyStoreRequest request) {
         return ApiResponse.success(internalStoreService.verifyStore(request));
+    }
+
+    @GetMapping("/{storeId}/followers")
+    public ApiResponse<Set<String>> isFollowedStore(
+            @PathVariable("storeId") String storeId
+    ) {
+        return ApiResponse.success(internalStoreService.getStoreFollowers(storeId));
     }
 }

@@ -13,11 +13,13 @@ import com.lemoo.promotion.exception.ForbiddenException;
 import com.lemoo.promotion.service.StoreService;
 import lombok.RequiredArgsConstructor;
 import org.redisson.api.RBucket;
+import org.redisson.api.RSet;
 import org.redisson.api.RedissonClient;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -25,6 +27,20 @@ public class StoreServiceImpl implements StoreService {
 
     private final StoreClient storeClient;
     private final RedissonClient redisson;
+
+    @Override
+    public boolean isFollowedStore(String userId, String storeId) {
+        RSet<String> storeFollowers = redisson.getSet(generateStoreFollowerKey(userId));
+        if (storeFollowers.isExists()) {
+            return storeFollowers.readAll().contains(userId);
+        }
+        Set<String> followers = storeClient.getStoreFollowers(storeId).getData();
+
+        storeFollowers.addAll(followers);
+        storeFollowers.expire(Duration.ofMinutes(30));
+
+        return followers.contains(userId);
+    }
 
     @Override
     public void verifyStore(String accountId, String storeId) {
@@ -49,5 +65,9 @@ public class StoreServiceImpl implements StoreService {
 
     private String generateStoreOwnerVerifyKey(String storeId) {
         return "store:" + storeId + ":owner";
+    }
+
+    private String generateStoreFollowerKey(String storeId) {
+        return "store:" + storeId + ":followers";
     }
 }

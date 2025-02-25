@@ -11,6 +11,7 @@ import com.lemoo.store.common.enums.StoreType;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @EqualsAndHashCode(callSuper = true)
@@ -52,7 +53,11 @@ public class Store extends BaseEntity {
     private StoreType type;
 
     @ElementCollection(fetch = FetchType.LAZY)
-    private Set<String> Banners;
+    private Set<String> banners;
+
+    @ElementCollection(fetch = FetchType.LAZY)
+    @Builder.Default
+    private Set<String> followers = new HashSet<>();
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private CitizenIdVerification citizenIdVerification;

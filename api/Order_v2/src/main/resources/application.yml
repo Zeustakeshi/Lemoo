@@ -32,3 +32,6 @@ server:
 services:
   auth-service: ${AUTH_SERVICE_URL:http://localhost:8082/auth}
   product-service: ${PRODUCT_SERVICE_URL:http://localhost:8090/products}
+
+cache:
+  redis_url: ${REDIS_URL}

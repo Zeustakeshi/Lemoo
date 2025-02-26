@@ -8,10 +8,13 @@ package com.lemoo.order_v2.service.impl;
 
 import com.lemoo.order_v2.common.enums.CartItemStatus;
 import com.lemoo.order_v2.dto.common.AuthenticatedAccount;
+import com.lemoo.order_v2.dto.common.CartItemCache;
 import com.lemoo.order_v2.dto.request.AddToCartRequest;
 import com.lemoo.order_v2.dto.response.SkuResponse;
 import com.lemoo.order_v2.entity.CartItem;
+import com.lemoo.order_v2.mapper.CartItemCacheMapper;
 import com.lemoo.order_v2.repository.CartItemRepository;
+import com.lemoo.order_v2.service.CartItemCacheService;
 import com.lemoo.order_v2.service.CartItemService;
 import com.lemoo.order_v2.service.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +27,8 @@ import java.util.Optional;
 public class CartItemServiceImpl implements CartItemService {
     private final CartItemRepository cartItemRepository;
     private final ProductService productService;
+    private final CartItemCacheMapper cartItemCacheMapper;
+    private final CartItemCacheService cartItemCacheService;
 
     @Override
     public String addToCart(AddToCartRequest request, AuthenticatedAccount account) {
@@ -52,15 +57,20 @@ public class CartItemServiceImpl implements CartItemService {
                     .build();
         }
 
-        // Determine the status of the cart item based on stock availability.
-        cartItem.setStatus(
-                isOutOfStock(cartItem.getQuantity(), sku.getStock())
-                        ? CartItemStatus.OUT_OF_STOCK
-                        : CartItemStatus.ACTIVE);
 
         // Save the updated or newly created cart item to the repository.
         cartItemRepository.save(cartItem);
 
+        //  Create and determine the status of the cart item cache based on stock availability.
+        CartItemCache cartItemCache = cartItemCacheMapper.toCartItemCache(cartItem);
+        cartItemCache.setStatus(
+                isOutOfStock(cartItem.getQuantity(), sku.getStock())
+                        ? CartItemStatus.OUT_OF_STOCK
+                        : CartItemStatus.ACTIVE);
+
+        // Save cart item with status to cache
+        cartItemCacheService.saveToCache(cartItemCache);
+        
         return cartItem.getId();
     }
 

@@ -8,33 +8,40 @@
 package com.lemoo.order_v2.mapper;
 
 
-import com.lemoo.order_v2.dto.common.CartItemCache;
+import com.lemoo.order_v2.common.enums.CartItemStatus;
 import com.lemoo.order_v2.dto.response.CartItemResponse;
 import com.lemoo.order_v2.dto.response.CartSkuResponse;
 import com.lemoo.order_v2.dto.response.SkuResponse;
-import com.lemoo.order_v2.service.ProductService;
+import com.lemoo.order_v2.entity.CartItem;
+import com.lemoo.order_v2.service.SkuService;
 import org.mapstruct.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Mapper
 public abstract class CartItemMapper {
     @Autowired
-    private ProductService productService;
+    private SkuService skuService;
 
-    public CartItemResponse toCartItemResponse(CartItemCache cartItemCache) {
-        SkuResponse skuResponse = productService.getSkuBySkuCode(cartItemCache.getSkuCode());
+    public CartItemResponse toCartItemResponse(CartItem cartItem) {
+        SkuResponse skuResponse = skuService.getSkuBySkuCode(cartItem.getSkuCode());
+
+        CartItemStatus status = skuResponse.getStock() < cartItem.getQuantity() ?
+                CartItemStatus.OUT_OF_STOCK :
+                CartItemStatus.ACTIVE;
+
         return CartItemResponse.builder()
-                .id(cartItemCache.getId())
-                .productId(cartItemCache.getProductId())
-                .quantity(cartItemCache.getQuantity())
-                .status(cartItemCache.getStatus())
-                .storeId(cartItemCache.getStoreId())
+                .id(cartItem.getId())
+                .productId(cartItem.getProductId())
+                .quantity(cartItem.getQuantity())
+                .status(status)
+                .storeId(cartItem.getStoreId())
                 .sku(CartSkuResponse.builder()
-                        .lemooSku(cartItemCache.getSkuCode())
+                        .lemooSku(cartItem.getSkuCode())
                         .image(skuResponse.getImage())
                         .name(skuResponse.getName())
                         .price(skuResponse.getPrice())
                         .build())
                 .build();
     }
+
 }

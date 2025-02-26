@@ -6,5 +6,9 @@
 
 package com.lemoo.order_v2.service;
 
+import com.lemoo.order_v2.dto.common.AuthenticatedAccount;
+import com.lemoo.order_v2.dto.request.AddToCartRequest;
+
 public interface CartItemService {
+	String addToCart(AddToCartRequest request, AuthenticatedAccount account);
 }

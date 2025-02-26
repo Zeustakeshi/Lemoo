@@ -9,7 +9,7 @@ package com.lemoo.order_v2.exception;
 import org.springframework.http.HttpStatus;
 
 public class ServiceUnAvailableException extends ApiException {
-    public ServiceUnAvailableException(String message) {
-        super(HttpStatus.SERVICE_UNAVAILABLE, message);
-    }
+	public ServiceUnAvailableException(String message) {
+		super(HttpStatus.SERVICE_UNAVAILABLE, message);
+	}
 }

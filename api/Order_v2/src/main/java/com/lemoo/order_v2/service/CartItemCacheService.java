@@ -11,4 +11,6 @@ import com.lemoo.order_v2.dto.common.CartItemCache;
 
 public interface CartItemCacheService {
     void saveToCache(CartItemCache cartItemCache);
+
+    CartItemCache getCartItemCache(String cartItemId);
 }

@@ -25,7 +25,8 @@ public interface CartItemCacheMapper {
                 "productId", cartItem.getProductId(),
                 "skuCode", cartItem.getSkuCode(),
                 "quantity", cartItem.getQuantity().toString(),
-                "status", cartItem.getStatus().name()
+                "status", cartItem.getStatus().name(),
+                "storeId", cartItem.getStoreId()
         );
     }
 
@@ -39,6 +40,7 @@ public interface CartItemCacheMapper {
         String id = cartItemMap.get("id");
         String userId = cartItemMap.get("userId");
         String productId = cartItemMap.get("productId");
+        String storeId = cartItemMap.get("storeId");
         String skuCode = cartItemMap.get("skuCode");
         Integer quantity = Integer.valueOf(cartItemMap.get("quantity"));
         CartItemStatus status = CartItemStatus.valueOf(cartItemMap.get("status"));
@@ -48,6 +50,7 @@ public interface CartItemCacheMapper {
                 .id(id)
                 .userId(userId)
                 .productId(productId)
+                .storeId(storeId)
                 .skuCode(skuCode)
                 .quantity(quantity)
                 .status(status)

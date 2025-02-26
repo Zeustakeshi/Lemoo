@@ -10,17 +10,25 @@ import com.lemoo.order_v2.common.enums.CartItemStatus;
 import com.lemoo.order_v2.dto.common.AuthenticatedAccount;
 import com.lemoo.order_v2.dto.common.CartItemCache;
 import com.lemoo.order_v2.dto.request.AddToCartRequest;
+import com.lemoo.order_v2.dto.response.CartItemResponse;
+import com.lemoo.order_v2.dto.response.PageableResponse;
 import com.lemoo.order_v2.dto.response.SkuResponse;
 import com.lemoo.order_v2.entity.CartItem;
 import com.lemoo.order_v2.mapper.CartItemCacheMapper;
+import com.lemoo.order_v2.mapper.CartItemMapper;
+import com.lemoo.order_v2.mapper.PageMapper;
 import com.lemoo.order_v2.repository.CartItemRepository;
+import com.lemoo.order_v2.service.CartCacheService;
 import com.lemoo.order_v2.service.CartItemCacheService;
 import com.lemoo.order_v2.service.CartItemService;
 import com.lemoo.order_v2.service.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 @RequiredArgsConstructor
@@ -29,6 +37,9 @@ public class CartItemServiceImpl implements CartItemService {
     private final ProductService productService;
     private final CartItemCacheMapper cartItemCacheMapper;
     private final CartItemCacheService cartItemCacheService;
+    private final CartCacheService cartCacheService;
+    private final CartItemMapper cartItemMapper;
+    private final PageMapper pageMapper;
 
     @Override
     public String addToCart(AddToCartRequest request, AuthenticatedAccount account) {
@@ -57,7 +68,6 @@ public class CartItemServiceImpl implements CartItemService {
                     .build();
         }
 
-
         // Save the updated or newly created cart item to the repository.
         cartItemRepository.save(cartItem);
 
@@ -70,10 +80,23 @@ public class CartItemServiceImpl implements CartItemService {
 
         // Save cart item with status to cache
         cartItemCacheService.saveToCache(cartItemCache);
-        
+        cartCacheService.addCartItemToCart(account.getUserId(), cartItem.getId());
         return cartItem.getId();
     }
 
+    @Override
+    public PageableResponse<CartItemResponse> getUserCart(int page, int limit, AuthenticatedAccount account) {
+        PageRequest request = PageRequest.of(page, limit);
+        Page<String> cartItemIds = cartCacheService.getCartCache(account.getUserId(), request);
+
+        Page<CartItemResponse> responses = cartItemIds.map(cartItemId -> CompletableFuture.supplyAsync(() -> {
+            CartItemCache cartItemCache = cartItemCacheService.getCartItemCache(cartItemId);
+            return cartItemMapper.toCartItemResponse(cartItemCache);
+
+        })).map(CompletableFuture::join);
+
+        return pageMapper.toPageableResponse(responses);
+    }
 
     private boolean isOutOfStock(Integer cartQuantity, Long available) {
         return available < cartQuantity;

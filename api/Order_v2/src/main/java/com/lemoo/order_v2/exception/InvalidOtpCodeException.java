@@ -8,7 +8,7 @@ package com.lemoo.order_v2.exception;
 
 public class InvalidOtpCodeException extends RuntimeException {
 
-    public InvalidOtpCodeException(String message) {
-        super(message);
-    }
+	public InvalidOtpCodeException(String message) {
+		super(message);
+	}
 }

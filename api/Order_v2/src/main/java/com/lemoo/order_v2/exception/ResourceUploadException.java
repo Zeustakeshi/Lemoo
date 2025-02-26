@@ -9,7 +9,7 @@ package com.lemoo.order_v2.exception;
 import org.springframework.http.HttpStatus;
 
 public class ResourceUploadException extends ApiException {
-    public ResourceUploadException(String message) {
-        super(HttpStatus.INTERNAL_SERVER_ERROR, message);
-    }
+	public ResourceUploadException(String message) {
+		super(HttpStatus.INTERNAL_SERVER_ERROR, message);
+	}
 }

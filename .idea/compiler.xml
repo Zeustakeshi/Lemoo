@@ -25,15 +25,6 @@
         </processorPath>
         <module name="Chat" />
       </profile>
-      <profile name="Annotation profile for Order_v2" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
-        </processorPath>
-        <module name="Order_v2" />
-      </profile>
       <profile name="Annotation profile for User" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
@@ -59,6 +50,7 @@
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
         </processorPath>
         <module name="Order" />
+        <module name="Order_v2" />
         <module name="Video" />
         <module name="Media" />
         <module name="Product" />
@@ -79,7 +71,7 @@
       <module name="Media" options="-parameters -Amapstruct.defaultComponentModel=spring" />
       <module name="Notification" options="-parameters -Amapstruct.defaultComponentModel=spring" />
       <module name="Order" options="-parameters -Amapstruct.defaultComponentModel=spring" />
-      <module name="Order_v2" options="-parameters" />
+      <module name="Order_v2" options="-parameters -Amapstruct.defaultComponentModel=spring" />
       <module name="Product" options="-parameters -Amapstruct.defaultComponentModel=spring" />
       <module name="Promotion" options="-parameters -Amapstruct.defaultComponentModel=spring" />
       <module name="Shipping" options="-parameters -Amapstruct.defaultComponentModel=spring" />

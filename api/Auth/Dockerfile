@@ -1,4 +1,4 @@
-FROM openjdk:17-jdk-alpine
+FROM openjdk:17-jdk-slim
 LABEL authors="Minhhieuano"
 LABEL description="Auth service v1"
 COPY target/*.jar app.jar

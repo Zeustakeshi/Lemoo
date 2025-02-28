@@ -5,7 +5,8 @@ import * as tokenStore from "./tokenStore";
 
 export const api = axios.create({
     // baseURL: "https://mock.apidog.com/m1/730971-0-default",
-    baseURL: "https://toomeet.click/api/v1",
+    // baseURL: "https://toomeet.click/api/v1",
+    baseURL: "https://api.minhhieuano.io.vn:30635/api/v1",
     withCredentials: false,
 });
 

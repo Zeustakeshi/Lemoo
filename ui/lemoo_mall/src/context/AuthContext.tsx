@@ -1,10 +1,10 @@
 import { getUserInfo } from "@/api/user.api";
-import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from "@/common/constants/auth";
 import { USER_STORAGE_KEY } from "@/common/constants/user";
+import { TokenType } from "@/common/enum/token.enum";
 import { User } from "@/common/type/user.type";
 import { getSessionStorageValue, saveSessionStorage } from "@/lib/storage";
+import * as tokenStore from "@/lib/tokenStore";
 import { useMutation } from "@tanstack/react-query";
-import Cookies from "js-cookie";
 import {
     createContext,
     useCallback,
@@ -52,15 +52,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             setIsAuthenticated(true);
         } catch (error: any) {
             console.log({ error });
-            // await logout();
+            await logout();
         }
     }, []);
 
     const logout = useCallback(async () => {
         // await logoutApi();
         sessionStorage.removeItem(USER_STORAGE_KEY);
-        Cookies.remove(ACCESS_TOKEN_KEY);
-        Cookies.remove(REFRESH_TOKEN_KEY);
+        await tokenStore.removeToken(TokenType.ACCESS_TOKEN);
+        await tokenStore.removeToken(TokenType.REFRESH_TOKEN);
+
         setUser(null);
         setIsAuthenticated(false);
         window.location.href = `http://sso.lemoo.com:5172/auth/login?callback_url=http://lemoo.com:5173`;

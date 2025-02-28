@@ -1,18 +1,17 @@
-name: user_service_deployment
+name: socket_service_deployment
 on:
   push:
     branches:
       - test/deployment
     paths:
-      - 'api/User/**'
-      - '.github/workflows/ci_user_service_deployment.yml'
+      - 'api/Socket/**'
+      - '.github/workflows/ci_socket_service_deployment.yml'
 jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      DB_URL: "jdbc:postgresql://mainline.proxy.rlwy.net:52245/railway"
-      DB_USER: "postgres"
-      DB_PASSWORD: "DvawmnlygyMjmGFULucumGOpELBwKLgi"
+      USER_SERVICE_URL: "http://user-service"
+      AUTH_SERVICE_URL: "http://auth-service"
     steps:
       - name: checkout
         uses: actions/checkout@v4
@@ -23,15 +22,15 @@ jobs:
           distribution: 'temurin'
           cache: maven
       - name: Build with Maven
-        working-directory: ./api/User
+        working-directory: ./api/Socket
         run: mvn clean package
       - name: Build the Docker image
-        working-directory: ./api/User
-        run: docker build . --file Dockerfile --tag zeustakeshi/lemoo-user-service:latest
+        working-directory: ./api/Socket
+        run: docker build . --file Dockerfile --tag zeustakeshi/lemoo-socket-service:latest
       - name: login Dockerhub
         run: |
           docker login -u "zeustakeshi" -p ${{ secrets.DOCKER_HUB_TOKEN }}
-          docker push zeustakeshi/lemoo-user-service:latest
+          docker push zeustakeshi/lemoo-socket-service:latest
           
           
           

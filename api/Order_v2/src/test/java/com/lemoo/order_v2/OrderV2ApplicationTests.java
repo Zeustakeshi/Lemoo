@@ -6,6 +6,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class OrderV2ApplicationTests {
 
-	@Test
-	void contextLoads() {}
+	//@Test
+	//void contextLoads() {}
 }

@@ -43,7 +43,10 @@ const UpSmallImage: React.FC<PropsItem> = ({
                 `/media/stores/${storeId}/images`,
                 formData
             );
-            const updatedImages = [...images, resIMG.data.data];
+
+            const updatedImages: any = [...images, resIMG];
+
+         
             setImages(updatedImages);
             setNewImage(undefined);
         }

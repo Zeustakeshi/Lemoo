@@ -200,6 +200,7 @@ const FormAddProduct = () => {
           return SkusResult;
         }
 
+        // Bước cuối cùng: Tạo các biến thể từ các thuộc tính
         const generatedVariants = generateVariants(result);
         generatedVariants.forEach((item) => {
           appendSku({
@@ -288,8 +289,8 @@ const FormAddProduct = () => {
             <label>Ảnh sản phẩm</label>
             <NoteAddProduct
               content="1. Đây là hình ảnh chính trên trang sản phẩm. Bạn có thể up nhiều hình ảnh cùng lúc và tối đa có thể có 8 hình.
-2. Hình ảnh cần có kích thước từ 330x300 px đến 5000x5000px và không dược phép chứa nội dung nhạy cảm.
-3. Kích thước tối đa: 3 MB"
+  2. Hình ảnh cần có kích thước từ 330x300 px đến 5000x5000px và không dược phép chứa nội dung nhạy cảm.
+  3. Kích thước tối đa: 3 MB"
             />
           </div>
           <div>
@@ -321,7 +322,7 @@ const FormAddProduct = () => {
             <label>Hình ảnh quảng cáo cho người mua</label>
             <NoteAddProduct
               content="1. Ảnh thu nhỏ sẽ được dùng để hiển thị sản phẩm của bạn ở một số nơi như trang kết quả tìm kiếm, trang gợi ý sản phẩm, vv...
-2. Ảnh thu nhỏ giúp thu hút người dùng nhấp vào sản phẩm của bạn."
+  2. Ảnh thu nhỏ giúp thu hút người dùng nhấp vào sản phẩm của bạn."
             />
             <span className=" text-sm px-2 py-1 rounded-xl text-[#1371ff] bg-blue-100 ">
               Tiếp xúc nhiều hơn
@@ -356,7 +357,7 @@ const FormAddProduct = () => {
             <label>Video</label>
             <NoteAddProduct
               content="1. Ảnh thu nhỏ sẽ được dùng để hiển thị sản phẩm của bạn ở một số nơi như trang kết quả tìm kiếm, trang gợi ý sản phẩm, vv...
-2. Ảnh thu nhỏ giúp thu hút người dùng nhấp vào sản phẩm của bạn."
+  2. Ảnh thu nhỏ giúp thu hút người dùng nhấp vào sản phẩm của bạn."
             />
           </div>
         </div>
@@ -505,6 +506,17 @@ const FormAddProduct = () => {
                       type="number"
                       placeholder="Giá"
                       {...register(`skus.${index}.price`)}
+                      className="w-full rounded-md border-gray-300 p-2 text-gray-700 placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500"
+                    />
+                  </div>
+                  <div className="col-span-1">
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Số lượng
+                    </label>
+                    <input
+                      type="number"
+                      placeholder="Số lượng"
+                      {...register(`skus.${index}.stock`)}
                       className="w-full rounded-md border-gray-300 p-2 text-gray-700 placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500"
                     />
                   </div>

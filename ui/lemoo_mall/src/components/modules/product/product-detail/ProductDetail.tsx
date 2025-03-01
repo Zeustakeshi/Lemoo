@@ -113,6 +113,8 @@ const ProductDetail = () => {
     const [quantity, setQuantity] = useState(1);
 
     useEffect(() => {
+        // đoạn này đổi lại dùng tankstack query nha
+
         const fetchData = async () => {
             try {
                 const response = await api.get("/products/buyer/{productId}");

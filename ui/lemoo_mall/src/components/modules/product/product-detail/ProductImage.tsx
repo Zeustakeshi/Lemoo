@@ -16,6 +16,7 @@ const ProductImage = ({ images }: Props) => {
     zoomX: "0%",
     zoomY: "0%",
   });
+
   const [selectedImage, setSelectedImage] = useState<string>(images[0]);
 
   const imageZoomRef = useRef<HTMLDivElement>(null);
@@ -41,6 +42,7 @@ const ProductImage = ({ images }: Props) => {
       zoomY: "0%",
     });
   };
+
   return (
     <div className="w-full flex flex-col items-center gap-2 p-4 ">
       {/* Hình ảnh chính */}
@@ -61,6 +63,7 @@ const ProductImage = ({ images }: Props) => {
         }
         onMouseMove={handleMouseMove}
         onMouseOut={handleMouseOut}
+        onBlur={handleMouseOut}
       >
         <img
           src={selectedImage}
@@ -93,9 +96,9 @@ const ProductImage = ({ images }: Props) => {
       <Carousel className="p-2 w-full">
         <div className="relative">
           <CarouselContent>
-            {images.map((image, index) => (
+            {images.map((image) => (
               <CarouselItem
-                key={index}
+                key={image}
                 className="max-w-max w-max cursor-pointer"
                 onClick={() => setSelectedImage(image)}
               >
@@ -103,7 +106,7 @@ const ProductImage = ({ images }: Props) => {
                   <img
                     className="size-full object-contain"
                     src={image}
-                    alt={`Thumbnail ${index + 1}`}
+                    alt={`Anh san pham`}
                   />
                 </div>
                 <p className="text-xs font-semibold text-muted-foreground">

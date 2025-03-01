@@ -38,8 +38,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(request -> request.requestMatchers(
                                 "/internal/**",
                                 "/public/**"
-                        )
-                        .permitAll()
+                        ).permitAll()
                         .anyRequest()
                         .authenticated())
                 .oauth2ResourceServer(

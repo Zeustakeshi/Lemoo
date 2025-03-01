@@ -1,15 +1,22 @@
+import { getProductFeature } from "@/api/product.api";
 import { Button } from "@/components/ui/button";
 import {
     Carousel,
     CarouselContent,
     CarouselItem,
 } from "@/components/ui/carousel";
+import { useQuery } from "@tanstack/react-query";
 import Autoplay from "embla-carousel-autoplay";
 import ProductFeatureCard from "./ProductFeatureCard";
 
 type Props = {};
 
 const ProductFeature = (props: Props) => {
+    const { data } = useQuery({
+        queryKey: ["get product feature"],
+        queryFn: async () => await getProductFeature(10),
+    });
+
     return (
         <div>
             <div className="w-full flex justify-between items-center mb-3">
@@ -26,12 +33,14 @@ const ProductFeature = (props: Props) => {
                     className="w-full col-span-8"
                 >
                     <CarouselContent className="">
-                        {Array.from({ length: 10 }).map((_, index) => (
+                        {data?.content.map((product, index) => (
                             <CarouselItem
                                 className="w-max max-w-max"
                                 key={index}
                             >
-                                <ProductFeatureCard></ProductFeatureCard>
+                                <ProductFeatureCard
+                                    product={product}
+                                ></ProductFeatureCard>
                             </CarouselItem>
                         ))}
                     </CarouselContent>

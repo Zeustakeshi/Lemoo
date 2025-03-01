@@ -14,6 +14,7 @@ import com.lemoo.store.repository.StoreRepository;
 import com.lemoo.store.service.StoreFollowerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -22,6 +23,15 @@ public class StoreFollowerFollowerServiceImpl implements StoreFollowerService {
     private final StoreRepository storeRepository;
 
     @Override
+    @Transactional
+    public boolean getFollowStatus(String storeId, AuthenticatedAccount account) {
+        Store store = storeRepository.findById(storeId)
+                .orElseThrow(() -> new NotfoundException("Store " + storeId + " not found"));
+        return store.getFollowers().contains(account.getUserId());
+    }
+
+    @Override
+    @Transactional
     public boolean followStore(String storeId, AuthenticatedAccount account) {
         Store store = storeRepository.findById(storeId)
                 .orElseThrow(() -> new NotfoundException("Store " + storeId + " not found"));
@@ -35,6 +45,7 @@ public class StoreFollowerFollowerServiceImpl implements StoreFollowerService {
     }
 
     @Override
+    @Transactional
     public boolean unFollowStore(String storeId, AuthenticatedAccount account) {
 
         Store store = storeRepository.findById(storeId)

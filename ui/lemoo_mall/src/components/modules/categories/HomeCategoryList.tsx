@@ -1,6 +1,5 @@
 import { getCategories } from "@/api/category.api";
 import { Button } from "@/components/ui/button";
-import { categories } from "@/data/category";
 import { useQuery } from "@tanstack/react-query";
 
 type Props = {};
@@ -19,9 +18,9 @@ const HomeCategoryList = (props: Props) => {
             </div>
             <div className="grid grid-cols-8 w-full">
                 {data?.content &&
-                    categories.map((category) => (
+                    data?.content.map((category) => (
                         <div className="p-3" key={category.id}>
-                            <div className="min-size-[120px] size-[120px] border rounded-md overflow-hidden">
+                            <div className="min-size-[100px] size-[100px] border rounded-md overflow-hidden">
                                 <img
                                     loading="lazy"
                                     className="size-full object-cover"

@@ -35,7 +35,10 @@ public class SecurityConfig {
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(handler -> handler.authenticationEntryPoint(authenticationEntryPoint)
                         .accessDeniedHandler(accessDeniedHandler))
-                .authorizeHttpRequests(request -> request.requestMatchers("/internal/**")
+                .authorizeHttpRequests(request -> request.requestMatchers(
+                                "/internal/**",
+                                "/public/**"
+                        )
                         .permitAll()
                         .anyRequest()
                         .authenticated())

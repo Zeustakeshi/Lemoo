@@ -1,7 +1,6 @@
 import { getCartInfo } from "@/api/cart.api";
 import CartInfo from "@/components/modules/cart/CartInfo";
 import CartItemGroup from "@/components/modules/cart/CartItemGroup";
-import ProductFeature from "@/components/modules/product/ProductFeature";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
@@ -87,8 +86,8 @@ function RouteComponent() {
                 </div>
             </div>
             <div className="my-5 space-y-4">
-                <ProductFeature></ProductFeature>
-                <ProductFeature></ProductFeature>
+                <productFeature></productFeature>
+                <productFeature></productFeature>
             </div>
         </div>
     );

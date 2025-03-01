@@ -11,15 +11,18 @@ export const Route = createFileRoute("/store/_layout")({
 function RouteComponent() {
     const { storeId }: { storeId: string } = useParams({ strict: false });
 
-    const { data } = useQuery({
+    const { data, isLoading } = useQuery({
         queryKey: ["store-overview", storeId],
         queryFn: async () => await getStoreOverviewById(storeId),
     });
-    console.log({ data });
+
+    if (isLoading || !data) {
+        return <>Đang tìm kiếm cửa hàng</>;
+    }
 
     return (
         <div>
-            <StoreHeader></StoreHeader>
+            <StoreHeader store={data}></StoreHeader>
             <StoreNav></StoreNav>
             <Outlet></Outlet>
         </div>

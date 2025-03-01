@@ -32,7 +32,7 @@ public class InternalStoreServiceImpl implements InternalStoreService {
 
     @Override
     public InternalStoreResponse getStoreInfoByAccountId(String accountId) {
-        Store store = storeRepository.findActiveStore(accountId)
+        Store store = storeRepository.findActiveStoreByOwnerId(accountId)
                 .orElseThrow(() -> new NotfoundException("Store not found"));
         return storeMapper.toInternalStoreResponse(store);
     }

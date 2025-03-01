@@ -9,9 +9,6 @@ function RouteComponent() {
     return (
         <div className="my-6 space-y-5">
             <VoucherList></VoucherList>
-            <productFeature></productFeature>
-            <productFeature></productFeature>
-            <productFeature></productFeature>
         </div>
     );
 }

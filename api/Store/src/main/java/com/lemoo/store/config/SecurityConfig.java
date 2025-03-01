@@ -37,9 +37,8 @@ public class SecurityConfig {
                         .accessDeniedHandler(accessDeniedHandler))
                 .authorizeHttpRequests(request -> request.requestMatchers(
                                 "/internal/**",
-                                "/public/**"
-                        )
-                        .permitAll()
+                                "/open/**"
+                        ).permitAll()
                         .anyRequest()
                         .authenticated())
                 .oauth2ResourceServer(

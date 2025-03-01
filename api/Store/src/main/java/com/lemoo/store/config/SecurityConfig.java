@@ -37,7 +37,7 @@ public class SecurityConfig {
                         .accessDeniedHandler(accessDeniedHandler))
                 .authorizeHttpRequests(request -> request.requestMatchers(
                                 "/internal/**",
-                                "/public/**"
+                                "/open/**"
                         ).permitAll()
                         .anyRequest()
                         .authenticated())

@@ -21,6 +21,14 @@ import org.springframework.web.bind.annotation.*;
 public class StoreFollowerController {
     private final StoreFollowerService storeFollowerService;
 
+    @GetMapping("/follow/status")
+    public ApiResponse<Boolean> getStoreFollowStatus(
+            @PathVariable("storeId") String storeId,
+            @AuthenticationPrincipal AuthenticatedAccount account
+    ) {
+        return ApiResponse.success(storeFollowerService.getFollowStatus(storeId, account));
+    }
+
     @PostMapping("follow")
     @ResponseStatus(HttpStatus.CREATED)
     public ApiResponse<Boolean> followStore(

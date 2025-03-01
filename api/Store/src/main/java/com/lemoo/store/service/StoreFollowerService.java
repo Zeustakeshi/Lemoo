@@ -9,6 +9,9 @@ package com.lemoo.store.service;
 import com.lemoo.store.dto.common.AuthenticatedAccount;
 
 public interface StoreFollowerService {
+
+    boolean getFollowStatus(String storeId, AuthenticatedAccount account);
+
     boolean followStore(String storeId, AuthenticatedAccount account);
 
     boolean unFollowStore(String storeId, AuthenticatedAccount account);

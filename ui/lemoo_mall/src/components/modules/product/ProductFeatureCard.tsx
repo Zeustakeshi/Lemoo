@@ -11,7 +11,7 @@ type Props = { product: ProductFeatureType };
 
 const ProductFeatureCard = ({ product }: Props) => {
     return (
-        <ProductCard productId="1">
+        <ProductCard productId={product.id}>
             <ProductCardImage url={product.thumbnail} />
             <ProductCardBody>
                 <ProductCardTitle>{product.name}</ProductCardTitle>

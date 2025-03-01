@@ -25,7 +25,7 @@ const HomeCategoryList = (props: Props) => {
                                     loading="lazy"
                                     className="size-full object-cover"
                                     src={category.image}
-                                    alt=""
+                                    alt={`category-image-${category.id}`}
                                 />
                             </div>
                             <p className="text-center font-semibold text-sm mt-2">

@@ -11,7 +11,7 @@ import ProductFeatureCard from "./ProductFeatureCard";
 
 type Props = {};
 
-const ProductFeature = (props: Props) => {
+const ProductFeature = ({}: Props) => {
     const { data } = useQuery({
         queryKey: ["get product feature"],
         queryFn: async () => await getProductFeature(10),

@@ -40,6 +40,16 @@ const Sidebar = (props: Props) => {
                             },
                         ]}
                     />
+
+                    <SideBarItem
+                        label="Kênh Maketing"
+                        subItems={[
+                            {
+                                label: "Công cụ khuyến mãi",
+                                to: "/promotion/vouchers",
+                            },
+                        ]}
+                    ></SideBarItem>
                     <SideBarItem
                         to="/store/create"
                         label="Store Create"

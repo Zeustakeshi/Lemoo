@@ -11,6 +11,7 @@ import com.lemoo.promotion.common.constants.CustomRequestHeader;
 import com.lemoo.promotion.dto.common.AuthenticatedAccount;
 import com.lemoo.promotion.dto.request.RegularVoucherRequest;
 import com.lemoo.promotion.dto.response.ApiResponse;
+import com.lemoo.promotion.dto.response.PageableResponse;
 import com.lemoo.promotion.dto.response.RegularVoucherResponse;
 import com.lemoo.promotion.service.RegularVoucherService;
 import jakarta.validation.Valid;
@@ -33,6 +34,16 @@ public class RegularVoucherController {
             @RequestHeader(CustomRequestHeader.STORE_ID) String storeId
     ) {
         return ApiResponse.success(regularVoucherService.createVoucher(request, storeId, account));
+    }
+
+    @GetMapping
+    public ApiResponse<PageableResponse<RegularVoucherResponse>> getAllRegularVoucher(
+            @RequestParam(value = "page", required = false, defaultValue = "0") int page,
+            @RequestParam(value = "limit", required = false, defaultValue = "10") int limit,
+            @RequestHeader(CustomRequestHeader.STORE_ID) String storeId,
+            @AuthenticationPrincipal AuthenticatedAccount account
+    ) {
+        return ApiResponse.success(regularVoucherService.findAllByStoreId(storeId, page, limit, account));
     }
 
     @GetMapping("/{voucherId}")

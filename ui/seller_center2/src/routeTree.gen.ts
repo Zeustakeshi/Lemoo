@@ -15,6 +15,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Route as rootRoute } from './routes/__root'
 import { Route as ProfileImport } from './routes/profile'
 import { Route as IndexImport } from './routes/index'
+import { Route as PromotionIndexImport } from './routes/promotion/index'
 import { Route as StoreStoreImport } from './routes/store/_store'
 import { Route as ProductProductImport } from './routes/product/_product'
 import { Route as StoreStoreDashboardImport } from './routes/store/_store.dashboard'
@@ -49,6 +50,12 @@ const ProfileRoute = ProfileImport.update({
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const PromotionIndexRoute = PromotionIndexImport.update({
+  id: '/promotion/',
+  path: '/promotion/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -125,6 +132,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/store'
       preLoaderRoute: typeof StoreStoreImport
       parentRoute: typeof StoreRoute
+    }
+    '/promotion/': {
+      id: '/promotion/'
+      path: '/promotion'
+      fullPath: '/promotion'
+      preLoaderRoute: typeof PromotionIndexImport
+      parentRoute: typeof rootRoute
     }
     '/product/_product/addProduct': {
       id: '/product/_product/addProduct'
@@ -204,6 +218,7 @@ export interface FileRoutesByFullPath {
   '/profile': typeof ProfileRoute
   '/product': typeof ProductProductRouteWithChildren
   '/store': typeof StoreStoreRouteWithChildren
+  '/promotion': typeof PromotionIndexRoute
   '/product/addProduct': typeof ProductProductAddProductRoute
   '/store/create': typeof StoreStoreCreateRoute
   '/store/dashboard': typeof StoreStoreDashboardRoute
@@ -214,6 +229,7 @@ export interface FileRoutesByTo {
   '/profile': typeof ProfileRoute
   '/product': typeof ProductProductRouteWithChildren
   '/store': typeof StoreStoreRouteWithChildren
+  '/promotion': typeof PromotionIndexRoute
   '/product/addProduct': typeof ProductProductAddProductRoute
   '/store/create': typeof StoreStoreCreateRoute
   '/store/dashboard': typeof StoreStoreDashboardRoute
@@ -227,6 +243,7 @@ export interface FileRoutesById {
   '/product/_product': typeof ProductProductRouteWithChildren
   '/store': typeof StoreRouteWithChildren
   '/store/_store': typeof StoreStoreRouteWithChildren
+  '/promotion/': typeof PromotionIndexRoute
   '/product/_product/addProduct': typeof ProductProductAddProductRoute
   '/store/_store/create': typeof StoreStoreCreateRoute
   '/store/_store/dashboard': typeof StoreStoreDashboardRoute
@@ -239,6 +256,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/product'
     | '/store'
+    | '/promotion'
     | '/product/addProduct'
     | '/store/create'
     | '/store/dashboard'
@@ -248,6 +266,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/product'
     | '/store'
+    | '/promotion'
     | '/product/addProduct'
     | '/store/create'
     | '/store/dashboard'
@@ -259,6 +278,7 @@ export interface FileRouteTypes {
     | '/product/_product'
     | '/store'
     | '/store/_store'
+    | '/promotion/'
     | '/product/_product/addProduct'
     | '/store/_store/create'
     | '/store/_store/dashboard'
@@ -270,6 +290,7 @@ export interface RootRouteChildren {
   ProfileRoute: typeof ProfileRoute
   ProductRoute: typeof ProductRouteWithChildren
   StoreRoute: typeof StoreRouteWithChildren
+  PromotionIndexRoute: typeof PromotionIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -277,6 +298,7 @@ const rootRouteChildren: RootRouteChildren = {
   ProfileRoute: ProfileRoute,
   ProductRoute: ProductRouteWithChildren,
   StoreRoute: StoreRouteWithChildren,
+  PromotionIndexRoute: PromotionIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -292,7 +314,8 @@ export const routeTree = rootRoute
         "/",
         "/profile",
         "/product",
-        "/store"
+        "/store",
+        "/promotion/"
       ]
     },
     "/": {
@@ -327,6 +350,9 @@ export const routeTree = rootRoute
         "/store/_store/create",
         "/store/_store/dashboard"
       ]
+    },
+    "/promotion/": {
+      "filePath": "promotion/index.tsx"
     },
     "/product/_product/addProduct": {
       "filePath": "product/_product.addProduct.tsx",

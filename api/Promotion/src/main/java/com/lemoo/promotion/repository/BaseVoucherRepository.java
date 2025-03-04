@@ -8,6 +8,8 @@ package com.lemoo.promotion.repository;
 
 import com.lemoo.promotion.common.enums.VoucherType;
 import com.lemoo.promotion.entity.BaseVoucher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
@@ -23,6 +25,8 @@ public interface BaseVoucherRepository extends MongoRepository<BaseVoucher, Stri
     Optional<BaseVoucher> findByIdAndStoreIdAndVoucherType(String id, String storeId, VoucherType voucherType);
 
     Optional<BaseVoucher> findByIdAndVoucherType(String voucherId, VoucherType type);
+
+    Page<BaseVoucher> findAllByStoreIdAndVoucherType(String storeId, VoucherType type, Pageable pageable);
 
     boolean existsByNameAndStoreId(String name, String storeId);
 }

@@ -24,6 +24,7 @@ import { Route as ProductProductAddProductImport } from './routes/product/_produ
 import { Route as PromotionVouchersStoreFollowerIndexImport } from './routes/promotion/vouchers/store-follower/index'
 import { Route as PromotionVouchersRegularIndexImport } from './routes/promotion/vouchers/regular/index'
 import { Route as PromotionVouchersFreeshipingIndexImport } from './routes/promotion/vouchers/freeshiping/index'
+import { Route as PromotionVouchersRegularNewImport } from './routes/promotion/vouchers/regular/new'
 
 // Create Virtual Routes
 
@@ -111,6 +112,13 @@ const PromotionVouchersFreeshipingIndexRoute =
     getParentRoute: () => rootRoute,
   } as any)
 
+const PromotionVouchersRegularNewRoute =
+  PromotionVouchersRegularNewImport.update({
+    id: '/promotion/vouchers/regular/new',
+    path: '/promotion/vouchers/regular/new',
+    getParentRoute: () => rootRoute,
+  } as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -183,6 +191,13 @@ declare module '@tanstack/react-router' {
       path: '/promotion/vouchers'
       fullPath: '/promotion/vouchers'
       preLoaderRoute: typeof PromotionVouchersIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/promotion/vouchers/regular/new': {
+      id: '/promotion/vouchers/regular/new'
+      path: '/promotion/vouchers/regular/new'
+      fullPath: '/promotion/vouchers/regular/new'
+      preLoaderRoute: typeof PromotionVouchersRegularNewImport
       parentRoute: typeof rootRoute
     }
     '/promotion/vouchers/freeshiping/': {
@@ -267,6 +282,7 @@ export interface FileRoutesByFullPath {
   '/store/create': typeof StoreStoreCreateRoute
   '/store/dashboard': typeof StoreStoreDashboardRoute
   '/promotion/vouchers': typeof PromotionVouchersIndexRoute
+  '/promotion/vouchers/regular/new': typeof PromotionVouchersRegularNewRoute
   '/promotion/vouchers/freeshiping': typeof PromotionVouchersFreeshipingIndexRoute
   '/promotion/vouchers/regular': typeof PromotionVouchersRegularIndexRoute
   '/promotion/vouchers/store-follower': typeof PromotionVouchersStoreFollowerIndexRoute
@@ -281,6 +297,7 @@ export interface FileRoutesByTo {
   '/store/create': typeof StoreStoreCreateRoute
   '/store/dashboard': typeof StoreStoreDashboardRoute
   '/promotion/vouchers': typeof PromotionVouchersIndexRoute
+  '/promotion/vouchers/regular/new': typeof PromotionVouchersRegularNewRoute
   '/promotion/vouchers/freeshiping': typeof PromotionVouchersFreeshipingIndexRoute
   '/promotion/vouchers/regular': typeof PromotionVouchersRegularIndexRoute
   '/promotion/vouchers/store-follower': typeof PromotionVouchersStoreFollowerIndexRoute
@@ -298,6 +315,7 @@ export interface FileRoutesById {
   '/store/_store/create': typeof StoreStoreCreateRoute
   '/store/_store/dashboard': typeof StoreStoreDashboardRoute
   '/promotion/vouchers/': typeof PromotionVouchersIndexRoute
+  '/promotion/vouchers/regular/new': typeof PromotionVouchersRegularNewRoute
   '/promotion/vouchers/freeshiping/': typeof PromotionVouchersFreeshipingIndexRoute
   '/promotion/vouchers/regular/': typeof PromotionVouchersRegularIndexRoute
   '/promotion/vouchers/store-follower/': typeof PromotionVouchersStoreFollowerIndexRoute
@@ -314,6 +332,7 @@ export interface FileRouteTypes {
     | '/store/create'
     | '/store/dashboard'
     | '/promotion/vouchers'
+    | '/promotion/vouchers/regular/new'
     | '/promotion/vouchers/freeshiping'
     | '/promotion/vouchers/regular'
     | '/promotion/vouchers/store-follower'
@@ -327,6 +346,7 @@ export interface FileRouteTypes {
     | '/store/create'
     | '/store/dashboard'
     | '/promotion/vouchers'
+    | '/promotion/vouchers/regular/new'
     | '/promotion/vouchers/freeshiping'
     | '/promotion/vouchers/regular'
     | '/promotion/vouchers/store-follower'
@@ -342,6 +362,7 @@ export interface FileRouteTypes {
     | '/store/_store/create'
     | '/store/_store/dashboard'
     | '/promotion/vouchers/'
+    | '/promotion/vouchers/regular/new'
     | '/promotion/vouchers/freeshiping/'
     | '/promotion/vouchers/regular/'
     | '/promotion/vouchers/store-follower/'
@@ -354,6 +375,7 @@ export interface RootRouteChildren {
   ProductRoute: typeof ProductRouteWithChildren
   StoreRoute: typeof StoreRouteWithChildren
   PromotionVouchersIndexRoute: typeof PromotionVouchersIndexRoute
+  PromotionVouchersRegularNewRoute: typeof PromotionVouchersRegularNewRoute
   PromotionVouchersFreeshipingIndexRoute: typeof PromotionVouchersFreeshipingIndexRoute
   PromotionVouchersRegularIndexRoute: typeof PromotionVouchersRegularIndexRoute
   PromotionVouchersStoreFollowerIndexRoute: typeof PromotionVouchersStoreFollowerIndexRoute
@@ -365,6 +387,7 @@ const rootRouteChildren: RootRouteChildren = {
   ProductRoute: ProductRouteWithChildren,
   StoreRoute: StoreRouteWithChildren,
   PromotionVouchersIndexRoute: PromotionVouchersIndexRoute,
+  PromotionVouchersRegularNewRoute: PromotionVouchersRegularNewRoute,
   PromotionVouchersFreeshipingIndexRoute:
     PromotionVouchersFreeshipingIndexRoute,
   PromotionVouchersRegularIndexRoute: PromotionVouchersRegularIndexRoute,
@@ -387,6 +410,7 @@ export const routeTree = rootRoute
         "/product",
         "/store",
         "/promotion/vouchers/",
+        "/promotion/vouchers/regular/new",
         "/promotion/vouchers/freeshiping/",
         "/promotion/vouchers/regular/",
         "/promotion/vouchers/store-follower/"
@@ -439,6 +463,9 @@ export const routeTree = rootRoute
     },
     "/promotion/vouchers/": {
       "filePath": "promotion/vouchers/index.tsx"
+    },
+    "/promotion/vouchers/regular/new": {
+      "filePath": "promotion/vouchers/regular/new.tsx"
     },
     "/promotion/vouchers/freeshiping/": {
       "filePath": "promotion/vouchers/freeshiping/index.tsx"

@@ -8,6 +8,8 @@
 package com.lemoo.product.service.impl;
 
 import com.lemoo.product.dto.response.InternalProductSkuResponse;
+import com.lemoo.product.entity.ProductSku;
+import com.lemoo.product.exception.NotfoundException;
 import com.lemoo.product.mapper.ProductSkuMapper;
 import com.lemoo.product.repository.ProductSkuRepository;
 import com.lemoo.product.service.InternalProductService;
@@ -25,10 +27,9 @@ public class InternalProductServiceImpl implements InternalProductService {
 
     @Override
     public InternalProductSkuResponse getSkuBySkuCode(String skuCode) {
-        var skuOptional = productSkuRepository.findBySkuCode(skuCode);
-        return skuOptional
-                .map(productSkuMapper::toInternalProductSkuResponse)
-                .orElse(null);
+        ProductSku sku = productSkuRepository.findBySkuCode(skuCode)
+                .orElseThrow(() -> new NotfoundException("Sku " + skuCode + " not found"));
+        return productSkuMapper.toInternalProductSkuResponse(sku);
     }
 
     @Override

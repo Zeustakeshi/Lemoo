@@ -7,6 +7,7 @@
 
 package com.lemoo.product.mapper;
 
+import com.lemoo.product.dto.response.InternalProductSkuResponse;
 import com.lemoo.product.dto.response.ProductSkuResponse;
 import com.lemoo.product.entity.ProductSku;
 import org.mapstruct.Mapper;
@@ -19,4 +20,7 @@ public interface ProductSkuMapper {
     @Mapping(target = "lemooSku", source = "skuCode")
     @Mapping(target = "originPrice", source = "price")
     ProductSkuResponse toProductSkuResponse(ProductSku sku);
+
+    InternalProductSkuResponse toInternalProductSkuResponse(ProductSku sku);
+
 }

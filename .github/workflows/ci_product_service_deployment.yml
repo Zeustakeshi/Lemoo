@@ -12,7 +12,7 @@ jobs:
     env:
       MONGODB_URI: "mongodb://mongo:XjGzleHCOCKjCqXTmVkfmhHKNYeHFowG@trolley.proxy.rlwy.net:58540"
       MONGODB_NAME: "test"
-      REDIS_URL: "redis://default:UoSwtXHXZiJSlIaqiWtayviaNGOibxQL@yamanote.proxy.rlwy.net:20625"
+      REDIS_URL: ""
       CLOUDINARY_NAME: ${{secrets.CLOUDINARY_NAME}}
       CLOUDINARY_API_KEY: ${{secrets.CLOUDINARY_API_KEY}}
       CLOUDINARY_API_SECRET: ${{secrets.CLOUDINARY_API_SECRET}}

@@ -1,0 +1,42 @@
+/*
+ *  InternalProductServiceImpl
+ *  @author: Minhhieuano
+ *  @created 3/5/2025 4:31 PM
+ * */
+
+
+package com.lemoo.product.service.impl;
+
+import com.lemoo.product.dto.response.InternalProductSkuResponse;
+import com.lemoo.product.mapper.ProductSkuMapper;
+import com.lemoo.product.repository.ProductSkuRepository;
+import com.lemoo.product.service.InternalProductService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.Set;
+import java.util.stream.Collectors;
+
+@Service
+@RequiredArgsConstructor
+public class InternalProductServiceImpl implements InternalProductService {
+    private final ProductSkuMapper productSkuMapper;
+    private final ProductSkuRepository productSkuRepository;
+
+    @Override
+    public InternalProductSkuResponse getSkuBySkuCode(String skuCode) {
+        var skuOptional = productSkuRepository.findBySkuCode(skuCode);
+        return skuOptional
+                .map(productSkuMapper::toInternalProductSkuResponse)
+                .orElse(null);
+    }
+
+    @Override
+    public Set<InternalProductSkuResponse> getAllSkuBySkuCodes(Set<String> skuCode) {
+        return productSkuRepository
+                .findBySkuCodeIn(skuCode)
+                .stream()
+                .map(productSkuMapper::toInternalProductSkuResponse)
+                .collect(Collectors.toSet());
+    }
+}

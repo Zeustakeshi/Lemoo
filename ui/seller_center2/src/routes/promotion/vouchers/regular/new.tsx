@@ -1,3 +1,4 @@
+import { createRegularVoucher } from "@/api/voucher.api";
 import { VoucherScope } from "@/common/enum/voucher.enum";
 import { Button } from "@/components/ui/button";
 import VoucherAvailableInput from "@/components/voucher-form/VoucherAvailableInput";
@@ -12,8 +13,10 @@ import {
     RegularVoucherSchemaType,
 } from "@/schema/voucher.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { FormProvider, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 
 export const Route = createFileRoute("/promotion/vouchers/regular/new")({
     component: RouteComponent,
@@ -28,8 +31,21 @@ function RouteComponent() {
         },
     });
 
+    const { mutateAsync: createVoucherMutation, isPending } = useMutation({
+        mutationKey: ["create-voucher", "regular-voucher"],
+        mutationFn: async (voucher: RegularVoucherSchemaType) =>
+            await createRegularVoucher(voucher),
+    });
+
     const handleSubmit = async (value: RegularVoucherSchemaType) => {
-        console.log({ value });
+        toast.promise(async () => createVoucherMutation(value), {
+            success: "Tạo khuyến mãi thành công",
+            error: (error) => {
+                console.log(error);
+                return `Tạo khuyến mãi thất bại ${error}`;
+            },
+            loading: "Đang tạo khuyến mãi",
+        });
     };
 
     return (
@@ -46,7 +62,11 @@ function RouteComponent() {
                 <VoucherDiscountTypeSelection></VoucherDiscountTypeSelection>
                 <VoucherLimitPerUserInput></VoucherLimitPerUserInput>
                 <VoucherAvailableInput></VoucherAvailableInput>
-                <Button>Submit</Button>
+                <div className="flex justify-end">
+                    <Button disabled={isPending} className="">
+                        {isPending ? "Đang tạo khuyến mãi" : "Tạo khuyến mãi"}
+                    </Button>
+                </div>
             </form>
         </FormProvider>
     );

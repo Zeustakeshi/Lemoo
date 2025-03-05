@@ -1,3 +1,4 @@
+import { RegularVoucherSchemaType } from "@/schema/voucher.schema";
 import { Pageable } from "../common/type/page.type";
 import { Store } from "../common/type/store.type";
 import { RegularVoucherResponse } from "../common/type/voucher.type";
@@ -42,4 +43,13 @@ export const deactivateRegularVoucher = async (voucherId: string) => {
             },
         }
     );
+};
+
+export const createRegularVoucher = async (data: RegularVoucherSchemaType) => {
+    const store = getSessionStorageValue<Store>("storeInfo");
+    return await api.post("/promotion/vouchers/regular", data, {
+        headers: {
+            "X-store-id": store?.id,
+        },
+    });
 };

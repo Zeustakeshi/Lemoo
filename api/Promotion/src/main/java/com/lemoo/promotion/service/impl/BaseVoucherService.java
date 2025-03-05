@@ -8,6 +8,7 @@
 package com.lemoo.promotion.service.impl;
 
 import com.lemoo.promotion.common.enums.DiscountType;
+import com.lemoo.promotion.common.enums.VoucherScope;
 import com.lemoo.promotion.common.enums.VoucherStatus;
 import com.lemoo.promotion.common.enums.VoucherType;
 import com.lemoo.promotion.dto.common.AuthenticatedAccount;
@@ -17,11 +18,14 @@ import com.lemoo.promotion.exception.BadRequestException;
 import com.lemoo.promotion.exception.ForbiddenException;
 import com.lemoo.promotion.exception.NotfoundException;
 import com.lemoo.promotion.repository.BaseVoucherRepository;
+import com.lemoo.promotion.service.SkuService;
 import com.lemoo.promotion.service.StoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Map;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -29,6 +33,7 @@ public abstract class BaseVoucherService {
 
     private final BaseVoucherRepository voucherRepository;
     private final StoreService storeService;
+    private final SkuService skuService;
 
     public final <T extends BaseVoucherRequest> String createVoucher(String storeId, AuthenticatedAccount account, T request) {
         // verify store
@@ -73,6 +78,26 @@ public abstract class BaseVoucherService {
         if (voucher.getStatus().equals(VoucherStatus.NOT_ACTIVE)) return;
 
         voucher.setStatus(VoucherStatus.NOT_ACTIVE);
+
+        voucherRepository.save(voucher);
+    }
+
+    public void addSkuToVoucher(String voucherId, Set<String> skus, String storeId, AuthenticatedAccount account) {
+        storeService.verifyStore(account.getId(), storeId);
+        BaseVoucher voucher = voucherRepository.findByIdAndStoreId(voucherId, storeId)
+                .orElseThrow(() -> new NotfoundException("Voucher " + voucherId + " not found"));
+
+        if (!voucher.getScope().equals(VoucherScope.SPECIFIC_PRODUCT)) {
+            throw new ForbiddenException("The voucher does not support apply specific product.");
+        }
+        Map<String, Boolean> validateResults = skuService.validateSkus(skus);
+
+        skus.forEach(sku -> {
+            if (!validateResults.containsKey(sku))
+                throw new NotfoundException("Sku " + sku + " not found.");
+        });
+
+        voucher.setSkus(skus);
 
         voucherRepository.save(voucher);
     }

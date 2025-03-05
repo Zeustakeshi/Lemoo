@@ -9,6 +9,7 @@ package com.lemoo.promotion.controller;
 
 import com.lemoo.promotion.common.constants.CustomRequestHeader;
 import com.lemoo.promotion.dto.common.AuthenticatedAccount;
+import com.lemoo.promotion.dto.request.AddVoucherSkuRequest;
 import com.lemoo.promotion.dto.request.StoreFollowerVoucherRequest;
 import com.lemoo.promotion.dto.response.ApiResponse;
 import com.lemoo.promotion.dto.response.StoreFollowerVoucherResponse;
@@ -61,6 +62,17 @@ public class StoreFollowerVoucherController {
             @AuthenticationPrincipal AuthenticatedAccount account
     ) {
         storeFollowerVoucherService.deactivateVoucher(storeId, account, voucherId);
+        return ApiResponse.success(true);
+    }
+
+    @PostMapping("/{voucherId}/skus")
+    public ApiResponse<Boolean> addSkuToVoucher(
+            @RequestBody @Valid AddVoucherSkuRequest request,
+            @PathVariable("voucherId") String voucherId,
+            @AuthenticationPrincipal AuthenticatedAccount account,
+            @RequestHeader(CustomRequestHeader.STORE_ID) String storeId
+    ) {
+        storeFollowerVoucherService.addSkuToVoucher(voucherId, request.getSkus(), storeId, account);
         return ApiResponse.success(true);
     }
 }

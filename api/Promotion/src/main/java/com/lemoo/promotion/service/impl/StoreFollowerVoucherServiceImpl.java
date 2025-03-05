@@ -18,6 +18,7 @@ import com.lemoo.promotion.entity.StoreFollowerVoucher;
 import com.lemoo.promotion.exception.BadRequestException;
 import com.lemoo.promotion.mapper.VoucherMapper;
 import com.lemoo.promotion.repository.BaseVoucherRepository;
+import com.lemoo.promotion.service.SkuService;
 import com.lemoo.promotion.service.StoreFollowerVoucherService;
 import com.lemoo.promotion.service.StoreService;
 import org.springframework.stereotype.Service;
@@ -32,9 +33,10 @@ public class StoreFollowerVoucherServiceImpl extends BaseVoucherService implemen
     public StoreFollowerVoucherServiceImpl(
             BaseVoucherRepository voucherRepository,
             StoreService storeService,
-            VoucherMapper voucherMapper
+            VoucherMapper voucherMapper,
+            SkuService skuService
     ) {
-        super(voucherRepository, storeService);
+        super(voucherRepository, storeService, skuService);
         this.voucherMapper = voucherMapper;
     }
 

@@ -19,6 +19,7 @@ import com.lemoo.promotion.mapper.PageMapper;
 import com.lemoo.promotion.mapper.VoucherMapper;
 import com.lemoo.promotion.repository.BaseVoucherRepository;
 import com.lemoo.promotion.service.RegularVoucherService;
+import com.lemoo.promotion.service.SkuService;
 import com.lemoo.promotion.service.StoreService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -32,19 +33,22 @@ public class RegularVoucherServiceImpl extends BaseVoucherService implements Reg
     private final BaseVoucherRepository baseVoucherRepository;
     private final StoreService storeService;
     private final PageMapper pageMapper;
+    private final SkuService skuService;
 
     public RegularVoucherServiceImpl(
             BaseVoucherRepository voucherRepository,
             StoreService storeService,
             VoucherMapper voucherMapper,
             BaseVoucherRepository baseVoucherRepository,
-            PageMapper pageMapper
+            PageMapper pageMapper,
+            SkuService skuService
     ) {
-        super(voucherRepository, storeService);
+        super(voucherRepository, storeService, skuService);
         this.voucherMapper = voucherMapper;
         this.baseVoucherRepository = baseVoucherRepository;
         this.storeService = storeService;
         this.pageMapper = pageMapper;
+        this.skuService = skuService;
     }
 
     @Override

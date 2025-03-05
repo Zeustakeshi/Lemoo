@@ -11,6 +11,8 @@ import com.lemoo.promotion.dto.request.RegularVoucherRequest;
 import com.lemoo.promotion.dto.response.PageableResponse;
 import com.lemoo.promotion.dto.response.RegularVoucherResponse;
 
+import java.util.Set;
+
 public interface RegularVoucherService {
     String createVoucher(RegularVoucherRequest request, String storeId, AuthenticatedAccount account);
 
@@ -21,4 +23,6 @@ public interface RegularVoucherService {
     void activateVoucher(String storeId, AuthenticatedAccount account, String voucherId);
 
     void deactivateVoucher(String storeId, AuthenticatedAccount account, String voucherId);
+
+    void addSkuToVoucher(String voucherId, Set<String> skus, String storeId, AuthenticatedAccount account);
 }

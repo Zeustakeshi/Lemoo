@@ -10,6 +10,9 @@ import { useParams } from "@tanstack/react-router";
 import { Star } from "lucide-react";
 import { useEffect, useState } from "react";
 import ProductImage from "./ProductImage";
+import { useAuth } from "@/context/AuthContext";
+import { store } from "@/store/store";
+import { AddProductToCart } from "@/common/type/cart.type";
 
 const ProductDetail = () => {
   const { productId }: { productId: string } = useParams({ strict: false });
@@ -109,12 +112,14 @@ const ProductDetail = () => {
     id: string;
     price: number;
     discount?: number;
+    productName?: string;
   };
 
   const [selectSku, setSelectSku] = useState<SkuType>();
   const [quantity, setQuantity] = useState(1);
   const [dataImage, setDataImage] = useState<string[]>();
   const listImage = [] as string[];
+  const { addToCartContext } = useAuth();
 
   useEffect(() => {
     if (data) {
@@ -140,13 +145,17 @@ const ProductDetail = () => {
 
   // Thêm vào giỏ hàng
   const addToCart = async () => {
-    const dataCart = {
+    const dataCart: AddProductToCart = {
       // Thực hiện thêm vào giỏ hàng
+      productName: data?.name ?? "",
+      storeId: data?.storeId ?? "",
       productId: data?.id ?? "",
-      skuId: selectSku?.id,
-      price: selectSku?.discount ?? selectSku?.price,
-      quantity: quantity, // sửa lại onchange
+      productSku: selectSku?.id ?? "",
+      productPrice: selectSku?.discount ?? selectSku?.price ?? 0,
+      productQuantity: quantity, // sửa lại onchange
+      productImage: data?.imageUrl ?? "",
     };
+    addToCartContext(dataCart);
     console.log("Thêm vào giỏ hàng thành công!, dữ liệu: ", dataCart);
   };
 
@@ -247,6 +256,7 @@ const ProductDetail = () => {
                     id: item.lemooSku,
                     price: item.originPrice,
                     discount: item.promotionPrice,
+                    productName: item.name,
                   })
                 }
                 className="px-6 py-3 min-w-[3rem] font-semibold rounded-lg hover:bg-gray-200 transition duration-300"

@@ -1,19 +1,31 @@
 export type CartType = {
-    id: string;
-    items: CartItemType[];
+  id: string;
+  items: CartItemType[];
 };
 
 export type CartItemType = {
-    id: string;
-    storeId: string;
-    skus: CartItemSkuType[];
+  id: string;
+  storeId: string;
+  name: string;
+  skus: CartItemSkuType[];
 };
 
 export type CartItemSkuType = {
-    lemooSku: string;
-    productId: string;
-    image: string;
-    quantity: number;
-    price: number;
-    variants: Record<string, string>;
+  lemooSku: string;
+  nameSku: string;
+  productId: string;
+  image: string;
+  quantity: number;
+  price: number;
+  variants?: Record<string, string>;
+};
+
+export type AddProductToCart = {
+  productName: string;
+  productSku: string;
+  storeId: string;
+  productQuantity: number;
+  productPrice: number;
+  productId: string;
+  productImage: string;
 };

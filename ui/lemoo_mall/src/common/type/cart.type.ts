@@ -29,3 +29,10 @@ export type AddProductToCart = {
   productId: string;
   productImage: string;
 };
+
+export type SkuType = {
+  id: string;
+  price: number;
+  discount?: number;
+  productName?: string;
+};

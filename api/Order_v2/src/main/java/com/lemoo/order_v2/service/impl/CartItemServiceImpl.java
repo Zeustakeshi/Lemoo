@@ -12,6 +12,7 @@ import com.lemoo.order_v2.dto.response.CartItemResponse;
 import com.lemoo.order_v2.dto.response.PageableResponse;
 import com.lemoo.order_v2.dto.response.SkuResponse;
 import com.lemoo.order_v2.entity.CartItem;
+import com.lemoo.order_v2.exception.NotfoundException;
 import com.lemoo.order_v2.mapper.CartItemMapper;
 import com.lemoo.order_v2.mapper.PageMapper;
 import com.lemoo.order_v2.repository.CartItemRepository;
@@ -37,7 +38,13 @@ public class CartItemServiceImpl implements CartItemService {
     public String addToCart(AddToCartRequest request, AuthenticatedAccount account) {
 
         // Retrieve SKU information based on the provided SKU code from the request.
-        SkuResponse sku = skuService.getSkuBySkuCode(request.getLemooSku());
+        Optional<SkuResponse> skuResponseOptional = skuService.getSkuBySkuCode(request.getLemooSku());
+
+        if (skuResponseOptional.isEmpty()) {
+            throw new NotfoundException("Sku " + request.getLemooSku() + " not found");
+        }
+
+        SkuResponse sku = skuResponseOptional.get();
 
         // Check if the cart item already exists for the user and SKU.
         Optional<CartItem> cartItemOptional =

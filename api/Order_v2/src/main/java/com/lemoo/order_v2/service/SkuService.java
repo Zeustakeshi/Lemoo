@@ -8,6 +8,8 @@ package com.lemoo.order_v2.service;
 
 import com.lemoo.order_v2.dto.response.SkuResponse;
 
+import java.util.Optional;
+
 public interface SkuService {
-    SkuResponse getSkuBySkuCode(String skuCode);
+    Optional<SkuResponse> getSkuBySkuCode(String skuCode);
 }

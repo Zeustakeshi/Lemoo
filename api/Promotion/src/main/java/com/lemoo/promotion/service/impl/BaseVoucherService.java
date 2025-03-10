@@ -93,8 +93,12 @@ public abstract class BaseVoucherService {
         Map<String, Boolean> validateResults = skuService.validateSkus(skus);
 
         skus.forEach(sku -> {
-            if (!validateResults.containsKey(sku))
+            if (!validateResults.containsKey(sku) ||
+                    (validateResults.containsKey(sku) && !validateResults.get(sku))
+            ) {
                 throw new NotfoundException("Sku " + sku + " not found.");
+            }
+
         });
 
         voucher.setSkus(skus);

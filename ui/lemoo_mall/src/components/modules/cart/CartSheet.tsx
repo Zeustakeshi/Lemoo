@@ -1,4 +1,3 @@
-import { CART_STORAGE_KEY } from "@/common/constants/cart";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import {
@@ -10,55 +9,25 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { useAuth } from "@/context/AuthContext";
+import {
+  getTotalPrice,
+  getTotalQuantity,
+  removeCartItemSku,
+} from "@/store/cart/cartSlice";
+import { AppDispatch, RootState } from "@/store/store";
+
 import { ShoppingBag } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 const CartSheet = () => {
-  const { cartInfo, removeFromCartContext } = useAuth();
-  const [localCart, setLocalCart] = useState(cartInfo || []);
-  useEffect(() => {
-    const storedCart = localStorage.getItem(CART_STORAGE_KEY);
-    if (storedCart) {
-      setLocalCart(JSON.parse(storedCart));
-    }
-  }, [cartInfo]); // Cập nhật state nếu cartInfo thay đổi
+  const cartInfo = useSelector((state: RootState) => state.cart);
 
-  const getTotalQuantity = () => {
-    return (
-      localCart?.reduce((total, cart) => {
-        return (
-          total +
-          cart.items.reduce((itemTotal, item) => {
-            return (
-              itemTotal +
-              item.skus.reduce((skuTotal, sku) => skuTotal + sku.quantity, 0)
-            );
-          }, 0)
-        );
-      }, 0) || 0
-    );
-  };
+  const dispatch = useDispatch<AppDispatch>();
 
-  const getTotalPrice = () => {
-    return (
-      localCart?.reduce((total, cart) => {
-        return (
-          total +
-          cart.items.reduce((itemTotal, item) => {
-            return (
-              itemTotal +
-              item.skus.reduce(
-                (skuTotal, sku) => skuTotal + sku.quantity * sku.price,
-                0
-              )
-            );
-          }, 0)
-        );
-      }, 0) || 0
-    );
-  };
+  const totalQuantity = useSelector(getTotalQuantity);
+  const totalPrice = useSelector(getTotalPrice);
 
+  console.log("**dataCart info: ", cartInfo);
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -67,9 +36,9 @@ const CartSheet = () => {
           variant="ghost"
           className="  [&_svg]:size-6 [&_svg]:shrink-0 dark:[&_svg]:text-white "
         >
-          {getTotalQuantity() > 0 && (
+          {totalQuantity > 0 && (
             <span className="absolute ml-10 mt-4 mr-4 w-4 h-4 bg-red-500 text-white text-xs flex items-center justify-center rounded-full">
-              {getTotalQuantity()}
+              {totalQuantity}
             </span>
           )}
           <ShoppingBag />
@@ -84,14 +53,15 @@ const CartSheet = () => {
         </SheetHeader>
         <div className=" flex-1 w-full">
           <div className="p-4 border rounded-lg shadow bg-white">
-            {localCart?.length === 0 ? (
+            {cartInfo?.cart?.items.length === 0 ? (
               <p className="text-gray-500">Giỏ hàng trống.</p>
             ) : (
               <ul>
-                {localCart?.map((cart) =>
-                  cart.items.map((item) => (
-                    <li key={item.id}>
-                      {item.skus.map((sku) => (
+                {cartInfo?.cart?.items.map((cart) => (
+                  <div key={cart.id}>
+                    <li> {cart.name}</li>
+                    <li>
+                      {cart.skus.map((sku) => (
                         <div
                           key={sku.lemooSku}
                           className="flex items-center space-x-2"
@@ -113,10 +83,11 @@ const CartSheet = () => {
                             size="sm"
                             variant="destructive"
                             onClick={() =>
-                              removeFromCartContext(
-                                item.id,
-                                cart.id,
-                                sku.lemooSku
+                              dispatch(
+                                removeCartItemSku({
+                                  cartItemId: cart.id,
+                                  skuCode: sku.lemooSku,
+                                })
                               )
                             }
                           >
@@ -125,8 +96,8 @@ const CartSheet = () => {
                         </div>
                       ))}
                     </li>
-                  ))
-                )}
+                  </div>
+                ))}
               </ul>
             )}
           </div>
@@ -136,7 +107,7 @@ const CartSheet = () => {
           <h5 className="font-semibold">
             Tổng thanh toán:{" "}
             <span className="text-lg text-primary">
-              {getTotalPrice().toLocaleString()} vnđ
+              {totalPrice.toLocaleString()} vnđ
             </span>
           </h5>
           <Button className="w-full mt-4">Thanh toán</Button>

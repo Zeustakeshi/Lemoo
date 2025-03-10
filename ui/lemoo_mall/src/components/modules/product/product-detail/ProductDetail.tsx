@@ -10,116 +10,36 @@ import { useParams } from "@tanstack/react-router";
 import { Star } from "lucide-react";
 import { useEffect, useState } from "react";
 import ProductImage from "./ProductImage";
-import { useAuth } from "@/context/AuthContext";
-import { store } from "@/store/store";
-import { AddProductToCart } from "@/common/type/cart.type";
+import { AppDispatch } from "@/store/store";
+import { CartItemType, SkuType } from "@/common/type/cart.type";
+import { useDispatch } from "react-redux";
+import { addCartItem } from "@/store/cart/cartSlice";
+import {
+  discountCodesData,
+  maxRatingData,
+  productRatingData,
+  relatedProductsData,
+} from "@/data/product.data";
 
 const ProductDetail = () => {
+  const dispatch = useDispatch<AppDispatch>();
+
   const { productId }: { productId: string } = useParams({ strict: false });
   const { data } = useQuery({
     queryKey: [`product-detail`, productId],
     queryFn: async () => await getProductDetail(productId),
   });
-  console.log("Dữ liệu: ", data);
+  console.log("Dữ liệu API: ", data);
 
-  const productRating = 4;
-  const maxRating = 5;
-  const discountCodes = [
-    {
-      code: "ABCXYZ",
-      description:
-        "Nhập mã ABCXYZ để nhận ưu đãi giảm giá 10% cho đơn hàng từ 500.000đ",
-    },
-    {
-      code: "ABCXYZ",
-      description:
-        "Nhập mã ABCXYZ để nhận ưu đãi giảm giá 10% cho đơn hàng từ 500.000đ",
-    },
-    {
-      code: "ABCXYZ",
-      description:
-        "Nhập mã ABCXYZ để nhận ưu đãi giảm giá 10% cho đơn hàng từ 500.000đ",
-    },
-  ];
-  // Dữ liệu sản phẩm liên quan (giả lập)
-  const relatedProducts = [
-    {
-      id: 1,
-      name: "Áo sơ mi nam",
-      price: "900.000",
-      imageUrl:
-        "https://i.pinimg.com/736x/b8/b9/b7/b8b9b72c2e991f615016e04e7e6bbfac.jpg",
-      rating: 4,
-    },
-    {
-      id: 2,
-      name: "Quần jean nam",
-      price: "1.100.000",
-      imageUrl:
-        "https://i.pinimg.com/736x/c2/b3/67/c2b367c607c11a6d79ed39cc67bb7b23.jpg",
-      rating: 3,
-    },
-    {
-      id: 3,
-      name: "Áo khoác nam",
-      price: "2.000.000",
-      imageUrl:
-        "https://i.pinimg.com/736x/04/23/a5/0423a5ce66d695573c8f5c8c75304f67.jpg",
-      rating: 5,
-    },
-    {
-      id: 4,
-      name: "Giày thể thao nam",
-      price: "1.500.000",
-      imageUrl:
-        "https://i.pinimg.com/736x/7c/71/fb/7c71fbd743fd7cced70ed9fa45314d66.jpg",
-      rating: 4,
-    },
-    {
-      id: 5,
-      name: "Giày thể thao nam",
-      price: "1.500.000",
-      imageUrl:
-        "https://i.pinimg.com/736x/7c/71/fb/7c71fbd743fd7cced70ed9fa45314d66.jpg",
-      rating: 4,
-    },
-    {
-      id: 6,
-      name: "Giày thể thao nam",
-      price: "1.500.000",
-      imageUrl:
-        "https://i.pinimg.com/736x/7c/71/fb/7c71fbd743fd7cced70ed9fa45314d66.jpg",
-      rating: 4,
-    },
-    {
-      id: 7,
-      name: "Giày thể thao nam",
-      price: "1.500.000",
-      imageUrl:
-        "https://i.pinimg.com/736x/7c/71/fb/7c71fbd743fd7cced70ed9fa45314d66.jpg",
-      rating: 4,
-    },
-    {
-      id: 8,
-      name: "Giày thể thao nam",
-      price: "1.500.000",
-      imageUrl:
-        "https://i.pinimg.com/736x/7c/71/fb/7c71fbd743fd7cced70ed9fa45314d66.jpg",
-      rating: 4,
-    },
-  ];
-  type SkuType = {
-    id: string;
-    price: number;
-    discount?: number;
-    productName?: string;
-  };
+  const productRating = productRatingData;
+  const maxRating = maxRatingData;
+  const discountCodes = discountCodesData;
+  const relatedProducts = relatedProductsData;
 
   const [selectSku, setSelectSku] = useState<SkuType>();
   const [quantity, setQuantity] = useState(1);
   const [dataImage, setDataImage] = useState<string[]>();
   const listImage = [] as string[];
-  const { addToCartContext } = useAuth();
 
   useEffect(() => {
     if (data) {
@@ -145,30 +65,44 @@ const ProductDetail = () => {
 
   // Thêm vào giỏ hàng
   const addToCart = async () => {
-    const dataCart: AddProductToCart = {
-      // Thực hiện thêm vào giỏ hàng
-      productName: data?.name ?? "",
+    const dataCart: CartItemType = {
+      id: data?.id ?? "",
+      name: data?.name ?? "",
       storeId: data?.storeId ?? "",
-      productId: data?.id ?? "",
-      productSku: selectSku?.id ?? "",
-      productPrice: selectSku?.discount ?? selectSku?.price ?? 0,
-      productQuantity: quantity, // sửa lại onchange
-      productImage: data?.imageUrl ?? "",
+      skus: [
+        {
+          lemooSku: selectSku?.id ?? "",
+          nameSku: selectSku?.productName ?? "",
+          productId: data?.id ?? "",
+          image: data?.images?.[0] ?? "",
+          quantity: quantity,
+          price: selectSku?.discount ?? selectSku?.price ?? 0,
+        },
+      ],
     };
-    addToCartContext(dataCart);
+    dispatch(addCartItem(dataCart));
     console.log("Thêm vào giỏ hàng thành công!, dữ liệu: ", dataCart);
   };
 
   // Thêm vào giỏ hàng
   const buyNow = async () => {
-    const dataBuy = {
-      // Thực hiện thêm vào giỏ hàng
-      productId: data?.id ?? "",
-      skuId: selectSku?.id,
-      price: selectSku?.price,
-      quantity: quantity,
+    const dataCart: CartItemType = {
+      id: data?.id ?? "",
+      name: data?.name ?? "",
+      storeId: data?.storeId ?? "",
+      skus: [
+        {
+          lemooSku: selectSku?.id ?? "",
+          nameSku: selectSku?.productName ?? "",
+          productId: data?.id ?? "",
+          image: data?.images?.[0] ?? "",
+          quantity: quantity,
+          price: selectSku?.discount ?? selectSku?.price ?? 0,
+        },
+      ],
     };
-    console.log("Mua thành công!, dữ liệu: ", dataBuy);
+    dispatch(addCartItem(dataCart));
+    console.log("Mua thành công!, dữ liệu: ", dataCart);
   };
 
   return (

@@ -23,13 +23,14 @@ import com.lemoo.product.mapper.SellerProductMapper;
 import com.lemoo.product.mapper.SellerProductSkuMapper;
 import com.lemoo.product.repository.ProductRepository;
 import com.lemoo.product.repository.ProductSkuRepository;
-import com.lemoo.product.service.*;
+import com.lemoo.product.service.CategoryService;
+import com.lemoo.product.service.SellerProductService;
+import com.lemoo.product.service.StoreService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -47,9 +48,6 @@ public class SellerProductServiceImpl implements SellerProductService {
     private final PageMapper pageMapper;
     private final StoreService storeService;
     private final SellerProductSkuMapper sellerProductSkuMapper;
-    private final MongoTemplate mongoTemplate;
-    private final ProductCacheService productCacheService;
-    private final ProductSkuCacheService productSkuCacheService;
 
     @Override
     public ProductSimpleResponse createProduct(String storeId, AuthenticatedAccount account, ProductRequest request) {

@@ -13,9 +13,12 @@ import com.lemoo.order_v2.dto.response.CartItemResponse;
 import com.lemoo.order_v2.dto.response.CartSkuResponse;
 import com.lemoo.order_v2.dto.response.SkuResponse;
 import com.lemoo.order_v2.entity.CartItem;
+import com.lemoo.order_v2.exception.NotfoundException;
 import com.lemoo.order_v2.service.SkuService;
 import org.mapstruct.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.Optional;
 
 @Mapper
 public abstract class CartItemMapper {
@@ -23,7 +26,13 @@ public abstract class CartItemMapper {
     private SkuService skuService;
 
     public CartItemResponse toCartItemResponse(CartItem cartItem) {
-        SkuResponse skuResponse = skuService.getSkuBySkuCode(cartItem.getSkuCode());
+        Optional<SkuResponse> skuResponseOptional = skuService.getSkuBySkuCode(cartItem.getSkuCode());
+
+        if (skuResponseOptional.isEmpty()) {
+            throw new NotfoundException("Sku " + cartItem.getSkuCode() + " not found");
+        }
+
+        SkuResponse skuResponse = skuResponseOptional.get();
 
         CartItemStatus status = skuResponse.getStock() < cartItem.getQuantity() ?
                 CartItemStatus.OUT_OF_STOCK :

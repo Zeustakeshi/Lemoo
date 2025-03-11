@@ -98,16 +98,10 @@ public class SellerProductServiceImpl implements SellerProductService {
 
                     sku.setProductId(product.getId());
                     sku.setStoreId(storeId);
+                    sku.setAvailableStock(sku.getStock());
                     return sku;
                 }))
                 .toList());
-
-        // save cache
-//        Set<String> productSkuCodes = productSkus.stream().map(ProductSku::getSkuCode).collect(Collectors.toSet());
-//        productCacheService.saveProductAsync(productMapper.toProductHashCache(product));
-//        productSkuCacheService.saveSkuBulkAsync(productSkus.stream().map(productSkuMapper::toProductSkuCache).toList());
-//        productSkuCacheService.addSkuToStoreAsync(storeId, productSkuCodes);
-//        productSkuCacheService.addSkuToProductAsync(product.getId(), productSkuCodes);
 
         var productResponse = sellerProductMapper.toProductSimpleResponse(product);
         productResponse.setSkus(productSkus.stream().map(sellerProductSkuMapper::toProductSkuSimpleResponse).toList());

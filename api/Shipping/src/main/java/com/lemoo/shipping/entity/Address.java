@@ -30,4 +30,8 @@ public class Address {
 
     @NotNull
     private String detail;
+
+    public String getFullAddress() {
+        return ward + ", " + district + ", " + province;
+    }
 }

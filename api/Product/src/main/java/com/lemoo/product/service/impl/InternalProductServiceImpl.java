@@ -37,6 +37,7 @@ public class InternalProductServiceImpl implements InternalProductService {
         return productSkuRepository
                 .findBySkuCodeIn(skuCode)
                 .stream()
+                .filter(sku -> sku.getAvailableStock() > 0)
                 .map(productSkuMapper::toInternalProductSkuResponse)
                 .collect(Collectors.toSet());
     }

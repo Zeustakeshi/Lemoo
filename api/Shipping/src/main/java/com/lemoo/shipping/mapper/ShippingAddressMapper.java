@@ -7,6 +7,7 @@
 package com.lemoo.shipping.mapper;
 
 import com.lemoo.shipping.dto.request.ShippingAddressRequest;
+import com.lemoo.shipping.dto.response.InternalShippingAddressResponse;
 import com.lemoo.shipping.dto.response.ShippingAddressResponse;
 import com.lemoo.shipping.entity.ShippingAddress;
 import org.mapstruct.Mapper;
@@ -19,4 +20,13 @@ public interface ShippingAddressMapper {
     ShippingAddressResponse toShippingAddressResponse(ShippingAddress shippingAddress);
 
     ShippingAddress toShippingAddress(ShippingAddressRequest request);
+
+    default InternalShippingAddressResponse toInternalShippingAddressResponse(ShippingAddress shippingAddress) {
+        return InternalShippingAddressResponse.builder()
+                .id(shippingAddress.getId())
+                .address(shippingAddress.getAddress().getFullAddress())
+                .recipientName(shippingAddress.getRecipientName())
+                .recipientPhone(shippingAddress.getRecipientPhone())
+                .build();
+    }
 }

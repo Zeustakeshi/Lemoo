@@ -46,6 +46,8 @@ public class ProductSku extends BaseEntity {
     private LocalDateTime specialToDate;
 
     private Long stock;
+    private Long availableStock;
+
     private Double packageWidth; // cm
     private Double packageHeight; // cm
     private Double packageLength; // cm

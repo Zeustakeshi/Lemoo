@@ -22,6 +22,7 @@ public interface ProductSkuMapper {
     ProductSkuResponse toProductSkuResponse(ProductSku sku);
 
     @Mapping(target = "image", source = "sku.image.url")
+    @Mapping(target = "stock", source = "sku.availableStock")
     InternalProductSkuResponse toInternalProductSkuResponse(ProductSku sku);
 
 }

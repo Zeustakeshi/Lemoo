@@ -10,10 +10,11 @@ package com.lemoo.promotion.service;
 import com.lemoo.promotion.dto.response.SkuResponse;
 
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 public interface SkuService {
-    SkuResponse getSkuBySkuCode(String skuCode);
+    Optional<SkuResponse> getSkuBySkuCode(String skuCode);
 
     Map<String, Boolean> validateSkus(Set<String> skus);
 }

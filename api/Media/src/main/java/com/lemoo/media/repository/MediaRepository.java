@@ -8,19 +8,23 @@ package com.lemoo.media.repository;
 
 import com.lemoo.media.common.enums.MediaType;
 import com.lemoo.media.entity.BaseMedia;
-import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+import java.util.Set;
+
 @Repository
 public interface MediaRepository extends MongoRepository<BaseMedia, String> {
-	Optional<BaseMedia> findByPublicId(String publicId);
+    Optional<BaseMedia> findByPublicId(String publicId);
 
-	boolean existsByIdAndStoreId(String id, String storeId);
+    boolean existsByIdAndStoreId(String id, String storeId);
 
-	Page<BaseMedia> findAllByStoreIdAndType(String storeId, MediaType type, Pageable pageable);
+    Page<BaseMedia> findAllByStoreIdAndType(String storeId, MediaType type, Pageable pageable);
 
-	Optional<BaseMedia> findByStoreIdAndUserId(String storeId, String userId);
+    Set<BaseMedia> findAllByStoreIdAndType(String storeId, MediaType type);
+
+    Optional<BaseMedia> findByStoreIdAndUserId(String storeId, String userId);
 }

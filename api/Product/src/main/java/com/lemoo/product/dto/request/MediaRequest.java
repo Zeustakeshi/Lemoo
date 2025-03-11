@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class MediaRequest {
 
-	@NotNull private String mediaId;
+    @NotNull
+    private String mediaId;
 
-	@NotNull private String url;
 }

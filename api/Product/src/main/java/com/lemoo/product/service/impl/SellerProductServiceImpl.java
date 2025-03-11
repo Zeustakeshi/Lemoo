@@ -18,8 +18,11 @@ import com.lemoo.product.dto.response.ProductSimpleResponse;
 import com.lemoo.product.dto.response.SellerProductResponse;
 import com.lemoo.product.dto.response.SellerProductSkuResponse;
 import com.lemoo.product.entity.*;
+import com.lemoo.product.event.eventModel.ProductEvaluationEvent;
+import com.lemoo.product.event.producer.ProductEvaluationProducer;
 import com.lemoo.product.exception.ConflictException;
 import com.lemoo.product.mapper.PageMapper;
+import com.lemoo.product.mapper.ProductEvaluationMapper;
 import com.lemoo.product.mapper.SellerProductMapper;
 import com.lemoo.product.mapper.SellerProductSkuMapper;
 import com.lemoo.product.repository.ProductRepository;
@@ -54,6 +57,8 @@ public class SellerProductServiceImpl implements SellerProductService {
     private final StoreService storeService;
     private final SellerProductSkuMapper sellerProductSkuMapper;
     private final ProductMediaService productMediaService;
+    private final ProductEvaluationProducer productEvaluationProducer;
+    private final ProductEvaluationMapper productEvaluationMapper;
 
     @Override
     public ProductSimpleResponse createProduct(String storeId, AuthenticatedAccount account, ProductRequest request) {
@@ -71,7 +76,7 @@ public class SellerProductServiceImpl implements SellerProductService {
         category.getPaths().add(category.getId());
 
         Product product = productRepository.save(Product.builder()
-                .status(ProductStatus.LIVE) // TODO: change it in production
+                .status(ProductStatus.PENDING)
                 .storeId(storeId)
                 .categories(category.getPaths())
                 .name(request.getName())
@@ -102,6 +107,10 @@ public class SellerProductServiceImpl implements SellerProductService {
                     return sku;
                 }))
                 .toList());
+
+        ProductEvaluationEvent productEvaluationEvent = productEvaluationMapper
+                .toProductEvaluationEvent(product, category.getName(), productSkus);
+        productEvaluationProducer.evaluationProduct(productEvaluationEvent);
 
         var productResponse = sellerProductMapper.toProductSimpleResponse(product);
         productResponse.setSkus(productSkus.stream().map(sellerProductSkuMapper::toProductSkuSimpleResponse).toList());
@@ -164,4 +173,5 @@ public class SellerProductServiceImpl implements SellerProductService {
 
         return mediaIds;
     }
+
 }

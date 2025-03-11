@@ -1,29 +1,28 @@
 import { getProductDetail } from "@/api/product.api";
-
 import { Button } from "@/components/ui/button";
 import Ratting from "@/components/ui/ratting";
 import VoucherList from "@/components/voucher/VoucherList";
-
 import { formatMoneyVND } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "@tanstack/react-router";
 import { Star } from "lucide-react";
 import { useEffect, useState } from "react";
 import ProductImage from "./ProductImage";
-import { AppDispatch } from "@/store/store";
-import { CartItemType, SkuType } from "@/common/type/cart.type";
-import { useDispatch } from "react-redux";
-import { addCartItem } from "@/store/cart/cartSlice";
+
 import {
   discountCodesData,
   maxRatingData,
   productRatingData,
   relatedProductsData,
 } from "@/data/product.data";
+import { AddToCart } from "@/api/cart.api";
+import { CartItemType, SkuType } from "@/common/type/cart.type";
+import { AppDispatch } from "@/store/store";
+import { useDispatch } from "react-redux";
+import { addCartItem } from "@/store/cart/cartSlice";
 
 const ProductDetail = () => {
   const dispatch = useDispatch<AppDispatch>();
-
   const { productId }: { productId: string } = useParams({ strict: false });
   const { data } = useQuery({
     queryKey: [`product-detail`, productId],
@@ -52,7 +51,7 @@ const ProductDetail = () => {
             discount: data?.skus[0]?.promotionPrice ?? 0,
           });
         });
-        console.log("List image: ", listImage);
+        console.log("Dữ liệu detail: ", data);
         setDataImage(listImage);
       }
     }
@@ -80,29 +79,14 @@ const ProductDetail = () => {
         },
       ],
     };
-    dispatch(addCartItem(dataCart));
-    console.log("Thêm vào giỏ hàng thành công!, dữ liệu: ", dataCart);
-  };
 
-  // Thêm vào giỏ hàng
-  const buyNow = async () => {
-    const dataCart: CartItemType = {
-      id: data?.id ?? "",
-      name: data?.name ?? "",
-      storeId: data?.storeId ?? "",
-      skus: [
-        {
-          lemooSku: selectSku?.id ?? "",
-          nameSku: selectSku?.productName ?? "",
-          productId: data?.id ?? "",
-          image: data?.images?.[0] ?? "",
-          quantity: quantity,
-          price: selectSku?.discount ?? selectSku?.price ?? 0,
-        },
-      ],
-    };
-    dispatch(addCartItem(dataCart));
-    console.log("Mua thành công!, dữ liệu: ", dataCart);
+    try {
+      const res = await AddToCart(selectSku?.id ?? "", quantity);
+      dispatch(addCartItem(dataCart));
+      console.log("Thêm vào giỏ hàng thành công!, dữ liệu: ", res);
+    } catch (e) {
+      console.log("Lỗi thêm vào giỏ hàng: ", e);
+    }
   };
 
   return (
@@ -202,10 +186,7 @@ const ProductDetail = () => {
 
           {/* Nút hành động */}
           <div className="flex flex-col gap-2">
-            <Button
-              onClick={buyNow}
-              className="px-6 py-3 bg-gray-700 text-white font-semibold rounded-3xl hover:bg-blue-600 transition duration-300"
-            >
+            <Button className="px-6 py-3 bg-gray-700 text-white font-semibold rounded-3xl hover:bg-blue-600 transition duration-300">
               Mua Ngay
             </Button>
             <Button

@@ -9,6 +9,7 @@ package com.lemoo.product.service.impl;
 import com.lemoo.product.common.enums.ProductStatus;
 import com.lemoo.product.common.utils.SkuGenerator;
 import com.lemoo.product.dto.common.AuthenticatedAccount;
+import com.lemoo.product.dto.request.MediaRequest;
 import com.lemoo.product.dto.request.ProductRequest;
 import com.lemoo.product.dto.request.ProductSkuRequest;
 import com.lemoo.product.dto.request.ProductVariantRequest;
@@ -24,6 +25,7 @@ import com.lemoo.product.mapper.SellerProductSkuMapper;
 import com.lemoo.product.repository.ProductRepository;
 import com.lemoo.product.repository.ProductSkuRepository;
 import com.lemoo.product.service.CategoryService;
+import com.lemoo.product.service.ProductMediaService;
 import com.lemoo.product.service.SellerProductService;
 import com.lemoo.product.service.StoreService;
 import lombok.RequiredArgsConstructor;
@@ -34,7 +36,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -48,6 +53,7 @@ public class SellerProductServiceImpl implements SellerProductService {
     private final PageMapper pageMapper;
     private final StoreService storeService;
     private final SellerProductSkuMapper sellerProductSkuMapper;
+    private final ProductMediaService productMediaService;
 
     @Override
     public ProductSimpleResponse createProduct(String storeId, AuthenticatedAccount account, ProductRequest request) {
@@ -57,7 +63,8 @@ public class SellerProductServiceImpl implements SellerProductService {
             throw new ConflictException("Product name has been existed in store");
         }
 
-        // TODO: validate image with media service
+        Set<String> mediaIds = getMediaIdListFromProductRequest(request);
+        Map<String, String> mediaUrls = productMediaService.batchGetMediaUrl(mediaIds, storeId);
 
         Category category = categoryService.findById(request.getCategoryId());
 
@@ -70,7 +77,7 @@ public class SellerProductServiceImpl implements SellerProductService {
                 .name(request.getName())
                 .description(request.getDescription())
                 .variants(toProductVariant(request.getVariants()))
-                .smallImage(sellerProductMapper.toProductMedia(request.getSmallImage()))
+                .smallImage(sellerProductMapper.toProductMedia(request.getSmallImage(), mediaUrls))
                 .images(request.getImages().stream()
                         .map(sellerProductMapper::toProductMedia)
                         .toList())
@@ -82,7 +89,7 @@ public class SellerProductServiceImpl implements SellerProductService {
                 .map((skuRequest -> {
                     var sku = sellerProductMapper.toProductSku(skuRequest);
 
-                    sku.setImage(sellerProductMapper.toProductMedia(skuRequest.getImage()));
+                    sku.setImage(sellerProductMapper.toProductMedia(skuRequest.getImage(), mediaUrls));
 
                     sku.setSkuCode(SkuGenerator.generateSKU(
                             product.getId(),
@@ -144,5 +151,23 @@ public class SellerProductServiceImpl implements SellerProductService {
                                 .build()
                         ).toList())
                 .build()).toList();
+    }
+
+    private Set<String> getMediaIdListFromProductRequest(ProductRequest productRequest) {
+        Set<String> mediaIds = productRequest
+                .getImages()
+                .stream()
+                .map(MediaRequest::getMediaId)
+                .collect(Collectors.toSet());
+
+        mediaIds.addAll(
+                productRequest
+                        .getSkus()
+                        .stream()
+                        .map(skuRequest -> skuRequest.getImage().getMediaId())
+                        .toList()
+        );
+
+        return mediaIds;
     }
 }

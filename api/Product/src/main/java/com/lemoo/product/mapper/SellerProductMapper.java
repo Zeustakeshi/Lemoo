@@ -18,6 +18,8 @@ import com.lemoo.product.entity.ProductSku;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import java.util.Map;
+
 @Mapper(componentModel = "spring")
 public interface SellerProductMapper {
 
@@ -33,6 +35,13 @@ public interface SellerProductMapper {
 
     @Mapping(target = "id", source = "mediaId")
     ProductMedia toProductMedia(MediaRequest mediaRequest);
+
+    default ProductMedia toProductMedia(MediaRequest mediaRequest, Map<String, String> mediaUrls) {
+        return ProductMedia.builder()
+                .id(mediaRequest.getMediaId())
+                .url(mediaUrls.get(mediaRequest.getMediaId()))
+                .build();
+    }
 
     @Mapping(target = "thumbnail", source = "product.smallImage.url")
     ProductFeatureResponse toProductFeatureResponse(Product product);

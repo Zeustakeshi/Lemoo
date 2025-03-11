@@ -81,7 +81,8 @@ public class SellerProductServiceImpl implements SellerProductService {
         List<ProductSku> productSkus = productSkuRepository.saveAll(skuRequests.stream()
                 .map((skuRequest -> {
                     var sku = sellerProductMapper.toProductSku(skuRequest);
-                    if (sku.getImage() == null) sku.setImage(product.getSmallImage());
+
+                    sku.setImage(sellerProductMapper.toProductMedia(skuRequest.getImage()));
 
                     sku.setSkuCode(SkuGenerator.generateSKU(
                             product.getId(),

@@ -1,3 +1,83 @@
+/**
+ * Dữ liệu trả về từ api
+ */
+export type DataTypeCart = {
+  /**
+   * Nội dung dữ liệu trả về
+   */
+  content: Content[];
+  /**
+   * Cờ thể hiện có dữ liệu trả về hay không
+   */
+  empty: boolean;
+  /**
+   * Cờ thể hiện có phải trang đầu tiên không
+   */
+  first: boolean;
+  /**
+   * Cờ thể hiện có phải trang cuối cùng không
+   */
+  last: boolean;
+  /**
+   * Số trang hiện tại
+   */
+  pageNumber: number;
+  /**
+   * Số lượng dữ liệu trả về trong trang hiện tại
+   */
+  size: number;
+  /**
+   * Tổng số lượng dữ liệu hiện có
+   */
+  totalElements: number;
+  /**
+   * Tổng số trang hiện có
+   */
+  totalPages: number;
+  [property: string]: any;
+};
+
+export type Content = {
+  /**
+   * Mã cart item
+   */
+  id: string;
+  /**
+   * Mã sản phẩm
+   */
+  productId: string;
+  /**
+   * Số lượng sản phẩm trong giỏ hàng
+   */
+  quantity: number;
+  sku: Sku;
+  /**
+   * Mã cửa hàng
+   */
+  storeId: string;
+  [property: string]: any;
+};
+
+export type Sku = {
+  /**
+   * Ảnh sku
+   */
+  image: string;
+  /**
+   * Mã sku sản phẩm
+   */
+  lemooSku: string;
+  /**
+   * Tên sku
+   */
+  name: string;
+  /**
+   * Giá sku
+   */
+  price: number;
+  [property: string]: any;
+};
+
 export type CartType = {
   id: string;
   items: CartItemType[];

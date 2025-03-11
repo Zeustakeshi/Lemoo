@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -28,11 +29,11 @@ public class InternalMediaServiceImpl implements InternalMediaService {
     public Map<String, String> batchGetImageMediaUrl(Set<String> mediaIds, String storeId) {
         Map<String, String> result = new HashMap<>();
 
-        Set<BaseMedia> mediaList = mediaRepository.findAllByStoreIdAndType(storeId, MediaType.IMAGE);
+        List<BaseMedia> mediaList = mediaRepository.findAllByStoreIdAndType(storeId, MediaType.IMAGE);
 
         mediaList.forEach(media -> {
-            if (mediaIds.contains(media.getPublicId())) {
-                result.put(media.getPublicId(), media.getUrl());
+            if (mediaIds.contains(media.getId())) {
+                result.put(media.getId(), media.getUrl());
             }
         });
 

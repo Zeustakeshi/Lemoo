@@ -13,8 +13,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Repository
 public interface MediaRepository extends MongoRepository<BaseMedia, String> {
@@ -24,7 +24,7 @@ public interface MediaRepository extends MongoRepository<BaseMedia, String> {
 
     Page<BaseMedia> findAllByStoreIdAndType(String storeId, MediaType type, Pageable pageable);
 
-    Set<BaseMedia> findAllByStoreIdAndType(String storeId, MediaType type);
+    List<BaseMedia> findAllByStoreIdAndType(String storeId, MediaType type);
 
     Optional<BaseMedia> findByStoreIdAndUserId(String storeId, String userId);
 }

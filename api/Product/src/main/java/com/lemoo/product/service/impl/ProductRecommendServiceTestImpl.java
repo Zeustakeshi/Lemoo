@@ -7,6 +7,7 @@
 
 package com.lemoo.product.service.impl;
 
+import com.lemoo.product.common.enums.ProductStatus;
 import com.lemoo.product.dto.response.PageableResponse;
 import com.lemoo.product.dto.response.ProductFeatureResponse;
 import com.lemoo.product.entity.Product;
@@ -38,9 +39,9 @@ public class ProductRecommendServiceTestImpl implements ProductRecommendService 
     @Override
     public PageableResponse<ProductFeatureResponse> getProductFeature(int page, int limit) {
 
-        PageRequest request = PageRequest.of(page, limit, Sort.by(Sort.Direction.DESC, "updatedAt"));
+        PageRequest request = PageRequest.of(page, limit, Sort.by(Sort.Direction.DESC, "createdAt"));
 
-        Page<Product> products = productRepository.findAll(request);
+        Page<Product> products = productRepository.findAllByStatus(ProductStatus.LIVE, request);
 
         Page<ProductFeatureResponse> productFeatureResponses = products
                 .map(product ->

@@ -23,7 +23,7 @@ public abstract class Event {
 
     @Builder.Default
     private String id = NanoIdUtils.randomNanoId();
-
+    
     @Builder.Default
     private LocalDateTime timestamp = LocalDateTime.now();
 

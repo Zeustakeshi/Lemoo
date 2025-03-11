@@ -13,6 +13,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface ShippingAddressRepository extends MongoRepository<ShippingAddress, String> {
 
@@ -20,4 +22,5 @@ public interface ShippingAddressRepository extends MongoRepository<ShippingAddre
 
     Page<ShippingAddress> findAllByUserId(String userId, Pageable pageable);
 
+    Optional<ShippingAddress> findByIdAndUserId(String id, String userId);
 }

@@ -20,10 +20,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,19 +32,22 @@ public class SkuServiceImpl implements SkuService {
     private final SkuMapper skuMapper;
 
     @Override
-    public SkuResponse getSkuBySkuCode(String skuCode) {
+    public Optional<SkuResponse> getSkuBySkuCode(String skuCode) {
         String key = SkuCacheHelper.getSkuCacheKey(skuCode);
 
         RMap<String, String> rMap = redisson.getMap(key);
         SkuResponse skuResponse;
         if (!rMap.isExists()) {
             skuResponse = productClient.getSkuBySkuCode(skuCode).getData();
+
+            if (skuResponse == null) return Optional.empty();
+
             rMap.putAll(skuMapper.toSkuMap(skuResponse));
             rMap.expireAsync(Duration.ofHours(4));
         } else {
             skuResponse = skuMapper.toSkuResponse(rMap.readAllMap());
         }
-        return skuResponse;
+        return Optional.of(skuResponse);
     }
 
     @Override

@@ -79,7 +79,7 @@ public class SellerProductServiceImpl implements SellerProductService {
                 .variants(toProductVariant(request.getVariants()))
                 .smallImage(sellerProductMapper.toProductMedia(request.getSmallImage(), mediaUrls))
                 .images(request.getImages().stream()
-                        .map(sellerProductMapper::toProductMedia)
+                        .map(image -> sellerProductMapper.toProductMedia(image, mediaUrls))
                         .toList())
                 .build());
 

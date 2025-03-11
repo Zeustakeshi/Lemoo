@@ -19,7 +19,7 @@ public class OrderRequest {
     @NotEmpty
     private Set<OrderItemRequest> items;
 
-    @NotEmpty
+    @NotNull
     private PaymentMethod paymentMethod;
 
     @NotNull

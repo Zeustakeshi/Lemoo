@@ -23,8 +23,8 @@ public class ProductSkuRequest {
     @Size(min = 8, max = 15)
     private String sellerSku;
 
-    //    @NotNull
-    //    private MultipartFile image;
+    @NotNull
+    private MediaRequest image;
 
     private Boolean allowSale;
 

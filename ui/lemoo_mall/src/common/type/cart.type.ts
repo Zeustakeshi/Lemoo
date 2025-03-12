@@ -116,3 +116,13 @@ export type SkuType = {
   discount?: number;
   productName?: string;
 };
+
+export type CartSelectType = {
+  item: {
+    nameSku: string;
+    lemooSku: string;
+    quantity: number;
+    image: string;
+    price: number;
+  }[];
+};

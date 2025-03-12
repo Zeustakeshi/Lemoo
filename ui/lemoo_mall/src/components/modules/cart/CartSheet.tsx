@@ -1,4 +1,4 @@
-import { DataTypeCart } from "@/common/type/cart.type";
+import { CartSelectType, DataTypeCart } from "@/common/type/cart.type";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import {
@@ -13,25 +13,30 @@ import {
 import { api } from "@/lib/api";
 import { ShoppingBag, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "@/store/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/store/store";
 
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
+import { useNavigate } from "@tanstack/react-router";
+import { addCartOrder } from "@/store/order/orderSlice";
 
 type CartFormData = {
   selectedItems: { [key: string]: boolean };
-  item: { lemooSku: string; quantity: number; image: string }[];
+  item: CartSelectType;
 };
 
 const CartSheet = () => {
+  const dispatch = useDispatch<AppDispatch>();
   const [dataCart, setDataCart] = useState<DataTypeCart>();
   const stateCart = useSelector((state: RootState) => state.cart.cart);
   const { control, handleSubmit, watch } = useForm<CartFormData>({
     defaultValues: {
       selectedItems: {},
-      item: [],
+      item: {} as CartSelectType,
     },
   });
+
+  const navigation = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -53,9 +58,13 @@ const CartSheet = () => {
           lemooSku: item.sku.lemooSku,
           quantity: item.quantity,
           image: item.sku.image,
+          nameSku: item.sku.name,
+          price: item.sku.price,
         })) || [];
 
     console.log("Dữ liệu chuyển qua Order:", { items: selectedProducts });
+    dispatch(addCartOrder({ items: { item: selectedProducts } }));
+    navigation({ to: "/cart" });
   };
 
   const selectedItems = watch("selectedItems");
@@ -160,14 +169,7 @@ const CartSheet = () => {
           <SheetFooter className="pt-4">
             <div className="w-full space-y-3">
               <Separator />
-              <div className="flex justify-between items-center">
-                <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                  Tổng cộng (đã chọn):
-                </span>
-                <span className="text-lg font-semibold text-gray-900 dark:text-white">
-                  ...
-                </span>
-              </div>
+
               <Button
                 type="submit"
                 className="w-full h-10 bg-blue-600 hover:bg-blue-700 text-white font-medium transition"

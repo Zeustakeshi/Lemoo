@@ -1,51 +1,52 @@
 /*
  *  SecurityConfig
  *  @author: Minhhieuano
- *  @created 12/13/2024 10:01 PM
+ *  @created 10/16/2024 12:32 AM
  * */
 
 package com.lemoo.notification.config;
 
-import com.lemoo.notification.security.CustomServerAccessDeniedHandler;
-import com.lemoo.notification.security.CustomServerAuthenticationEntryPoint;
+
+import com.lemoo.notification.security.CustomAccessDeniedException;
+import com.lemoo.notification.security.CustomAuthenticationEntryPoint;
 import com.lemoo.notification.security.JwtAuthenticationConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
-import org.springframework.security.config.web.server.ServerHttpSecurity;
-import org.springframework.security.web.server.SecurityWebFilterChain;
-import org.springframework.security.web.server.util.matcher.NegatedServerWebExchangeMatcher;
-import org.springframework.security.web.server.util.matcher.ServerWebExchangeMatchers;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
-@EnableWebFluxSecurity
+@EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
 
     private final JwtAuthenticationConverter jwtAuthenticationConverter;
-    private final CustomServerAccessDeniedHandler serverAccessDeniedHandler;
-    private final CustomServerAuthenticationEntryPoint authenticationEntryPoint;
+    private final CustomAccessDeniedException accessDeniedHandler;
+    private final CustomAuthenticationEntryPoint authenticationEntryPoint;
 
     @Bean
-    SecurityWebFilterChain filterChain(ServerHttpSecurity http) {
-        http
-                .csrf(ServerHttpSecurity.CsrfSpec::disable)
-                .securityMatcher(new NegatedServerWebExchangeMatcher(
-                        ServerWebExchangeMatchers.pathMatchers("/hello/v2")
-                ))
+    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http.csrf(AbstractHttpConfigurer::disable)
+                .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(handler -> handler.authenticationEntryPoint(authenticationEntryPoint)
-                        .accessDeniedHandler(serverAccessDeniedHandler))
-                .authorizeExchange(exchange -> exchange
-                        .anyExchange().authenticated()
-                )
-                .oauth2ResourceServer(oauth2 -> oauth2
-                        .jwt(jwt -> jwt
-                                .jwtAuthenticationConverter(jwtAuthenticationConverter)
-
-                        ).authenticationEntryPoint(authenticationEntryPoint) // Xử lý lỗi 401
-                );
-
+                        .accessDeniedHandler(accessDeniedHandler))
+                .authorizeHttpRequests(request -> request
+                        .requestMatchers("/store/**").hasRole("SELLER")
+                        .anyRequest().authenticated())
+                .oauth2ResourceServer(
+                        oauth -> oauth.jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter))
+                                .authenticationEntryPoint(authenticationEntryPoint));
         return http.build();
+    }
+
+    @Bean
+    PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder(10);
     }
 }

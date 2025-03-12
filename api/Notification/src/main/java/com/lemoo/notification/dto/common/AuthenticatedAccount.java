@@ -15,5 +15,4 @@ public class AuthenticatedAccount {
     private String id;
     private String userId;
     private String email;
-    private String phone;
 }

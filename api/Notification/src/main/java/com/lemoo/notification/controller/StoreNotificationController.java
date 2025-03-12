@@ -1,7 +1,7 @@
 /*
- *  NotificationController
+ *  StoreNotificationController
  *  @author: Minhhieuano
- *  @created 3/13/2025 12:18 AM
+ *  @created 3/13/2025 1:33 AM
  * */
 
 
@@ -11,15 +11,18 @@ import com.lemoo.notification.dto.common.AuthenticatedAccount;
 import com.lemoo.notification.dto.response.ApiResponse;
 import com.lemoo.notification.dto.response.NotificationResponse;
 import com.lemoo.notification.dto.response.PageableResponse;
-import com.lemoo.notification.entity.Notification;
 import com.lemoo.notification.service.NotificationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+@RestController()
+@RequestMapping("/store")
 @RequiredArgsConstructor
-public class NotificationController {
+public class StoreNotificationController {
     private final NotificationService notificationService;
 
     @GetMapping
@@ -28,15 +31,6 @@ public class NotificationController {
             @RequestParam(value = "limit", required = false, defaultValue = "20") int limit,
             @AuthenticationPrincipal AuthenticatedAccount account
     ) {
-        return ApiResponse.success(notificationService.getAllNotification(page, limit, account));
-    }
-
-    @PostMapping("/init")
-    public ApiResponse<?> saveNotification(
-            @RequestBody Notification notification,
-            @AuthenticationPrincipal AuthenticatedAccount account
-    ) {
-        notificationService.createNotification(notification);
-        return ApiResponse.success(true);
+        return ApiResponse.success(notificationService.getAllStoreNotification(page, limit, account));
     }
 }

@@ -1,7 +1,7 @@
 /*
- *  applicationConfig
+ *  ApplicationConfig
  *  @author: Minhhieuano
- *  @created 12/13/2024 10:13 PM
+ *  @created 10/16/2024 12:51 AM
  * */
 
 package com.lemoo.notification.config;

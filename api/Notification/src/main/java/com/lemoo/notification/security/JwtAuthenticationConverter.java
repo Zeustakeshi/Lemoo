@@ -17,7 +17,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Component;
-import reactor.core.publisher.Mono;
 
 import java.util.Collection;
 import java.util.List;
@@ -26,17 +25,16 @@ import java.util.Map;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class JwtAuthenticationConverter implements Converter<Jwt, Mono<AbstractAuthenticationToken>> {
+public class JwtAuthenticationConverter implements Converter<Jwt, AbstractAuthenticationToken> {
 
     @Override
-    public Mono<AbstractAuthenticationToken> convert(@NonNull Jwt jwt) {
+    public AbstractAuthenticationToken convert(@NonNull Jwt jwt) {
         AuthenticatedAccount account = AuthenticatedAccount.builder()
                 .id(jwt.getSubject())
                 .email(jwt.getClaim("email"))
-                .phone(jwt.getClaim("phone"))
                 .userId(jwt.getClaim("user_id"))
                 .build();
-        return Mono.just(new UsernamePasswordAuthenticationToken(account, null, getAuthorities(jwt)));
+        return new UsernamePasswordAuthenticationToken(account, null, getAuthorities(jwt));
     }
 
     private Collection<? extends GrantedAuthority> getAuthorities(Jwt jwt) {

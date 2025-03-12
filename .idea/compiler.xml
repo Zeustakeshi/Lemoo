@@ -58,9 +58,11 @@
         <module name="Promotion" />
         <module name="Admin" />
         <module name="Socket" />
-        <module name="Notification" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="Notification" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">

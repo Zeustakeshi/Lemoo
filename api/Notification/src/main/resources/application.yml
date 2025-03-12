@@ -1,6 +1,4 @@
 spring:
-  webflux:
-    base-path: /notifications
   application:
     name: notification-service
   data:
@@ -30,8 +28,10 @@ spring:
         spring.json.trusted.packages: '*'
 server:
   port: 4006
-
+  servlet:
+    context-path: /notifications
 services:
   auth-service: ${AUTH_SERVICE_URL:http://localhost:8082/auth}
+
 cache:
   redis_url: ${REDIS_URL}

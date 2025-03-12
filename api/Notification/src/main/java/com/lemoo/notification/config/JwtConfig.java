@@ -10,8 +10,8 @@ import com.lemoo.notification.common.properties.ServiceUrl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.oauth2.jwt.NimbusReactiveJwtDecoder;
-import org.springframework.security.oauth2.jwt.ReactiveJwtDecoder;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 
 @Configuration
 @RequiredArgsConstructor
@@ -19,8 +19,8 @@ public class JwtConfig {
     private final ServiceUrl serviceUrl;
 
     @Bean
-    public ReactiveJwtDecoder jwtDecoder() {
+    JwtDecoder jwtDecoder() {
         String jwkSetUrl = serviceUrl.authService() + "/internal/token/.well-known/jwks.json";
-        return NimbusReactiveJwtDecoder.withJwkSetUri(jwkSetUrl).build();
+        return NimbusJwtDecoder.withJwkSetUri(jwkSetUrl).build();
     }
 }

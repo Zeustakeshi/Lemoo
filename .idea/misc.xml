@@ -21,6 +21,7 @@
         <option value="$PROJECT_DIR$/api/Shipping/pom.xml" />
         <option value="$PROJECT_DIR$/api/Socket/pom.xml" />
         <option value="$PROJECT_DIR$/api/Order_v2/pom.xml" />
+        <option value="$PROJECT_DIR$/api/Shipping/Notification/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">

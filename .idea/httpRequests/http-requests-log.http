@@ -1,0 +1,38 @@
+POST http://localhost:4006/notifications/init
+Content-Type: application/json
+Content-Length: 108
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "targetId": "123",
+  "notifyText": "123213",
+  "type": "SYSTEM",
+  "level": "INFO",
+  "scope": "STORE"
+}
+
+<> 2025-03-13T015241.500.json
+
+###
+
+POST http://localhost:4006/notifications/init
+Content-Type: application/json
+Content-Length: 108
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "targetId": "123",
+  "notifyText": "123213",
+  "type": "SYSTEM",
+  "level": "INFO",
+  "scope": "STORE"
+}
+
+<> 2025-03-13T014330.500.json
+
+###
+

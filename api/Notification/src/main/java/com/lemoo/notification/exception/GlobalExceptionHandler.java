@@ -22,31 +22,21 @@ import java.util.Map;
 @ControllerAdvice
 public class GlobalExceptionHandler {
     @ExceptionHandler(ApiException.class)
-    public ResponseEntity<ApiResponse<?>> handleApiException(ApiException exception) {
-        ApiResponse<?> response = ApiResponse.error(exception.getMessage());
+    public ResponseEntity<ApiResponse<Object>> handleApiException(ApiException exception) {
+        ApiResponse<Object> response = ApiResponse.error(exception.getMessage());
         log.info(exception.getMessage());
         return new ResponseEntity<>(response, exception.getStatus());
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ApiResponse<?>> handleException(Exception exception) {
-        ApiResponse<?> response = ApiResponse.error(exception.getMessage());
-        log.error(exception.toString());
+    public ResponseEntity<ApiResponse<Object>> handleException(Exception exception) {
+        ApiResponse<Object> response = ApiResponse.error(exception.getMessage());
+        log.error(exception.getMessage());
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-
-    @ExceptionHandler(ResourceUploadException.class)
-    public ResponseEntity<ApiResponse<?>> handleResourceUploadException(ResourceUploadException exception) {
-        String message = "Upload file error: " + exception.getMessage();
-
-        ApiResponse<?> response = ApiResponse.error(message);
-        log.error(message);
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-    }
-
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ApiResponse<?>> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
+    public ResponseEntity<ApiResponse<Object>> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
         Map<String, Object> errors = new HashMap<>();
         log.info("Validation failed {}", ex.getMessage());
         for (FieldError fieldError : ex.getBindingResult().getFieldErrors()) {

@@ -61,7 +61,7 @@ public class SellerProductServiceImpl implements SellerProductService {
 
     @Override
     public ProductSimpleResponse createProduct(String storeId, AuthenticatedAccount account, ProductRequest request) {
-        // storeService.verifyStore(account.getId(), storeId);
+        storeService.verifyStore(account.getId(), storeId);
 
         if (productRepository.existsByNameAndStoreId(request.getName(), storeId)) {
             throw new ConflictException("Product name has been existed in store");

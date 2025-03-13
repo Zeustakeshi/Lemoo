@@ -15,6 +15,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Route as rootRoute } from './routes/__root'
 import { Route as ProfileImport } from './routes/profile'
 import { Route as IndexImport } from './routes/index'
+import { Route as NotificationsIndexImport } from './routes/notifications/index'
 import { Route as StoreStoreImport } from './routes/store/_store'
 import { Route as ProductProductImport } from './routes/product/_product'
 import { Route as PromotionVouchersIndexImport } from './routes/promotion/vouchers/index'
@@ -54,6 +55,12 @@ const ProfileRoute = ProfileImport.update({
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const NotificationsIndexRoute = NotificationsIndexImport.update({
+  id: '/notifications/',
+  path: '/notifications/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -164,6 +171,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/store'
       preLoaderRoute: typeof StoreStoreImport
       parentRoute: typeof StoreRoute
+    }
+    '/notifications/': {
+      id: '/notifications/'
+      path: '/notifications'
+      fullPath: '/notifications'
+      preLoaderRoute: typeof NotificationsIndexImport
+      parentRoute: typeof rootRoute
     }
     '/product/_product/addProduct': {
       id: '/product/_product/addProduct'
@@ -278,6 +292,7 @@ export interface FileRoutesByFullPath {
   '/profile': typeof ProfileRoute
   '/product': typeof ProductProductRouteWithChildren
   '/store': typeof StoreStoreRouteWithChildren
+  '/notifications': typeof NotificationsIndexRoute
   '/product/addProduct': typeof ProductProductAddProductRoute
   '/store/create': typeof StoreStoreCreateRoute
   '/store/dashboard': typeof StoreStoreDashboardRoute
@@ -293,6 +308,7 @@ export interface FileRoutesByTo {
   '/profile': typeof ProfileRoute
   '/product': typeof ProductProductRouteWithChildren
   '/store': typeof StoreStoreRouteWithChildren
+  '/notifications': typeof NotificationsIndexRoute
   '/product/addProduct': typeof ProductProductAddProductRoute
   '/store/create': typeof StoreStoreCreateRoute
   '/store/dashboard': typeof StoreStoreDashboardRoute
@@ -311,6 +327,7 @@ export interface FileRoutesById {
   '/product/_product': typeof ProductProductRouteWithChildren
   '/store': typeof StoreRouteWithChildren
   '/store/_store': typeof StoreStoreRouteWithChildren
+  '/notifications/': typeof NotificationsIndexRoute
   '/product/_product/addProduct': typeof ProductProductAddProductRoute
   '/store/_store/create': typeof StoreStoreCreateRoute
   '/store/_store/dashboard': typeof StoreStoreDashboardRoute
@@ -328,6 +345,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/product'
     | '/store'
+    | '/notifications'
     | '/product/addProduct'
     | '/store/create'
     | '/store/dashboard'
@@ -342,6 +360,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/product'
     | '/store'
+    | '/notifications'
     | '/product/addProduct'
     | '/store/create'
     | '/store/dashboard'
@@ -358,6 +377,7 @@ export interface FileRouteTypes {
     | '/product/_product'
     | '/store'
     | '/store/_store'
+    | '/notifications/'
     | '/product/_product/addProduct'
     | '/store/_store/create'
     | '/store/_store/dashboard'
@@ -374,6 +394,7 @@ export interface RootRouteChildren {
   ProfileRoute: typeof ProfileRoute
   ProductRoute: typeof ProductRouteWithChildren
   StoreRoute: typeof StoreRouteWithChildren
+  NotificationsIndexRoute: typeof NotificationsIndexRoute
   PromotionVouchersIndexRoute: typeof PromotionVouchersIndexRoute
   PromotionVouchersRegularNewRoute: typeof PromotionVouchersRegularNewRoute
   PromotionVouchersFreeshipingIndexRoute: typeof PromotionVouchersFreeshipingIndexRoute
@@ -386,6 +407,7 @@ const rootRouteChildren: RootRouteChildren = {
   ProfileRoute: ProfileRoute,
   ProductRoute: ProductRouteWithChildren,
   StoreRoute: StoreRouteWithChildren,
+  NotificationsIndexRoute: NotificationsIndexRoute,
   PromotionVouchersIndexRoute: PromotionVouchersIndexRoute,
   PromotionVouchersRegularNewRoute: PromotionVouchersRegularNewRoute,
   PromotionVouchersFreeshipingIndexRoute:
@@ -409,6 +431,7 @@ export const routeTree = rootRoute
         "/profile",
         "/product",
         "/store",
+        "/notifications/",
         "/promotion/vouchers/",
         "/promotion/vouchers/regular/new",
         "/promotion/vouchers/freeshiping/",
@@ -448,6 +471,9 @@ export const routeTree = rootRoute
         "/store/_store/create",
         "/store/_store/dashboard"
       ]
+    },
+    "/notifications/": {
+      "filePath": "notifications/index.tsx"
     },
     "/product/_product/addProduct": {
       "filePath": "product/_product.addProduct.tsx",

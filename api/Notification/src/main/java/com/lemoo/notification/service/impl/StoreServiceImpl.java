@@ -32,7 +32,8 @@ public class StoreServiceImpl implements StoreService {
         String ownerId = bucket.get();
         if (ownerId != null && ownerId.equals(accountId)) return;
         boolean isStoreOwner = storeClient.verifyStore(new VerifyStoreRequest(accountId, storeId)).getData();
-        if (!isStoreOwner) throw new ForbiddenException("Only store owner can be modify product");
+        if (!isStoreOwner)
+            throw new ForbiddenException("Access Denied. You do not have permission to access this store.");
         saveStoreOwnerToCacheAsync(accountId, storeId);
     }
 

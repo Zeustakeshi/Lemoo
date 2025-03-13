@@ -39,7 +39,7 @@ public class Product extends BaseEntity {
     private Integer score = 0;
 
     @Builder.Default
-    private ProductStatus status = ProductStatus.DRAFT;
+    private ProductStatus status = ProductStatus.PENDING;
 
     @Indexed
     private String storeId;

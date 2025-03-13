@@ -11,11 +11,12 @@ import com.lemoo.notification.dto.common.AuthenticatedAccount;
 import com.lemoo.notification.dto.response.ApiResponse;
 import com.lemoo.notification.dto.response.NotificationResponse;
 import com.lemoo.notification.dto.response.PageableResponse;
-import com.lemoo.notification.entity.Notification;
 import com.lemoo.notification.service.NotificationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
@@ -31,12 +32,4 @@ public class NotificationController {
         return ApiResponse.success(notificationService.getAllNotification(page, limit, account));
     }
 
-    @PostMapping("/init")
-    public ApiResponse<?> saveNotification(
-            @RequestBody Notification notification,
-            @AuthenticationPrincipal AuthenticatedAccount account
-    ) {
-        notificationService.createNotification(notification);
-        return ApiResponse.success(true);
-    }
 }

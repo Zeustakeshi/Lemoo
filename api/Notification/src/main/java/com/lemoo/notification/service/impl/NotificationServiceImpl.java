@@ -30,7 +30,7 @@ public class NotificationServiceImpl implements NotificationService {
     private final PageMapper pageMapper;
 
     @Override
-    public void createNotification(Notification notification) {
+    public void saveNotification(Notification notification) {
         notificationRepository.save(notification);
     }
 

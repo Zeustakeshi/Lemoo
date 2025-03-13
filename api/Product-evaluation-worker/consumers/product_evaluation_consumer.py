@@ -11,7 +11,7 @@ from utils.product_evaluation import evaluation
 def consume_product_evaluation():
     consumer = KafkaConsumer(
         'product-service.evaluation-product',
-        bootstrap_servers=os.getenv("KAFKA_BOOTSTRAP_SERVERS", "localhost:9093"),
+        bootstrap_servers=os.getenv("KAFKA_BOOTSTRAP_SERVER", "localhost:9093"),
         auto_offset_reset='earliest',
         enable_auto_commit=True,
         group_id='product-evaluation-worker-group'

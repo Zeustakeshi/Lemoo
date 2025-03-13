@@ -9,5 +9,5 @@ package com.lemoo.notification.common.properties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties(prefix = "services")
-public record ServiceUrl(String authService) {
+public record ServiceUrl(String authService, String storeService) {
 }

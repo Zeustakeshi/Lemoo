@@ -24,6 +24,7 @@
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
         </processorPath>
         <module name="Socket" />
+        <module name="Notification" />
       </profile>
       <profile name="Annotation profile for User" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -58,7 +59,6 @@
         <module name="Shipping" />
         <module name="Promotion" />
         <module name="Admin" />
-        <module name="Notification" />
       </profile>
     </annotationProcessing>
   </component>

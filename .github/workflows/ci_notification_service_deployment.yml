@@ -9,9 +9,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      MONGODB_URI: "mongodb://mongo:XSwFwEZYYprPwbCUtXCVWAgLFSOUCdSm@autorack.proxy.rlwy.net:39497"
-      MONGODB_NAME: "test"
     steps:
       - name: checkout
         uses: actions/checkout@v4

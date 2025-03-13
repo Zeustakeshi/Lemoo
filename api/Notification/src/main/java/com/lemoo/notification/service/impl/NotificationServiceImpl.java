@@ -16,6 +16,7 @@ import com.lemoo.notification.mapper.NotificationMapper;
 import com.lemoo.notification.mapper.PageMapper;
 import com.lemoo.notification.repository.NotificationRepository;
 import com.lemoo.notification.service.NotificationService;
+import com.lemoo.notification.service.StoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -28,6 +29,7 @@ public class NotificationServiceImpl implements NotificationService {
     private final NotificationRepository notificationRepository;
     private final NotificationMapper notificationMapper;
     private final PageMapper pageMapper;
+    private final StoreService storeService;
 
     @Override
     public void saveNotification(Notification notification) {
@@ -36,21 +38,22 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public PageableResponse<NotificationResponse> getAllNotification(int page, int limit, AuthenticatedAccount account) {
-        var notifications = getAllNotificationByScope(page, limit, NotificationScope.USER, account);
+        var notifications = getAllNotificationByScope(page, limit, NotificationScope.USER, account.getUserId());
         Page<NotificationResponse> notificationResponses = notifications.map(notificationMapper::toNotificationResponse);
         return pageMapper.toPageableResponse(notificationResponses);
     }
 
     @Override
-    public PageableResponse<NotificationResponse> getAllStoreNotification(int page, int limit, AuthenticatedAccount account) {
-        var notifications = getAllNotificationByScope(page, limit, NotificationScope.STORE, account);
+    public PageableResponse<NotificationResponse> getAllStoreNotification(String storeId, int page, int limit, AuthenticatedAccount account) {
+        storeService.verifyStore(account.getUserId(), storeId);
+        var notifications = getAllNotificationByScope(page, limit, NotificationScope.STORE, storeId);
         Page<NotificationResponse> notificationResponses = notifications.map(notificationMapper::toNotificationResponse);
         return pageMapper.toPageableResponse(notificationResponses);
     }
 
-    private Page<Notification> getAllNotificationByScope(int page, int limit, NotificationScope scope, AuthenticatedAccount account) {
+    private Page<Notification> getAllNotificationByScope(int page, int limit, NotificationScope scope, String targetId) {
         PageRequest pageRequest = PageRequest.of(page, limit, Sort.by(Sort.Direction.DESC, "createdAt"));
-        return notificationRepository.findAllByTargetIdAndScope(account.getUserId(), scope, pageRequest);
+        return notificationRepository.findAllByTargetIdAndScope(targetId, scope, pageRequest);
     }
 
 }

@@ -7,6 +7,7 @@
 
 package com.lemoo.notification.controller;
 
+import com.lemoo.notification.common.constants.CustomRequestHeader;
 import com.lemoo.notification.dto.common.AuthenticatedAccount;
 import com.lemoo.notification.dto.response.ApiResponse;
 import com.lemoo.notification.dto.response.NotificationResponse;
@@ -14,10 +15,7 @@ import com.lemoo.notification.dto.response.PageableResponse;
 import com.lemoo.notification.service.NotificationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController()
 @RequestMapping("/store")
@@ -29,8 +27,9 @@ public class StoreNotificationController {
     public ApiResponse<PageableResponse<NotificationResponse>> getAllNotification(
             @RequestParam(value = "page", required = false, defaultValue = "0") int page,
             @RequestParam(value = "limit", required = false, defaultValue = "20") int limit,
-            @AuthenticationPrincipal AuthenticatedAccount account
+            @AuthenticationPrincipal AuthenticatedAccount account,
+            @RequestHeader(CustomRequestHeader.STORE_ID) String storeId
     ) {
-        return ApiResponse.success(notificationService.getAllStoreNotification(page, limit, account));
+        return ApiResponse.success(notificationService.getAllStoreNotification(storeId, page, limit, account));
     }
 }

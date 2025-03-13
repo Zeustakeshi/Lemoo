@@ -14,7 +14,7 @@ import com.lemoo.notification.entity.Notification;
 public interface NotificationService {
     PageableResponse<NotificationResponse> getAllNotification(int page, int limit, AuthenticatedAccount account);
 
-    PageableResponse<NotificationResponse> getAllStoreNotification(int page, int limit, AuthenticatedAccount account);
+    PageableResponse<NotificationResponse> getAllStoreNotification(String storeId, int page, int limit, AuthenticatedAccount account);
 
     void saveNotification(Notification notification);
 }

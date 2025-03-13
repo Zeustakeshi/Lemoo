@@ -42,6 +42,7 @@ export type Content = {
    * Mã cart item
    */
   id: string;
+  status?: string;
   /**
    * Mã sản phẩm
    */

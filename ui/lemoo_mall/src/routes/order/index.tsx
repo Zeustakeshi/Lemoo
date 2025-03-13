@@ -1,15 +1,14 @@
-import CartPage from "@/components/modules/cart/CartPage";
-
+import Order from "@/components/modules/order/Order";
 import { createFileRoute } from "@tanstack/react-router";
 
-export const Route = createFileRoute("/cart/")({
+export const Route = createFileRoute("/order/")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
   return (
     <div>
-      <CartPage />;
+      <Order />
     </div>
   );
 }

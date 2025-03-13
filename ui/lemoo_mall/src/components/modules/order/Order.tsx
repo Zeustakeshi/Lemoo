@@ -5,6 +5,11 @@ import { RootState } from "@/store/store";
 import { formatMoneyVND } from "@/lib/utils";
 import { CartSelectType } from "@/common/type/cart.type";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
+import { Button } from "@/components/ui/button";
+import { api } from "@/lib/api";
+import { DataVoucher } from "@/common/type/voucher.type";
+import { OrderType } from "@/common/type/order.type";
+import toast from "react-hot-toast";
 
 type ShippingMethod = {
   id: string;
@@ -34,36 +39,27 @@ const shippingMethods: ShippingMethod[] = [
 const paymentMethods: PaymentMethod[] = [
   { id: "momo", name: "Ví MoMo", icon: "💰" },
   { id: "zalopay", name: "ZaloPay", icon: "💳" },
-  { id: "cod", name: "Thanh toán khi nhận hàng", icon: "📦" },
+  { id: "COD", name: "Thanh toán khi nhận hàng", icon: "📦" },
 ];
 
-const discountCodes = [
-  { code: "SALE10", value: 10, type: "percent" },
-  { code: "FREESHIP", value: 100, type: "ship" },
-  { code: "VNXK50", value: 50000, type: "fixed" },
-];
 // Fake Data
 
 type OrderFormData = {
   selectedItems: { [key: string]: boolean };
-  ship: string;
-  infoShip: {
-    name: string;
-    address: string;
-    phone: string;
-  };
-  discount: string;
-  buyMethod: string;
 };
 
 const Order = () => {
+  const customerAdress = useSelector(
+    (state: RootState) => state.customer.customer
+  );
+  const AdressDefault = customerAdress.content.find((item) => item.isDefault);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [vouchers, setVouchers] = useState<DataVoucher>();
+
   const { control, handleSubmit } = useForm<OrderFormData>({
     defaultValues: {
       selectedItems: {},
-      infoShip: { name: "", address: "", phone: "" },
-      ship: "",
-      discount: "",
-      buyMethod: "",
     },
   });
   const orderInfo = useSelector((state: RootState) => state.orderCart.items);
@@ -71,15 +67,24 @@ const Order = () => {
   const [products, setProducts] = useState<CartSelectType>(orderInfo);
 
   const [scope, animate] = useAnimate();
-  const [discountCode, setDiscountCode] = useState("");
-  const [appliedDiscount, setAppliedDiscount] = useState(0);
+  const [discountCode, setDiscountCode] = useState("ABC");
   const [shippingMethod, setShippingMethod] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("");
-  const [discountError, setDiscountError] = useState("");
 
   useEffect(() => {
     setProducts(orderInfo);
   }, [orderInfo]);
+
+  const handleLoadVoucher = async () => {
+    try {
+      const response = await api.get("/promotion/vouchers/collected");
+      console.log("Voucher data:", response);
+      setVouchers(response);
+      setIsModalOpen(true);
+    } catch (error) {
+      console.error("Error loading voucher:", error);
+    }
+  };
 
   const updateQuantity = (lemooSku: string, amount: number) => {
     setProducts((prev: CartSelectType) => ({
@@ -97,54 +102,31 @@ const Order = () => {
     0
   );
 
-  const shippingCost =
-    shippingMethods.find((m) => m.id === shippingMethod)?.cost || 0;
-
-  const total = subtotal - appliedDiscount + shippingCost;
-
-  const handleApplyDiscount = () => {
-    const validCode = discountCodes.find((code) => code.code === discountCode);
-    if (!validCode) {
-      setDiscountError("Mã giảm giá không hợp lệ");
-      animate(".discount-input", { x: [-5, 5, 0] }, { duration: 0.3 });
-      setAppliedDiscount(0);
-      return;
-    }
-
-    setDiscountError("");
-    switch (validCode.type) {
-      case "percent":
-        setAppliedDiscount(subtotal * (validCode.value / 100));
-        break;
-      case "fixed":
-      case "ship":
-        setAppliedDiscount(validCode.value);
-        break;
-      default:
-        setAppliedDiscount(0);
-    }
-  };
-
-  const onSubmit: SubmitHandler<OrderFormData> = (data) => {
+  const onSubmit: SubmitHandler<OrderFormData> = async (data) => {
     const selectedProducts = orderInfo.item
       .filter((item) => data.selectedItems[item.lemooSku])
       .map((item) => ({
         lemooSku: item.lemooSku,
         quantity: item.quantity,
-        image: item.image,
-        nameSku: item.nameSku,
-        price: item.price,
       }));
 
-    console.log("Dữ liệu sau khi mua xong gửi đi:", {
+    const dataOrder = {
+      shippingAddressId: AdressDefault.id,
+      paymentMethod: paymentMethod,
       items: selectedProducts,
-      infoShip: data.infoShip,
-      discont: discountCode,
-      shipMethod: shippingMethod,
-      shipPayment: paymentMethod,
-    });
-
-    // alert(`Đặt hàng thành công! Tổng tiền: ${formatMoneyVND(total)}`);
+      promotions: [""],
+      // shipMethod: shippingMethod,
+    };
+    console.log("Đơn hàng trước khi gửi", dataOrder);
+    try {
+      const responseOrder = await api.post<OrderType>("/orders", dataOrder);
+      console.log(responseOrder);
+      toast.success(
+        "Đặt hàng thành công!, đơn hàng sẽ sớm được giao cho đơn vị vận chuyển."
+      );
+    } catch (error) {
+      console.error("Error placing order:", error);
+    }
   };
 
   return (
@@ -155,7 +137,7 @@ const Order = () => {
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ type: "spring", stiffness: 100 }}
-          className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8"
+          className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8"
         >
           {/* Left Column - Cart & Discount */}
           <motion.div
@@ -163,8 +145,8 @@ const Order = () => {
             animate={{ x: 0 }}
             className="bg-white rounded-2xl shadow-xl h-fit lg:sticky lg:top-8"
           >
-            <div className="p-6 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-t-2xl">
-              <h2 className="text-2xl font-bold text-white flex items-center gap-2">
+            <div className="p-5 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-t-2xl">
+              <h2 className="text-xl font-bold text-white flex items-center gap-2">
                 🛒 Giỏ hàng của bạn ({orderInfo.item.length})
               </h2>
             </div>
@@ -256,37 +238,108 @@ const Order = () => {
                   ))}
                 </AnimatePresence>
               </div>
-
-              {/* Discount Code */}
               <motion.div
+                className="mt-4 text-sm text-gray-600 dark:text-gray-400 flex items-center gap-2"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className="bg-blue-50 p-4 rounded-xl"
+                transition={{ delay: 0.2 }}
               >
-                <div className="flex gap-2">
-                  <input
-                    type="text"
-                    placeholder="Nhập mã giảm giá"
-                    className="discount-input flex-1 p-3 border-2 border-blue-200 rounded-lg"
-                    value={discountCode}
-                    onChange={(e) =>
-                      setDiscountCode(e.target.value.toUpperCase())
-                    }
-                  />
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    onClick={handleApplyDiscount}
-                    type="button"
-                    className="px-4 bg-blue-600 text-white rounded-lg font-medium"
-                  >
-                    Áp dụng
-                  </motion.button>
-                </div>
-                {discountError && (
-                  <p className="mt-2 text-red-500 text-sm">{discountError}</p>
-                )}
+                Voucher của bạn
+                <button
+                  type="button"
+                  onClick={handleLoadVoucher}
+                  className="text-blue-600 dark:text-blue-400 font-medium hover:underline transition-colors duration-200"
+                >
+                  Xem voucher
+                </button>
               </motion.div>
+              {/* Voucher Modal */}
+              <AnimatePresence>
+                {isModalOpen && (
+                  <motion.div
+                    className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    onClick={() => setIsModalOpen(false)}
+                  >
+                    <motion.div
+                      className="bg-white dark:bg-gray-800 rounded-xl p-6 w-full max-w-md max-h-[80vh] overflow-y-auto shadow-xl"
+                      initial={{ scale: 0.9, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      exit={{ scale: 0.9, opacity: 0 }}
+                      transition={{ duration: 0.3 }}
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <div className="flex justify-between items-center mb-4">
+                        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                          Vouchers của bạn
+                        </h3>
+                        <Button
+                          type="button"
+                          size="icon"
+                          variant="ghost"
+                          onClick={() => setIsModalOpen(false)}
+                          className="hover:bg-gray-100 dark:hover:bg-gray-700"
+                        >
+                          <h1 className="h-5 w-5" />
+                        </Button>
+                      </div>
+
+                      {vouchers && vouchers.length > 0 ? (
+                        <ul className="space-y-4">
+                          {vouchers.content.map((item) => (
+                            <li
+                              key={item.voucher.id}
+                              className="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg flex justify-between items-center"
+                            >
+                              <input
+                                type="radio"
+                                name="shipping"
+                                value={item.voucher.id}
+                                checked={discountCode === item.voucher.id}
+                                onChange={() =>
+                                  setDiscountCode(item.voucher.id)
+                                }
+                                className="hidden"
+                              />
+                              <div>
+                                <p className="font-medium text-gray-900 dark:text-white">
+                                  Mã Voucher: {item.voucher.id}
+                                </p>
+                                <p className="text-sm text-gray-600 dark:text-gray-400">
+                                  Giảm {item.voucher.discountValue} - Hết hạn
+                                  vào:
+                                  {item.voucher.periodEndTime}
+                                </p>
+                                <p className="text-sm text-gray-600 dark:text-gray-400">
+                                  Loại giảm giá: {item.voucher.discountType}
+                                </p>
+                              </div>
+                              <Button
+                                type="button"
+                                size="sm"
+                                variant="outline"
+                                onClick={() =>
+                                  console.log("Apply", item.voucher.id)
+                                }
+                                className="text-blue-600 border-blue-600 hover:bg-blue-50"
+                              >
+                                Áp dụng
+                              </Button>
+                            </li>
+                          ))}
+                        </ul>
+                      ) : (
+                        <p className="text-gray-500 dark:text-gray-400 text-center py-4">
+                          Bạn chưa có voucher nào. Hãy tham gia các chương trình
+                          khuyến mãi để nhận voucher nhé!
+                        </p>
+                      )}
+                    </motion.div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
               {/* Shipping Methods */}
               <motion.div className="space-y-4">
                 <h3 className="text-lg font-semibold flex items-center gap-2">
@@ -323,54 +376,63 @@ const Order = () => {
               </motion.div>
             </div>
           </motion.div>
+
           {/* Right Column - Shipping & Payment */}
           <motion.div
             initial={{ x: 50 }}
             animate={{ x: 0 }}
             className="bg-white rounded-2xl shadow-xl h-fit"
           >
-            <div className="p-6 bg-gradient-to-r from-green-600 to-emerald-600 rounded-t-2xl">
-              <h2 className="text-2xl font-bold text-white">
+            <div className="p-5 bg-gradient-to-r from-green-600 to-emerald-600 rounded-t-2xl">
+              <h2 className="text-xl font-bold text-white">
                 Thông tin giao hàng
               </h2>
             </div>
             <div className="p-6 space-y-6">
               {/* Customer Info */}
-              <motion.div className="space-y-4">
-                <Controller
-                  name="infoShip.name"
-                  control={control}
-                  render={({ field }) => (
-                    <input
-                      {...field}
-                      placeholder="Họ và tên"
-                      className="border p-2 w-full mb-2"
-                    />
-                  )}
-                />
-                <Controller
-                  name="infoShip.address"
-                  control={control}
-                  render={({ field }) => (
-                    <input
-                      {...field}
-                      placeholder="Địa chỉ"
-                      className="border p-2 w-full mb-2"
-                    />
-                  )}
-                />
-                <Controller
-                  name="infoShip.phone"
-                  control={control}
-                  render={({ field }) => (
-                    <input
-                      {...field}
-                      placeholder="Số điện thoại"
-                      className="border p-2 w-full mb-4"
-                    />
-                  )}
-                />
-              </motion.div>
+              {AdressDefault && (
+                <motion.div className="p-6 border border-gray-100 rounded-xl shadow-sm bg-white transition-all ">
+                  <div className="space-y-4">
+                    <h3 className="text-xl font-bold text-gray-900 mb-2">
+                      📦 Địa Chỉ Nhận Hàng
+                    </h3>
+
+                    <div className="p-4 border border-gray-300 rounded-lg bg-white shadow-sm text-gray-700 space-y-3">
+                      <div className="flex items-center gap-2 text-lg font-semibold text-gray-900">
+                        <span>Tên người nhận:</span>
+                        <span>{AdressDefault.recipientName},</span>
+                        <span className="text-blue-600">
+                          {AdressDefault.recipientPhone}
+                        </span>
+                      </div>
+
+                      <div className="space-y-1 text-base leading-relaxed">
+                        <span className="font-semibold text-gray-900">
+                          Địa chỉ giao hàng:
+                        </span>
+                        <p>
+                          {AdressDefault.address.detail},{" "}
+                          {AdressDefault.address.ward}
+                        </p>
+                        <p>
+                          {AdressDefault.address.district},{" "}
+                          {AdressDefault.address.province}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-3 pt-2">
+                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-sm font-semibold bg-green-100 text-green-600">
+                        Mặc định
+                      </span>
+                      <button className="text-blue-600 font-medium hover:text-blue-700 transition-colors duration-200">
+                        Thay đổi địa chỉ →
+                      </button>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+
               {/* Payment Methods */}
               <motion.div className="space-y-4 payment-methods">
                 <h3 className="text-lg font-semibold flex items-center gap-2">
@@ -410,19 +472,15 @@ const Order = () => {
                   </div>
                   <div className="flex justify-between">
                     <span>Giảm giá:</span>
-                    <span className="text-red-500">
-                      -{formatMoneyVND(appliedDiscount)}
-                    </span>
+                    <span className="text-red-500">- thiết lập sau...</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Phí vận chuyển:</span>
-                    <span>{formatMoneyVND(shippingCost)} </span>
+                    <span>Tính sau...</span>
                   </div>
                   <div className="flex justify-between font-semibold border-t pt-2">
                     <span>Tổng cộng:</span>
-                    <motion.span key={total} className="text-xl text-green-600">
-                      {formatMoneyVND(total)}
-                    </motion.span>
+                    tính sau...
                   </div>
                 </div>
                 <motion.button

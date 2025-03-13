@@ -45,7 +45,7 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public PageableResponse<NotificationResponse> getAllStoreNotification(String storeId, int page, int limit, AuthenticatedAccount account) {
-        storeService.verifyStore(account.getUserId(), storeId);
+        storeService.verifyStore(account.getId(), storeId);
         var notifications = getAllNotificationByScope(page, limit, NotificationScope.STORE, storeId);
         Page<NotificationResponse> notificationResponses = notifications.map(notificationMapper::toNotificationResponse);
         return pageMapper.toPageableResponse(notificationResponses);

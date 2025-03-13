@@ -14,6 +14,8 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as SearchIndexImport } from './routes/search/index'
+import { Route as OrderIndexImport } from './routes/order/index'
+import { Route as CustomerIndexImport } from './routes/customer/index'
 import { Route as CartIndexImport } from './routes/cart/index'
 import { Route as homeIndexImport } from './routes/(home)/index'
 import { Route as StoreLayoutImport } from './routes/store/_layout'
@@ -37,6 +39,18 @@ const StoreRoute = StoreImport.update({
 const SearchIndexRoute = SearchIndexImport.update({
   id: '/search/',
   path: '/search/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const OrderIndexRoute = OrderIndexImport.update({
+  id: '/order/',
+  path: '/order/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const CustomerIndexRoute = CustomerIndexImport.update({
+  id: '/customer/',
+  path: '/customer/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -122,6 +136,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CartIndexImport
       parentRoute: typeof rootRoute
     }
+    '/customer/': {
+      id: '/customer/'
+      path: '/customer'
+      fullPath: '/customer'
+      preLoaderRoute: typeof CustomerIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/order/': {
+      id: '/order/'
+      path: '/order'
+      fullPath: '/order'
+      preLoaderRoute: typeof OrderIndexImport
+      parentRoute: typeof rootRoute
+    }
     '/search/': {
       id: '/search/'
       path: '/search'
@@ -187,6 +215,8 @@ export interface FileRoutesByFullPath {
   '/store': typeof StoreLayoutRouteWithChildren
   '/': typeof homeIndexRoute
   '/cart': typeof CartIndexRoute
+  '/customer': typeof CustomerIndexRoute
+  '/order': typeof OrderIndexRoute
   '/search': typeof SearchIndexRoute
   '/store/$storeId': typeof StoreLayoutStoreIdIndexRoute
   '/store/$storeId/products': typeof StoreLayoutStoreIdProductsIndexRoute
@@ -198,6 +228,8 @@ export interface FileRoutesByTo {
   '/store': typeof StoreLayoutRouteWithChildren
   '/': typeof homeIndexRoute
   '/cart': typeof CartIndexRoute
+  '/customer': typeof CustomerIndexRoute
+  '/order': typeof OrderIndexRoute
   '/search': typeof SearchIndexRoute
   '/store/$storeId': typeof StoreLayoutStoreIdIndexRoute
   '/store/$storeId/products': typeof StoreLayoutStoreIdProductsIndexRoute
@@ -211,6 +243,8 @@ export interface FileRoutesById {
   '/store/_layout': typeof StoreLayoutRouteWithChildren
   '/(home)/': typeof homeIndexRoute
   '/cart/': typeof CartIndexRoute
+  '/customer/': typeof CustomerIndexRoute
+  '/order/': typeof OrderIndexRoute
   '/search/': typeof SearchIndexRoute
   '/store/_layout/$storeId/': typeof StoreLayoutStoreIdIndexRoute
   '/store/_layout/$storeId/products/': typeof StoreLayoutStoreIdProductsIndexRoute
@@ -224,6 +258,8 @@ export interface FileRouteTypes {
     | '/store'
     | '/'
     | '/cart'
+    | '/customer'
+    | '/order'
     | '/search'
     | '/store/$storeId'
     | '/store/$storeId/products'
@@ -234,6 +270,8 @@ export interface FileRouteTypes {
     | '/store'
     | '/'
     | '/cart'
+    | '/customer'
+    | '/order'
     | '/search'
     | '/store/$storeId'
     | '/store/$storeId/products'
@@ -245,6 +283,8 @@ export interface FileRouteTypes {
     | '/store/_layout'
     | '/(home)/'
     | '/cart/'
+    | '/customer/'
+    | '/order/'
     | '/search/'
     | '/store/_layout/$storeId/'
     | '/store/_layout/$storeId/products/'
@@ -257,6 +297,8 @@ export interface RootRouteChildren {
   StoreRoute: typeof StoreRouteWithChildren
   homeIndexRoute: typeof homeIndexRoute
   CartIndexRoute: typeof CartIndexRoute
+  CustomerIndexRoute: typeof CustomerIndexRoute
+  OrderIndexRoute: typeof OrderIndexRoute
   SearchIndexRoute: typeof SearchIndexRoute
 }
 
@@ -265,6 +307,8 @@ const rootRouteChildren: RootRouteChildren = {
   StoreRoute: StoreRouteWithChildren,
   homeIndexRoute: homeIndexRoute,
   CartIndexRoute: CartIndexRoute,
+  CustomerIndexRoute: CustomerIndexRoute,
+  OrderIndexRoute: OrderIndexRoute,
   SearchIndexRoute: SearchIndexRoute,
 }
 
@@ -282,6 +326,8 @@ export const routeTree = rootRoute
         "/store",
         "/(home)/",
         "/cart/",
+        "/customer/",
+        "/order/",
         "/search/"
       ]
     },
@@ -308,6 +354,12 @@ export const routeTree = rootRoute
     },
     "/cart/": {
       "filePath": "cart/index.tsx"
+    },
+    "/customer/": {
+      "filePath": "customer/index.tsx"
+    },
+    "/order/": {
+      "filePath": "order/index.tsx"
     },
     "/search/": {
       "filePath": "search/index.tsx"

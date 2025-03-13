@@ -8,6 +8,7 @@
 package com.lemoo.product.event.consumer;
 
 import com.lemoo.product.event.eventModel.ProductEvaluatedEvent;
+import com.lemoo.product.service.ProductEvaluationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
@@ -15,13 +16,16 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class ProductEvaluationConsumer {
+
+    private final ProductEvaluationService productEvaluationService;
+
     @KafkaListener(topics = "product-evaluation-worker.evaluation-success", groupId = "${spring.kafka.consumer.group-id}")
     public void productEvaluationSuccessEventListener(ProductEvaluatedEvent event) {
-        System.out.println("event = " + event);
+        productEvaluationService.handleEvaluationSuccess(event.getProductId(), event.getScore(), event.getNote());
     }
 
     @KafkaListener(topics = "product-evaluation-worker.evaluation-failed", groupId = "${spring.kafka.consumer.group-id}")
     public void productEvaluationFailedEventListener(ProductEvaluatedEvent event) {
-        System.out.println("event = " + event);
+        productEvaluationService.handleEvaluationFailed(event.getProductId(), event.getScore(), event.getNote());
     }
 }

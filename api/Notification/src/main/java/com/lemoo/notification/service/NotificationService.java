@@ -16,6 +16,6 @@ public interface NotificationService {
 
     PageableResponse<NotificationResponse> getAllStoreNotification(int page, int limit, AuthenticatedAccount account);
 
-    void createNotification(Notification notification);
+    void saveNotification(Notification notification);
 }
 

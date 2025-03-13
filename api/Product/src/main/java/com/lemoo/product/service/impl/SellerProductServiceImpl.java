@@ -48,7 +48,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Slf4j
 public class SellerProductServiceImpl implements SellerProductService {
-    private static final Integer MAXIMUM_DRAFT_PRODUCT = 10;
     private final ProductRepository productRepository;
     private final ProductSkuRepository productSkuRepository;
     private final CategoryService categoryService;
@@ -62,7 +61,7 @@ public class SellerProductServiceImpl implements SellerProductService {
 
     @Override
     public ProductSimpleResponse createProduct(String storeId, AuthenticatedAccount account, ProductRequest request) {
-        storeService.verifyStore(account.getId(), storeId);
+        // storeService.verifyStore(account.getId(), storeId);
 
         if (productRepository.existsByNameAndStoreId(request.getName(), storeId)) {
             throw new ConflictException("Product name has been existed in store");

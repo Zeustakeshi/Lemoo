@@ -1,7 +1,9 @@
-from langchain_core.prompts import ChatPromptTemplate
-from langchain_google_genai import ChatGoogleGenerativeAI
 import json
 import re
+
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_google_genai import ChatGoogleGenerativeAI
+
 # Khởi tạo LLM
 llm = ChatGoogleGenerativeAI(model="gemini-2.0-flash")
 
@@ -63,27 +65,25 @@ Trả về kết quả dưới dạng JSON hợp lệ, không có bất kỳ ký
 }}
 """)
 
-
 evaluation_chain = prompt_template | llm
 
-def evaluation (product_data):
+
+def evaluation(product_data):
     try:
         result = evaluation_chain.invoke(product_data)
         result_content = result.content
 
-        # Sử dụng regex để trích xuất JSON từ Markdown
         json_pattern = r'```json\n(.*?)\n```'
         match = re.search(json_pattern, result_content, re.DOTALL)
         if match:
-            json_str = match.group(1)  # Lấy phần JSON bên trong ```json```
+            json_str = match.group(1)
         else:
-            json_str = result_content  # Nếu không có Markdown, dùng nguyên chuỗi
+            json_str = result_content
 
-        # Phân tích cú pháp JSON
         result_json = json.loads(json_str)
         return result_json
-    except json.JSONDecodeError:
-        return {"error": "Kết quả từ LLM không phải JSON hợp lệ."}
-    except Exception as e:
-        return {"error": f"Lỗi không xác định: {str(e)}"}
 
+    except json.JSONDecodeError:
+        return {"error": "The result from LLM is not valid JSON."}
+    except Exception as e:
+        return {"error": f"Unknown error: {str(e)}"}

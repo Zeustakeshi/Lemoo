@@ -1,4 +1,5 @@
 import json
+import os
 
 from kafka import KafkaConsumer
 
@@ -10,7 +11,7 @@ from utils.product_evaluation import evaluation
 def consume_product_evaluation():
     consumer = KafkaConsumer(
         'product-service.evaluation-product',
-        bootstrap_servers="127.0.0.1:9093",
+        bootstrap_servers=os.getenv("KAFKA_BOOTSTRAP_SERVERS", "localhost:9093"),
         auto_offset_reset='earliest',
         enable_auto_commit=True,
         group_id='product-evaluation-worker-group'
@@ -19,12 +20,9 @@ def consume_product_evaluation():
     print("Start consume to product-service.evaluation-product topic")
 
     for message in consumer:
-        print("Start consume to product-service.evaluation-product topic1")
         raw_message = message.value.decode('utf-8')
         data = json.loads(raw_message)
-        print(data)
         evaluation_result = evaluation(data)
-        print(evaluation_result)
         evaluation_event = ProductEvaluatedEvent(
             data["productId"],
             evaluation_result["score"],

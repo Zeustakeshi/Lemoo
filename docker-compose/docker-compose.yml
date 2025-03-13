@@ -6,25 +6,47 @@ services:
       - KAFKA_ENABLE_KRAFT=yes
       - KAFKA_CFG_PROCESS_ROLES=broker,controller
       - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
-      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:2181
-      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
-      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://127.0.0.1:9092
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:2181,EXTERNAL://:9093
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,EXTERNAL:PLAINTEXT
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092,EXTERNAL://127.0.0.1:9093
       - KAFKA_BROKER_ID=1
       - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=1@kafka:2181
       - ALLOW_PLAINTEXT_LISTENER=yes
       - KAFKA_CFG_NODE_ID=1
+      - KAFKA_HEAP_OPTS=-Xmx512M -Xms256M
+      - KAFKA_CFG_NUM_PARTITIONS=1
+    #      - KAFKA_CFG_AUTHORIZER_CLASS_NAME=  # Để trống hoặc bỏ hoàn toàn
+    #      - KAFKA_CFG_ALLOW_EVERYONE_IF_NO_ACL_FOUND=true  # Giúp Kafka không yêu cầu ACL nếu không có cấu hình
     ports:
       - "9092:9092"
-  akhq:
-    image: tchiotludo/akhq:latest
+      - "9093:9093"
+  kafka-ui:
+    image: provectuslabs/kafka-ui
     ports:
-      - "8080:8080"
+      - "80:8080"
     environment:
-      AKHQ_CONFIGURATION: |
-        akhq:
-          connections:
-            local:
-              properties:
-                bootstrap.servers: "kafka:9092"
+      KAFKA_CLUSTERS_0_NAME: local
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
     depends_on:
       - kafka
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=example
+  mongo-express:
+    image: mongo-express
+    ports:
+      - "3001:8081"
+    environment:
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=root
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=example
+      - ME_CONFIG_MONGODB_URL=mongodb://root:example@mongo:27017/
+      - ME_CONFIG_BASICAUTH=false
+  redis:
+    image: redis/redis-stack
+    ports:
+      - "6379:6379"
+      - "3000:8001"

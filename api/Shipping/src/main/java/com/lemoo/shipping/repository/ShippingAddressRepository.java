@@ -23,4 +23,6 @@ public interface ShippingAddressRepository extends MongoRepository<ShippingAddre
     Page<ShippingAddress> findAllByUserId(String userId, Pageable pageable);
 
     Optional<ShippingAddress> findByIdAndUserId(String id, String userId);
+
+    Optional<ShippingAddress> findByUserIdAndIsDefault(String userId, Boolean isDefault);
 }

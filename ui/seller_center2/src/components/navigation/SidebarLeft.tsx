@@ -4,9 +4,9 @@ import { useState } from "react";
 import LogoLemo from "../../assets/LeMooEco.svg";
 type Props = {};
 
-const Sidebar = (props: Props) => {
+const SidebarLeft = (props: Props) => {
     return (
-        <aside className="w-64 bg-white shadow-md flex flex-col">
+        <aside className="w-64 bg-white shadow-md flex flex-col h-[100svh] sticky top-0">
             <div className="p-6 border-b border-gray-300 flex flex-col items-center">
                 <img
                     src={LogoLemo}
@@ -112,4 +112,4 @@ const SideBarItem = ({ label, to, subItems }: SideBarItemProps) => {
     );
 };
 
-export default Sidebar;
+export default SidebarLeft;

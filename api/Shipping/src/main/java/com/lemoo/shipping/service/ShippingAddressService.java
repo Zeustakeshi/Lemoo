@@ -18,4 +18,5 @@ public interface ShippingAddressService {
 
     PageableResponse<ShippingAddressResponse> getAllShipAddress(AuthenticatedAccount account, int page, int limit);
 
+    void updateDefaultAddress(AuthenticatedAccount account, String addressId);
 }

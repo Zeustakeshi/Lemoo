@@ -12,6 +12,7 @@ import com.lemoo.shipping.dto.request.ShippingAddressRequest;
 import com.lemoo.shipping.dto.response.PageableResponse;
 import com.lemoo.shipping.dto.response.ShippingAddressResponse;
 import com.lemoo.shipping.entity.ShippingAddress;
+import com.lemoo.shipping.exception.NotfoundException;
 import com.lemoo.shipping.mapper.PageMapper;
 import com.lemoo.shipping.mapper.ShippingAddressMapper;
 import com.lemoo.shipping.repository.ShippingAddressRepository;
@@ -45,5 +46,25 @@ public class ShippingAddressServiceImpl implements ShippingAddressService {
         PageRequest request = PageRequest.of(page, limit);
         Page<?> shippingAddresses = shippingAddressRepository.findAllByUserId(account.getUserId(), request);
         return pageMapper.toPageableResponse(shippingAddresses);
+    }
+
+    @Override
+    public void updateDefaultAddress(AuthenticatedAccount account, String addressId) {
+        ShippingAddress address = shippingAddressRepository.findById(addressId)
+                .orElseThrow(() -> new NotfoundException("Address not found"));
+
+        ShippingAddress oldDefaultAddress = shippingAddressRepository.
+                findByUserIdAndIsDefault(account.getUserId(), true)
+                .orElse(null);
+
+        if (oldDefaultAddress != null) {
+            oldDefaultAddress.setIsDefault(false);
+            shippingAddressRepository.save(oldDefaultAddress);
+        }
+
+        address.setIsDefault(true);
+
+        shippingAddressRepository.save(address);
+
     }
 }

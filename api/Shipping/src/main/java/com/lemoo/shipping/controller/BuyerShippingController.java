@@ -41,4 +41,13 @@ public class BuyerShippingController {
         return ApiResponse.success(shippingAddressService.createShippingAddress(account, request));
     }
 
+    @PutMapping("{addressId}")
+    public ApiResponse<Boolean> updateDefaultAddress(
+            @PathVariable("addressId") String addressId,
+            @AuthenticationPrincipal AuthenticatedAccount account
+    ) {
+        shippingAddressService.updateDefaultAddress(account, addressId);
+        return ApiResponse.success(true);
+    }
+
 }

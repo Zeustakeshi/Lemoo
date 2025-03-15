@@ -22,26 +22,26 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-	private final UserRepository userRepository;
-	private final UserMapper userMapper;
+    private final UserRepository userRepository;
+    private final UserMapper userMapper;
 
-	@Value("${assets.default-avatar}")
-	private String defaultAvatar;
+    @Value("${assets.default-avatar}")
+    private String defaultAvatar;
 
-	@Override
-	public void createUser(String accountId, String userId, String displayName) {
-		User user = User.builder()
-				.displayName(displayName)
-				.accountId(accountId)
-				.avatar(defaultAvatar)
-				.build();
-		user.setId(userId);
-		userRepository.save(user);
-	}
+    @Override
+    public void createUser(String accountId, String userId, String displayName, String avatar) {
+        User user = User.builder()
+                .displayName(displayName)
+                .accountId(accountId)
+                .avatar(avatar != null ? avatar : defaultAvatar)
+                .build();
+        user.setId(userId);
+        userRepository.save(user);
+    }
 
-	@Override
-	public UserResponse getUserProfile(String userId) {
-		User user = userRepository.findById(userId).orElseThrow(() -> new NotfoundException("User not found!"));
-		return userMapper.userToUserResponse(user);
-	}
+    @Override
+    public UserResponse getUserProfile(String userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new NotfoundException("User not found!"));
+        return userMapper.userToUserResponse(user);
+    }
 }

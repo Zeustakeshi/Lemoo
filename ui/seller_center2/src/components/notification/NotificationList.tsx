@@ -37,7 +37,7 @@ const NotificationList = (props: Props) => {
                             index,
                             content
                         ) => {
-                            const lastIndex = content.length - 1;
+                            const lastIndex = content?.length ?? 1 - 1;
                             if (index === Math.ceil(lastIndex * 0.8))
                                 return (
                                     <NotificationItem

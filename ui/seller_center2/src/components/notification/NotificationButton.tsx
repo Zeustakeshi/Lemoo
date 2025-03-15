@@ -11,15 +11,19 @@ const NotificationButton = (props: Props) => {
     const [hasUnreadNotifications, setHasUnreadNotifications] = useState(false);
 
     const router = useRouter();
-    const { client } = useSocket();
+    const { client, isConnected } = useSocket();
 
     useEffect(() => {
         const store = getSessionStorageValue<Store>("storeInfo");
 
-        if (!client || !store || !client.connected) return;
+        if (!client?.connected) {
+            return;
+        }
+
+        console.log("subscribe");
 
         const subscription = client.subscribe(
-            `/topic/notifications/${store.id}`,
+            `/topic/notifications/${store?.id}`,
             (message) => {
                 setHasUnreadNotifications(true);
             }
@@ -29,7 +33,7 @@ const NotificationButton = (props: Props) => {
                 subscription.unsubscribe();
             }
         };
-    }, [client, client?.connected]);
+    }, [isConnected]);
 
     return (
         <Button

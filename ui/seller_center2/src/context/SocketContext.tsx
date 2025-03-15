@@ -11,6 +11,7 @@ interface ISocketContext {
     client: Client | null;
     disconnect: () => void;
     isConnected: boolean;
+    connect: () => void;
 }
 
 const SocketContext = React.createContext<ISocketContext | null>(null);
@@ -41,7 +42,7 @@ const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
         const newClient = new Client({
             brokerURL: import.meta.env.VITE_SOCKET_BASE_URL,
             debug: function (str: string) {
-                // console.log("STOMP Debug:", str);
+                console.log("STOMP Debug:", str);
             },
             reconnectDelay: 5000,
             heartbeatIncoming: 4000,
@@ -87,6 +88,7 @@ const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
         client,
         disconnect,
         isConnected,
+        connect,
     };
 
     return (

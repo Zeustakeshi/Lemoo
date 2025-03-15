@@ -21,6 +21,7 @@ import { Route as ProductProductImport } from './routes/product/_product'
 import { Route as PromotionVouchersIndexImport } from './routes/promotion/vouchers/index'
 import { Route as StoreStoreDashboardImport } from './routes/store/_store.dashboard'
 import { Route as StoreStoreCreateImport } from './routes/store/_store.create'
+import { Route as ProductProductManageImport } from './routes/product/_product.manage'
 import { Route as ProductProductAddProductImport } from './routes/product/_product.addProduct'
 import { Route as PromotionVouchersStoreFollowerIndexImport } from './routes/promotion/vouchers/store-follower/index'
 import { Route as PromotionVouchersRegularIndexImport } from './routes/promotion/vouchers/regular/index'
@@ -90,6 +91,12 @@ const StoreStoreCreateRoute = StoreStoreCreateImport.update({
   id: '/create',
   path: '/create',
   getParentRoute: () => StoreStoreRoute,
+} as any)
+
+const ProductProductManageRoute = ProductProductManageImport.update({
+  id: '/manage',
+  path: '/manage',
+  getParentRoute: () => ProductProductRoute,
 } as any)
 
 const ProductProductAddProductRoute = ProductProductAddProductImport.update({
@@ -186,6 +193,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductProductAddProductImport
       parentRoute: typeof ProductProductImport
     }
+    '/product/_product/manage': {
+      id: '/product/_product/manage'
+      path: '/manage'
+      fullPath: '/product/manage'
+      preLoaderRoute: typeof ProductProductManageImport
+      parentRoute: typeof ProductProductImport
+    }
     '/store/_store/create': {
       id: '/store/_store/create'
       path: '/create'
@@ -242,10 +256,12 @@ declare module '@tanstack/react-router' {
 
 interface ProductProductRouteChildren {
   ProductProductAddProductRoute: typeof ProductProductAddProductRoute
+  ProductProductManageRoute: typeof ProductProductManageRoute
 }
 
 const ProductProductRouteChildren: ProductProductRouteChildren = {
   ProductProductAddProductRoute: ProductProductAddProductRoute,
+  ProductProductManageRoute: ProductProductManageRoute,
 }
 
 const ProductProductRouteWithChildren = ProductProductRoute._addFileChildren(
@@ -294,6 +310,7 @@ export interface FileRoutesByFullPath {
   '/store': typeof StoreStoreRouteWithChildren
   '/notifications': typeof NotificationsIndexRoute
   '/product/addProduct': typeof ProductProductAddProductRoute
+  '/product/manage': typeof ProductProductManageRoute
   '/store/create': typeof StoreStoreCreateRoute
   '/store/dashboard': typeof StoreStoreDashboardRoute
   '/promotion/vouchers': typeof PromotionVouchersIndexRoute
@@ -310,6 +327,7 @@ export interface FileRoutesByTo {
   '/store': typeof StoreStoreRouteWithChildren
   '/notifications': typeof NotificationsIndexRoute
   '/product/addProduct': typeof ProductProductAddProductRoute
+  '/product/manage': typeof ProductProductManageRoute
   '/store/create': typeof StoreStoreCreateRoute
   '/store/dashboard': typeof StoreStoreDashboardRoute
   '/promotion/vouchers': typeof PromotionVouchersIndexRoute
@@ -329,6 +347,7 @@ export interface FileRoutesById {
   '/store/_store': typeof StoreStoreRouteWithChildren
   '/notifications/': typeof NotificationsIndexRoute
   '/product/_product/addProduct': typeof ProductProductAddProductRoute
+  '/product/_product/manage': typeof ProductProductManageRoute
   '/store/_store/create': typeof StoreStoreCreateRoute
   '/store/_store/dashboard': typeof StoreStoreDashboardRoute
   '/promotion/vouchers/': typeof PromotionVouchersIndexRoute
@@ -347,6 +366,7 @@ export interface FileRouteTypes {
     | '/store'
     | '/notifications'
     | '/product/addProduct'
+    | '/product/manage'
     | '/store/create'
     | '/store/dashboard'
     | '/promotion/vouchers'
@@ -362,6 +382,7 @@ export interface FileRouteTypes {
     | '/store'
     | '/notifications'
     | '/product/addProduct'
+    | '/product/manage'
     | '/store/create'
     | '/store/dashboard'
     | '/promotion/vouchers'
@@ -379,6 +400,7 @@ export interface FileRouteTypes {
     | '/store/_store'
     | '/notifications/'
     | '/product/_product/addProduct'
+    | '/product/_product/manage'
     | '/store/_store/create'
     | '/store/_store/dashboard'
     | '/promotion/vouchers/'
@@ -455,7 +477,8 @@ export const routeTree = rootRoute
       "filePath": "product/_product.tsx",
       "parent": "/product",
       "children": [
-        "/product/_product/addProduct"
+        "/product/_product/addProduct",
+        "/product/_product/manage"
       ]
     },
     "/store": {
@@ -477,6 +500,10 @@ export const routeTree = rootRoute
     },
     "/product/_product/addProduct": {
       "filePath": "product/_product.addProduct.tsx",
+      "parent": "/product/_product"
+    },
+    "/product/_product/manage": {
+      "filePath": "product/_product.manage.tsx",
       "parent": "/product/_product"
     },
     "/store/_store/create": {

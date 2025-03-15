@@ -35,6 +35,10 @@ const SidebarLeft = (props: Props) => {
                         label="Quản lý sản phẩm"
                         subItems={[
                             {
+                                label: "Danh sách sản phẩm",
+                                to: "/product/manage",
+                            },
+                            {
                                 label: "Thêm sản phẩm",
                                 to: "/product/addProduct",
                             },

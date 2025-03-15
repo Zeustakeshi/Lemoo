@@ -38,6 +38,19 @@ spring:
       auto-offset-reset: earliest
       properties:
         spring.json.trusted.packages: '*'
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET}
+      url:
+        client-redirect-url: ${OAUTH_CLIENT_REDIRECT_URL}
+        google:
+          token-url: https://oauth2.googleapis.com
+          user-url: https://www.googleapis.com
+          oauth-url: https://accounts.google.com/o/oauth2/v2/auth
 server:
   port: 8082
   servlet:
@@ -54,7 +67,7 @@ jwt:
       private-key: ${REFRESH_TOKEN_PRIVATE_KEY_PATH:../../keys/refreshToken/privateKey.pem}
       expireIn: 120 # hour == 5 days
 cache:
-  redis_url: ${REDIS_URL}
+  redis_url: ${REDIS_URL:redis://localhost:6379}
 
 admin:
   email: ${ADMIN_ACCOUNT:admin@gmail.com}

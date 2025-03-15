@@ -17,6 +17,8 @@ import java.util.Optional;
 @Repository
 public interface AccountRepository extends JpaRepository<Account, String> {
 
+    Optional<Account> findByEmail(String email);
+
     @Query("select a from Account  a where  a.phone = :accountName or a.email = :accountName")
     Optional<Account> findByEmailOrPhone(String accountName);
 

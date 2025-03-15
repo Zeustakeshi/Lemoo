@@ -7,6 +7,7 @@
 package com.lemoo.auth.mapper;
 
 import com.lemoo.auth.domain.AccountConfirmation;
+import com.lemoo.auth.domain.OAuthAccount;
 import com.lemoo.auth.dto.request.CreateAccountRequest;
 import com.lemoo.auth.entity.Account;
 import org.mapstruct.Mapper;
@@ -15,8 +16,12 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface AccountMapper {
 
-	@Mapping(target = "otpCode", ignore = true)
-	AccountConfirmation createAccountRequestToAccountConfirmation(CreateAccountRequest accountRequest);
+    @Mapping(target = "otpCode", ignore = true)
+    AccountConfirmation createAccountRequestToAccountConfirmation(CreateAccountRequest accountRequest);
 
-	Account accountConfirmationToAccount(AccountConfirmation accountConfirmation);
+    Account accountConfirmationToAccount(AccountConfirmation accountConfirmation);
+
+    @Mapping(source = "name", target = "username")
+    @Mapping(source = "picture", target = "defaultAvatar")
+    Account toAccount(OAuthAccount oAuthAccount);
 }

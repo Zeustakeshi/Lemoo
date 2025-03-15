@@ -34,7 +34,9 @@ public class Account extends BaseEntity implements UserDetails {
     @Column(nullable = false)
     private String username;
 
-    @Column(unique = true, nullable = false)
+    private String defaultAvatar;
+
+    @Column(unique = true)
     private String phone;
 
     @Column(unique = true, nullable = false)
@@ -48,7 +50,6 @@ public class Account extends BaseEntity implements UserDetails {
     @Builder.Default
     private Set<Role> authorities = new HashSet<>();
 
-    @Column(nullable = false)
     private String password;
 
     @Override

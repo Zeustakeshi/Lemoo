@@ -18,5 +18,6 @@ public class NewUserEvent extends Event {
     private String displayName;
     private String accountId;
     private String userId;
+    private String avatar;
 
 }

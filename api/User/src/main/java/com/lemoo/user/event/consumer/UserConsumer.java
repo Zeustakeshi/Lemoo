@@ -25,24 +25,23 @@ public class UserConsumer {
 
     @KafkaListener(topics = "auth-service.user.new", groupId = "${spring.kafka.consumer.group-id}")
     public void newUserEventListener(NewUserEvent event) {
-        userService.createUser(event.getAccountId(), event.getUserId(), event.getDisplayName());
+        userService.createUser(event.getAccountId(), event.getUserId(), event.getDisplayName(), event.getAvatar());
     }
 
     @KafkaListener(topics = "user-service.friend.request", groupId = "${spring.kafka.consumer.group-id}")
-    public void friendRequestEventListener(FriendRequestEvent event){
-        friendInvitationService.receivedFriendRequest(event.getSenderId(),event.getReceiverId());
+    public void friendRequestEventListener(FriendRequestEvent event) {
+        friendInvitationService.receivedFriendRequest(event.getSenderId(), event.getReceiverId());
     }
 
     @KafkaListener(topics = "user-service.friend.received", groupId = "${spring.kafka.consumer.group-id}")
-    public void friendRequestEventListener(ReceivedFriendRequestEvent event){
-        friendInvitationService.notifyFriendRequest(event.getSenderId(),event.getReceiverId());
+    public void friendRequestEventListener(ReceivedFriendRequestEvent event) {
+        friendInvitationService.notifyFriendRequest(event.getSenderId(), event.getReceiverId());
     }
 
     @KafkaListener(topics = "user-service.friend.accepted", groupId = "${spring.kafka.consumer.group-id}")
-    public void acceptFriendEventListener(FriendRequestEvent event){
-        friendInvitationService.acceptedFriend(event.getSenderId(),event.getReceiverId());
+    public void acceptFriendEventListener(FriendRequestEvent event) {
+        friendInvitationService.acceptedFriend(event.getSenderId(), event.getReceiverId());
     }
-
 
 
 }

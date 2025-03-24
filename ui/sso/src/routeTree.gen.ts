@@ -13,6 +13,7 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as OauthRedirectIndexImport } from './routes/oauth-redirect/index'
 import { Route as dashboardIndexImport } from './routes/(dashboard)/index'
 import { Route as AuthAuthImport } from './routes/auth/_auth'
 import { Route as AuthAuthRegisterImport } from './routes/auth/_auth.register'
@@ -28,6 +29,12 @@ const AuthImport = createFileRoute('/auth')()
 const AuthRoute = AuthImport.update({
   id: '/auth',
   path: '/auth',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const OauthRedirectIndexRoute = OauthRedirectIndexImport.update({
+  id: '/oauth-redirect/',
+  path: '/oauth-redirect/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -85,6 +92,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof dashboardIndexImport
       parentRoute: typeof rootRoute
     }
+    '/oauth-redirect/': {
+      id: '/oauth-redirect/'
+      path: '/oauth-redirect'
+      fullPath: '/oauth-redirect'
+      preLoaderRoute: typeof OauthRedirectIndexImport
+      parentRoute: typeof rootRoute
+    }
     '/auth/_auth/login': {
       id: '/auth/_auth/login'
       path: '/login'
@@ -140,6 +154,7 @@ const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 export interface FileRoutesByFullPath {
   '/auth': typeof AuthAuthRouteWithChildren
   '/': typeof dashboardIndexRoute
+  '/oauth-redirect': typeof OauthRedirectIndexRoute
   '/auth/login': typeof AuthAuthLoginRoute
   '/auth/register': typeof AuthAuthRegisterRoute
   '/auth/otp/new-account': typeof AuthAuthOtpNewAccountRoute
@@ -148,6 +163,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/auth': typeof AuthAuthRouteWithChildren
   '/': typeof dashboardIndexRoute
+  '/oauth-redirect': typeof OauthRedirectIndexRoute
   '/auth/login': typeof AuthAuthLoginRoute
   '/auth/register': typeof AuthAuthRegisterRoute
   '/auth/otp/new-account': typeof AuthAuthOtpNewAccountRoute
@@ -158,6 +174,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRouteWithChildren
   '/auth/_auth': typeof AuthAuthRouteWithChildren
   '/(dashboard)/': typeof dashboardIndexRoute
+  '/oauth-redirect/': typeof OauthRedirectIndexRoute
   '/auth/_auth/login': typeof AuthAuthLoginRoute
   '/auth/_auth/register': typeof AuthAuthRegisterRoute
   '/auth/_auth/otp/new-account': typeof AuthAuthOtpNewAccountRoute
@@ -168,16 +185,24 @@ export interface FileRouteTypes {
   fullPaths:
     | '/auth'
     | '/'
+    | '/oauth-redirect'
     | '/auth/login'
     | '/auth/register'
     | '/auth/otp/new-account'
   fileRoutesByTo: FileRoutesByTo
-  to: '/auth' | '/' | '/auth/login' | '/auth/register' | '/auth/otp/new-account'
+  to:
+    | '/auth'
+    | '/'
+    | '/oauth-redirect'
+    | '/auth/login'
+    | '/auth/register'
+    | '/auth/otp/new-account'
   id:
     | '__root__'
     | '/auth'
     | '/auth/_auth'
     | '/(dashboard)/'
+    | '/oauth-redirect/'
     | '/auth/_auth/login'
     | '/auth/_auth/register'
     | '/auth/_auth/otp/new-account'
@@ -187,11 +212,13 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   AuthRoute: typeof AuthRouteWithChildren
   dashboardIndexRoute: typeof dashboardIndexRoute
+  OauthRedirectIndexRoute: typeof OauthRedirectIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRouteWithChildren,
   dashboardIndexRoute: dashboardIndexRoute,
+  OauthRedirectIndexRoute: OauthRedirectIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -205,7 +232,8 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/auth",
-        "/(dashboard)/"
+        "/(dashboard)/",
+        "/oauth-redirect/"
       ]
     },
     "/auth": {
@@ -225,6 +253,9 @@ export const routeTree = rootRoute
     },
     "/(dashboard)/": {
       "filePath": "(dashboard)/index.tsx"
+    },
+    "/oauth-redirect/": {
+      "filePath": "oauth-redirect/index.tsx"
     },
     "/auth/_auth/login": {
       "filePath": "auth/_auth.login.tsx",

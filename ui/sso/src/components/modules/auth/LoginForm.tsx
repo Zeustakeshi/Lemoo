@@ -1,4 +1,5 @@
 import { login } from "@/api/auth.api";
+import ButtonLoginWithGoogle from "@/components/button/ButtonLoginWithGoogle";
 import { Button } from "@/components/ui/button";
 import {
     Form,
@@ -112,6 +113,7 @@ const LoginForm = ({}: Props) => {
                 >
                     {isPending ? "Đang xử lý" : " Đăng nhập"}
                 </Button>
+                <ButtonLoginWithGoogle className="mt-5 w-full"></ButtonLoginWithGoogle>
             </form>
         </Form>
     );

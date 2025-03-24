@@ -51,3 +51,11 @@ export const logout = async () => {
     }
     return "oke";
 };
+
+export const getGoogleOauthUrl = async (): Promise<string> => {
+    return await api.get("/auth/google");
+};
+
+export const loginWithGoogle = async (code: string): Promise<TokenPair> => {
+    return await api.post("/auth/google", { code });
+};

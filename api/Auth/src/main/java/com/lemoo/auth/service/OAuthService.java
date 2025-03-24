@@ -10,8 +10,10 @@ package com.lemoo.auth.service;
 import com.lemoo.auth.dto.request.OAuthLoginRequest;
 import com.lemoo.auth.dto.response.TokenResponse;
 
+import java.util.Map;
+
 public interface OAuthService {
-    String getOAuthUrl();
+    String getOAuthUrl(Map<String, String> customParams);
 
     TokenResponse login(OAuthLoginRequest request);
 }

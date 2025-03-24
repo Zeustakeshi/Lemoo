@@ -18,6 +18,8 @@ import org.springframework.stereotype.Component;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Component
 @AllArgsConstructor
@@ -46,15 +48,21 @@ public abstract class BaseOAuthService {
                 .build();
     }
 
-    protected String getOAuthUrl(String providerBaseUrl, String clientId, String scope, String callbackUri) {
+    protected String getOAuthUrl(String providerBaseUrl, String clientId, String scope, String callbackUri, Map<String, String> customParams) {
         String responseType = "code";
         String encodedScope;
 
         encodedScope = URLEncoder.encode(scope, StandardCharsets.UTF_8);
 
+        String state = customParams.entrySet().stream()
+                .map(entry -> entry.getKey() + "=" + URLEncoder.encode(entry.getValue(), StandardCharsets.UTF_8))
+                .collect(Collectors.joining("&"));
+
+        String encodedState = URLEncoder.encode(state, StandardCharsets.UTF_8);
+
         return providerBaseUrl + "?client_id=" + clientId + "&redirect_uri="
                 + callbackUri + "&response_type="
                 + responseType + "&scope="
-                + encodedScope;
+                + encodedScope + "&state=" + encodedState;
     }
 }

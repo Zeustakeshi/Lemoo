@@ -10,7 +10,11 @@ const refreshToken = async () => {
         TokenType.REFRESH_TOKEN
     );
 
-    alert("Refresh token");
+    if (!refreshToken) {
+        window.location.href = "/auth/login";
+        throw new Error("Invalid refresh token");
+    }
+
     try {
         const data: any = await api({
             method: "POST",

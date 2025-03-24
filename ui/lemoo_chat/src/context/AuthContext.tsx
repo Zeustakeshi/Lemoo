@@ -59,8 +59,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const logout = useCallback(async () => {
         // await logoutApi();
         sessionStorage.removeItem(USER_STORAGE_KEY);
-        Cookies.remove(ACCESS_TOKEN_KEY);
-        Cookies.remove(REFRESH_TOKEN_KEY);
+        Cookies.remove(ACCESS_TOKEN_KEY, {
+            domain: import.meta.env.VITE_BASE_DOMAIN,
+        });
+        Cookies.remove(REFRESH_TOKEN_KEY, {
+            domain: import.meta.env.VITE_BASE_DOMAIN,
+        });
         setUser(null);
         setIsAuthenticated(false);
         window.location.href = import.meta.env.VITE_SSO_CALLBACK_URL;

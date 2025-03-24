@@ -5,12 +5,13 @@ import { Button } from "../ui/button";
 
 type Props = {
     className?: string;
+    callbackUrl?: string;
 };
 
-const ButtonLoginWithGoogle = ({ className }: Props) => {
+const ButtonLoginWithGoogle = ({ className, callbackUrl }: Props) => {
     const { data, isError, isLoading } = useQuery({
         queryKey: ["fetch-oauth-url", "google"],
-        queryFn: getGoogleOauthUrl,
+        queryFn: async () => await getGoogleOauthUrl(callbackUrl),
     });
 
     return (

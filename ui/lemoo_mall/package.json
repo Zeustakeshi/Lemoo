@@ -4,7 +4,7 @@
     "version": "0.0.0",
     "type": "module",
     "scripts": {
-        "dev": "vite --port 5173 --host lemoo.com",
+        "dev": "vite --port 5172 --host lemoo.com",
         "build": "tsc -b && vite build",
         "lint": "eslint .",
         "preview": "vite preview"

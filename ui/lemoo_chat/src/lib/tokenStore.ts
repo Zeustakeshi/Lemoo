@@ -48,7 +48,9 @@ export const getTokenValue = async (type: TokenType) => {
 
 export const removeToken = async (type: TokenType) => {
     try {
-        Cookies.remove(getTokenKey(type), { domain: ".lemoo.com" });
+        Cookies.remove(getTokenKey(type), {
+            domain: import.meta.env.VITE_BASE_DOMAIN,
+        });
     } catch (error) {
         console.error("Error removing token", error);
     }

@@ -33,7 +33,7 @@ public class Store extends BaseEntity {
     @Column(unique = true)
     private String companyName;
 
-    @Column(unique = true, nullable = false)
+    @Column(unique = true)
     private String phone;
 
     @Column(unique = true, nullable = false)

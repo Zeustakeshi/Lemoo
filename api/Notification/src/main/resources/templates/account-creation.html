@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Lemoo Account Verification</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .email-container {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background-color: #007BFF;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .content {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .otp-code {
+            font-size: 36px;
+            font-weight: bold;
+            color: #007BFF;
+            background-color: #e9f5ff;
+            display: inline-block;
+            padding: 15px 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin: 20px 0;
+        }
+
+        .footer {
+            background-color: #f1f1f1;
+            text-align: center;
+            padding: 10px;
+            font-size: 12px;
+            color: #555;
+        }
+
+        a {
+            color: #007BFF;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<div class="email-container">
+    <div class="header">
+        <h1>Welcome to Lemoo</h1>
+        <p>Your One-Time Password (OTP) for account verification</p>
+    </div>
+    <div class="content">
+        <p>Hello, <span th:text="${userEmail}"></span></p>
+        <p>Thank you for signing up with Lemoo! To complete your account verification, please use the OTP provided
+            below:</p>
+        <div class="otp-code" th:text="${otpCode}">123456</div>
+        <p>This OTP is valid for <strong>5 minutes</strong>. Please do not share it with anyone for security reasons.
+        </p>
+        <p>If you did not request this code, please contact our support team immediately at <a
+                href="mailto:support@lemoo.com">support@lemoo.com</a>.</p>
+        <p>Best regards,<br>The Lemoo Team</p>
+    </div>
+    <div class="footer">
+        &copy; 2024 Lemoo. All rights reserved.<br>
+        <a href="https://www.lemoo.com/terms">Terms of Service</a> | <a href="https://www.lemoo.com/privacy">Privacy
+        Policy</a>
+    </div>
+</div>
+</body>
+</html>

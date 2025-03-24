@@ -1,3 +1,3 @@
 export const redirectToSSO = () => {
-  window.location.href = `http://sso.lemoo.com:5172/auth/login?callback_url=http://seller.lemoo.com:5173`;
+    window.location.href = import.meta.env.VITE_SSO_CALLBACK_URL;
 };

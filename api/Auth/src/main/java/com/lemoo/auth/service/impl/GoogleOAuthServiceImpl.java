@@ -23,6 +23,8 @@ import com.lemoo.auth.service.TokenService;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
+
 @Service
 public class GoogleOAuthServiceImpl extends BaseOAuthService implements GoogleOAuthService {
 
@@ -50,12 +52,13 @@ public class GoogleOAuthServiceImpl extends BaseOAuthService implements GoogleOA
     }
 
     @Override
-    public String getOAuthUrl() {
+    public String getOAuthUrl(Map<String, String> customParams) {
         return getOAuthUrl(
                 oAuthUrlProperties.google().oauthUrl(),
                 googleOAuthProperties.clientId(),
                 "email profile",
-                oAuthUrlProperties.clientRedirectUrl()
+                oAuthUrlProperties.clientRedirectUrl(),
+                customParams
         );
     }
 

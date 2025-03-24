@@ -113,7 +113,10 @@ const LoginForm = ({}: Props) => {
                 >
                     {isPending ? "Đang xử lý" : " Đăng nhập"}
                 </Button>
-                <ButtonLoginWithGoogle className="mt-5 w-full"></ButtonLoginWithGoogle>
+                <ButtonLoginWithGoogle
+                    callbackUrl={callback_url}
+                    className="mt-5 w-full"
+                ></ButtonLoginWithGoogle>
             </form>
         </Form>
     );

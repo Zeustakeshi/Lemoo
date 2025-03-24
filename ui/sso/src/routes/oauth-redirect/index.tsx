@@ -6,6 +6,7 @@ import { z } from "zod";
 
 const oauthRedirectSearchSchema = z.object({
     code: z.string(),
+    state: z.string().refine((val) => val.includes("sso_redirect_url=")),
 });
 
 export const Route = createFileRoute("/oauth-redirect/")({
@@ -16,7 +17,7 @@ export const Route = createFileRoute("/oauth-redirect/")({
             throw redirect({
                 to: "/auth/login",
                 search: {
-                    error: "missing_oauth_code",
+                    error: "invalid_oauth_params",
                 },
             });
         }
@@ -25,7 +26,8 @@ export const Route = createFileRoute("/oauth-redirect/")({
 });
 
 function RouteComponent() {
-    const { code } = Route.useSearch();
+    const { code, state } = Route.useSearch();
+
     const router = useRouter();
 
     useEffect(() => {
@@ -36,7 +38,11 @@ function RouteComponent() {
                 const data = await loginWithGoogle(code);
                 await saveToken(data.accessToken);
                 await saveToken(data.refreshToken);
-                router.navigate({ to: "/" });
+
+                const urlEncoded = state.split("sso_redirect_url=")[1];
+                const urlDecoded = decodeURIComponent(urlEncoded);
+                if (urlDecoded) window.location.href = urlDecoded;
+                else router.navigate({ to: "/" });
             } catch (error: any) {
                 router.navigate({
                     to: "/auth/login",

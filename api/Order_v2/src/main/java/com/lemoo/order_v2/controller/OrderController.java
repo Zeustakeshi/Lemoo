@@ -10,7 +10,6 @@ package com.lemoo.order_v2.controller;
 import com.lemoo.order_v2.dto.common.AuthenticatedAccount;
 import com.lemoo.order_v2.dto.request.OrderRequest;
 import com.lemoo.order_v2.dto.response.ApiResponse;
-import com.lemoo.order_v2.dto.response.OrderResponse;
 import com.lemoo.order_v2.service.OrderService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -27,10 +26,11 @@ public class OrderController {
     private final OrderService orderService;
 
     @PostMapping
-    public ApiResponse<OrderResponse> placeOrder(
+    public ApiResponse<String> placeOrder(
             @RequestBody @Valid OrderRequest request,
             @AuthenticationPrincipal AuthenticatedAccount account
     ) {
-        return ApiResponse.success(orderService.placeOrder(request, account));
+        orderService.placeOrder(request, account);
+        return ApiResponse.success("Order has been created!");
     }
 }

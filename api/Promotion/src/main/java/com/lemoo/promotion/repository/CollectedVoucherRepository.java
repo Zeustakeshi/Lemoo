@@ -12,9 +12,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface CollectedVoucherRepository extends MongoRepository<CollectedVoucher, String> {
     Page<CollectedVoucher> findAllByUserId(String userId, Pageable pageable);
+
+    Optional<CollectedVoucher> findByUserIdAndVoucherId(String userId, String voucherId);
 
     boolean existsByUserIdAndVoucherId(String userId, String voucherId);
 }

@@ -14,6 +14,7 @@ import com.lemoo.promotion.dto.response.UserVoucherResponse;
 import java.util.Set;
 
 public interface VoucherCollectionService {
+    Boolean isCollectedVoucher(String userId, String voucherId);
 
     PageableResponse<UserVoucherResponse> getAllVoucherByStoreId(String storeId, int page, int limit);
 

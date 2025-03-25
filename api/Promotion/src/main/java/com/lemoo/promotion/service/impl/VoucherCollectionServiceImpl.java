@@ -53,6 +53,11 @@ public class VoucherCollectionServiceImpl implements VoucherCollectionService {
     private final StoreService storeService;
 
     @Override
+    public Boolean isCollectedVoucher(String userId, String voucherId) {
+        return collectedVoucherRepository.existsByUserIdAndVoucherId(userId, voucherId);
+    }
+
+    @Override
     public PageableResponse<UserVoucherResponse> getAllVoucherByStoreId(String storeId, int page, int limit) {
 
         PageRequest request = PageRequest.of(page, limit, Sort.by(Sort.Direction.DESC, "updatedAt"));
@@ -109,17 +114,19 @@ public class VoucherCollectionServiceImpl implements VoucherCollectionService {
         validateVoucherEligibility(voucher, account);
 
         boolean isActiveNow = voucher.getPeriodStartTime().isBefore(LocalDateTime.now());
-        CollectedVoucher collectedVoucher = collectedVoucherRepository.save(
-                CollectedVoucher.builder()
+        CollectedVoucher collectedVoucher = collectedVoucherRepository
+                .findByUserIdAndVoucherId(account.getUserId(), voucher.getId())
+                .orElse(CollectedVoucher.builder()
                         .userId(account.getUserId())
                         .voucherId(voucher.getId())
                         .status(isActiveNow ? CollectedVoucherStatus.ACTIVE : CollectedVoucherStatus.NOT_STARTED)
                         .collectedAt(LocalDateTime.now())
-                        .build()
-        );
+                        .build());
 
+        collectedVoucher.setQuantity(collectedVoucher.getQuantity() + 1);
+
+        collectedVoucherRepository.save(collectedVoucher);
         updateVoucherAvailability(voucher);
-
         return userVoucherMapper.toCollectedVoucherResponse(collectedVoucher, voucher);
     }
 
@@ -133,14 +140,17 @@ public class VoucherCollectionServiceImpl implements VoucherCollectionService {
         if (!isFollowed) {
             throw new ForbiddenException(": You cannot collect this voucher as you have not yet followed our store. Please follow our store to unlock this offer.");
         }
-        CollectedVoucher collectedVoucher = collectedVoucherRepository.save(
-                CollectedVoucher.builder()
+
+        CollectedVoucher collectedVoucher = collectedVoucherRepository
+                .findByUserIdAndVoucherId(account.getUserId(), voucher.getId())
+                .orElse(CollectedVoucher.builder()
                         .userId(account.getUserId())
                         .voucherId(voucher.getId())
                         .status(CollectedVoucherStatus.ACTIVE)
                         .collectedAt(LocalDateTime.now())
-                        .build()
-        );
+                        .build());
+
+        collectedVoucher.setQuantity(collectedVoucher.getQuantity() + 1);
         updateVoucherAvailability(voucher);
         return userVoucherMapper.toCollectedVoucherResponse(collectedVoucher, voucher);
     }

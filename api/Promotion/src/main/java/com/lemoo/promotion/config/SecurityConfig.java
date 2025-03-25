@@ -34,8 +34,11 @@ public class SecurityConfig {
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(handler -> handler.authenticationEntryPoint(authenticationEntryPoint)
                         .accessDeniedHandler(accessDeniedHandler))
-                .authorizeHttpRequests(request -> request.requestMatchers("/actuator/**")
-                        .permitAll()
+                .authorizeHttpRequests(request -> request
+                        .requestMatchers("/actuator/**").permitAll()
+                        .requestMatchers(
+                                "/seller/**"
+                        ).hasRole("SELLER")
                         .anyRequest()
                         .authenticated())
                 .oauth2ResourceServer(

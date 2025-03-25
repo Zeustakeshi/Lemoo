@@ -8,6 +8,7 @@
 package com.lemoo.promotion.dto.response;
 
 import com.lemoo.promotion.common.enums.DiscountType;
+import com.lemoo.promotion.common.enums.VoucherType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,6 +23,7 @@ import java.time.LocalDateTime;
 public class UserVoucherResponse {
     private String id;
     private String name;
+    private VoucherType type;
     private LocalDateTime periodStartTime;
     private LocalDateTime periodEndTime;
     private LocalDateTime collectStartTime;

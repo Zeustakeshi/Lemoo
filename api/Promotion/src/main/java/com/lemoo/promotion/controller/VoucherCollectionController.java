@@ -11,6 +11,7 @@ import com.lemoo.promotion.dto.common.AuthenticatedAccount;
 import com.lemoo.promotion.dto.response.ApiResponse;
 import com.lemoo.promotion.dto.response.CollectedVoucherResponse;
 import com.lemoo.promotion.dto.response.PageableResponse;
+import com.lemoo.promotion.dto.response.UserVoucherResponse;
 import com.lemoo.promotion.service.VoucherCollectionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,6 +23,15 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class VoucherCollectionController {
     private final VoucherCollectionService voucherCollectionService;
+
+    @GetMapping("/store/{storeId}")
+    public ApiResponse<PageableResponse<UserVoucherResponse>> getAllStoreVoucher(
+            @PathVariable("storeId") String storeId,
+            @RequestParam(value = "page", required = false, defaultValue = "0") int page,
+            @RequestParam(value = "limit", required = false, defaultValue = "20") int limit
+    ) {
+        return ApiResponse.success(voucherCollectionService.getAllVoucherByStoreId(storeId, page, limit));
+    }
 
     @GetMapping("collected")
     public ApiResponse<PageableResponse<CollectedVoucherResponse>> getAllCollectedVoucher(

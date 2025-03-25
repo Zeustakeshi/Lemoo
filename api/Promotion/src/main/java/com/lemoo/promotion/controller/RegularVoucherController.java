@@ -22,7 +22,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/vouchers/regular")
+@RequestMapping("/seller/vouchers/regular")
 @RequiredArgsConstructor
 public class RegularVoucherController {
     private final RegularVoucherService regularVoucherService;

@@ -19,11 +19,11 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/vouchers/{voucherId}/products")
+@RequestMapping("/seller/vouchers/{voucherId}/products")
 @RequiredArgsConstructor
 public class VoucherProductController {
     private final VoucherProductService voucherProductService;
-    
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ApiResponse<?> updateVoucherProduct(

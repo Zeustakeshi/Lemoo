@@ -11,6 +11,7 @@ import com.lemoo.promotion.dto.response.UserVoucherResponse;
 import com.lemoo.promotion.entity.BaseVoucher;
 import com.lemoo.promotion.entity.CollectedVoucher;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 @Mapper
 public interface UserVoucherMapper {
@@ -25,5 +26,6 @@ public interface UserVoucherMapper {
     }
 
 
+    @Mapping(source = "voucherType", target = "type")
     UserVoucherResponse toUserVoucherResponse(BaseVoucher voucher);
 }

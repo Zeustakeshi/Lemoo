@@ -6,12 +6,12 @@
 
 package com.lemoo.promotion.service.impl;
 
-import com.lemoo.promotion.client.StoreClient;
 import com.lemoo.promotion.common.enums.CollectedVoucherStatus;
 import com.lemoo.promotion.common.enums.VoucherStatus;
 import com.lemoo.promotion.dto.common.AuthenticatedAccount;
 import com.lemoo.promotion.dto.response.CollectedVoucherResponse;
 import com.lemoo.promotion.dto.response.PageableResponse;
+import com.lemoo.promotion.dto.response.UserVoucherResponse;
 import com.lemoo.promotion.entity.BaseVoucher;
 import com.lemoo.promotion.entity.CollectedVoucher;
 import com.lemoo.promotion.entity.RegularVoucher;
@@ -22,7 +22,6 @@ import com.lemoo.promotion.exception.ForbiddenException;
 import com.lemoo.promotion.exception.NotfoundException;
 import com.lemoo.promotion.mapper.PageMapper;
 import com.lemoo.promotion.mapper.UserVoucherMapper;
-import com.lemoo.promotion.mapper.VoucherMapper;
 import com.lemoo.promotion.repository.BaseVoucherRepository;
 import com.lemoo.promotion.repository.CollectedVoucherRepository;
 import com.lemoo.promotion.service.StoreService;
@@ -51,9 +50,18 @@ public class VoucherCollectionServiceImpl implements VoucherCollectionService {
     private final UserVoucherMapper userVoucherMapper;
     private final RedissonClient redisson;
     private final PageMapper pageMapper;
-    private final VoucherMapper voucherMapper;
-    private final StoreClient storeClient;
     private final StoreService storeService;
+
+    @Override
+    public PageableResponse<UserVoucherResponse> getAllVoucherByStoreId(String storeId, int page, int limit) {
+
+        PageRequest request = PageRequest.of(page, limit, Sort.by(Sort.Direction.DESC, "updatedAt"));
+
+        Page<BaseVoucher> vouchers = baseVoucherRepository.findAllByStoreIdAndStatus(storeId, VoucherStatus.ACTIVE, request);
+        Page<UserVoucherResponse> userVoucherResponses = vouchers.map(userVoucherMapper::toUserVoucherResponse);
+
+        return pageMapper.toPageableResponse(userVoucherResponses);
+    }
 
     @Override
     @Transactional

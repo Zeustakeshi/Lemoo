@@ -21,7 +21,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/vouchers/store-follower")
+@RequestMapping("/seller/vouchers/store-follower")
 @RequiredArgsConstructor
 public class StoreFollowerVoucherController {
     private final StoreFollowerVoucherService storeFollowerVoucherService;

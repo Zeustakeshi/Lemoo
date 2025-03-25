@@ -9,8 +9,11 @@ package com.lemoo.order_v2.dto.request;
 
 import lombok.Data;
 
+import java.util.Set;
+
 @Data
 public class OrderItemRequest {
-    private String lemooSku;
-    private Integer quantity;
+    private String storeId;
+    private Set<OrderSkuRequest> skus;
+    private Set<String> vouchers;
 }

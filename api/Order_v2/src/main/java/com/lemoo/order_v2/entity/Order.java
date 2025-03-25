@@ -25,12 +25,11 @@ import java.util.Set;
 public class Order extends BaseEntity {
     @Indexed
     private String userId;
-
     private Set<OrderItem> items = new HashSet<>();
-    private Set<String> promotions;
     private ShippingAddress shippingAddress;
     private PaymentMethod paymentMethod;
-
+    private String storeId;
+    private Set<String> vouchers;
 
     @Indexed
     private OrderStatus status;

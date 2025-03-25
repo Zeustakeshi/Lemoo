@@ -8,10 +8,7 @@
 package com.lemoo.promotion.entity;
 
 import com.lemoo.promotion.common.enums.CollectedVoucherStatus;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.springframework.data.mongodb.core.index.Indexed;
 
@@ -29,6 +26,9 @@ public class CollectedVoucher extends BaseEntity {
 
     @Indexed
     private String userId;
+
+    @Builder.Default
+    private Integer quantity = 0;
 
     private CollectedVoucherStatus status;
 

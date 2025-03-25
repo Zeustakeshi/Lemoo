@@ -14,22 +14,21 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Repository
 public interface BaseVoucherRepository extends MongoRepository<BaseVoucher, String> {
 
-    Optional<BaseVoucher> findByNameAndStoreId(String name, String storeId);
+    List<BaseVoucher> findAllByIdIn(Set<String> voucherIds);
 
     Optional<BaseVoucher> findByIdAndStoreId(String id, String storeId);
 
     Optional<BaseVoucher> findByIdAndStoreIdAndVoucherType(String id, String storeId, VoucherType voucherType);
 
-    Optional<BaseVoucher> findByIdAndVoucherType(String voucherId, VoucherType type);
-
     Page<BaseVoucher> findAllByStoreIdAndVoucherType(String storeId, VoucherType type, Pageable pageable);
 
     Page<BaseVoucher> findAllByStoreIdAndStatus(String storeId, VoucherStatus status, Pageable pageable);
 
-    boolean existsByNameAndStoreId(String name, String storeId);
 }

@@ -35,7 +35,10 @@ public class SecurityConfig {
                 .exceptionHandling(handler -> handler.authenticationEntryPoint(authenticationEntryPoint)
                         .accessDeniedHandler(accessDeniedHandler))
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/actuator/**").permitAll()
+                        .requestMatchers(
+                                "/actuator/**",
+                                "/internal/**"
+                        ).permitAll()
                         .requestMatchers(
                                 "/seller/**"
                         ).hasRole("SELLER")

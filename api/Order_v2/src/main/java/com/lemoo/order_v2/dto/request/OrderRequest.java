@@ -23,8 +23,5 @@ public class OrderRequest {
     private PaymentMethod paymentMethod;
 
     @NotNull
-    private Set<String> promotions;
-
-    @NotNull
     private String shippingAddressId;
 }

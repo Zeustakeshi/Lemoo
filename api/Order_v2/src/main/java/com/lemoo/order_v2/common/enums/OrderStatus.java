@@ -10,77 +10,37 @@ package com.lemoo.order_v2.common.enums;
 public enum OrderStatus {
 
     /**
-     * The order has been newly created (Unpaid or Unconfirmed).
+     * The order has not been confirmed yet.
      */
     PENDING,
 
     /**
-     * The order has been confirmed by the seller (or the system).
-     */
-    CONFIRMED,
-
-    /**
-     * The order is being processed (Preparing items).
-     */
-    PROCESSING,
-
-    /**
-     * The items are ready for shipment.
-     */
-    READY_FOR_SHIPPING,
-
-    /**
-     * The order has been handed over to the shipping provider.
-     */
-    SHIPPED,
-
-    /**
-     * The order is in transit to the customer.
-     */
-    IN_TRANSIT,
-
-    /**
-     * The order has been successfully delivered.
-     */
-    DELIVERED,
-
-    /**
-     * The order was canceled by the buyer or the seller.
+     * The order was canceled by the buyer.
      */
     CANCELLED,
 
     /**
-     * The order was returned (Return).
+     * The seller has confirmed the availability of the items.
      */
-    RETURNED,
+    CONFIRMED,
 
     /**
-     * The order was refunded (Refund).
-     */
-    REFUNDED,
-
-    /**
-     * The order was rejected by the seller (e.g., out of stock).
+     * The order was rejected by the seller (e.g., due to unavailability of stock).
      */
     REJECTED,
 
     /**
-     * The order is awaiting payment (In case of post-payment).
+     * The order has been handed over to the shipping company.
      */
-    AWAITING_PAYMENT,
+    SHIPPED,
 
     /**
-     * The order payment was successfully completed.
+     * The order is currently in transit.
      */
-    PAYMENT_COMPLETED,
+    SHIPPING,
 
     /**
-     * The order payment failed.
+     * The order has been successfully delivered to the buyer.
      */
-    PAYMENT_FAILED,
-
-    /**
-     * The order is awaiting confirmation by the seller.
-     */
-    AWAITING_CONFIRMATION
+    DELIVERED
 }

@@ -9,7 +9,6 @@ package com.lemoo.order_v2.service.impl;
 
 import com.lemoo.order_v2.dto.common.AuthenticatedAccount;
 import com.lemoo.order_v2.dto.response.PageableResponse;
-import com.lemoo.order_v2.dto.response.SellerOrderItemResponse;
 import com.lemoo.order_v2.dto.response.SellerOrderResponse;
 import com.lemoo.order_v2.entity.Order;
 import com.lemoo.order_v2.mapper.PageMapper;
@@ -33,7 +32,7 @@ public class SellerOrderServiceImpl implements SellerOrderService {
     private final PageMapper pageMapper;
 
     @Override
-    public PageableResponse<SellerOrderItemResponse> getAllOrderByStoreId(String storeId, int page, int limit, AuthenticatedAccount account) {
+    public PageableResponse<SellerOrderResponse> getAllOrderByStoreId(String storeId, int page, int limit, AuthenticatedAccount account) {
         storeService.verifyStore(account.getId(), storeId);
 
         PageRequest request = PageRequest.of(page, limit, Sort.Direction.ASC, "createdAt");

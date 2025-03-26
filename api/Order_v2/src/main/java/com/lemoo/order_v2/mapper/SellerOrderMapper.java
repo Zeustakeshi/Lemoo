@@ -34,6 +34,7 @@ public abstract class SellerOrderMapper {
                 .orderDate(order.getCreatedAt())
                 .vouchers(order.getVouchers())
                 .items(orderItems)
+                .status(order.getStatus())
                 .build();
     }
 

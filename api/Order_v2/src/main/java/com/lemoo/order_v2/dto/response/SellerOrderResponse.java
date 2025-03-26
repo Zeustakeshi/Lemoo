@@ -7,6 +7,7 @@
 
 package com.lemoo.order_v2.dto.response;
 
+import com.lemoo.order_v2.common.enums.OrderStatus;
 import com.lemoo.order_v2.common.enums.PaymentMethod;
 import lombok.Builder;
 import lombok.Data;
@@ -19,10 +20,12 @@ import java.util.Set;
 @Builder
 public class SellerOrderResponse {
     private String id;
-    
+
     private PaymentMethod paymentMethod;
 
     private LocalDateTime orderDate;
+
+    private OrderStatus status;
 
     @Builder.Default
     private Set<String> vouchers = new HashSet<>();

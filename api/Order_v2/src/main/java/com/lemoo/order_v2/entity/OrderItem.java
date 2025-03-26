@@ -15,6 +15,7 @@ import lombok.Data;
 public class OrderItem {
     private String id;
     private String skuCode;
+    private String skuName;
     private String image;
     private Long price;
     private Integer quantity;

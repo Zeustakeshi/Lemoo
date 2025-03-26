@@ -91,6 +91,7 @@ public class OrderServiceImpl implements OrderService {
 
             OrderItem orderItem = OrderItem.builder()
                     .image(sku.getImage())
+                    .skuName(sku.getName())
                     .quantity(skuRequest.getQuantity())
                     .price(sku.getPrice())
                     .skuCode(sku.getSkuCode())

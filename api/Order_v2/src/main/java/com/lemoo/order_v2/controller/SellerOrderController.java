@@ -8,6 +8,7 @@
 package com.lemoo.order_v2.controller;
 
 import com.lemoo.order_v2.common.constants.CustomRequestHeader;
+import com.lemoo.order_v2.common.enums.OrderStatus;
 import com.lemoo.order_v2.dto.common.AuthenticatedAccount;
 import com.lemoo.order_v2.dto.response.ApiResponse;
 import com.lemoo.order_v2.dto.response.PageableResponse;
@@ -27,9 +28,10 @@ public class SellerOrderController {
     public ApiResponse<PageableResponse<SellerOrderResponse>> getAllStoreOrder(
             @RequestParam(value = "page", required = false, defaultValue = "0") int page,
             @RequestParam(value = "limit", required = false, defaultValue = "10") int limit,
+            @RequestParam(value = "status", required = false, defaultValue = "PENDING") OrderStatus status,
             @AuthenticationPrincipal AuthenticatedAccount account,
             @RequestHeader(CustomRequestHeader.STORE_ID) String storeId
     ) {
-        return ApiResponse.success(sellerOrderService.getAllOrderByStoreId(storeId, page, limit, account));
+        return ApiResponse.success(sellerOrderService.getAllOrderByStoreId(storeId, status, page, limit, account));
     }
 }

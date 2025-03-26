@@ -8,6 +8,7 @@
 package com.lemoo.order_v2.service.impl;
 
 import com.lemoo.order_v2.common.enums.OrderStatus;
+import com.lemoo.order_v2.common.enums.PaymentMethod;
 import com.lemoo.order_v2.dto.common.AuthenticatedAccount;
 import com.lemoo.order_v2.dto.request.OrderRequest;
 import com.lemoo.order_v2.dto.request.OrderSkuRequest;
@@ -60,12 +61,15 @@ public class OrderServiceImpl implements OrderService {
 
             promotionService.validateVoucher(account.getUserId(), vouchers, skuCodes);
 
+            OrderStatus status = request.getPaymentMethod().equals(PaymentMethod.COD) ?
+                    OrderStatus.PENDING : OrderStatus.UN_PAID;
+
             Order order = Order.builder()
                     .storeId(storeId)
                     .userId(account.getUserId())
                     .shippingAddress(shippingAddress)
                     .paymentMethod(request.getPaymentMethod())
-                    .status(OrderStatus.PENDING)
+                    .status(status)
                     .items(createOrderItem(skuRequests))
                     .vouchers(orderItemRequest.getVouchers())
                     .build();

@@ -34,5 +34,6 @@ services:
   product-service: ${PRODUCT_SERVICE_URL:http://localhost:8090/products}
   shipping-service: ${SHIPPING_SERVICE_URL:http://localhost:4003/shipping}
   promotion-service: ${PROMOTION_SERVICE_URL:http://localhost:8098/promotion}
+  store-service: ${STORE_SERVICE_URL:http://localhost:8088/store}
 cache:
   redis_url: ${REDIS_URL}

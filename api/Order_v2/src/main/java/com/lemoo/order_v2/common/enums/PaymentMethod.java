@@ -8,5 +8,13 @@
 package com.lemoo.order_v2.common.enums;
 
 public enum PaymentMethod {
-    COD // Cash on Delivery
+    /**
+     * Cash on Delivery - Payment is made in cash when the order is delivered to the buyer.
+     */
+    COD,
+
+    /**
+     * Payment via MoMo - Payment is made through the MoMo mobile payment platform.
+     */
+    MOMO
 }

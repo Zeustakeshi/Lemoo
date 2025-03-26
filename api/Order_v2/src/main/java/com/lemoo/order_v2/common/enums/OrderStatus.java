@@ -7,40 +7,54 @@
 
 package com.lemoo.order_v2.common.enums;
 
+/**
+ * Represents the possible statuses of an order in an e-commerce system.
+ * This enum defines the lifecycle of an order from creation to completion or cancellation.
+ */
 public enum OrderStatus {
 
     /**
-     * The order has not been confirmed yet.
+     * The order has been created but payment has not yet been completed.
+     */
+    UN_PAID,
+
+    /**
+     * The order has been placed and is awaiting confirmation from the seller.
      */
     PENDING,
 
     /**
-     * The order was canceled by the buyer.
+     * The order has been cancelled by the buyer or seller before it is processed further.
      */
     CANCELLED,
 
     /**
-     * The seller has confirmed the availability of the items.
+     * The order has been confirmed by the seller and is ready for processing.
      */
     CONFIRMED,
 
     /**
-     * The order was rejected by the seller (e.g., due to unavailability of stock).
-     */
-    REJECTED,
-
-    /**
-     * The order has been handed over to the shipping company.
+     * The order has been handed over to the shipping provider for delivery.
      */
     SHIPPED,
 
     /**
-     * The order is currently in transit.
+     * The order is currently in transit, moving from the seller to the buyer.
      */
-    SHIPPING,
+    IN_TRANSIT,
+
+    /**
+     * The delivery attempt failed (e.g., buyer not available, incorrect address).
+     */
+    FAILED_DELIVERY,
 
     /**
      * The order has been successfully delivered to the buyer.
      */
-    DELIVERED
+    DELIVERED,
+
+    /**
+     * The order process is fully completed, typically after delivery and no further actions are required.
+     */
+    COMPLETED
 }

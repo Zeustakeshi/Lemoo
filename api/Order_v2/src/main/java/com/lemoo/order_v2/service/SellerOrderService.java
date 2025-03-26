@@ -8,10 +8,10 @@ package com.lemoo.order_v2.service;
 
 import com.lemoo.order_v2.dto.common.AuthenticatedAccount;
 import com.lemoo.order_v2.dto.response.PageableResponse;
-import com.lemoo.order_v2.dto.response.SellerOrderItemResponse;
+import com.lemoo.order_v2.dto.response.SellerOrderResponse;
 
 public interface SellerOrderService {
-    PageableResponse<SellerOrderItemResponse> getAllOrderByStoreId(
+    PageableResponse<SellerOrderResponse> getAllOrderByStoreId(
             String storeId,
             int page,
             int limit,

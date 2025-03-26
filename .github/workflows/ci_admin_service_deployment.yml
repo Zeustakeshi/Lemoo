@@ -6,6 +6,12 @@ on:
     paths:
       - 'api/Admin/**'
       - '.github/workflows/ci_admin_service_deployment.yml'
+  pull_request:
+    branches:
+      - test/deployment
+    paths:
+      - 'api/Admin/**'
+      - '.github/workflows/ci_admin_service_deployment.yml'
 jobs:
   build:
     runs-on: ubuntu-latest

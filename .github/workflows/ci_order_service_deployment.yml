@@ -6,6 +6,12 @@ on:
     paths:
       - 'api/Order_v2/**'
       - '.github/workflows/ci_order_service_deployment.yml'
+  pull_request:
+    branches:
+      - test/deployment
+    paths:
+      - 'api/Order_v2/**'
+      - '.github/workflows/ci_order_service_deployment.yml'
 jobs:
   build:
     runs-on: ubuntu-latest

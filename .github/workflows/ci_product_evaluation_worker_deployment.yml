@@ -6,7 +6,12 @@ on:
     paths:
       - 'api/Product-evaluation-worker/**'
       - '.github/workflows/ci_product_evaluation_worker_deployment.yml'
-
+  pull_request:
+    branches:
+      - test/deployment
+    paths:
+      - 'api/Product-evaluation-worker/**'
+      - '.github/workflows/ci_product_evaluation_worker_deployment.yml'
 jobs:
   build:
     runs-on: ubuntu-latest

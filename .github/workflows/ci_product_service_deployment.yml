@@ -1,14 +1,8 @@
 name: product_service_deployment
 on:
-  push:
-    branches:
-      - test/deployment
-    paths:
-      - 'api/Product/**'
-      - '.github/workflows/ci_product_service_deployment.yml'
   pull_request:
     branches:
-      - test/deployment
+      - main
     paths:
       - 'api/Product/**'
       - '.github/workflows/ci_product_service_deployment.yml'

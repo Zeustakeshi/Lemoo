@@ -1,14 +1,8 @@
 name: auth_service_deployment
 on:
-  push:
-    branches:
-      - test/deployment
-    paths:
-      - 'api/Auth/**'
-      - '.github/workflows/ci_auth_service_deployment.yml'
   pull_request:
     branches:
-      - test/deployment
+      - main
     paths:
       - 'api/Auth/**'
       - '.github/workflows/ci_auth_service_deployment.yml'

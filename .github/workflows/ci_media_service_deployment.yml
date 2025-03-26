@@ -1,14 +1,8 @@
 name: media_service_deployment
 on:
-  push:
-    branches:
-      - test/deployment
-    paths:
-      - 'api/Media/**'
-      - '.github/workflows/ci_media_service_deployment.yml'
   pull_request:
     branches:
-      - test/deployment
+      - main
     paths:
       - 'api/Media/**'
       - '.github/workflows/ci_media_service_deployment.yml'

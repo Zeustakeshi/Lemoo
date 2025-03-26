@@ -1,14 +1,8 @@
 name: promotion_service_deployment
 on:
-  push:
-    branches:
-      - test/deployment
-    paths:
-      - 'api/Promotion/**'
-      - '.github/workflows/ci_promotion_service_deployment.yml'
   pull_request:
     branches:
-      - test/deployment
+      - main
     paths:
       - 'api/Promotion/**'
       - '.github/workflows/ci_promotion_service_deployment.yml'

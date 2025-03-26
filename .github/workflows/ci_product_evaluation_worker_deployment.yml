@@ -1,14 +1,8 @@
 name: product_evaluation_worker_deployment
 on:
-  push:
-    branches:
-      - test/deployment
-    paths:
-      - 'api/Product-evaluation-worker/**'
-      - '.github/workflows/ci_product_evaluation_worker_deployment.yml'
   pull_request:
     branches:
-      - test/deployment
+      - main
     paths:
       - 'api/Product-evaluation-worker/**'
       - '.github/workflows/ci_product_evaluation_worker_deployment.yml'

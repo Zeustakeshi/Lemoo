@@ -1,14 +1,8 @@
 name: socket_service_deployment
 on:
-  push:
-    branches:
-      - test/deployment
-    paths:
-      - 'api/Socket/**'
-      - '.github/workflows/ci_socket_service_deployment.yml'
   pull_request:
     branches:
-      - test/deployment
+      - main
     paths:
       - 'api/Socket/**'
       - '.github/workflows/ci_socket_service_deployment.yml'

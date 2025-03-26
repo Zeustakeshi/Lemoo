@@ -6,6 +6,12 @@ on:
     paths:
       - 'api/Product/**'
       - '.github/workflows/ci_product_service_deployment.yml'
+  pull_request:
+    branches:
+      - test/deployment
+    paths:
+      - 'api/Product/**'
+      - '.github/workflows/ci_product_service_deployment.yml'
 jobs:
   build:
     runs-on: ubuntu-latest

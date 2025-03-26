@@ -6,6 +6,12 @@ on:
     paths:
       - 'api/Media/**'
       - '.github/workflows/ci_media_service_deployment.yml'
+  pull_request:
+    branches:
+      - test/deployment
+    paths:
+      - 'api/Media/**'
+      - '.github/workflows/ci_media_service_deployment.yml'
 jobs:
   build:
     runs-on: ubuntu-latest

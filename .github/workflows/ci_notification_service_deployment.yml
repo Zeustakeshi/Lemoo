@@ -6,6 +6,12 @@ on:
     paths:
       - 'api/Notification/**'
       - '.github/workflows/ci_notification_service_deployment.yml'
+  pull_request:
+    branches:
+      - test/deployment
+    paths:
+      - 'api/Notification/**'
+      - '.github/workflows/ci_notification_service_deployment.yml'
 jobs:
   build:
     runs-on: ubuntu-latest

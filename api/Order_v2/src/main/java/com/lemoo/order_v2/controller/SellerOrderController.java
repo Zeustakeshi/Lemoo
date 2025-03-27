@@ -35,14 +35,14 @@ public class SellerOrderController {
         return ApiResponse.success(sellerOrderService.getAllOrderByStoreId(storeId, status, page, limit, account));
     }
 
-    @PutMapping("{orderId}/shipped")
-    public ApiResponse<String> shippedOrder(
+    @PutMapping("{orderId}/packed")
+    public ApiResponse<String> packedOrder(
             @PathVariable("orderId") String orderId,
             @AuthenticationPrincipal AuthenticatedAccount account,
             @RequestHeader(CustomRequestHeader.STORE_ID) String storeId
     ) {
-        sellerOrderService.shippedOrder(orderId, storeId, account);
-        return ApiResponse.success("Order has been successfully shipped");
+        sellerOrderService.packedOrder(orderId, storeId, account);
+        return ApiResponse.success("Order has been successfully update status to packed");
     }
 
     @PutMapping("/{orderId}/confirm")

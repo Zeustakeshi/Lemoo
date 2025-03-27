@@ -34,6 +34,11 @@ public enum OrderStatus {
     CONFIRMED,
 
     /**
+     * The order has been packed and ready to ship
+     */
+    PACKED,
+
+    /**
      * The order has been handed over to the shipping provider for delivery.
      */
     SHIPPED,

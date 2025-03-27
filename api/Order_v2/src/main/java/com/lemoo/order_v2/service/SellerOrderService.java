@@ -23,4 +23,6 @@ public interface SellerOrderService {
     void confirmOrder(String orderId, String storeId, AuthenticatedAccount account);
 
     void cancelOrder(String orderId, String storeId, AuthenticatedAccount account);
+
+    void shippedOrder(String orderId, String storeId, AuthenticatedAccount account);
 }

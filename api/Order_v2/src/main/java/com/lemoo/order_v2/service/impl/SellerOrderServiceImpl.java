@@ -90,7 +90,7 @@ public class SellerOrderServiceImpl implements SellerOrderService {
         Set<OrderStatus> cancellableStatuses = EnumSet.of(
                 OrderStatus.UN_PAID,
                 OrderStatus.PENDING,
-                OrderStatus.COMPLETED,
+                OrderStatus.CONFIRMED,
                 OrderStatus.PACKED
         );
 

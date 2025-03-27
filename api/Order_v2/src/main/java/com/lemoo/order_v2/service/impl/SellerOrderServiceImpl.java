@@ -50,12 +50,12 @@ public class SellerOrderServiceImpl implements SellerOrderService {
     }
 
     @Override
-    public void shippedOrder(String orderId, String storeId, AuthenticatedAccount account) {
+    public void packedOrder(String orderId, String storeId, AuthenticatedAccount account) {
         storeService.verifyStore(account.getId(), storeId);
 
         Order order = findOrderOrThrow(orderId);
 
-        validateOrderStatusForShip(order);
+        validateOrderStatusForPacked(order);
 
         order.setStatus(OrderStatus.SHIPPED);
 
@@ -93,9 +93,9 @@ public class SellerOrderServiceImpl implements SellerOrderService {
                 .orElseThrow(() -> new NotfoundException("Order " + orderId + " not found!"));
     }
 
-    private void validateOrderStatusForShip(Order order) {
+    private void validateOrderStatusForPacked(Order order) {
         if (!order.getStatus().equals(OrderStatus.CONFIRMED)) {
-            throw new ForbiddenException("Cannot ship order. Order must be in CONFIRMED status.");
+            throw new ForbiddenException("Cannot pack order. Order must be in CONFIRMED status.");
         }
     }
 

@@ -34,4 +34,24 @@ public class SellerOrderController {
     ) {
         return ApiResponse.success(sellerOrderService.getAllOrderByStoreId(storeId, status, page, limit, account));
     }
+
+    @PostMapping("/{orderId}/confirm")
+    public ApiResponse<?> confirmOrder(
+            @PathVariable("orderId") String orderId,
+            @AuthenticationPrincipal AuthenticatedAccount account,
+            @RequestHeader(CustomRequestHeader.STORE_ID) String storeId
+    ) {
+        sellerOrderService.confirmOrder(orderId, storeId, account);
+        return ApiResponse.success("Order has been successfully confirmed");
+    }
+
+    @PostMapping("/{orderId}/cancel")
+    public ApiResponse<?> cancelOrder(
+            @PathVariable("orderId") String orderId,
+            @AuthenticationPrincipal AuthenticatedAccount account,
+            @RequestHeader(CustomRequestHeader.STORE_ID) String storeId
+    ) {
+        sellerOrderService.cancelOrder(orderId, storeId, account);
+        return ApiResponse.success("Order has been successfully cancelled");
+    }
 }

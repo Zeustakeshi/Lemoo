@@ -35,7 +35,7 @@ public class SellerOrderController {
         return ApiResponse.success(sellerOrderService.getAllOrderByStoreId(storeId, status, page, limit, account));
     }
 
-    @PostMapping("{orderId}/shipped")
+    @PutMapping("{orderId}/shipped")
     public ApiResponse<String> shippedOrder(
             @PathVariable("orderId") String orderId,
             @AuthenticationPrincipal AuthenticatedAccount account,
@@ -45,7 +45,7 @@ public class SellerOrderController {
         return ApiResponse.success("Order has been successfully shipped");
     }
 
-    @PostMapping("/{orderId}/confirm")
+    @PutMapping("/{orderId}/confirm")
     public ApiResponse<String> confirmOrder(
             @PathVariable("orderId") String orderId,
             @AuthenticationPrincipal AuthenticatedAccount account,
@@ -55,7 +55,7 @@ public class SellerOrderController {
         return ApiResponse.success("Order has been successfully confirmed");
     }
 
-    @PostMapping("/{orderId}/cancel")
+    @PutMapping("/{orderId}/cancel")
     public ApiResponse<String> cancelOrder(
             @PathVariable("orderId") String orderId,
             @AuthenticationPrincipal AuthenticatedAccount account,

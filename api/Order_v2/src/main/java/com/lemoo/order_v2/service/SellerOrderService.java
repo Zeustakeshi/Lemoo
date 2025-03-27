@@ -19,4 +19,8 @@ public interface SellerOrderService {
             int limit,
             AuthenticatedAccount account
     );
+
+    void confirmOrder(String orderId, String storeId, AuthenticatedAccount account);
+
+    void cancelOrder(String orderId, String storeId, AuthenticatedAccount account);
 }

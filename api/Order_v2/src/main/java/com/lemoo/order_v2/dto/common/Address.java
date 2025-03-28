@@ -5,7 +5,7 @@
  * */
 
 
-package com.lemoo.shipping.entity;
+package com.lemoo.order_v2.dto.common;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;

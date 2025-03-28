@@ -24,7 +24,7 @@ public interface ShippingAddressMapper {
     default InternalShippingAddressResponse toInternalShippingAddressResponse(ShippingAddress shippingAddress) {
         return InternalShippingAddressResponse.builder()
                 .id(shippingAddress.getId())
-                .address(shippingAddress.getAddress().getFullAddress())
+                .address(shippingAddress.getAddress())
                 .recipientName(shippingAddress.getRecipientName())
                 .recipientPhone(shippingAddress.getRecipientPhone())
                 .build();

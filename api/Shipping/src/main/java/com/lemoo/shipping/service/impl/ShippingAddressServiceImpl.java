@@ -48,8 +48,8 @@ public class ShippingAddressServiceImpl implements ShippingAddressService {
     }
 
     @Override
-    public List<BasePartialAddress> getDistricts() {
-        GhnApiResponse<List<HashMap<Object, Object>>> response = ghnClient.getDistrict();
+    public List<BasePartialAddress> getDistricts(String provinceCode) {
+        GhnApiResponse<List<HashMap<Object, Object>>> response = ghnClient.getDistrict(provinceCode);
         return response.getData().stream().map(data ->
                 new BasePartialAddress(
                         data.get("DistrictID").toString(),

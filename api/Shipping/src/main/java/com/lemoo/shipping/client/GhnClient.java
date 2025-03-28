@@ -26,7 +26,9 @@ public interface GhnClient {
     GhnApiResponse<List<HashMap<Object, Object>>> getProvince();
 
     @GetMapping("/master-data/district")
-    GhnApiResponse<List<HashMap<Object, Object>>> getDistrict();
+    GhnApiResponse<List<HashMap<Object, Object>>> getDistrict(
+            @RequestParam("province_id") String provinceId
+    );
 
     @GetMapping("/master-data/ward")
     GhnApiResponse<List<HashMap<Object, Object>>> getWard(

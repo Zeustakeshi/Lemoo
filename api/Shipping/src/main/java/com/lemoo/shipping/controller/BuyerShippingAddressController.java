@@ -31,8 +31,10 @@ public class BuyerShippingAddressController {
     }
 
     @GetMapping("/districts")
-    public ApiResponse<List<BasePartialAddress>> getDistricts() {
-        return ApiResponse.success(shippingAddressService.getDistricts());
+    public ApiResponse<List<BasePartialAddress>> getDistricts(
+            @RequestParam("provinceCode") String provinceCode
+    ) {
+        return ApiResponse.success(shippingAddressService.getDistricts(provinceCode));
     }
 
     @GetMapping("/wards")

@@ -19,7 +19,7 @@ public interface ShippingAddressService {
 
     List<BasePartialAddress> getProvinces();
 
-    List<BasePartialAddress> getDistricts();
+    List<BasePartialAddress> getDistricts(String provinceCode);
 
     List<BasePartialAddress> getWards(String districtCode);
 

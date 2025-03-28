@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
+@RestController("/address")
 @RequiredArgsConstructor
 public class BuyerShippingAddressController {
     private final ShippingAddressService shippingAddressService;

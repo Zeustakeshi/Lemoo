@@ -32,7 +32,7 @@ server:
     context-path: /shipping
 services:
   auth-service: ${AUTH_SERVICE_URL:http://localhost:8082/auth}
-  user-service: ${USER_SERVICE_URL:http://localhost:8004/users}
+  store-service: ${STORE_SERVICE_URL:http://localhost:8004/store}
   external:
     ghn: ${GHN_BASE_API:https://dev-online-gateway.ghn.vn/shiip/public-api}
 
@@ -41,5 +41,5 @@ secret:
     token: ${GHN_TOKEN}
     shop_id: ${GHN_SHOP_ID}
 
-#cache:
-#  redis_url: ${REDIS_URL}
+cache:
+  redis_url: ${REDIS_URL}

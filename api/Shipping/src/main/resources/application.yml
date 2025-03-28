@@ -33,6 +33,13 @@ server:
 services:
   auth-service: ${AUTH_SERVICE_URL:http://localhost:8082/auth}
   user-service: ${USER_SERVICE_URL:http://localhost:8004/users}
+  external:
+    ghn: ${GHN_BASE_API:https://dev-online-gateway.ghn.vn/shiip/public-api}
+
+secret:
+  ghn:
+    token: ${GHN_TOKEN}
+    shop_id: ${GHN_SHOP_ID}
 
 #cache:
 #  redis_url: ${REDIS_URL}

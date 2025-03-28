@@ -7,6 +7,7 @@
 
 package com.lemoo.order_v2.dto.response;
 
+import com.lemoo.order_v2.dto.common.Address;
 import lombok.Builder;
 import lombok.Data;
 
@@ -14,7 +15,7 @@ import lombok.Data;
 @Builder
 public class ShippingAddressResponse {
     private String id;
-    private String address;
+    private Address address;
     private String recipientName;
     private String recipientPhone;
 }

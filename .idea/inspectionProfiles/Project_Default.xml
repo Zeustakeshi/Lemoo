@@ -5,6 +5,7 @@
       <option name="customHeaders">
         <set>
           <option value="x-user-id" />
+          <option value="token" />
         </set>
       </option>
     </inspection_tool>

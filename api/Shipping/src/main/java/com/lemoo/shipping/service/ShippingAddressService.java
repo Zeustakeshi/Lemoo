@@ -11,8 +11,17 @@ import com.lemoo.shipping.dto.common.AuthenticatedAccount;
 import com.lemoo.shipping.dto.request.ShippingAddressRequest;
 import com.lemoo.shipping.dto.response.PageableResponse;
 import com.lemoo.shipping.dto.response.ShippingAddressResponse;
+import com.lemoo.shipping.entity.BasePartialAddress;
+
+import java.util.List;
 
 public interface ShippingAddressService {
+
+    List<BasePartialAddress> getProvinces();
+
+    List<BasePartialAddress> getDistricts();
+
+    List<BasePartialAddress> getWards(String districtCode);
 
     ShippingAddressResponse createShippingAddress(AuthenticatedAccount account, ShippingAddressRequest request);
 

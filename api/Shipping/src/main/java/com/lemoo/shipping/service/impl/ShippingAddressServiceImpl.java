@@ -7,10 +7,13 @@
 
 package com.lemoo.shipping.service.impl;
 
+import com.lemoo.shipping.client.GhnClient;
 import com.lemoo.shipping.dto.common.AuthenticatedAccount;
 import com.lemoo.shipping.dto.request.ShippingAddressRequest;
+import com.lemoo.shipping.dto.response.GhnApiResponse;
 import com.lemoo.shipping.dto.response.PageableResponse;
 import com.lemoo.shipping.dto.response.ShippingAddressResponse;
+import com.lemoo.shipping.entity.BasePartialAddress;
 import com.lemoo.shipping.entity.ShippingAddress;
 import com.lemoo.shipping.exception.NotfoundException;
 import com.lemoo.shipping.mapper.PageMapper;
@@ -22,12 +25,49 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class ShippingAddressServiceImpl implements ShippingAddressService {
     private final ShippingAddressRepository shippingAddressRepository;
     private final ShippingAddressMapper shippingAddressMapper;
     private final PageMapper pageMapper;
+    private final GhnClient ghnClient;
+
+    @Override
+    public List<BasePartialAddress> getProvinces() {
+        GhnApiResponse<List<HashMap<Object, Object>>> response = ghnClient.getProvince();
+        return response.getData().stream().map(data ->
+                new BasePartialAddress(
+                        data.get("ProvinceID").toString(),
+                        data.get("ProvinceName").toString()
+                )
+        ).toList();
+    }
+
+    @Override
+    public List<BasePartialAddress> getDistricts() {
+        GhnApiResponse<List<HashMap<Object, Object>>> response = ghnClient.getDistrict();
+        return response.getData().stream().map(data ->
+                new BasePartialAddress(
+                        data.get("DistrictID").toString(),
+                        data.get("DistrictName").toString()
+                )
+        ).toList();
+    }
+
+    @Override
+    public List<BasePartialAddress> getWards(String districtCode) {
+        GhnApiResponse<List<HashMap<Object, Object>>> response = ghnClient.getWard(districtCode);
+        return response.getData().stream().map(data ->
+                new BasePartialAddress(
+                        data.get("WardCode").toString(),
+                        data.get("WardName").toString()
+                )
+        ).toList();
+    }
 
     @Override
     public ShippingAddressResponse createShippingAddress(AuthenticatedAccount account, ShippingAddressRequest request) {

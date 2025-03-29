@@ -10,6 +10,7 @@ import { api } from "@/lib/api";
 import { DataVoucher } from "@/common/type/voucher.type";
 import { OrderType } from "@/common/type/order.type";
 import toast from "react-hot-toast";
+import { useNavigate } from "@tanstack/react-router";
 
 type ShippingMethod = {
   id: string;
@@ -49,11 +50,12 @@ type OrderFormData = {
 };
 
 const Order = () => {
-  const customerAdress = useSelector(
-    (state: RootState) => state.customer.customer
-  );
-  const AdressDefault = customerAdress.content.find((item) => item.isDefault);
-
+  const navigation = useNavigate();
+  const customerAdress = useSelector((state: RootState) => state.customer);
+  // Đảm bảo dữ liệu không bị lỗi khi truy cập `content`
+  const addresses = customerAdress?.customer?.content ?? [];
+  const AddressDefault = addresses.find((item) => item.isDefault);
+  console.log("Adress Default: ", AddressDefault);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [vouchers, setVouchers] = useState<DataVoucher>();
 
@@ -102,25 +104,52 @@ const Order = () => {
     0
   );
 
-  const onSubmit: SubmitHandler<OrderFormData> = async (data) => {
-    const selectedProducts = orderInfo.item
-      .filter((item) => data.selectedItems[item.lemooSku])
-      .map((item) => ({
-        lemooSku: item.lemooSku,
-        quantity: item.quantity,
-      }));
+  const handleUpdateAddress = () => {
+    navigation({ to: "/customer/update_address" });
+  };
 
+  const onSubmit: SubmitHandler<OrderFormData> = async (data) => {
+    // Lấy các sản phẩm được chọn từ giỏ hàng
+    const selectedProducts = orderInfo.item.filter(
+      (item) => data.selectedItems[item.lemooSku]
+    );
+
+    // Nhóm các sản phẩm theo storeId
+    const groupedByStore = selectedProducts.reduce(
+      (acc, item) => {
+        const storeId = item.storeId;
+        if (!acc[storeId]) {
+          acc[storeId] = [];
+        }
+        acc[storeId].push({
+          lemooSku: item.lemooSku,
+          quantity: item.quantity,
+        });
+        return acc;
+      },
+      {} as { [key: string]: { lemooSku: string; quantity: number }[] }
+    );
+
+    // Tạo mảng items theo định dạng ApidogModel
+    const items = Object.entries(groupedByStore).map(([storeId, skus]) => ({
+      storeId,
+      vouchers: [], // Hiện tại chưa có logic lấy voucher, để mảng rỗng
+      skus: skus.map((sku) => ({
+        lemooSku: sku.lemooSku,
+        quantity: sku.quantity,
+      })),
+    }));
+
+    // Tạo dữ liệu đơn hàng theo cấu trúc ApidogModel
     const dataOrder = {
-      shippingAddressId: AdressDefault.id,
-      paymentMethod: paymentMethod,
-      items: selectedProducts,
-      promotions: [""],
-      // shipMethod: shippingMethod,
+      shippingAddressId: AddressDefault?.id || "",
+      paymentMethod: paymentMethod || "COD", // Sử dụng paymentMethod từ state, mặc định là "COD" nếu chưa chọn
+      items,
     };
-    console.log("Đơn hàng trước khi gửi", dataOrder);
+
     try {
       const responseOrder = await api.post<OrderType>("/orders", dataOrder);
-      console.log(responseOrder);
+      console.log("Phản hồi từ API:", responseOrder);
       toast.success(
         "Đặt hàng thành công!, đơn hàng sẽ sớm được giao cho đơn vị vận chuyển."
       );
@@ -390,7 +419,7 @@ const Order = () => {
             </div>
             <div className="p-6 space-y-6">
               {/* Customer Info */}
-              {AdressDefault && (
+              {AddressDefault && (
                 <motion.div className="p-6 border border-gray-100 rounded-xl shadow-sm bg-white transition-all ">
                   <div className="space-y-4">
                     <h3 className="text-xl font-bold text-gray-900 mb-2">
@@ -400,9 +429,9 @@ const Order = () => {
                     <div className="p-4 border border-gray-300 rounded-lg bg-white shadow-sm text-gray-700 space-y-3">
                       <div className="flex items-center gap-2 text-lg font-semibold text-gray-900">
                         <span>Tên người nhận:</span>
-                        <span>{AdressDefault.recipientName},</span>
+                        <span>{AddressDefault.recipientName},</span>
                         <span className="text-blue-600">
-                          {AdressDefault.recipientPhone}
+                          {AddressDefault.recipientPhone}
                         </span>
                       </div>
 
@@ -411,12 +440,12 @@ const Order = () => {
                           Địa chỉ giao hàng:
                         </span>
                         <p>
-                          {AdressDefault.address.detail},{" "}
-                          {AdressDefault.address.ward}
+                          {AddressDefault.address.detail},{" "}
+                          {AddressDefault.address.ward.name}
                         </p>
                         <p>
-                          {AdressDefault.address.district},{" "}
-                          {AdressDefault.address.province}
+                          {AddressDefault.address.district.name},{" "}
+                          {AddressDefault.address.province.name}
                         </p>
                       </div>
                     </div>
@@ -425,7 +454,10 @@ const Order = () => {
                       <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-sm font-semibold bg-green-100 text-green-600">
                         Mặc định
                       </span>
-                      <button className="text-blue-600 font-medium hover:text-blue-700 transition-colors duration-200">
+                      <button
+                        onClick={handleUpdateAddress}
+                        className="text-blue-600 font-medium hover:text-blue-700 transition-colors duration-200"
+                      >
                         Thay đổi địa chỉ →
                       </button>
                     </div>

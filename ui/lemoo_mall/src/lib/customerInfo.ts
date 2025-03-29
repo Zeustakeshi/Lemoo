@@ -4,10 +4,20 @@ import { api } from "./api";
 export const customerInfo = async (): Promise<AddressResponse[] | null> => {
   try {
     const response = await api.get<AddressResponse[]>("/shipping/my-address");
-    console.log("first log", response);
-    return response; // ✅ Trả về dữ liệu chính xác
+    return response;
   } catch (error) {
     console.error("Error loading customer info:", error);
-    return null; // ✅ Tránh lỗi undefined
+    return null;
+  }
+};
+
+export const updateAddress = async (addressId: string) => {
+  try {
+    const response = await api.put(`/shipping/my-address/${addressId}`);
+
+    return response;
+  } catch (error) {
+    console.error("Error loading customer info:", error);
+    return null;
   }
 };

@@ -35,7 +35,6 @@ const CartPage = () => {
     const fetchData = async () => {
       try {
         const data = await api.get("/cart");
-        console.log("Cart data:", data);
         setDataCart(data);
       } catch (error) {
         console.error("Error fetching cart:", error);
@@ -50,6 +49,7 @@ const CartPage = () => {
       dataCart?.content
         ?.filter((item) => data.selectedItems[item.id])
         .map((item) => ({
+          storeId: item.storeId,
           lemooSku: item.sku.lemooSku,
           quantity: item.quantity,
           image: item.sku.image,
@@ -63,7 +63,7 @@ const CartPage = () => {
     }
     const customerAdress = await customerInfo();
 
-    if (!customerAdress || customerAdress.empty == true) {
+    if (!customerAdress || customerAdress == null) {
       toast.error(
         "Bạn chưa thiết lập địa chỉ giao hàng. Hãy thiết lập địa chỉ giao hàng trước khi mua hàng"
       );
@@ -79,7 +79,6 @@ const CartPage = () => {
   const storeIdInfo = [
     ...new Set(dataCart?.content?.map((item) => item.storeId)),
   ];
-  console.log("Store ID:", storeIdInfo);
 
   const selectedItems = watch("selectedItems");
   const totalSelected =

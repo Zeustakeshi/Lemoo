@@ -120,6 +120,7 @@ export type SkuType = {
 
 export type CartSelectType = {
   item: {
+    storeId: string;
     nameSku: string;
     lemooSku: string;
     quantity: number;

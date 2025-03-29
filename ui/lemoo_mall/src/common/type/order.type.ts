@@ -1,27 +1,41 @@
 export type OrderType = {
+  /**
+   * Order item
+   */
   items: Item[];
   /**
    * Phương thức thanh toán
    */
   paymentMethod: PaymentMethod;
   /**
-   * Danh sách mã giảm giá
+   * Id địa chỉ giao hàng
    */
-  promotions: string[];
-  /**
-   * Địa chỉ giao hàng
-   */
-  shippingAddressId?: string;
-  [property: string]: any;
+  shippingAddressId: string; // Changed from optional to required (removed ?)
 };
 
 export type Item = {
   /**
-   * Mã sku
+   * Sku trong đơn hàng
+   */
+  skus: Skus[]; // Changed from lemooSku: string to array of Skus
+  /**
+   * Id cửa hàng
+   */
+  storeId: string; // Added new required field
+  /**
+   * Danh sách id các voucher
+   */
+  vouchers: string[]; // Changed from promotions in OrderType to vouchers in Item
+  [property: string]: any;
+};
+
+export type Skus = {
+  /**
+   * Mã sku sản phẩm
    */
   lemooSku: string;
   /**
-   * Số lượng
+   * Số lượng đặt hàng
    */
   quantity: number;
   [property: string]: any;

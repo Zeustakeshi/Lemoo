@@ -20,6 +20,7 @@ import { Route as CartIndexImport } from './routes/cart/index'
 import { Route as homeIndexImport } from './routes/(home)/index'
 import { Route as StoreLayoutImport } from './routes/store/_layout'
 import { Route as ProductsProductIdImport } from './routes/products/$productId'
+import { Route as CustomerUpdateaddressImport } from './routes/customer/update_address'
 import { Route as StoreLayoutStoreIdIndexImport } from './routes/store/_layout.$storeId/index'
 import { Route as StoreLayoutStoreIdPromotionsIndexImport } from './routes/store/_layout.$storeId/promotions/index'
 import { Route as StoreLayoutStoreIdProductsIndexImport } from './routes/store/_layout.$storeId/products/index'
@@ -77,6 +78,12 @@ const ProductsProductIdRoute = ProductsProductIdImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const CustomerUpdateaddressRoute = CustomerUpdateaddressImport.update({
+  id: '/customer/update_address',
+  path: '/customer/update_address',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const StoreLayoutStoreIdIndexRoute = StoreLayoutStoreIdIndexImport.update({
   id: '/$storeId/',
   path: '/$storeId/',
@@ -101,6 +108,13 @@ const StoreLayoutStoreIdProductsIndexRoute =
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/customer/update_address': {
+      id: '/customer/update_address'
+      path: '/customer/update_address'
+      fullPath: '/customer/update_address'
+      preLoaderRoute: typeof CustomerUpdateaddressImport
+      parentRoute: typeof rootRoute
+    }
     '/products/$productId': {
       id: '/products/$productId'
       path: '/products/$productId'
@@ -211,6 +225,7 @@ const StoreRouteChildren: StoreRouteChildren = {
 const StoreRouteWithChildren = StoreRoute._addFileChildren(StoreRouteChildren)
 
 export interface FileRoutesByFullPath {
+  '/customer/update_address': typeof CustomerUpdateaddressRoute
   '/products/$productId': typeof ProductsProductIdRoute
   '/store': typeof StoreLayoutRouteWithChildren
   '/': typeof homeIndexRoute
@@ -224,6 +239,7 @@ export interface FileRoutesByFullPath {
 }
 
 export interface FileRoutesByTo {
+  '/customer/update_address': typeof CustomerUpdateaddressRoute
   '/products/$productId': typeof ProductsProductIdRoute
   '/store': typeof StoreLayoutRouteWithChildren
   '/': typeof homeIndexRoute
@@ -238,6 +254,7 @@ export interface FileRoutesByTo {
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
+  '/customer/update_address': typeof CustomerUpdateaddressRoute
   '/products/$productId': typeof ProductsProductIdRoute
   '/store': typeof StoreRouteWithChildren
   '/store/_layout': typeof StoreLayoutRouteWithChildren
@@ -254,6 +271,7 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
+    | '/customer/update_address'
     | '/products/$productId'
     | '/store'
     | '/'
@@ -266,6 +284,7 @@ export interface FileRouteTypes {
     | '/store/$storeId/promotions'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/customer/update_address'
     | '/products/$productId'
     | '/store'
     | '/'
@@ -278,6 +297,7 @@ export interface FileRouteTypes {
     | '/store/$storeId/promotions'
   id:
     | '__root__'
+    | '/customer/update_address'
     | '/products/$productId'
     | '/store'
     | '/store/_layout'
@@ -293,6 +313,7 @@ export interface FileRouteTypes {
 }
 
 export interface RootRouteChildren {
+  CustomerUpdateaddressRoute: typeof CustomerUpdateaddressRoute
   ProductsProductIdRoute: typeof ProductsProductIdRoute
   StoreRoute: typeof StoreRouteWithChildren
   homeIndexRoute: typeof homeIndexRoute
@@ -303,6 +324,7 @@ export interface RootRouteChildren {
 }
 
 const rootRouteChildren: RootRouteChildren = {
+  CustomerUpdateaddressRoute: CustomerUpdateaddressRoute,
   ProductsProductIdRoute: ProductsProductIdRoute,
   StoreRoute: StoreRouteWithChildren,
   homeIndexRoute: homeIndexRoute,
@@ -322,6 +344,7 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
+        "/customer/update_address",
         "/products/$productId",
         "/store",
         "/(home)/",
@@ -330,6 +353,9 @@ export const routeTree = rootRoute
         "/order/",
         "/search/"
       ]
+    },
+    "/customer/update_address": {
+      "filePath": "customer/update_address.tsx"
     },
     "/products/$productId": {
       "filePath": "products/$productId.tsx"

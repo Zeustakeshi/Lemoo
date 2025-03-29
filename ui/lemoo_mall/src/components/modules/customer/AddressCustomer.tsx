@@ -1,4 +1,4 @@
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { api } from "@/lib/api";
@@ -7,16 +7,37 @@ import { useNavigate } from "@tanstack/react-router";
 import { updateCustomer } from "@/store/customer/customerSclice";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/store/store";
+import { useState, useEffect } from "react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { customerInfo } from "@/lib/customerInfo";
 
+// Định nghĩa schema mới khớp với định dạng mong muốn
 const addressSchema = z.object({
   recipientName: z.string().min(1, "Tên người nhận không được để trống"),
   recipientPhone: z.string().min(10, "Số điện thoại không hợp lệ"),
   address: z.object({
-    province: z.string().min(1, "Tỉnh/Thành phố không được để trống"),
-    district: z.string().min(1, "Quận/Huyện không được để trống"),
-    ward: z.string().min(1, "Phường/Xã không được để trống"),
+    province: z.object({
+      code: z.string().min(1, "Tỉnh/Thành phố không được để trống"),
+      name: z.string(),
+    }),
+    district: z.object({
+      code: z.string().min(1, "Quận/Huyện không được để trống"),
+      name: z.string(),
+    }),
+    ward: z.object({
+      code: z.string().min(1, "Phường/Xã không được để trống"),
+      name: z.string(),
+    }),
     detail: z.string().min(1, "Chi tiết địa chỉ không được để trống"),
-    fullAddress: z.string().optional(),
   }),
   type: z.enum(["RESIDENTIAL", "COMPANY"]),
 });
@@ -28,15 +49,76 @@ const AddressCustomer = () => {
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
+    setValue,
   } = useForm<AddressFormInputs>({
     resolver: zodResolver(addressSchema),
+    defaultValues: {
+      address: {
+        province: { code: "", name: "" },
+        district: { code: "", name: "" },
+        ward: { code: "", name: "" },
+      },
+    },
   });
+
+  const [provinces, setProvinces] = useState<{ code: string; name: string }[]>(
+    []
+  );
+  const [districts, setDistricts] = useState<{ code: string; name: string }[]>(
+    []
+  );
+  const [wards, setWards] = useState<{ code: string; name: string }[]>([]);
+
+  // Fetch provinces
+  useEffect(() => {
+    const fetchProvinces = async () => {
+      try {
+        const response = await api.get("/shipping/provinces");
+        console.log(response);
+        setProvinces(response); // Giả định response.data là [{ code, name }, ...]
+      } catch (error) {
+        toast.error("Không thể tải danh sách tỉnh/thành phố");
+      }
+    };
+    fetchProvinces();
+  }, []);
+
+  // Fetch districts based on selected province
+  const fetchDistricts = async (provinceCode: string) => {
+    try {
+      const response = await api.get("/shipping/districts", {
+        params: { provinceCode }, // Sử dụng params thay vì body cho GET request
+      });
+      setDistricts(response); // Giả định response.data là [{ code, name }, ...]
+      setWards([]); // Reset wards
+      setValue("address.district", { code: "", name: "" }); // Reset district
+      setValue("address.ward", { code: "", name: "" }); // Reset ward
+    } catch (error) {
+      toast.error("Không thể tải danh sách quận/huyện");
+    }
+  };
+
+  // Fetch wards based on selected district
+  const fetchWards = async (districtCode: string) => {
+    try {
+      const response = await api.get("/shipping/wards", {
+        params: { districtCode }, // Sử dụng params thay vì body cho GET request
+      });
+      setWards(response); // Giả định response.data là [{ code, name }, ...]
+      setValue("address.ward", { code: "", name: "" }); // Reset ward
+    } catch (error) {
+      toast.error("Không thể tải danh sách phường/xã");
+    }
+  };
 
   const onSubmit = async (data: AddressFormInputs) => {
     try {
-      const response = await api.post("/shipping/my-address", data);
-      dispatch(updateCustomer(response));
+      await api.post("/shipping/my-address", data);
+      console.log("Dữ liệu đăng ký địa chỉ:", data);
+      const customerAdress = await customerInfo();
+      dispatch(updateCustomer(customerAdress));
       navigation({ to: "/order" });
       toast.success("Đã thêm địa chỉ thành công");
     } catch (error) {
@@ -50,10 +132,10 @@ const AddressCustomer = () => {
       <h2 className="text-xl font-bold mb-4">Nhập Thông Tin Địa Chỉ</h2>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div>
-          <label className="block text-sm font-medium">Tên Người Nhận</label>
-          <input
+          <Label>Tên Người Nhận</Label>
+          <Input
             {...register("recipientName")}
-            className="w-full p-2 border rounded"
+            placeholder="Nhập tên người nhận"
           />
           {errors.recipientName && (
             <p className="text-red-500 text-sm">
@@ -63,10 +145,10 @@ const AddressCustomer = () => {
         </div>
 
         <div>
-          <label className="block text-sm font-medium">Số Điện Thoại</label>
-          <input
+          <Label>Số Điện Thoại</Label>
+          <Input
             {...register("recipientPhone")}
-            className="w-full p-2 border rounded"
+            placeholder="Nhập số điện thoại"
           />
           {errors.recipientPhone && (
             <p className="text-red-500 text-sm">
@@ -76,49 +158,126 @@ const AddressCustomer = () => {
         </div>
 
         <div>
-          <label className="block text-sm font-medium">Tỉnh/Thành phố</label>
-          <input
-            {...register("address.province")}
-            className="w-full p-2 border rounded"
+          <Label>Tỉnh/Thành phố</Label>
+          <Controller
+            name="address.province"
+            control={control}
+            render={({ field }) => (
+              <Select
+                onValueChange={(value) => {
+                  const selectedProvince = provinces.find(
+                    (p) => p.code === value
+                  );
+                  field.onChange({
+                    code: value,
+                    name: selectedProvince?.name || "",
+                  });
+                  fetchDistricts(value);
+                }}
+                value={field.value.code}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Chọn tỉnh/thành phố" />
+                </SelectTrigger>
+                <SelectContent>
+                  {provinces?.map((province) => (
+                    <SelectItem key={province.code} value={province.code}>
+                      {province.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            )}
           />
-          {errors.address?.province && (
+          {errors.address?.province?.code && (
             <p className="text-red-500 text-sm">
-              {errors.address.province.message}
+              {errors.address.province.code.message}
             </p>
           )}
         </div>
 
         <div>
-          <label className="block text-sm font-medium">Quận/Huyện</label>
-          <input
-            {...register("address.district")}
-            className="w-full p-2 border rounded"
+          <Label>Quận/Huyện</Label>
+          <Controller
+            name="address.district"
+            control={control}
+            render={({ field }) => (
+              <Select
+                onValueChange={(value) => {
+                  const selectedDistrict = districts.find(
+                    (d) => d.code === value
+                  );
+                  field.onChange({
+                    code: value,
+                    name: selectedDistrict?.name || "",
+                  });
+                  fetchWards(value);
+                }}
+                value={field.value.code}
+                disabled={!districts.length}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Chọn quận/huyện" />
+                </SelectTrigger>
+                <SelectContent>
+                  {districts.map((district) => (
+                    <SelectItem key={district.code} value={district.code}>
+                      {district.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            )}
           />
-          {errors.address?.district && (
+          {errors.address?.district?.code && (
             <p className="text-red-500 text-sm">
-              {errors.address.district.message}
+              {errors.address.district.code.message}
             </p>
           )}
         </div>
 
         <div>
-          <label className="block text-sm font-medium">Phường/Xã</label>
-          <input
-            {...register("address.ward")}
-            className="w-full p-2 border rounded"
+          <Label>Phường/Xã</Label>
+          <Controller
+            name="address.ward"
+            control={control}
+            render={({ field }) => (
+              <Select
+                onValueChange={(value) => {
+                  const selectedWard = wards.find((w) => w.code === value);
+                  field.onChange({
+                    code: value,
+                    name: selectedWard?.name || "",
+                  });
+                }}
+                value={field.value.code}
+                disabled={!wards.length}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Chọn phường/xã" />
+                </SelectTrigger>
+                <SelectContent>
+                  {wards.map((ward) => (
+                    <SelectItem key={ward.code} value={ward.code}>
+                      {ward.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            )}
           />
-          {errors.address?.ward && (
+          {errors.address?.ward?.code && (
             <p className="text-red-500 text-sm">
-              {errors.address.ward.message}
+              {errors.address.ward.code.message}
             </p>
           )}
         </div>
 
         <div>
-          <label className="block text-sm font-medium">Chi Tiết Địa Chỉ</label>
-          <input
+          <Label>Chi Tiết Địa Chỉ</Label>
+          <Input
             {...register("address.detail")}
-            className="w-full p-2 border rounded"
+            placeholder="Nhập chi tiết địa chỉ"
           />
           {errors.address?.detail && (
             <p className="text-red-500 text-sm">
@@ -128,19 +287,27 @@ const AddressCustomer = () => {
         </div>
 
         <div>
-          <label className="block text-sm font-medium">Loại Địa Chỉ</label>
-          <select {...register("type")} className="w-full p-2 border rounded">
-            <option value="RESIDENTIAL">Nhà Ở</option>
-            <option value="COMPANY">Công Ty</option>
-          </select>
+          <Label>Loại Địa Chỉ</Label>
+          <Controller
+            name="type"
+            control={control}
+            render={({ field }) => (
+              <Select onValueChange={field.onChange} value={field.value}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Chọn loại địa chỉ" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="RESIDENTIAL">Nhà Ở</SelectItem>
+                  <SelectItem value="COMPANY">Công Ty</SelectItem>
+                </SelectContent>
+              </Select>
+            )}
+          />
         </div>
 
-        <button
-          type="submit"
-          className="w-full p-2 bg-blue-500 text-white rounded"
-        >
+        <Button type="submit" className="w-full">
           Gửi
-        </button>
+        </Button>
       </form>
     </div>
   );

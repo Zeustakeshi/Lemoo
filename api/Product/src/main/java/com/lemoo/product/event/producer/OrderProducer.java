@@ -7,25 +7,23 @@
 
 package com.lemoo.product.event.producer;
 
-import com.lemoo.product.event.eventModel.ProductReserveFailedEvent;
-import com.lemoo.product.event.eventModel.ProductReservedEvent;
+import com.lemoo.product.event.eventModel.ProductReserveResultEvent;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
+@Slf4j
 @RequiredArgsConstructor
 public class OrderProducer {
-    private static final Logger log = LoggerFactory.getLogger(OrderProducer.class);
     private final KafkaTemplate<String, Object> orderProducer;
 
-    public void reservedProduct(ProductReservedEvent event) {
+    public void reservedProduct(ProductReserveResultEvent event) {
         orderProducer.send("product-service.product.reserved", event);
     }
 
-    public void reserveProductFailed(ProductReserveFailedEvent event) {
+    public void reserveProductFailed(ProductReserveResultEvent event) {
         orderProducer.send("product-service.product.reserve-failed", event);
     }
 

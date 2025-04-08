@@ -7,111 +7,72 @@
 
 package com.lemoo.product.service.impl;
 
-import com.lemoo.product.domain.OrderSku;
 import com.lemoo.product.entity.ProductSku;
-import com.lemoo.product.event.eventModel.ProductReserveFailedEvent;
-import com.lemoo.product.event.eventModel.ProductReservedEvent;
-import com.lemoo.product.event.producer.OrderProducer;
-import com.lemoo.product.repository.ProductRepository;
 import com.lemoo.product.repository.ProductSkuRepository;
 import com.lemoo.product.service.ProductOrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class ProductOrderServiceImpl implements ProductOrderService {
-    private final ProductRepository productRepository;
     private final ProductSkuRepository productSkuRepository;
-    private final OrderProducer orderProducer;
+    private final RedissonClient redisson;
 
     @Override
-    public void checkProductOrder(String orderId, Map<String, OrderSku> orderSkus) {
-        Set<String> productIds = orderSkus
-                .values()
-                .stream()
-                .map(OrderSku::getProductId)
-                .collect(Collectors.toSet());
+    public void reserveProduct(Map<String, Integer> skuInfos) throws Exception {
+        Set<ProductSku> skus = productSkuRepository.findBySkuCodeIn(skuInfos.keySet());
 
+        if (skuInfos.size() != skus.size() ||
+                !skuInfos.keySet().equals(skus.stream()
+                        .map(ProductSku::getSkuCode).collect(Collectors.toSet())
+                )
+        ) {
+            throw new Exception("The SKU codes do not match the actual data.");
+        }
+
+        List<RLock> locks = new ArrayList<>();
         try {
-            validateActiveProduct(orderId, productIds);
+            for (ProductSku sku : skus) {
+                RLock lock = redisson.getLock("inventory-lock:" + sku.getSkuCode());
+                locks.add(lock);
+            }
+            RLock multiLock = redisson.getMultiLock(locks.toArray(new RLock[0]));
 
-            Set<String> skuCodes = orderSkus.keySet();
-            Set<ProductSku> productSkus = productSkuRepository.findBySkuCodeIn(skuCodes);
-
-            if (productSkus.isEmpty()) {
-                orderProducer.reserveProductFailed(ProductReserveFailedEvent.builder()
-                        .orderId(orderId)
-                        .errorMessage("Sku list is empty")
-                        .build());
-                return;
+            if (!multiLock.tryLock(10, 60, TimeUnit.SECONDS)) {
+                throw new Exception("Failed to acquire locks for inventory reservation.");
             }
 
-            productSkus.stream().map(sku -> CompletableFuture.runAsync(() -> {
-                OrderSku orderSku = orderSkus.get(sku.getSkuCode());
-                if (orderSku == null) {
-                    throw new RuntimeException("Sku " + sku.getSkuCode() + " not found");
+            try {
+                for (ProductSku sku : skus) {
+                    String skuCode = sku.getSkuCode();
+                    long reserveStock = sku.getReserveStock();
+                    int reserveQuantity = skuInfos.get(skuCode);
+
+                    if (reserveStock < reserveQuantity) {
+                        throw new Exception("SKU " + skuCode + " is out of stock.");
+                    }
+                    sku.setReserveStock(reserveStock - reserveQuantity);
                 }
-                validateSku(orderId, sku, orderSku.getQuantity());
-                reserveSku(orderId, sku, orderSku.getQuantity());
-            })).forEach(CompletableFuture::join);
-        } catch (Exception ex) {
-            log.error(ex.getMessage());
-        }
 
-    }
-
-    private void validateActiveProduct(String orderId, Set<String> productIds) {
-        if (productRepository.countActiveProducts(productIds) != productIds.size()) {
-            String errorMessage = "product not active";
-            orderProducer.reserveProductFailed(ProductReserveFailedEvent.builder()
-                    .orderId(orderId)
-                    .errorMessage(errorMessage)
-                    .build());
-
-            log.error(errorMessage);
-            throw new RuntimeException(errorMessage);
+                productSkuRepository.saveAll(skus);
+            } finally {
+                multiLock.unlock();
+            }
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new Exception("Reservation interrupted.", e);
         }
     }
-
-
-    private void validateSku(String orderId, ProductSku sku, int quantity) {
-        if (!sku.isAllowSale()) {
-            String errorMessage = "sku " + sku + " not allow sale";
-            log.error(errorMessage);
-            orderProducer.reserveProductFailed(ProductReserveFailedEvent.builder()
-                    .orderId(orderId)
-                    .errorMessage(errorMessage)
-                    .build());
-            throw new RuntimeException(errorMessage);
-        }
-        if ((sku.getStock() - quantity) < 0) {
-            String errorMessage = "sku " + sku + " is out of stock";
-            log.error(errorMessage);
-            orderProducer.reserveProductFailed(ProductReserveFailedEvent.builder()
-                    .orderId(orderId)
-                    .errorMessage(errorMessage)
-                    .build());
-            throw new RuntimeException(errorMessage);
-        }
-
-    }
-
-    private void reserveSku(String orderId, ProductSku sku, int quantity) {
-        //TODO: handle distributed lock here
-        sku.setStock(sku.getStock() - quantity);
-        productSkuRepository.save(sku);
-
-        orderProducer.reservedProduct(ProductReservedEvent.builder()
-                .orderId(orderId)
-                .build());
-    }
-
 }

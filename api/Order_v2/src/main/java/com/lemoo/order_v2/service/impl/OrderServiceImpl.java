@@ -17,6 +17,9 @@ import com.lemoo.order_v2.dto.response.SkuResponse;
 import com.lemoo.order_v2.entity.Order;
 import com.lemoo.order_v2.entity.OrderItem;
 import com.lemoo.order_v2.entity.ShippingAddress;
+import com.lemoo.order_v2.event.model.ApplyVoucherEvent;
+import com.lemoo.order_v2.event.producer.ProductProducer;
+import com.lemoo.order_v2.event.producer.PromotionProducer;
 import com.lemoo.order_v2.exception.BadRequestException;
 import com.lemoo.order_v2.exception.NotfoundException;
 import com.lemoo.order_v2.mapper.ShippingAddressMapper;
@@ -26,7 +29,9 @@ import com.lemoo.order_v2.service.PromotionService;
 import com.lemoo.order_v2.service.ShippingAddressService;
 import com.lemoo.order_v2.service.SkuService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -42,9 +47,12 @@ public class OrderServiceImpl implements OrderService {
     private final ShippingAddressMapper shippingAddressMapper;
     private final SkuService skuService;
     private final PromotionService promotionService;
+    private final PromotionProducer promotionProducer;
+    private final ProductProducer productProducer;
 
 
     @Override
+    @Transactional
     public void placeOrder(OrderRequest request, AuthenticatedAccount account) {
         ShippingAddressResponse shippingAddressResponse = shippingAddressService
                 .getShippingAddressByIdAndUserId(request.getShippingAddressId(), account.getUserId());
@@ -77,8 +85,23 @@ public class OrderServiceImpl implements OrderService {
             orders.add(order);
         }
 
-        orderRepository.saveAll(orders);
+        if (request.getPaymentMethod().equals(PaymentMethod.COD)) {
+            processOrderDiscount(account.getUserId(), orderRepository.saveAll(orders));
+        }
 
+    }
+
+    @Override
+    public void updateOrderStatus(String userId, String orderId, OrderStatus status) {
+        Order order = findByIdAndUserId(orderId, userId);
+        order.setStatus(status);
+        orderRepository.save(order);
+    }
+
+    @Override
+    public Order findByIdAndUserId(String orderId, String userId) {
+        return orderRepository.findByIdAndUserId(orderId, userId)
+                .orElseThrow(() -> new NotfoundException("Order not found"));
     }
 
     private Set<OrderItem> createOrderItem(Set<OrderSkuRequest> skuRequests) {
@@ -105,5 +128,16 @@ public class OrderServiceImpl implements OrderService {
         }
 
         return orderItems;
+    }
+
+    @Async
+    protected void processOrderDiscount(String userId, List<Order> orders) {
+        for (var order : orders) {
+            promotionProducer.applyVoucher(ApplyVoucherEvent.builder()
+                    .orderId(order.getId())
+                    .userId(userId)
+                    .vouchers(order.getVouchers())
+                    .build());
+        }
     }
 }

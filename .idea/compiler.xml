@@ -24,7 +24,7 @@
         <module name="User" />
         <module name="Auth" />
       </profile>
-      <profile name="Annotation profile for Video" enabled="true">
+      <profile name="Annotation profile for Order_v2" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />

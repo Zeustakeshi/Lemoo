@@ -7,15 +7,15 @@
 
 package com.lemoo.order_v2.event.model;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 import java.util.Map;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class ReserveProductEvent extends Event {
     private String userId;
     private String orderId;

@@ -18,9 +18,11 @@ public interface VoucherCollectionService {
 
     PageableResponse<UserVoucherResponse> getAllVoucherByStoreId(String storeId, int page, int limit);
 
-    void checkOrderVoucher(String orderId, String userId, Set<String> promotions);
-
     CollectedVoucherResponse collectVoucher(AuthenticatedAccount account, String voucherId);
 
     PageableResponse<CollectedVoucherResponse> getAllCollectedVoucher(AuthenticatedAccount account, int page, int limit);
+
+    void updateUserVoucherQuantity(String userId, Set<String> vouchers) throws Exception;
+
+    void compensateVoucher(String userId, Set<String> vouchers) throws Exception;
 }

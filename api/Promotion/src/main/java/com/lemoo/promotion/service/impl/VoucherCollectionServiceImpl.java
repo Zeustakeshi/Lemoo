@@ -16,7 +16,6 @@ import com.lemoo.promotion.entity.BaseVoucher;
 import com.lemoo.promotion.entity.CollectedVoucher;
 import com.lemoo.promotion.entity.RegularVoucher;
 import com.lemoo.promotion.entity.StoreFollowerVoucher;
-import com.lemoo.promotion.event.eventModel.PromotionCheckedEvent;
 import com.lemoo.promotion.event.producer.OrderProducer;
 import com.lemoo.promotion.exception.ForbiddenException;
 import com.lemoo.promotion.exception.NotfoundException;
@@ -36,6 +35,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
@@ -98,6 +98,37 @@ public class VoucherCollectionServiceImpl implements VoucherCollectionService {
             return userVoucherMapper.toCollectedVoucherResponse(collectedVoucher, voucher);
         })).map(CompletableFuture::join));
 
+    }
+
+    @Override
+    @Transactional
+    public void updateUserVoucherQuantity(String userId, Set<String> vouchers) throws Exception {
+        List<CollectedVoucher> collectedVouchers = collectedVoucherRepository.findAllByUserIdAndVoucherIdIn(userId, vouchers);
+
+        for (CollectedVoucher voucher : collectedVouchers) {
+            int quantity = voucher.getQuantity();
+            if (quantity <= 0) {
+                throw new Exception("The voucher quantity is inadequate for use.");
+            }
+            voucher.setQuantity(quantity - 1);
+        }
+
+        collectedVoucherRepository.saveAll(collectedVouchers);
+    }
+
+    @Override
+    public void compensateVoucher(String userId, Set<String> vouchers) throws Exception {
+        List<CollectedVoucher> collectedVouchers = collectedVoucherRepository.findAllByUserIdAndVoucherIdIn(userId, vouchers);
+
+        for (CollectedVoucher voucher : collectedVouchers) {
+            int quantity = voucher.getQuantity();
+            if (quantity <= 0) {
+                throw new Exception("The voucher quantity is inadequate for use.");
+            }
+            voucher.setQuantity(quantity + 1);
+        }
+
+        collectedVoucherRepository.saveAll(collectedVouchers);
     }
 
     private CollectedVoucherResponse processVoucherCollection(AuthenticatedAccount account, String voucherId) {
@@ -188,10 +219,5 @@ public class VoucherCollectionServiceImpl implements VoucherCollectionService {
         baseVoucherRepository.save(voucher);
     }
 
-    @Override
-    public void checkOrderVoucher(String orderId, String userId, Set<String> promotions) {
-        orderProducer.promotionChecked(PromotionCheckedEvent.builder()
-                .orderId(orderId)
-                .build());
-    }
+
 }

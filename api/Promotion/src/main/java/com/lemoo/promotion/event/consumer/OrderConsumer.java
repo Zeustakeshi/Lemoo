@@ -7,39 +7,48 @@
 
 package com.lemoo.promotion.event.consumer;
 
-import com.lemoo.promotion.event.eventModel.OrderCreatedEvent;
-import com.lemoo.promotion.event.eventModel.PromotionRevertedEvent;
-import com.lemoo.promotion.event.eventModel.RevertPromotionEvent;
+import com.lemoo.promotion.event.eventModel.ApplyVoucherEvent;
+import com.lemoo.promotion.event.eventModel.ApplyVoucherResultEvent;
+import com.lemoo.promotion.event.eventModel.CompensateVoucherEvent;
 import com.lemoo.promotion.event.producer.OrderProducer;
 import com.lemoo.promotion.service.VoucherCollectionService;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class OrderConsumer {
 
-    private static final Logger log = LoggerFactory.getLogger(OrderConsumer.class);
     private final VoucherCollectionService voucherCollectionService;
     private final OrderProducer orderProducer;
 
-    @KafkaListener(topics = "order-service.order.created", groupId = "${spring.kafka.consumer.group-id}")
-    public void createOrderListener(OrderCreatedEvent event) {
-        log.info("new order created");
-        voucherCollectionService.checkOrderVoucher(event.getOrderId(), event.getUserId(), event.getPromotions());
-    }
-
-    @KafkaListener(topics = "promotion-service.promotion.revert-requested", groupId = "${spring.kafka.consumer.group-id}")
-    public void revertPromotionListener(RevertPromotionEvent event) {
-        log.info("Start revert promotion");
-        orderProducer.promotionReverted(PromotionRevertedEvent.builder()
+    @KafkaListener(topics = "order-service.voucher.apply", groupId = "${spring.kafka.consumer.group-id}")
+    public void applyVoucherEventListener(ApplyVoucherEvent event) {
+        ApplyVoucherResultEvent resultEvent = ApplyVoucherResultEvent.builder()
                 .orderId(event.getOrderId())
-                .build());
+                .userId(event.getUserId())
+                .build();
 
+        try {
+            voucherCollectionService.updateUserVoucherQuantity(event.getUserId(), event.getVouchers());
+            orderProducer.applyVoucherSuccess(resultEvent);
+        } catch (Exception exception) {
+            resultEvent.setMessage(exception.getMessage());
+            orderProducer.applyVoucherFailed(resultEvent);
+            log.error("Failed to apply voucher for userId: {}, orderId: {}", event.getUserId(), event.getOrderId(), exception);
+        }
     }
 
+    @KafkaListener(topics = "order-service.voucher.compensate", groupId = "${spring.kafka.consumer.group-id}")
+    public void compensateVoucher(CompensateVoucherEvent event) {
+        try {
+            voucherCollectionService.compensateVoucher(event.getUserId(), event.getVouchers());
+        } catch (Exception exception) {
+            System.out.println(exception.getMessage());
+        }
+    }
 
 }

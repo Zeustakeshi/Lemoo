@@ -7,10 +7,8 @@
 
 package com.lemoo.product.service;
 
-import com.lemoo.product.domain.OrderSku;
-
 import java.util.Map;
 
 public interface ProductOrderService {
-    void checkProductOrder(String orderId, Map<String, OrderSku> skus);
+    void reserveProduct(Map<String, Integer> skus) throws Exception;
 }

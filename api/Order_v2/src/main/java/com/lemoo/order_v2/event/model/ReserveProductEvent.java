@@ -5,7 +5,7 @@
  * */
 
 
-package com.lemoo.product.event.eventModel;
+package com.lemoo.order_v2.event.model;
 
 import lombok.Builder;
 import lombok.Data;

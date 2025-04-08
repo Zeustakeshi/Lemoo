@@ -1,24 +1,21 @@
 /*
  *  OrderCreatedEvent
  *  @author: Minhhieuano
- *  @created 1/18/2025 3:35 PM
+ *  @created 1/16/2025 1:52 AM
  * */
 
 
-package com.lemoo.promotion.event.eventModel;
+package com.lemoo.order_v2.event.model;
 
 import lombok.*;
-
-import java.util.Set;
 
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Data
-public class OrderCreatedEvent extends Event {
+public class ProductReserveResultEvent extends Event {
     private String orderId;
-    private Set<String> promotions;
     private String userId;
+    private String message;
 }
-

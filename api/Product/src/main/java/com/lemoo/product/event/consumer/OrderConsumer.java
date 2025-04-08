@@ -7,7 +7,9 @@
 
 package com.lemoo.product.event.consumer;
 
+import com.lemoo.product.event.eventModel.ProductReserveResultEvent;
 import com.lemoo.product.event.eventModel.ReserveProductEvent;
+import com.lemoo.product.event.producer.OrderProducer;
 import com.lemoo.product.service.ProductOrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -17,10 +19,22 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class OrderConsumer {
     private final ProductOrderService productOrderService;
+    private final OrderProducer orderProducer;
 
-    @KafkaListener(topics = "product-service.product.reserve-requested", groupId = "${spring.kafka.consumer.group-id}")
+    @KafkaListener(topics = "order-service.product.reserve", groupId = "${spring.kafka.consumer.group-id}")
     public void reserveProductListener(ReserveProductEvent event) {
-        System.out.println("new product reserve request");
-        productOrderService.checkProductOrder(event.getOrderId(), event.getSkus());
+
+        ProductReserveResultEvent reserveResultEvent = ProductReserveResultEvent.builder()
+                .orderId(event.getOrderId())
+                .build();
+
+        try {
+            productOrderService.reserveProduct(event.getSkus());
+            reserveResultEvent.setMessage("Reserve product success");
+            orderProducer.reservedProduct(reserveResultEvent);
+        } catch (Exception exception) {
+            reserveResultEvent.setMessage(exception.getMessage());
+            orderProducer.reserveProductFailed(reserveResultEvent);
+        }
     }
 }

@@ -102,7 +102,7 @@ public class SellerProductServiceImpl implements SellerProductService {
 
                     sku.setProductId(product.getId());
                     sku.setStoreId(storeId);
-                    sku.setAvailableStock(sku.getStock());
+                    sku.setReserveStock(sku.getStock());
                     return sku;
                 }))
                 .toList());

@@ -22,7 +22,7 @@ public class ProductSkuEvaluation {
     private LocalDateTime specialFromDate;
     private LocalDateTime specialToDate;
     private Long stock;
-    private Long availableStock;
+    private Long reserveStock;
     private Double packageWidth; // cm
     private Double packageHeight; // cm
     private Double packageLength; // cm

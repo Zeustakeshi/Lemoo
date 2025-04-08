@@ -7,14 +7,14 @@
 
 package com.lemoo.promotion.event.eventModel;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class ApplyVoucherResultEvent extends Event {
     private String orderId;
     private String userId;

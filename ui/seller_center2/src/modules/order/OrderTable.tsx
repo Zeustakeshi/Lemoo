@@ -1,4 +1,4 @@
-import { getAllOrder } from "@/api/order.api";
+import { getAllOrder, handleOrderAction, OrderAction } from "@/api/order.api";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -107,24 +107,27 @@ const orders = [
 
 const OrderTable = ({ status }: { status: string }) => {
   const storeId = JSON.parse(sessionStorage.getItem("storeInfo") || "{}");
-
+  console.log("storeId", storeId);
   const { data } = useQuery({
     queryKey: ["orders"],
     queryFn: async () => await getAllOrder(storeId.id),
   });
-  console.log("Order", data);
+  console.log("Order list", data);
   const [orderList, setOrderList] = useState(orders);
 
-  const updateOrderStatus = (id: string, newStatus: string) => {
+  const updateOrderStatus = async (id: string, action: OrderAction) => {
+    // Gọi API để cập nhật trạng thái đơn hàng
+    const respones = await handleOrderAction(id, storeId.id, action);
+    console.log("Update order response", respones);
     setOrderList((prevOrders) =>
       prevOrders.map((order) =>
-        order.id === id ? { ...order, status: newStatus } : order
+        order.id === id ? { ...order, status: action } : order
       )
     );
   };
 
   const filteredOrders = orderList.filter((order) => order.status === status);
-  console.log("filteredOrders: ", filteredOrders);
+
   return (
     <Table>
       <TableHeader>
@@ -170,16 +173,12 @@ const OrderTable = ({ status }: { status: string }) => {
                       </DropdownMenuTrigger>
                       <DropdownMenuContent>
                         <DropdownMenuItem
-                          onClick={() =>
-                            updateOrderStatus(order.id, "delivery")
-                          }
+                          onClick={() => updateOrderStatus(order.id, "confirm")}
                         >
                           Xác nhận đơn hàng
                         </DropdownMenuItem>
                         <DropdownMenuItem
-                          onClick={() =>
-                            updateOrderStatus(order.id, "canceled")
-                          }
+                          onClick={() => updateOrderStatus(order.id, "cancel")}
                         >
                           Từ chối
                         </DropdownMenuItem>
@@ -191,20 +190,16 @@ const OrderTable = ({ status }: { status: string }) => {
                   <TableCell>
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
-                        <Button variant="outline">xác nhận</Button>
+                        <Button variant="outline">đã đóng gói</Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent>
                         <DropdownMenuItem
-                          onClick={() =>
-                            updateOrderStatus(order.id, "delivery")
-                          }
+                          onClick={() => updateOrderStatus(order.id, "packed")}
                         >
                           Đã ship đi
                         </DropdownMenuItem>
                         <DropdownMenuItem
-                          onClick={() =>
-                            updateOrderStatus(order.id, "canceled")
-                          }
+                          onClick={() => updateOrderStatus(order.id, "cancel")}
                         >
                           Hủy
                         </DropdownMenuItem>

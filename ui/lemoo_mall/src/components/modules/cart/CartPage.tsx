@@ -45,6 +45,11 @@ const CartPage = () => {
   }, [stateCart]);
 
   const onSubmit: SubmitHandler<CartFormData> = async (data) => {
+    // Kiểm tra và lọc sản phẩm được chọn
+    if (!dataCart?.content) {
+      toast.error("Giỏ hàng trống hoặc dữ liệu không hợp lệ");
+      return;
+    }
     const selectedProducts =
       dataCart?.content
         ?.filter((item) => data.selectedItems[item.id])
@@ -58,14 +63,17 @@ const CartPage = () => {
         })) || [];
 
     if (selectedProducts.length === 0) {
-      toast.error("Please select at least one item");
+      toast.error("Vui lòng chọn ít nhất một sản phẩm");
       return;
     }
     const customerAdress = await customerInfo();
 
-    if (!customerAdress || customerAdress == null) {
-      toast.error(
-        "Bạn chưa thiết lập địa chỉ giao hàng. Hãy thiết lập địa chỉ giao hàng trước khi mua hàng"
+    if (!customerAdress.content || customerAdress.content == null) {
+      toast(
+        "Bạn chưa thiết lập địa chỉ giao hàng. Hãy thiết lập địa chỉ giao hàng trước khi mua hàng!",
+        {
+          icon: "🚚",
+        }
       );
       dispatch(addCartOrder({ items: { item: selectedProducts } }));
       navigation({ to: "/customer" });

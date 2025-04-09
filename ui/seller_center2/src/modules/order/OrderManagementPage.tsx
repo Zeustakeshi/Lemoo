@@ -37,8 +37,8 @@ export const OrderManagementPage = () => {
           <TabsContent value="CONFIRMED">
             <OrderTable status="CONFIRMED" />
           </TabsContent>
-          <TabsContent value="DELIVERED">
-            <OrderTable status="DELIVERED" />
+          <TabsContent value="PACKED">
+            <OrderTable status="PACKED" />
           </TabsContent>
         </Tabs>
       </CardContent>

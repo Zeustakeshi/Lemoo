@@ -12,6 +12,8 @@ import com.lemoo.order_v2.dto.common.AuthenticatedAccount;
 import com.lemoo.order_v2.dto.response.PageableResponse;
 import com.lemoo.order_v2.dto.response.SellerOrderResponse;
 import com.lemoo.order_v2.entity.Order;
+import com.lemoo.order_v2.event.model.NewShippingOrderEvent;
+import com.lemoo.order_v2.event.producer.ShippingProducer;
 import com.lemoo.order_v2.exception.ForbiddenException;
 import com.lemoo.order_v2.exception.NotfoundException;
 import com.lemoo.order_v2.mapper.PageMapper;
@@ -26,6 +28,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 @Service
@@ -36,6 +40,7 @@ public class SellerOrderServiceImpl implements SellerOrderService {
     private final StoreService storeService;
     private final SellerOrderMapper sellerOrderMapper;
     private final PageMapper pageMapper;
+    private final ShippingProducer shippingProducer;
 
     @Override
     public PageableResponse<SellerOrderResponse> getAllOrderByStoreId(String storeId, OrderStatus status, int page, int limit, AuthenticatedAccount account) {
@@ -58,6 +63,20 @@ public class SellerOrderServiceImpl implements SellerOrderService {
         validateOrderStatusForPacked(order);
 
         order.setStatus(OrderStatus.SHIPPED);
+
+        Map<String, Integer> shippingOrderSku = new HashMap<>();
+
+        order.getItems().forEach(orderItem -> {
+            shippingOrderSku.put(orderItem.getSkuCode(), orderItem.getQuantity());
+        });
+
+        shippingProducer.createShippingOrder(NewShippingOrderEvent.builder()
+                .orderId(orderId)
+                .shippingAddressId(order.getShippingAddress().getId())
+                .skus(shippingOrderSku)
+                .storeId(storeId)
+                .userId(account.getUserId())
+                .build());
 
         orderRepository.save(order);
     }

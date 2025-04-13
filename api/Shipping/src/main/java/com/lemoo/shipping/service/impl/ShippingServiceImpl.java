@@ -7,6 +7,7 @@
 
 package com.lemoo.shipping.service.impl;
 
+import com.lemoo.shipping.client.GhnClient;
 import com.lemoo.shipping.dto.common.ShippingOrderItem;
 import com.lemoo.shipping.dto.request.NewShippingOrderRequest;
 import com.lemoo.shipping.dto.response.SkuResponse;
@@ -30,6 +31,7 @@ public class ShippingServiceImpl implements ShippingService {
     private final ShippingAddressRepository shippingAddressRepository;
     private final UserService userService;
     private final SkuService skuService;
+    private final GhnClient ghnClient;
 
     @Override
     public void createShippingOrder(
@@ -46,7 +48,7 @@ public class ShippingServiceImpl implements ShippingService {
         UserResponse user = userService.getUserInfo(userId).orElseThrow(() -> new NotfoundException("User " + userId + " not found."));
         Set<SkuResponse> skuResponses = skuService.getSkuByCodes(skus.keySet());
 
-        NewShippingOrderRequest.builder()
+        var shippingOrderRequest = NewShippingOrderRequest.builder()
                 .from_name(user.getName())
                 .from_ward_code("440307")
                 .to_address(shippingAddress.getAddress().getProvince().getName())
@@ -66,5 +68,6 @@ public class ShippingServiceImpl implements ShippingService {
                                 .build()
                 ).toList())
                 .build();
+
     }
 }

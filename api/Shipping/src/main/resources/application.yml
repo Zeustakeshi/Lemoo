@@ -27,8 +27,6 @@ spring:
       properties:
         spring.json.trusted.packages: '*'
 server:
-
-
   port: 4003
   servlet:
     context-path: /shipping
@@ -36,6 +34,7 @@ services:
   auth-service: ${AUTH_SERVICE_URL:http://localhost:8082/auth}
   store-service: ${STORE_SERVICE_URL:http://localhost:8004/store}
   user-service: ${USER_SERVICE_URL:http://localhost:8084/user}
+  product-service: ${PRODUCT_SERVICE_URL:http://localhost:8082/products}
   external:
     ghn: ${GHN_BASE_API:https://dev-online-gateway.ghn.vn/shiip/public-api}
 

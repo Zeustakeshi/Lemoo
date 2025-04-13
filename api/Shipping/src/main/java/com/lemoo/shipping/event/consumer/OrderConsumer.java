@@ -20,6 +20,6 @@ public class OrderConsumer {
 
     @KafkaListener(topics = "order-service.shipping.create", groupId = "${spring.kafka.consumer.group-id}")
     public void createShippingOrder(NewShippingOrderEvent event) {
-        
+        shippingService.createShippingOrder(event.getOrderId(), event.getStoreId(), event.getUserId(), event.getShippingAddressId(), event.getSkus());
     }
 }

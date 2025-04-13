@@ -8,7 +8,6 @@
 package com.lemoo.shipping.event.consumer;
 
 import com.lemoo.shipping.event.model.NewShippingOrderEvent;
-import com.lemoo.shipping.service.ShippingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;

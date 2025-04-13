@@ -68,6 +68,7 @@ public class ShippingServiceImpl implements ShippingService {
                                 .build()
                 ).toList())
                 .build();
-
+        
+        ghnClient.createShippingOrder(shippingOrderRequest);
     }
 }

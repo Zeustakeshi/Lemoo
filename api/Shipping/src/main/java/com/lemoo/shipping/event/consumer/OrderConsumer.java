@@ -19,7 +19,7 @@ public class OrderConsumer {
 
     private final ShippingService shippingService;
 
-    @KafkaListener(topics = "shipping-service.shipping.create.failed", groupId = "${spring.kafka.consumer.group-id}")
+    @KafkaListener(topics = "order-service.shipping.create", groupId = "${spring.kafka.consumer.group-id}")
     public void createShippingOrder(NewShippingOrderEvent event) {
         shippingService.createShippingOrder(
                 event.getOrderId(),

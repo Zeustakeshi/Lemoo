@@ -1,18 +1,19 @@
 /*
- *  IntenalProductSkuResponse
+ *  SkuResponse
  *  @author: Minhhieuano
- *  @created 3/5/2025 4:32 PM
+ *  @created 1/25/2025 12:02 PM
  * */
 
+package com.lemoo.shipping.dto.response;
 
-package com.lemoo.product.dto.response;
-
-import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
-@Builder
-public class InternalProductSkuResponse {
+@AllArgsConstructor
+@NoArgsConstructor
+public class SkuResponse {
     private String skuCode;
     private String name;
     private String productId;

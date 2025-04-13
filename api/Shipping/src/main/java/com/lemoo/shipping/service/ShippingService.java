@@ -9,5 +9,11 @@ package com.lemoo.shipping.service;
 import java.util.Map;
 
 public interface ShippingService {
-    void createShippingOrder(String orderId, String storeId, String userId, String shippingAddressId, Map<String, Integer> skus);
+    void createShippingOrder(
+            String orderId,
+            String storeId,
+            String userId,
+            String shippingAddressId,
+            Map<String, Integer> skus
+    );
 }

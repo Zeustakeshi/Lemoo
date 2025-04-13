@@ -6,6 +6,7 @@ on:
     paths:
       - 'api/Shipping/**'
       - '.github/workflows/ci_shipping_service_deployment.yml'
+      
 jobs:
   build:
     runs-on: ubuntu-latest

@@ -34,6 +34,7 @@ public class StoreShippingAddressServiceImpl implements StoreShippingAddressServ
                 .orElse(shippingAddressMapper.toShippingAddress(request));
         shippingAddress.setUserId(storeId);
         shippingAddress.setUserId(account.getUserId());
+        shippingAddressRepository.save(shippingAddress);
         return shippingAddressMapper.toShippingAddressResponse(shippingAddressRepository.save(shippingAddress));
     }
 

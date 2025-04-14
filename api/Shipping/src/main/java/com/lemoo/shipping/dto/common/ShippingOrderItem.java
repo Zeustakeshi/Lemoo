@@ -16,8 +16,8 @@ public class ShippingOrderItem {
     private String name;
     private String code;
     private Integer quantity;
-    private Double length;
-    private Double width;
-    private Double weight;
-    private Double height;
+    private Integer length;
+    private Integer width;
+    private Integer weight;
+    private Integer height;
 }

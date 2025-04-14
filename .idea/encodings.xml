@@ -2,6 +2,8 @@
 <project version="4">
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/.github/workflows/ci_admin_service_deployment.yml" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/.github/workflows/ci_order_service_deployment.yml" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/.github/workflows/ci_shipping_service_deployment.yml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/api/Admin/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/api/Admin/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/api/Auth/src/main/java" charset="UTF-8" />

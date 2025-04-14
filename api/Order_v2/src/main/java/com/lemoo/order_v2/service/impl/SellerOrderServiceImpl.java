@@ -113,8 +113,8 @@ public class SellerOrderServiceImpl implements SellerOrderService {
     }
 
     private void validateOrderStatusForPacked(Order order) {
-        if (!order.getStatus().equals(OrderStatus.CONFIRMED)) {
-            throw new ForbiddenException("Cannot pack order. Order must be in CONFIRMED status.");
+        if (!order.getStatus().equals(OrderStatus.CONFIRMED) && !order.getStatus().equals(OrderStatus.FAILED_DELIVERY)) {
+            throw new ForbiddenException("Cannot pack order. Order must be in CONFIRMED status of FAILED_DELIVERY status.");
         }
     }
 

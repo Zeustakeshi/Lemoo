@@ -10,6 +10,7 @@ package com.lemoo.shipping.client;
 import com.lemoo.shipping.config.GhnRequestInterceptor;
 import com.lemoo.shipping.dto.request.NewShippingOrderRequest;
 import com.lemoo.shipping.dto.response.GhnApiResponse;
+import com.lemoo.shipping.dto.response.GhnShippingOrderResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,7 +28,7 @@ import java.util.List;
 public interface GhnClient {
 
     @PostMapping("/v2/shipping-order/create")
-    void createShippingOrder(@RequestBody NewShippingOrderRequest request);
+    GhnShippingOrderResponse createShippingOrder(@RequestBody NewShippingOrderRequest request);
 
     @GetMapping("/master-data/province")
     GhnApiResponse<List<HashMap<Object, Object>>> getProvince();

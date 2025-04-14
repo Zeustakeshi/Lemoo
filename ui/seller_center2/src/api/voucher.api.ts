@@ -11,7 +11,7 @@ export const getAllRegularVoucher = async (
 ): Promise<Pageable<RegularVoucherResponse>> => {
     const store = getSessionStorageValue<Store>("storeInfo");
 
-    return await api.get("/promotion/vouchers/regular", {
+    return await api.get("/promotion/seller/vouchers/regular", {
         params: { page, limit },
         headers: {
             "X-store-id": store?.id,
@@ -22,7 +22,7 @@ export const getAllRegularVoucher = async (
 export const activateRegularVoucher = async (voucherId: string) => {
     const store = getSessionStorageValue<Store>("storeInfo");
     return await api.patch(
-        `/promotion/vouchers/regular/${voucherId}/activate`,
+        `/promotion/seller/vouchers/regular/${voucherId}/activate`,
         {},
         {
             headers: {
@@ -35,7 +35,7 @@ export const activateRegularVoucher = async (voucherId: string) => {
 export const deactivateRegularVoucher = async (voucherId: string) => {
     const store = getSessionStorageValue<Store>("storeInfo");
     return await api.patch(
-        `/promotion/vouchers/regular/${voucherId}/deactivate`,
+        `/promotion/seller/vouchers/regular/${voucherId}/deactivate`,
         {},
         {
             headers: {
@@ -47,7 +47,7 @@ export const deactivateRegularVoucher = async (voucherId: string) => {
 
 export const createRegularVoucher = async (data: RegularVoucherSchemaType) => {
     const store = getSessionStorageValue<Store>("storeInfo");
-    return await api.post("/promotion/vouchers/regular", data, {
+    return await api.post("/promotion/seller/vouchers/regular", data, {
         headers: {
             "X-store-id": store?.id,
         },

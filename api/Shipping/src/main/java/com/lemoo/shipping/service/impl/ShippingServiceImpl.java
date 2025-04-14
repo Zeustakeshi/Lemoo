@@ -10,17 +10,22 @@ package com.lemoo.shipping.service.impl;
 import com.lemoo.shipping.client.GhnClient;
 import com.lemoo.shipping.dto.common.ShippingOrderItem;
 import com.lemoo.shipping.dto.request.NewShippingOrderRequest;
+import com.lemoo.shipping.dto.response.GhnShippingOrderResponse;
 import com.lemoo.shipping.dto.response.SkuResponse;
 import com.lemoo.shipping.dto.response.UserResponse;
 import com.lemoo.shipping.entity.ShippingAddress;
+import com.lemoo.shipping.entity.ShippingOrder;
 import com.lemoo.shipping.exception.NotfoundException;
+import com.lemoo.shipping.mapper.ShippingOrderMapper;
 import com.lemoo.shipping.repository.ShippingAddressRepository;
+import com.lemoo.shipping.repository.ShippingOrderRepository;
 import com.lemoo.shipping.service.ShippingService;
 import com.lemoo.shipping.service.SkuService;
 import com.lemoo.shipping.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Set;
 
@@ -32,6 +37,8 @@ public class ShippingServiceImpl implements ShippingService {
     private final UserService userService;
     private final SkuService skuService;
     private final GhnClient ghnClient;
+    private final ShippingOrderMapper shippingOrderMapper;
+    private final ShippingOrderRepository shippingOrderRepository;
 
     @Override
     public void createShippingOrder(
@@ -86,6 +93,12 @@ public class ShippingServiceImpl implements ShippingService {
                 ).toList())
                 .build();
 
-        ghnClient.createShippingOrder(shippingOrderRequest);
+        GhnShippingOrderResponse ghnShippingOrderResponse = ghnClient.createShippingOrder(shippingOrderRequest);
+
+        ShippingOrder shippingOrder = shippingOrderMapper.toShippingOrder(ghnShippingOrderResponse);
+        shippingOrder.setOrderId(orderId);
+        shippingOrder.setUserId(userId);
+        shippingOrder.setExpectedDeliveryTime(LocalDateTime.parse(ghnShippingOrderResponse.getData().getExpected_delivery_time()));
+        shippingOrderRepository.save(shippingOrder);
     }
 }

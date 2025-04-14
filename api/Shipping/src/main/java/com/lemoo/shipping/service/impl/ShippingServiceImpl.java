@@ -54,8 +54,13 @@ public class ShippingServiceImpl implements ShippingService {
                 .to_address(shippingAddress.getAddress().getProvince().getName())
                 .to_ward_code(shippingAddress.getAddress().getWard().getCode())
                 .to_district_name(shippingAddress.getAddress().getDistrict().getName())
+                .to_name(shippingAddress.getRecipientName())
+                .to_phone(shippingAddress.getRecipientPhone())
                 .name("Order number: " + orderId)
                 .quantity(skus.values().stream().mapToInt(Integer::intValue).sum())
+                .service_type_id(2)
+                .payment_type_id(2)
+                .required_note("CHOXEMHANGKHONGTHU")
                 .items(skuResponses.stream().map(sku ->
                         ShippingOrderItem.builder()
                                 .code(sku.getSkuCode())

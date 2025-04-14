@@ -33,7 +33,6 @@ public class StoreShippingAddressServiceImpl implements StoreShippingAddressServ
         ShippingAddress shippingAddress = shippingAddressRepository.findByUserId(storeId)
                 .orElse(shippingAddressMapper.toShippingAddress(request));
         shippingAddress.setUserId(storeId);
-        shippingAddress.setUserId(account.getUserId());
         shippingAddressRepository.save(shippingAddress);
         return shippingAddressMapper.toShippingAddressResponse(shippingAddressRepository.save(shippingAddress));
     }

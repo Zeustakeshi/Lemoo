@@ -5,7 +5,7 @@
  * */
 
 
-package com.lemoo.shipping.event.model;
+package com.lemoo.order_v2.event.model;
 
 import lombok.*;
 
@@ -15,7 +15,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CreateShippingOrderFailedEvent extends Event {
+public class CreateShippingOrderResultEvent extends Event {
     private String orderId;
     private String userId;
 }

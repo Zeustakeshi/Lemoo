@@ -62,7 +62,7 @@ public class SellerOrderServiceImpl implements SellerOrderService {
 
         validateOrderStatusForPacked(order);
 
-        order.setStatus(OrderStatus.SHIPPED);
+        order.setStatus(OrderStatus.PACKED);
 
         Map<String, Integer> shippingOrderSku = new HashMap<>();
 

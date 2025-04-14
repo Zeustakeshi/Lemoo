@@ -13,8 +13,8 @@ import org.mapstruct.Mapping;
 
 @Mapper
 public interface ShippingOrderMapper {
-    @Mapping(source = "order_code", target = "shippingOrderCode")
-    @Mapping(source = "total_fee", target = "totalFee")
+    @Mapping(source = "data.order_code", target = "shippingOrderCode")
+    @Mapping(source = "data.total_fee", target = "totalFee")
     @Mapping(target = "expectedDeliveryTime", ignore = true)
     ShippingOrder toShippingOrder(GhnShippingOrderResponse ghnShippingOrderResponse);
 }

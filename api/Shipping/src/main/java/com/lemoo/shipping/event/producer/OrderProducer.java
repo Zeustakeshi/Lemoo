@@ -7,7 +7,7 @@
 
 package com.lemoo.shipping.event.producer;
 
-import com.lemoo.shipping.event.model.CreateShippingOrderFailedEvent;
+import com.lemoo.shipping.event.model.CreateShippingOrderResultEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
@@ -17,7 +17,11 @@ import org.springframework.stereotype.Component;
 public class OrderProducer {
     private final KafkaTemplate<String, Object> kafkaTemplate;
 
-    public void createShippingOrderFailed(CreateShippingOrderFailedEvent event) {
+    public void createShippingOrderFailed(CreateShippingOrderResultEvent event) {
         kafkaTemplate.send("shipping-service.shipping.create.failed", event);
+    }
+
+    public void createShippingOrderSuccess(CreateShippingOrderResultEvent event) {
+        kafkaTemplate.send("shipping-service.shipping.create.success", event);
     }
 }

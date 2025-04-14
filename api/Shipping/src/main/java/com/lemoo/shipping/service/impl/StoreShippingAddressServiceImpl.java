@@ -30,7 +30,7 @@ public class StoreShippingAddressServiceImpl implements StoreShippingAddressServ
     @Override
     public ShippingAddressResponse saveStoreShippingAddress(AuthenticatedAccount account, String storeId, ShippingAddressRequest request) {
         storeService.verifyStore(account.getId(), storeId);
-        ShippingAddress shippingAddress = shippingAddressRepository.findByUserId(account.getUserId())
+        ShippingAddress shippingAddress = shippingAddressRepository.findByUserId(storeId)
                 .orElse(shippingAddressMapper.toShippingAddress(request));
         shippingAddress.setUserId(storeId);
         shippingAddress.setUserId(account.getUserId());
@@ -40,7 +40,7 @@ public class StoreShippingAddressServiceImpl implements StoreShippingAddressServ
     @Override
     public ShippingAddressResponse getStoreShippingAddress(AuthenticatedAccount account, String storeId) {
         storeService.verifyStore(account.getId(), storeId);
-        ShippingAddress shippingAddress = shippingAddressRepository.findByUserId(account.getUserId())
+        ShippingAddress shippingAddress = shippingAddressRepository.findByUserId(storeId)
                 .orElseThrow(() -> new NotfoundException("The store has not registered a delivery address."));
         return shippingAddressMapper.toShippingAddressResponse(shippingAddress);
     }

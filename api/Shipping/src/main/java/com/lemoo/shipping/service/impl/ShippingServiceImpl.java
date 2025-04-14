@@ -54,21 +54,21 @@ public class ShippingServiceImpl implements ShippingService {
                 .to_address(shippingAddress.getAddress().getProvince().getName())
                 .to_ward_code(shippingAddress.getAddress().getWard().getCode())
                 .to_district_name(shippingAddress.getAddress().getDistrict().getName())
-                .name("Lemoo-test")
+                .name("Order number: " + orderId)
                 .quantity(skus.values().stream().mapToInt(Integer::intValue).sum())
                 .items(skuResponses.stream().map(sku ->
                         ShippingOrderItem.builder()
                                 .code(sku.getSkuCode())
                                 .name(sku.getName())
                                 .quantity(skus.get(sku.getSkuCode()))
-                                .length(sku.getPackageLength())
-                                .height(sku.getPackageHeight())
-                                .width(sku.getPackageWidth())
-                                .weight(sku.getPackageWeight())
+                                .length((int) Math.ceil(sku.getPackageLength()))
+                                .height((int) Math.ceil(sku.getPackageHeight()))
+                                .width((int) Math.ceil(sku.getPackageWidth()))
+                                .weight((int) Math.ceil(sku.getPackageWeight()))
                                 .build()
                 ).toList())
                 .build();
-        
+
         ghnClient.createShippingOrder(shippingOrderRequest);
     }
 }

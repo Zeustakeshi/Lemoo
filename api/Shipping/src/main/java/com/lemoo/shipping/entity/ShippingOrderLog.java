@@ -7,6 +7,7 @@
 
 package com.lemoo.shipping.entity;
 
+import com.lemoo.shipping.common.enums.ShippingOrderStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,7 +16,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ShippingOrderLog {
-    private String status;
+    private ShippingOrderStatus status;
     private String tripCode;
     private String updatedDate;
 }

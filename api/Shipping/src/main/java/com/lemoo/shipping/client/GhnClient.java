@@ -23,11 +23,11 @@ import java.util.List;
 @FeignClient(
         url = "${services.external.ghn}",
         name = "ghn-service",
-        configuration = GhnRequestInterceptor.class
+        configuration = {GhnRequestInterceptor.class}
 )
 public interface GhnClient {
 
-    @GetMapping("v2/shipping-order/detail-by-client-code")
+    @GetMapping("/v2/shipping-order/detail-by-client-code")
     GhnShippingOrderResponse getShippingOrderByClientCode(@RequestParam("client_order_code") String clientCode);
 
     @PostMapping("/v2/shipping-order/create")

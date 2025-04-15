@@ -26,6 +26,7 @@ public class OrderConsumer {
 
         ProductReserveResultEvent reserveResultEvent = ProductReserveResultEvent.builder()
                 .orderId(event.getOrderId())
+                .userId(event.getUserId())
                 .build();
 
         try {

@@ -150,7 +150,6 @@ const Order = () => {
 
     try {
       const responseOrder = await api.post<OrderType>("/orders", dataOrder);
-
       toast.success(
         "Đặt hàng thành công!, đơn hàng sẽ sớm được giao cho đơn vị vận chuyển."
       );

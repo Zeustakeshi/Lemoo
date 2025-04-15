@@ -27,7 +27,7 @@ import java.util.List;
 public interface GhnClient {
 
     @GetMapping("/v2/shipping-order/detail-by-client-code")
-    GhnShippingOrderResponse getShippingOrderByClientCode(@RequestParam("client_order_code") String clientCode);
+    Object getShippingOrderByClientCode(@RequestParam("client_order_code") String clientCode);
 
     @PostMapping("/v2/shipping-order/create")
     void createShippingOrder(@RequestBody NewShippingOrderRequest request);

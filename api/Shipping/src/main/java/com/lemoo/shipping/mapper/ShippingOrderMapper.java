@@ -10,6 +10,7 @@ import com.lemoo.shipping.common.enums.ShippingOrderStatus;
 import com.lemoo.shipping.dto.response.GhnShippingOrderResponse;
 import com.lemoo.shipping.dto.response.ShippingOrderResponse;
 import com.lemoo.shipping.entity.ShippingOrder;
+import com.lemoo.shipping.entity.ShippingOrderLog;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
@@ -40,4 +41,8 @@ public interface ShippingOrderMapper {
     default ShippingOrderStatus mapStatus(String status) {
         return ShippingOrderStatus.fromApiValue(status);
     }
+
+    @Mapping(source = "trip_code", target = "tripCode")
+    @Mapping(source = "updated_date", target = "updatedDate")
+    ShippingOrderLog toShippingOrderLog(GhnShippingOrderResponse.Log log);
 }

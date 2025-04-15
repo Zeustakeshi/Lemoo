@@ -15,118 +15,117 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
 
-const orders = [
-  {
-    id: "ORD123456",
-    paymentMethod: "CREDIT_CARD",
-    orderDate: "2024-03-26T14:30:00Z",
-    status: "DELIVERED",
-    vouchers: ["DISCOUNT10"],
-    items: [
-      {
-        lemooSku: "SKU001",
-        image:
-          "https://i.pinimg.com/736x/dd/73/dc/dd73dcfae5dbe8ebefc548943ac1695a.jpg",
-        price: 100,
-        quantity: 2,
-      },
-      {
-        lemooSku: "SKU002",
-        image:
-          "https://i.pinimg.com/736x/35/e0/3d/35e03d1b5e39b16b7fc1dc55e580544f.jpg",
-        price: 50,
-        quantity: 1,
-      },
-    ],
-  },
-  {
-    id: "ORD123457",
-    paymentMethod: "PAYPAL",
-    orderDate: "2024-03-25T10:15:00Z",
-    status: "PENDING",
-    vouchers: ["ưu đãi ngập tràn tháng 3"],
-    items: [
-      {
-        lemooSku: "SKU003",
-        image:
-          "https://i.pinimg.com/474x/90/1e/6c/901e6c64c3f87d3ccde2e5f9a44b4342.jpg",
-        price: 75,
-        quantity: 3,
-      },
-    ],
-  },
-  {
-    id: "ORD123458",
-    paymentMethod: "COD",
-    orderDate: "2024-03-24T08:00:00Z",
-    status: "CONFIRMED",
-    vouchers: ["FREESHIP"],
-    items: [
-      {
-        lemooSku: "SKU004",
-        image:
-          "https://i.pinimg.com/736x/57/e4/7b/57e47b709e0ea9d81a0a6f27b326bb27.jpg",
-        price: 120,
-        quantity: 1,
-      },
-      {
-        lemooSku: "SKU005",
-        image:
-          "https://i.pinimg.com/736x/1b/20/52/1b20520d29cfa685f23dc07934e0bae3.jpg",
-        price: 200,
-        quantity: 2,
-      },
-    ],
-  },
-  {
-    id: "ORD123459",
-    paymentMethod: "COD",
-    orderDate: "2024-03-24T08:00:00Z",
-    status: "CONFIRMED",
-    vouchers: ["FREESHIP"],
-    items: [
-      {
-        lemooSku: "SKU006",
-        image:
-          "https://i.pinimg.com/736x/6e/8e/05/6e8e058ed83422f2f885fdff27be8062.jpg",
-        price: 120,
-        quantity: 1,
-      },
-      {
-        lemooSku: "SKU007",
-        image:
-          "https://i.pinimg.com/736x/5a/5e/10/5a5e10cf35c07da59ba1733d2cb75277.jpg",
-        price: 200,
-        quantity: 2,
-      },
-    ],
-  },
-];
+import toast from "react-hot-toast";
+
+//   {
+//     id: "ORD123456",
+//     paymentMethod: "CREDIT_CARD",
+//     orderDate: "2024-03-26T14:30:00Z",
+//     status: "DELIVERED",
+//     vouchers: ["DISCOUNT10"],
+//     items: [
+//       {
+//         lemooSku: "SKU001",
+//         image:
+//           "https://i.pinimg.com/736x/dd/73/dc/dd73dcfae5dbe8ebefc548943ac1695a.jpg",
+//         price: 100,
+//         quantity: 2,
+//       },
+//       {
+//         lemooSku: "SKU002",
+//         image:
+//           "https://i.pinimg.com/736x/35/e0/3d/35e03d1b5e39b16b7fc1dc55e580544f.jpg",
+//         price: 50,
+//         quantity: 1,
+//       },
+//     ],
+//   },
+//   {
+//     id: "ORD123457",
+//     paymentMethod: "PAYPAL",
+//     orderDate: "2024-03-25T10:15:00Z",
+//     status: "PENDING",
+//     vouchers: ["ưu đãi ngập tràn tháng 3"],
+//     items: [
+//       {
+//         lemooSku: "SKU003",
+//         image:
+//           "https://i.pinimg.com/474x/90/1e/6c/901e6c64c3f87d3ccde2e5f9a44b4342.jpg",
+//         price: 75,
+//         quantity: 3,
+//       },
+//     ],
+//   },
+//   {
+//     id: "ORD123458",
+//     paymentMethod: "COD",
+//     orderDate: "2024-03-24T08:00:00Z",
+//     status: "CONFIRMED",
+//     vouchers: ["FREESHIP"],
+//     items: [
+//       {
+//         lemooSku: "SKU004",
+//         image:
+//           "https://i.pinimg.com/736x/57/e4/7b/57e47b709e0ea9d81a0a6f27b326bb27.jpg",
+//         price: 120,
+//         quantity: 1,
+//       },
+//       {
+//         lemooSku: "SKU005",
+//         image:
+//           "https://i.pinimg.com/736x/1b/20/52/1b20520d29cfa685f23dc07934e0bae3.jpg",
+//         price: 200,
+//         quantity: 2,
+//       },
+//     ],
+//   },
+//   {
+//     id: "ORD123459",
+//     paymentMethod: "COD",
+//     orderDate: "2024-03-24T08:00:00Z",
+//     status: "CONFIRMED",
+//     vouchers: ["FREESHIP"],
+//     items: [
+//       {
+//         lemooSku: "SKU006",
+//         image:
+//           "https://i.pinimg.com/736x/6e/8e/05/6e8e058ed83422f2f885fdff27be8062.jpg",
+//         price: 120,
+//         quantity: 1,
+//       },
+//       {
+//         lemooSku: "SKU007",
+//         image:
+//           "https://i.pinimg.com/736x/5a/5e/10/5a5e10cf35c07da59ba1733d2cb75277.jpg",
+//         price: 200,
+//         quantity: 2,
+//       },
+//     ],
+//   },
+// ];
 
 const OrderTable = ({ status }: { status: string }) => {
   const storeId = JSON.parse(sessionStorage.getItem("storeInfo") || "{}");
+
   console.log("storeId", storeId);
   const { data } = useQuery({
     queryKey: ["orders"],
-    queryFn: async () => await getAllOrder(storeId.id),
+    queryFn: async () => await getAllOrder(storeId.id, status),
   });
-  console.log("Order list", data);
-  const [orderList, setOrderList] = useState(orders);
+
+  console.log("Danh Sách Order", data);
 
   const updateOrderStatus = async (id: string, action: OrderAction) => {
     // Gọi API để cập nhật trạng thái đơn hàng
     const respones = await handleOrderAction(id, storeId.id, action);
     console.log("Update order response", respones);
-    setOrderList((prevOrders) =>
-      prevOrders.map((order) =>
-        order.id === id ? { ...order, status: action } : order
-      )
-    );
+    if (respones) {
+      toast.success("Cập nhật trạng thái đơn hàng thành công");
+    } else {
+      console.error("Failed to update order status", respones);
+    }
   };
-
-  const filteredOrders = orderList.filter((order) => order.status === status);
 
   return (
     <Table>
@@ -142,7 +141,7 @@ const OrderTable = ({ status }: { status: string }) => {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {filteredOrders.map((order) => (
+        {data?.content?.map((order) => (
           <>
             <div className="flex items-center justify-center space-x-3 p-2 m-2 border rounded-lg">
               <h1 className="font-semibold">Mã đơn hàng: </h1>
@@ -190,13 +189,34 @@ const OrderTable = ({ status }: { status: string }) => {
                   <TableCell>
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
-                        <Button variant="outline">đã đóng gói</Button>
+                        <Button variant="outline">xác nhận</Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent>
                         <DropdownMenuItem
                           onClick={() => updateOrderStatus(order.id, "packed")}
                         >
-                          Đã ship đi
+                          Đã đóng gói
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                          onClick={() => updateOrderStatus(order.id, "cancel")}
+                        >
+                          Từ chối
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </TableCell>
+                )}
+                {status === "PACKED" && (
+                  <TableCell>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="outline">xác nhận</Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent>
+                        <DropdownMenuItem
+                          onClick={() => updateOrderStatus(order.id, "packed")}
+                        >
+                          Đã ship
                         </DropdownMenuItem>
                         <DropdownMenuItem
                           onClick={() => updateOrderStatus(order.id, "cancel")}

@@ -7,6 +7,7 @@
 
 package com.lemoo.order_v2.dto.response;
 
+import com.lemoo.order_v2.common.enums.OrderStatus;
 import com.lemoo.order_v2.common.enums.PaymentMethod;
 import lombok.Builder;
 import lombok.Data;
@@ -22,5 +23,8 @@ public class OrderResponse {
     private Long total;
     private ShippingAddressResponse shippingAddress;
     private PaymentMethod paymentMethod;
-    private LocalDateTime createdAt;
+    private OrderStatus status;
+    private LocalDateTime orderDate;
+    private String storeId;
+    private Set<String> vouchers;
 }

@@ -8,9 +8,11 @@
 package com.lemoo.shipping.service.impl;
 
 import com.lemoo.shipping.client.GhnClient;
+import com.lemoo.shipping.dto.common.AuthenticatedAccount;
 import com.lemoo.shipping.dto.common.ShippingOrderItem;
 import com.lemoo.shipping.dto.request.NewShippingOrderRequest;
 import com.lemoo.shipping.dto.response.GhnShippingOrderResponse;
+import com.lemoo.shipping.dto.response.ShippingOrderResponse;
 import com.lemoo.shipping.dto.response.SkuResponse;
 import com.lemoo.shipping.dto.response.UserResponse;
 import com.lemoo.shipping.entity.ShippingAddress;
@@ -25,7 +27,6 @@ import com.lemoo.shipping.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Set;
 
@@ -39,6 +40,13 @@ public class ShippingServiceImpl implements ShippingService {
     private final GhnClient ghnClient;
     private final ShippingOrderMapper shippingOrderMapper;
     private final ShippingOrderRepository shippingOrderRepository;
+
+    @Override
+    public ShippingOrderResponse getShippingOrderByOrderId(String orderId, AuthenticatedAccount account) {
+        ShippingOrder shippingOrder = shippingOrderRepository.findByOrderIdAndUserId(orderId, account.getUserId())
+                .orElseThrow(() -> new NotfoundException("Shipping order not found"));
+        return shippingOrderMapper.toShippingOrderResponse(shippingOrder);
+    }
 
     @Override
     public void createShippingOrder(
@@ -64,6 +72,7 @@ public class ShippingServiceImpl implements ShippingService {
                 .to_name(shippingAddress.getRecipientName())
                 .to_phone(shippingAddress.getRecipientPhone())
                 .name("Order number: " + orderId)
+                .client_order_code(orderId)
                 .quantity(skus.values().stream().mapToInt(Integer::intValue).sum())
                 .service_type_id(2)
                 .payment_type_id(2)
@@ -93,12 +102,12 @@ public class ShippingServiceImpl implements ShippingService {
                 ).toList())
                 .build();
 
-        GhnShippingOrderResponse ghnShippingOrderResponse = ghnClient.createShippingOrder(shippingOrderRequest);
-
-        ShippingOrder shippingOrder = shippingOrderMapper.toShippingOrder(ghnShippingOrderResponse);
+        ghnClient.createShippingOrder(shippingOrderRequest);
+        GhnShippingOrderResponse shippingOrderResponse = ghnClient.getShippingOrderByClientCode(orderId);
+        ShippingOrder shippingOrder = shippingOrderMapper.toShippingOrder(shippingOrderResponse);
         shippingOrder.setOrderId(orderId);
         shippingOrder.setUserId(userId);
-        shippingOrder.setExpectedDeliveryTime(LocalDateTime.parse(ghnShippingOrderResponse.getData().getExpected_delivery_time()));
+
         shippingOrderRepository.save(shippingOrder);
     }
 }

@@ -33,5 +33,6 @@ public class NewShippingOrderRequest {
     private String required_note;
     private String name;
     private int quantity;
+    private String client_order_code;
     private List<ShippingOrderItem> items;
 }

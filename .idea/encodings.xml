@@ -32,5 +32,6 @@
     <file url="file://$PROJECT_DIR$/deployment-private/k8s/app/shipping-deployment.yaml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/deployment-private/k8s/database/product-db.yaml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/deployment-private/k8s/database/promotion-db.yaml" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/env/shipping-service.env" charset="UTF-8" />
   </component>
 </project>

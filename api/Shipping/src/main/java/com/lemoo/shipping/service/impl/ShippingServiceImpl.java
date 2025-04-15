@@ -11,7 +11,6 @@ import com.lemoo.shipping.client.GhnClient;
 import com.lemoo.shipping.dto.common.AuthenticatedAccount;
 import com.lemoo.shipping.dto.common.ShippingOrderItem;
 import com.lemoo.shipping.dto.request.NewShippingOrderRequest;
-import com.lemoo.shipping.dto.response.GhnShippingOrderResponse;
 import com.lemoo.shipping.dto.response.ShippingOrderResponse;
 import com.lemoo.shipping.dto.response.SkuResponse;
 import com.lemoo.shipping.dto.response.UserResponse;
@@ -111,13 +110,14 @@ public class ShippingServiceImpl implements ShippingService {
 
     private ShippingOrder updateShippingOrder(String orderId, String userId) {
         // TODO: Handle cache ghn response for this function
-        GhnShippingOrderResponse shippingOrderResponse = ghnClient.getShippingOrderByClientCode(orderId);
-        ShippingOrder shippingOrder = shippingOrderRepository.findByOrderIdAndUserId(orderId, userId)
-                .orElse(shippingOrderMapper.toShippingOrder(shippingOrderResponse));
-        shippingOrderMapper.updateShippingOrder(shippingOrderResponse, shippingOrder);
-        shippingOrder.setOrderId(orderId);
-        shippingOrder.setUserId(userId);
-        
-        return shippingOrderRepository.save(shippingOrder);
+        Object shippingOrderResponse = ghnClient.getShippingOrderByClientCode(orderId);
+        System.out.println("shippingOrderResponse = " + shippingOrderResponse);
+//        ShippingOrder shippingOrder = shippingOrderRepository.findByOrderIdAndUserId(orderId, userId)
+//                .orElse(shippingOrderMapper.toShippingOrder(shippingOrderResponse));
+//        shippingOrderMapper.updateShippingOrder(shippingOrderResponse, shippingOrder);
+//        shippingOrder.setOrderId(orderId);
+//        shippingOrder.setUserId(userId);
+//        shippingOrderRepository.save(shippingOrder);
+        return null;
     }
 }

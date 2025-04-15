@@ -7,24 +7,31 @@
 
 package com.lemoo.shipping.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
 import java.util.Set;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class GhnShippingOrderResponse {
     private ApiData data;
+    private Integer code;
+    private String message;
 
     @Data
+    @JsonIgnoreProperties(ignoreUnknown = true)
     public static class ApiData {
         private String content;
         private String order_code;
         private String status;
-        private LocalDateTime order_date;
-        private LocalDateTime finish_date;
-        private LocalDateTime pickup_time;
-        private LocalDateTime leadtime;
+        private String order_date;
+        private String finish_date;
+        private String pickup_time;
+        private String leadtime;
         private LeadtimeOrder leadtime_order;
         private Set<Log> logs;
         private Long cod_amount;

@@ -17,7 +17,7 @@ public class GhnShippingOrderResponse {
     private ApiData data;
 
     @Data
-    static class ApiData {
+    public static class ApiData {
         private String content;
         private String order_code;
         private String status;
@@ -31,7 +31,7 @@ public class GhnShippingOrderResponse {
     }
 
     @Data
-    static class LeadtimeOrder {
+    public static class LeadtimeOrder {
         private String from_estimate_date;
         private String to_estimate_date;
         private String picked_date;

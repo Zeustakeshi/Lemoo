@@ -12,16 +12,19 @@ import com.lemoo.order_v2.common.enums.PaymentMethod;
 import com.lemoo.order_v2.dto.common.AuthenticatedAccount;
 import com.lemoo.order_v2.dto.request.OrderRequest;
 import com.lemoo.order_v2.dto.request.OrderSkuRequest;
+import com.lemoo.order_v2.dto.response.OrderResponse;
+import com.lemoo.order_v2.dto.response.PageableResponse;
 import com.lemoo.order_v2.dto.response.ShippingAddressResponse;
 import com.lemoo.order_v2.dto.response.SkuResponse;
 import com.lemoo.order_v2.entity.Order;
 import com.lemoo.order_v2.entity.OrderItem;
 import com.lemoo.order_v2.entity.ShippingAddress;
 import com.lemoo.order_v2.event.model.ApplyVoucherEvent;
-import com.lemoo.order_v2.event.producer.ProductProducer;
 import com.lemoo.order_v2.event.producer.PromotionProducer;
 import com.lemoo.order_v2.exception.BadRequestException;
 import com.lemoo.order_v2.exception.NotfoundException;
+import com.lemoo.order_v2.mapper.OrderMapper;
+import com.lemoo.order_v2.mapper.PageMapper;
 import com.lemoo.order_v2.mapper.ShippingAddressMapper;
 import com.lemoo.order_v2.repository.OrderRepository;
 import com.lemoo.order_v2.service.OrderService;
@@ -29,6 +32,8 @@ import com.lemoo.order_v2.service.PromotionService;
 import com.lemoo.order_v2.service.ShippingAddressService;
 import com.lemoo.order_v2.service.SkuService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,8 +53,16 @@ public class OrderServiceImpl implements OrderService {
     private final SkuService skuService;
     private final PromotionService promotionService;
     private final PromotionProducer promotionProducer;
-    private final ProductProducer productProducer;
+    private final OrderMapper orderMapper;
+    private final PageMapper pageMapper;
 
+    @Override
+    public PageableResponse<OrderResponse> getAllOrders(AuthenticatedAccount account, int page, int limit) {
+        PageRequest pageRequest = PageRequest.of(page, limit);
+        Page<Order> orders = orderRepository.findAllByUserId(account.getUserId(), pageRequest);
+        Page<OrderResponse> orderItemResponses = orders.map(orderMapper::toOrderResponse);
+        return pageMapper.toPageableResponse(orderItemResponses);
+    }
 
     @Override
     @Transactional

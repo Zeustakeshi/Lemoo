@@ -15,6 +15,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Data
@@ -27,7 +28,9 @@ public class ShippingOrderResponse {
     private Long totalAmount;
     private String orderId;
     private String shippingAddressId;
-    private Set<ShippingOrderLog> logs;
+    
+    @Builder.Default
+    private Set<ShippingOrderLog> logs = new HashSet<>();
     private ShippingOrder.LeadtimeOrder leadtimeOrder;
     private ShippingOrderStatus status;
 }

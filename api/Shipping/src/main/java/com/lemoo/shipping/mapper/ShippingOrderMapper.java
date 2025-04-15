@@ -11,9 +11,7 @@ import com.lemoo.shipping.dto.response.GhnShippingOrderResponse;
 import com.lemoo.shipping.dto.response.ShippingOrderResponse;
 import com.lemoo.shipping.entity.ShippingOrder;
 import com.lemoo.shipping.entity.ShippingOrderLog;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Named;
+import org.mapstruct.*;
 
 @Mapper
 public interface ShippingOrderMapper {
@@ -34,8 +32,23 @@ public interface ShippingOrderMapper {
     @Mapping(target = "totalFee", ignore = true)
     @Mapping(target = "orderId", ignore = true)
     @Mapping(target = "userId", ignore = true)
-    @Mapping(target = "shippingAddressId", ignore = true)
     ShippingOrder toShippingOrder(GhnShippingOrderResponse ghnShippingOrderResponse);
+
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    @Mapping(source = "data.content", target = "content")
+    @Mapping(source = "data.order_code", target = "shippingOrderCode")
+    @Mapping(source = "data.cod_amount", target = "codAmount")
+    @Mapping(source = "data.order_date", target = "orderDate")
+    @Mapping(source = "data.finish_date", target = "finishDate")
+    @Mapping(source = "data.pickup_time", target = "pickupTime")
+    @Mapping(source = "data.leadtime_order", target = "leadtimeOrder")
+    @Mapping(source = "data.logs", target = "logs")
+    @Mapping(source = "data.leadtime", target = "expectedDeliveryTime")
+    @Mapping(source = "data.status", target = "status", qualifiedByName = "mapStatus")
+    @Mapping(target = "totalFee", ignore = true)
+    @Mapping(target = "orderId", ignore = true)
+    @Mapping(target = "userId", ignore = true)
+    void updateShippingOrder(GhnShippingOrderResponse shippingOrderResponse, @MappingTarget ShippingOrder shippingOrder);
 
     @Named("mapStatus")
     default ShippingOrderStatus mapStatus(String status) {
@@ -44,5 +57,6 @@ public interface ShippingOrderMapper {
 
     @Mapping(source = "trip_code", target = "tripCode")
     @Mapping(source = "updated_date", target = "updatedDate")
+    @Mapping(source = "status", target = "status", qualifiedByName = "mapStatus")
     ShippingOrderLog toShippingOrderLog(GhnShippingOrderResponse.Log log);
 }

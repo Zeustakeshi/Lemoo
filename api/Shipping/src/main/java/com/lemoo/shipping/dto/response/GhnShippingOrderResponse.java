@@ -33,7 +33,7 @@ public class GhnShippingOrderResponse {
         private String pickup_time;
         private String leadtime;
         private LeadtimeOrder leadtime_order;
-        private Set<Log> logs;
+        private Set<Log> log;
         private Long cod_amount;
     }
 

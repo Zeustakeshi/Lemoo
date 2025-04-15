@@ -21,6 +21,8 @@ import { Route as homeIndexImport } from './routes/(home)/index'
 import { Route as StoreLayoutImport } from './routes/store/_layout'
 import { Route as ProductsProductIdImport } from './routes/products/$productId'
 import { Route as CustomerUpdateaddressImport } from './routes/customer/update_address'
+import { Route as OrderMyOrderIndexImport } from './routes/order/my-order/index'
+import { Route as OrderTrackingOrderIdImport } from './routes/order/tracking/$orderId'
 import { Route as StoreLayoutStoreIdIndexImport } from './routes/store/_layout.$storeId/index'
 import { Route as StoreLayoutStoreIdPromotionsIndexImport } from './routes/store/_layout.$storeId/promotions/index'
 import { Route as StoreLayoutStoreIdProductsIndexImport } from './routes/store/_layout.$storeId/products/index'
@@ -81,6 +83,18 @@ const ProductsProductIdRoute = ProductsProductIdImport.update({
 const CustomerUpdateaddressRoute = CustomerUpdateaddressImport.update({
   id: '/customer/update_address',
   path: '/customer/update_address',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const OrderMyOrderIndexRoute = OrderMyOrderIndexImport.update({
+  id: '/order/my-order/',
+  path: '/order/my-order/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const OrderTrackingOrderIdRoute = OrderTrackingOrderIdImport.update({
+  id: '/order/tracking/$orderId',
+  path: '/order/tracking/$orderId',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -171,6 +185,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SearchIndexImport
       parentRoute: typeof rootRoute
     }
+    '/order/tracking/$orderId': {
+      id: '/order/tracking/$orderId'
+      path: '/order/tracking/$orderId'
+      fullPath: '/order/tracking/$orderId'
+      preLoaderRoute: typeof OrderTrackingOrderIdImport
+      parentRoute: typeof rootRoute
+    }
+    '/order/my-order/': {
+      id: '/order/my-order/'
+      path: '/order/my-order'
+      fullPath: '/order/my-order'
+      preLoaderRoute: typeof OrderMyOrderIndexImport
+      parentRoute: typeof rootRoute
+    }
     '/store/_layout/$storeId/': {
       id: '/store/_layout/$storeId/'
       path: '/$storeId'
@@ -233,6 +261,8 @@ export interface FileRoutesByFullPath {
   '/customer': typeof CustomerIndexRoute
   '/order': typeof OrderIndexRoute
   '/search': typeof SearchIndexRoute
+  '/order/tracking/$orderId': typeof OrderTrackingOrderIdRoute
+  '/order/my-order': typeof OrderMyOrderIndexRoute
   '/store/$storeId': typeof StoreLayoutStoreIdIndexRoute
   '/store/$storeId/products': typeof StoreLayoutStoreIdProductsIndexRoute
   '/store/$storeId/promotions': typeof StoreLayoutStoreIdPromotionsIndexRoute
@@ -247,6 +277,8 @@ export interface FileRoutesByTo {
   '/customer': typeof CustomerIndexRoute
   '/order': typeof OrderIndexRoute
   '/search': typeof SearchIndexRoute
+  '/order/tracking/$orderId': typeof OrderTrackingOrderIdRoute
+  '/order/my-order': typeof OrderMyOrderIndexRoute
   '/store/$storeId': typeof StoreLayoutStoreIdIndexRoute
   '/store/$storeId/products': typeof StoreLayoutStoreIdProductsIndexRoute
   '/store/$storeId/promotions': typeof StoreLayoutStoreIdPromotionsIndexRoute
@@ -263,6 +295,8 @@ export interface FileRoutesById {
   '/customer/': typeof CustomerIndexRoute
   '/order/': typeof OrderIndexRoute
   '/search/': typeof SearchIndexRoute
+  '/order/tracking/$orderId': typeof OrderTrackingOrderIdRoute
+  '/order/my-order/': typeof OrderMyOrderIndexRoute
   '/store/_layout/$storeId/': typeof StoreLayoutStoreIdIndexRoute
   '/store/_layout/$storeId/products/': typeof StoreLayoutStoreIdProductsIndexRoute
   '/store/_layout/$storeId/promotions/': typeof StoreLayoutStoreIdPromotionsIndexRoute
@@ -279,6 +313,8 @@ export interface FileRouteTypes {
     | '/customer'
     | '/order'
     | '/search'
+    | '/order/tracking/$orderId'
+    | '/order/my-order'
     | '/store/$storeId'
     | '/store/$storeId/products'
     | '/store/$storeId/promotions'
@@ -292,6 +328,8 @@ export interface FileRouteTypes {
     | '/customer'
     | '/order'
     | '/search'
+    | '/order/tracking/$orderId'
+    | '/order/my-order'
     | '/store/$storeId'
     | '/store/$storeId/products'
     | '/store/$storeId/promotions'
@@ -306,6 +344,8 @@ export interface FileRouteTypes {
     | '/customer/'
     | '/order/'
     | '/search/'
+    | '/order/tracking/$orderId'
+    | '/order/my-order/'
     | '/store/_layout/$storeId/'
     | '/store/_layout/$storeId/products/'
     | '/store/_layout/$storeId/promotions/'
@@ -321,6 +361,8 @@ export interface RootRouteChildren {
   CustomerIndexRoute: typeof CustomerIndexRoute
   OrderIndexRoute: typeof OrderIndexRoute
   SearchIndexRoute: typeof SearchIndexRoute
+  OrderTrackingOrderIdRoute: typeof OrderTrackingOrderIdRoute
+  OrderMyOrderIndexRoute: typeof OrderMyOrderIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -332,6 +374,8 @@ const rootRouteChildren: RootRouteChildren = {
   CustomerIndexRoute: CustomerIndexRoute,
   OrderIndexRoute: OrderIndexRoute,
   SearchIndexRoute: SearchIndexRoute,
+  OrderTrackingOrderIdRoute: OrderTrackingOrderIdRoute,
+  OrderMyOrderIndexRoute: OrderMyOrderIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -351,7 +395,9 @@ export const routeTree = rootRoute
         "/cart/",
         "/customer/",
         "/order/",
-        "/search/"
+        "/search/",
+        "/order/tracking/$orderId",
+        "/order/my-order/"
       ]
     },
     "/customer/update_address": {
@@ -389,6 +435,12 @@ export const routeTree = rootRoute
     },
     "/search/": {
       "filePath": "search/index.tsx"
+    },
+    "/order/tracking/$orderId": {
+      "filePath": "order/tracking/$orderId.tsx"
+    },
+    "/order/my-order/": {
+      "filePath": "order/my-order/index.tsx"
     },
     "/store/_layout/$storeId/": {
       "filePath": "store/_layout.$storeId/index.tsx",

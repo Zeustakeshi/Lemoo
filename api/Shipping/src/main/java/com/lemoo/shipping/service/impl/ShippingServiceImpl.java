@@ -110,7 +110,7 @@ public class ShippingServiceImpl implements ShippingService {
 
     private ShippingOrder updateShippingOrder(String orderId, String userId) {
         // TODO: Handle cache ghn response for this function
-        Object shippingOrderResponse = ghnClient.getShippingOrderByClientCode(orderId);
+         Object shippingOrderResponse = ghnClient.getShippingOrderByClientCode(orderId);
         System.out.println("shippingOrderResponse = " + shippingOrderResponse);
 //        ShippingOrder shippingOrder = shippingOrderRepository.findByOrderIdAndUserId(orderId, userId)
 //                .orElse(shippingOrderMapper.toShippingOrder(shippingOrderResponse));

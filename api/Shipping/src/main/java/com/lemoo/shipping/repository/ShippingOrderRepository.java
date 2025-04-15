@@ -15,4 +15,6 @@ import java.util.Optional;
 @Repository
 public interface ShippingOrderRepository extends MongoRepository<ShippingOrder, String> {
     Optional<ShippingOrder> findByOrderIdAndUserId(String orderId, String userId);
+
+    boolean existsByOrderIdAndUserId(String orderId, String userId);
 }

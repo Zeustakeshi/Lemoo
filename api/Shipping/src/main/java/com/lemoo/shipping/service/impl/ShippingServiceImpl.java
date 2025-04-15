@@ -43,8 +43,10 @@ public class ShippingServiceImpl implements ShippingService {
 
     @Override
     public ShippingOrderResponse getShippingOrderByOrderId(String orderId, AuthenticatedAccount account) {
-        ShippingOrder shippingOrder = shippingOrderRepository.findByOrderIdAndUserId(orderId, account.getUserId())
-                .orElseThrow(() -> new NotfoundException("Shipping order not found"));
+        if (!shippingOrderRepository.existsByOrderIdAndUserId(orderId, account.getUserId())) {
+            throw new NotfoundException("Shipping order not found");
+        }
+        ShippingOrder shippingOrder = updateShippingOrder(orderId, account.getUserId());
         return shippingOrderMapper.toShippingOrderResponse(shippingOrder);
     }
 
@@ -103,11 +105,16 @@ public class ShippingServiceImpl implements ShippingService {
                 .build();
 
         ghnClient.createShippingOrder(shippingOrderRequest);
+
+        updateShippingOrder(orderId, userId);
+    }
+
+    private ShippingOrder updateShippingOrder(String orderId, String userId) {
+        // TODO: Handle cache ghn response for this function
         GhnShippingOrderResponse shippingOrderResponse = ghnClient.getShippingOrderByClientCode(orderId);
         ShippingOrder shippingOrder = shippingOrderMapper.toShippingOrder(shippingOrderResponse);
         shippingOrder.setOrderId(orderId);
         shippingOrder.setUserId(userId);
-
-        shippingOrderRepository.save(shippingOrder);
+        return shippingOrderRepository.save(shippingOrder);
     }
 }

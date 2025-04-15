@@ -10,7 +10,6 @@ package com.lemoo.shipping.client;
 import com.lemoo.shipping.config.GhnRequestInterceptor;
 import com.lemoo.shipping.dto.request.NewShippingOrderRequest;
 import com.lemoo.shipping.dto.response.GhnApiResponse;
-import com.lemoo.shipping.dto.response.GhnShippingOrderResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,7 +27,7 @@ import java.util.List;
 public interface GhnClient {
 
     @GetMapping("/v2/shipping-order/detail-by-client-code")
-    GhnShippingOrderResponse getShippingOrderByClientCode(@RequestParam("client_order_code") String clientCode);
+    Object getShippingOrderByClientCode(@RequestParam("client_order_code") String clientCode);
 
     @PostMapping("/v2/shipping-order/create")
     void createShippingOrder(@RequestBody NewShippingOrderRequest request);

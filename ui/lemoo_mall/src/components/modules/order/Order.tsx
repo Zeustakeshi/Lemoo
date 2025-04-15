@@ -136,7 +136,8 @@ const Order = () => {
       vouchers: [], // Hiện tại chưa có logic lấy voucher, để mảng rỗng
       skus: skus.map((sku) => ({
         lemooSku: sku.lemooSku,
-        quantity: sku.quantity,
+        quantity: products.item.find((item) => item.lemooSku === sku.lemooSku)
+          ?.quantity,
       })),
     }));
 
@@ -149,11 +150,12 @@ const Order = () => {
 
     try {
       const responseOrder = await api.post<OrderType>("/orders", dataOrder);
-      console.log("Phản hồi từ API:", responseOrder);
+
       toast.success(
         "Đặt hàng thành công!, đơn hàng sẽ sớm được giao cho đơn vị vận chuyển."
       );
     } catch (error) {
+      toast.error("Hãy kiểm tra lại thông tin đơn hàng và thử lại.");
       console.error("Error placing order:", error);
     }
   };

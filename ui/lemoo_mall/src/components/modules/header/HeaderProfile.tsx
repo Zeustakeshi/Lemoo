@@ -64,9 +64,13 @@ const HeaderProfile = ({}: Props) => {
                             <Heart />
                             <span>Sản phẩm yêu thích</span>
                         </DropdownMenuItem>
-                        <DropdownMenuItem>
+                        <DropdownMenuItem
+                            onClick={() =>
+                                router.navigate({ to: "/order/my-order" })
+                            }
+                        >
                             <Truck />
-                            <span>Tra cứu đơn hàng</span>
+                            <span>Đơn hàng của tôi</span>
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
                     </DropdownMenuGroup>

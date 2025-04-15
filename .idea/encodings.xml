@@ -9,7 +9,6 @@
     <file url="file://$PROJECT_DIR$/api/Auth/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/api/Auth/src/main/resources/application.yml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/api/Chat/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/api/Chats/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/api/Gateway/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/api/Media/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/api/Notification/src/main/java" charset="UTF-8" />
@@ -22,18 +21,16 @@
     <file url="file://$PROJECT_DIR$/api/Shipping/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/api/Shipping/src/main/resources/application.yml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/api/Shipping/src/test/java/com/lemoo/shipping/ShippingApplicationTests.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/api/Shipping/target/generated-sources/annotations/com/lemoo/shipping/mapper/ShippingOrderMapperImpl.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/api/Socket/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/api/Store/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/api/User/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/api/User/src/main/resources/application.yml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/api/Video/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/api/Voucher/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/deployment-private/k8s/app/order-deployment.yaml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/deployment-private/k8s/app/promotion-deployment.yaml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/deployment-private/k8s/app/shipping-deployment.yaml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/deployment-private/k8s/database/product-db.yaml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/deployment-private/k8s/database/promotion-db.yaml" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/env/auth-service.env" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/env/shipping-service.env" charset="UTF-8" />
   </component>
 </project>

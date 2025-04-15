@@ -11,6 +11,7 @@ import com.lemoo.shipping.client.GhnClient;
 import com.lemoo.shipping.dto.common.AuthenticatedAccount;
 import com.lemoo.shipping.dto.common.ShippingOrderItem;
 import com.lemoo.shipping.dto.request.NewShippingOrderRequest;
+import com.lemoo.shipping.dto.response.GhnShippingOrderResponse;
 import com.lemoo.shipping.dto.response.ShippingOrderResponse;
 import com.lemoo.shipping.dto.response.SkuResponse;
 import com.lemoo.shipping.dto.response.UserResponse;

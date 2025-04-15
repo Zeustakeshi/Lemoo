@@ -13,10 +13,15 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
+import java.util.Set;
 
 @Repository
 public interface CartItemRepository extends MongoRepository<CartItem, String> {
+    Optional<CartItem> findByIdAndUserId(String id, String userId);
+
     Optional<CartItem> findByUserIdAndSkuCode(String userId, String skuCode);
+
+    Set<CartItem> findByUserIdAndSkuCodeIn(String userId, Set<String> skuCodes);
 
     Page<CartItem> findAllByUserId(String userId, Pageable pageable);
 }

@@ -24,6 +24,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
 @Service
@@ -71,6 +72,19 @@ public class CartItemServiceImpl implements CartItemService {
         cartItemRepository.save(cartItem);
 
         return cartItem.getId();
+    }
+
+    @Override
+    public void removeCartItemBySkuCodes(String userId, Set<String> skuCodes) {
+        Set<CartItem> cartItems = cartItemRepository.findByUserIdAndSkuCodeIn(userId, skuCodes);
+        cartItemRepository.deleteAll(cartItems);
+    }
+
+    @Override
+    public void removeCartItemById(String cartItemId, AuthenticatedAccount account) {
+        CartItem cartItem = cartItemRepository.findByIdAndUserId(cartItemId, account.getUserId())
+                .orElseThrow(() -> new NotfoundException("Cart item not found!"));
+        cartItemRepository.delete(cartItem);
     }
 
     @Override

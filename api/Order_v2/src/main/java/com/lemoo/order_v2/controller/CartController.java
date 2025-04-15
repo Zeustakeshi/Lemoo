@@ -24,6 +24,15 @@ import org.springframework.web.bind.annotation.*;
 public class CartController {
     private final CartItemService cartItemService;
 
+    @DeleteMapping("/{cartItemId}")
+    public ApiResponse<String> removeCartItem(
+            @AuthenticationPrincipal AuthenticatedAccount account,
+            @PathVariable("cartItemId") String cartItemId
+    ) {
+        cartItemService.removeCartItemById(cartItemId, account);
+        return ApiResponse.success("Cart item has been successfully deleted.");
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ApiResponse<String> addSkuToCart(

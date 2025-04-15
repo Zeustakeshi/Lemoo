@@ -11,7 +11,6 @@ import com.lemoo.shipping.client.GhnClient;
 import com.lemoo.shipping.dto.common.AuthenticatedAccount;
 import com.lemoo.shipping.dto.common.ShippingOrderItem;
 import com.lemoo.shipping.dto.request.NewShippingOrderRequest;
-import com.lemoo.shipping.dto.response.GhnShippingOrderResponse;
 import com.lemoo.shipping.dto.response.ShippingOrderResponse;
 import com.lemoo.shipping.dto.response.SkuResponse;
 import com.lemoo.shipping.dto.response.UserResponse;
@@ -119,7 +118,6 @@ public class ShippingServiceImpl implements ShippingService {
         shippingOrderMapper.updateShippingOrder(shippingOrderResponse, shippingOrder);
         shippingOrder.setOrderId(orderId);
         shippingOrder.setUserId(userId);
-        shippingOrderRepository.save(shippingOrder);
-        return null;
+        return shippingOrderRepository.save(shippingOrder);
     }
 }

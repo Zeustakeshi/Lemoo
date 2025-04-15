@@ -16,5 +16,6 @@ import lombok.*;
 @Data
 public class ProductReserveResultEvent extends Event {
     private String orderId;
+    private String userId;
     private String message;
 }

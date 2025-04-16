@@ -13,6 +13,7 @@ import com.lemoo.product.event.eventModel.ProductEvaluationNotificationEvent;
 import com.lemoo.product.event.producer.ProductEvaluationProducer;
 import com.lemoo.product.exception.NotfoundException;
 import com.lemoo.product.repository.ProductRepository;
+import com.lemoo.product.service.ProductAnalysisService;
 import com.lemoo.product.service.ProductEvaluationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,7 @@ public class ProductEvaluationServiceImpl implements ProductEvaluationService {
 
     private final ProductEvaluationProducer productEvaluationProducer;
     private final ProductRepository productRepository;
+    private final ProductAnalysisService productAnalysisService;
 
     @Override
     public void handleEvaluationSuccess(String productId, Integer score, String note) {
@@ -44,6 +46,8 @@ public class ProductEvaluationServiceImpl implements ProductEvaluationService {
                 .storeId(product.getStoreId())
                 .productName(product.getName())
                 .build());
+
+        productAnalysisService.analyzeProduct(product);
     }
 
     @Override

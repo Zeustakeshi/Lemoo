@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding" defaultCharsetForPropertiesFiles="UTF-8">
+    <file url="file://$PROJECT_DIR$/event/BaseEvent.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/event/ProductAnalysisEvent.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/event/ProductAnalysisResultEvent.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/handler/product_analysis_handler.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/helper/embedding_helper.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/helper/vector_store_helper.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/main.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/producer/product_producer.py" charset="UTF-8" />
+    <file url="PROJECT" charset="UTF-8" />
+  </component>
+</project>

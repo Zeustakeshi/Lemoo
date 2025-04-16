@@ -274,7 +274,7 @@
     "Spring Boot.VideoApplication.executor": "Run",
     "database.data.extractors.current.export.id": "JSON-Groovy.json.groovy",
     "extract.method.default.visibility": "private",
-    "git-widget-placeholder": "dev",
+    "git-widget-placeholder": "fix/api/product-analysis-worker/fix-project-dependency",
     "ignore.virus.scanning.warn.message": "true",
     "jdk.selected.JAVA_MODULE": "jbrsdk-17",
     "kotlin-language-version-configured": "true",
@@ -974,6 +974,7 @@
       <workItem from="1744774702241" duration="65000" />
       <workItem from="1744778160491" duration="976000" />
       <workItem from="1744783200716" duration="12000" />
+      <workItem from="1744784308655" duration="83000" />
     </task>
     <task id="LOCAL-00001" summary="Create Cart entities&#10;Create Cart, CartItem, CartItemSku, CartItemPromotion entity">
       <option name="closed" value="true" />

@@ -4,94 +4,1147 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e497bfdc-cb36-41df-9637-902bd5f4ac6f" name="Changes" comment="" />
+    <list default="true" id="8511a043-84fa-4453-aa98-86e4a52287ca" name="Changes" comment="Ensures shipping order exists before retrieval&#10;&#10;Checks for the existence of a shipping order before attempting to retrieve it, preventing potential errors and improving data integrity.&#10;&#10;Also, refactors the shipping order retrieval process to update and persist the shipping order information whenever it is accessed, ensuring that the data is always up-to-date.">
+      <change beforePath="$PROJECT_DIR$/api/Product-analysis-worker/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/api/Product-analysis-worker/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/Product-analysis-worker/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/api/Product-analysis-worker/requirements.txt" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+        <option value="Record" />
+        <option value="Enum" />
+        <option value="Dockerfile" />
+        <option value="Kubernetes Secret" />
+        <option value="Kubernetes Ingress" />
+        <option value="package-info" />
+        <option value="Kubernetes Namespace" />
+        <option value="Kubernetes CronJob" />
+        <option value="Kubernetes Service" />
+        <option value="Kubernetes ConfigMap" />
+        <option value="Kubernetes Pod" />
+        <option value="Kubernetes Deployment" />
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
   <component name="FormatOnSaveOptions">
     <option name="myRunOnSave" value="true" />
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+    <excluded-from-favorite>
+      <branch-storage>
+        <map>
+          <entry type="LOCAL">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$" source="main" />
+              </list>
+            </value>
+          </entry>
+        </map>
+      </branch-storage>
+    </excluded-from-favorite>
+    <favorite-branches>
+      <branch-storage>
+        <map>
+          <entry type="REMOTE">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$" source="origin/dev" />
+              </list>
+            </value>
+          </entry>
+        </map>
+      </branch-storage>
+    </favorite-branches>
+    <branch-grouping />
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="fix/api/shipping-service/fix-createShippingOrder-topicName" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="REBASE" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {}
+}</component>
+  <component name="GitHubPullRequestState">{
+  &quot;prStates&quot;: [
+    {
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOM8Rav86P_iRh&quot;,
+        &quot;number&quot;: 294
+      },
+      &quot;lastSeen&quot;: 1742918130103
+    },
+    {
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOM8Rav86QF7I6&quot;,
+        &quot;number&quot;: 295
+      },
+      &quot;lastSeen&quot;: 1742958156680
+    },
+    {
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOM8Rav86QJF5C&quot;,
+        &quot;number&quot;: 300
+      },
+      &quot;lastSeen&quot;: 1742963965756
+    },
+    {
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOM8Rav86QJqoF&quot;,
+        &quot;number&quot;: 303
+      },
+      &quot;lastSeen&quot;: 1742980455336
+    },
+    {
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOM8Rav86SZsco&quot;,
+        &quot;number&quot;: 351
+      },
+      &quot;lastSeen&quot;: 1744571513808
+    }
+  ]
+}</component>
+  <component name="GitToolBoxStore">
+    <option name="recentBranches">
+      <RecentBranches>
+        <option name="branchesForRepo">
+          <list>
+            <RecentBranchesForRepo>
+              <option name="branches">
+                <list>
+                  <RecentBranch>
+                    <option name="branchName" value="feature/api/product-analysis-service/setup-product-analysis-ci" />
+                    <option name="lastUsedInstant" value="1744778857" />
+                  </RecentBranch>
+                  <RecentBranch>
+                    <option name="branchName" value="dev" />
+                    <option name="lastUsedInstant" value="1744778799" />
+                  </RecentBranch>
+                  <RecentBranch>
+                    <option name="branchName" value="feature/api/analyze-product-flow" />
+                    <option name="lastUsedInstant" value="1744778465" />
+                  </RecentBranch>
+                  <RecentBranch>
+                    <option name="branchName" value="fix/api/product-service/update-field-product-reserve-event" />
+                    <option name="lastUsedInstant" value="1744738954" />
+                  </RecentBranch>
+                  <RecentBranch>
+                    <option name="branchName" value="feature/api/order-service/remove-cart-item" />
+                    <option name="lastUsedInstant" value="1744737344" />
+                  </RecentBranch>
+                </list>
+              </option>
+              <option name="repositoryRootUrl" value="file://$PROJECT_DIR$" />
+            </RecentBranchesForRepo>
+          </list>
+        </option>
+      </RecentBranches>
+    </option>
+  </component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Zeustakeshi/Lemoo.git&quot;,
+    &quot;accountId&quot;: &quot;dbbb5472-0eca-4993-bc6a-c301f6e889c0&quot;
+  }
+}</component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/env/store-service.env" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="JsbtTreeLayoutManager">
+    <layout place="tools.popupGrunt">
+      <scroll-view-position x="0" y="0" />
+    </layout>
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="localRepository" value="D:\.m2\repository" />
+        <option name="userSettingsFile" value="D:\.m2\settings.xml" />
+      </MavenGeneralSettings>
+    </option>
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="jdkForImporter" value="#JAVA_HOME" />
+      </MavenImportingSettings>
+    </option>
+  </component>
+  <component name="OptimizeOnSaveOptions">
+    <option name="myRunOnSave" value="true" />
+  </component>
+  <component name="PackageJsonUpdateNotifier">
+    <dismissed value="$PROJECT_DIR$/ui/seller_center2/package.json" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
-  &quot;customColor&quot;: &quot;&quot;,
-  &quot;associatedIndex&quot;: 0
+  &quot;associatedIndex&quot;: 4
 }</component>
-  <component name="ProjectId" id="2vnA7w0sgIGkWAuTmaYKOvk5Y7p" />
+  <component name="ProjectId" id="2nTz5HOPsxQtPxQTiwNM0Qqbjts" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "Python.BaseEvent.executor": "Run",
-    "Python.main.executor": "Run",
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "DefaultHtmlFileTemplate": "HTML File",
+    "Docker.Docker Image.executor": "Run",
+    "Docker.docker-compose.kafka: Compose Deployment.executor": "Run",
+    "Docker.docker-compose/kafka.yml: Compose Deployment.executor": "Run",
+    "Docker.docker-compose: Compose Deployment.executor": "Run",
+    "HTTP Request.generated-requests | #2.executor": "Run",
+    "Maven.Admin [org.apache.maven.plugins:maven-clean-plugin:3.4.0:clean].executor": "Run",
+    "Maven.Admin [org.apache.maven.plugins:maven-clean-plugin:3.4.0:help].executor": "Run",
+    "Maven.Auth [clean].executor": "Run",
+    "Maven.Auth [com.diffplug.spotless:spotless-maven-plugin:2.43.0:apply].executor": "Run",
+    "Maven.Auth [org.apache.maven.plugins:maven-clean-plugin:3.3.2:clean].executor": "Run",
+    "Maven.Chat [clean].executor": "Run",
+    "Maven.Chat [com.diffplug.spotless:spotless-maven-plugin:2.43.0:apply].executor": "Run",
+    "Maven.Chat [org.apache.maven.plugins:maven-clean-plugin:3.3.2:clean].executor": "Run",
+    "Maven.Gateway [com.diffplug.spotless:spotless-maven-plugin:2.43.0:apply].executor": "Run",
+    "Maven.Gateway [org.apache.maven.plugins:maven-clean-plugin:3.3.2:clean].executor": "Run",
+    "Maven.Media [com.diffplug.spotless:spotless-maven-plugin:2.43.0:apply].executor": "Run",
+    "Maven.Notification [clean].executor": "Run",
+    "Maven.Notification [com.diffplug.spotless:spotless-maven-plugin:2.43.0:apply].executor": "Run",
+    "Maven.Order [clean].executor": "Run",
+    "Maven.Order [org.apache.maven.plugins:maven-clean-plugin:3.4.0:clean].executor": "Run",
+    "Maven.Order_v2 [clean].executor": "Run",
+    "Maven.Order_v2 [com.diffplug.spotless:spotless-maven-plugin:2.43.0:apply].executor": "Run",
+    "Maven.Product [clean].executor": "Run",
+    "Maven.Product [com.diffplug.spotless:spotless-maven-plugin:2.43.0:apply].executor": "Run",
+    "Maven.Product [compile].executor": "Run",
+    "Maven.Product [org.apache.maven.plugins:maven-clean-plugin:3.4.0:clean].executor": "Run",
+    "Maven.Product [package].executor": "Run",
+    "Maven.Promotion [clean].executor": "Run",
+    "Maven.Promotion [com.diffplug.spotless:spotless-maven-plugin:2.43.0:apply].executor": "Run",
+    "Maven.Promotion [org.apache.maven.plugins:maven-clean-plugin:3.4.0:clean].executor": "Run",
+    "Maven.Promotion [package].executor": "Run",
+    "Maven.Shipping [compile].executor": "Run",
+    "Maven.Shipping [org.apache.maven.plugins:maven-clean-plugin:3.4.0:clean].executor": "Run",
+    "Maven.Shipping [org.apache.maven.plugins:maven-install-plugin:3.1.3:help].executor": "Run",
+    "Maven.Shipping [org.apache.maven.plugins:maven-install-plugin:3.1.3:install].executor": "Run",
+    "Maven.Shipping [package].executor": "Run",
+    "Maven.Store [com.diffplug.spotless:spotless-maven-plugin:2.43.0:apply].executor": "Run",
+    "Maven.Store [com.diffplug.spotless:spotless-maven-plugin:2.43.0:check].executor": "Run",
+    "Maven.Store [org.apache.maven.plugins:maven-clean-plugin:3.3.2:clean].executor": "Run",
+    "Maven.User [com.diffplug.spotless:spotless-maven-plugin:2.43.0:apply].executor": "Run",
+    "Maven.Video [clean].executor": "Run",
+    "Maven.Video [com.diffplug.spotless:spotless-maven-plugin:2.43.0:apply].executor": "Run",
+    "Maven.Video [com.diffplug.spotless:spotless-maven-plugin:2.43.0:check].executor": "Run",
+    "Maven.Video [org.apache.maven.plugins:maven-clean-plugin:3.4.0:clean].executor": "Run",
+    "Maven.Voucher [com.diffplug.spotless:spotless-maven-plugin:2.43.0:apply].executor": "Run",
+    "Ngrok.Ngrok Run.executor": "Run",
+    "Node.js.console.js.executor": "Run",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "SONARLINT_PRECOMMIT_ANALYSIS": "true",
+    "Spring Boot.AdminApplication.executor": "Debug",
+    "Spring Boot.AuthApplication.executor": "Run",
+    "Spring Boot.ChatApplication.executor": "Run",
+    "Spring Boot.GatewayApplication.executor": "Run",
+    "Spring Boot.MediaApplication.executor": "Run",
+    "Spring Boot.NotificationApplication.executor": "Run",
+    "Spring Boot.OrderApplication.executor": "Run",
+    "Spring Boot.OrderV2Application.executor": "Run",
+    "Spring Boot.ProductApplication.executor": "Run",
+    "Spring Boot.PromotionApplication.executor": "Run",
+    "Spring Boot.ShippingApplication.executor": "Run",
+    "Spring Boot.SocketApplication.executor": "Run",
+    "Spring Boot.StoreApplication.executor": "Run",
+    "Spring Boot.UserApplication.executor": "Run",
+    "Spring Boot.VideoApplication.executor": "Run",
+    "database.data.extractors.current.export.id": "JSON-Groovy.json.groovy",
+    "extract.method.default.visibility": "private",
     "git-widget-placeholder": "feature/api/product-analysis-service/setup-product-analysis-ci",
     "ignore.virus.scanning.warn.message": "true",
-    "project.structure.last.edited": "SDKs",
-    "project.structure.proportion": "0.0",
+    "jdk.selected.JAVA_MODULE": "jbrsdk-17",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/Workspace/java/Lemoo/api/Product-analysis-worker",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.26157406",
-    "settings.editor.selected.configurable": "actions.on.save"
+    "rearrange.code.on.save": "true",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "run.configurations.included.in.services": "true",
+    "settings.editor.selected.configurable": "File.Encoding",
+    "ts.external.directory.path": "D:\\Workspace\\java\\Lemoo\\ui\\admin\\node_modules\\typescript\\lib",
+    "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "postgresql",
+      "mongo",
+      "redis"
+    ]
   }
 }]]></component>
-  <component name="RunManager">
-    <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="Product-analysis-worker" />
-      <option name="ENV_FILES" value="$PROJECT_DIR$/../../env/product-analytics-worker.env" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
+  <component name="ReactorSettings">
+    <option name="notificationShown" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.lemoo.product.service" />
+      <recent name="com.lemoo.promotion.service" />
+      <recent name="com.lemoo.video.repository" />
+      <recent name="com.lemoo.video.service" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Workspace\java\Lemoo\api\Product-analysis-worker" />
+      <recent name="D:\Workspace\java\Lemoo\.github\workflows" />
+      <recent name="D:\Workspace\java\Lemoo\api\Shipping\src\main\java\com\lemoo\shipping\dto\common" />
+      <recent name="D:\Workspace\java\Lemoo\api\Shipping\src\main\java\com\lemoo\shipping\service\impl" />
+      <recent name="D:\Workspace\java\Lemoo\api\Shipping\src\main\java\com\lemoo\shipping\service" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Workspace\java\Lemoo\api" />
+      <recent name="D:\Workspace\java\Lemoo\deployment-private\k8s" />
+      <recent name="D:\Workspace\java\Lemoo\deployment-private\k8s\monitor\ingress" />
+      <recent name="D:\Workspace\java\Lemoo\deployment-private\k8s\monitor" />
+      <recent name="D:\Workspace\java\Lemoo\deployment-private\k8s\k8s-dashboard" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.lemoo.promotion.mapper" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.lemoo.product.event.producer" />
+      <recent name="com.lemoo.product.event.eventModel" />
+      <recent name="com.lemoo.shipping.mapper" />
+      <recent name="com.lemoo.shipping.helper" />
+      <recent name="com.lemoo.shipping.service.impl" />
+    </key>
+  </component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="ls -a" />
+    </option>
+  </component>
+  <component name="RunDashboard">
+    <option name="configurationTypes">
+      <set>
+        <option value="Application" />
+        <option value="CompoundRunConfigurationType" />
+        <option value="MavenRunConfiguration" />
+        <option value="QuarkusRunConfigurationType" />
+        <option value="ShConfigurationType" />
+        <option value="SpringBootApplicationConfigurationType" />
+      </set>
+    </option>
+    <option name="openRunningConfigInTab" value="true" />
+  </component>
+  <component name="RunManager" selected="Spring Boot.ShippingApplication">
+    <configuration name="generated-requests | #2" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="2" runType="Run single request">
       <method v="2" />
     </configuration>
+    <configuration name="AdminApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="envFilePaths">
+        <option value="$PROJECT_DIR$/env/admin-service.env" />
+      </option>
+      <module name="Admin" />
+      <selectedOptions>
+        <option name="environmentVariables" />
+      </selectedOptions>
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.lemoo.admin.AdminApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="AuthApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="envFilePaths">
+        <option value="$PROJECT_DIR$/env/auth-service.env" />
+      </option>
+      <module name="Auth" />
+      <selectedOptions>
+        <option name="environmentVariables" />
+      </selectedOptions>
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.lemoo.auth.AuthApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ChatApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="envFilePaths">
+        <option value="$PROJECT_DIR$/env/chat-service.env" />
+      </option>
+      <module name="Chat" />
+      <selectedOptions>
+        <option name="environmentVariables" />
+      </selectedOptions>
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.lemoo.chat.ChatApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GatewayApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="Gateway" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.lemoo.gateway.GatewayApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MediaApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="envFilePaths">
+        <option value="$PROJECT_DIR$/env/media-service.env" />
+      </option>
+      <module name="Media" />
+      <selectedOptions>
+        <option name="environmentVariables" />
+      </selectedOptions>
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.lemoo.media.MediaApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="NotificationApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <option name="envFilePaths">
+        <option value="$PROJECT_DIR$/env/notification-service.env" />
+      </option>
+      <module name="Notification" />
+      <selectedOptions>
+        <option name="environmentVariables" />
+      </selectedOptions>
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.lemoo.notification.NotificationApplication" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.lemoo.notification.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="OrderApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="envFilePaths">
+        <option value="$PROJECT_DIR$/env/order-service.env" />
+      </option>
+      <module name="Order" />
+      <selectedOptions>
+        <option name="environmentVariables" />
+      </selectedOptions>
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.lemoo.order.OrderApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="OrderV2Application" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="envFilePaths">
+        <option value="$PROJECT_DIR$/env/order-service.env" />
+      </option>
+      <module name="Order_v2" />
+      <selectedOptions>
+        <option name="environmentVariables" />
+      </selectedOptions>
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.lemoo.order_v2.OrderV2Application" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ProductApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="envFilePaths">
+        <option value="$PROJECT_DIR$/env/product-service.env" />
+      </option>
+      <module name="Product" />
+      <selectedOptions>
+        <option name="environmentVariables" />
+      </selectedOptions>
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.lemoo.product.ProductApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PromotionApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <option name="envFilePaths">
+        <option value="$PROJECT_DIR$/env/promotion-service.env" />
+      </option>
+      <module name="Promotion" />
+      <selectedOptions>
+        <option name="environmentVariables" />
+      </selectedOptions>
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.lemoo.promotion.PromotionApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ShippingApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="envFilePaths">
+        <option value="$PROJECT_DIR$/env/shipping-service.env" />
+      </option>
+      <module name="Shipping" />
+      <selectedOptions>
+        <option name="environmentVariables" />
+      </selectedOptions>
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.lemoo.shipping.ShippingApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SocketApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="envFilePaths">
+        <option value="$PROJECT_DIR$/env/socket-service.env" />
+      </option>
+      <module name="Socket" />
+      <selectedOptions>
+        <option name="environmentVariables" />
+      </selectedOptions>
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.lemoo.socket.SocketApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="StoreApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="envFilePaths">
+        <option value="$PROJECT_DIR$/env/store-service.env" />
+      </option>
+      <module name="Store" />
+      <selectedOptions>
+        <option name="environmentVariables" />
+      </selectedOptions>
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.lemoo.store.StoreApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="envFilePaths">
+        <option value="$PROJECT_DIR$/env/user-service.env" />
+      </option>
+      <module name="User" />
+      <selectedOptions>
+        <option name="environmentVariables" />
+      </selectedOptions>
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.lemoo.user.UserApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="VideoApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="envFilePaths">
+        <option value="$PROJECT_DIR$/env/video-service.env" />
+      </option>
+      <module name="Video" />
+      <selectedOptions>
+        <option name="environmentVariables" />
+      </selectedOptions>
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.lemoo.video.VideoApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="VoucherApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="Voucher" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.lemoo.voucher.VoucherApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="docker-deploy" factoryName="docker-compose.yml" temporary="true">
+      <deployment type="docker-compose.yml">
+        <settings />
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="docker-deploy" factoryName="docker-image" temporary="true">
+      <deployment type="docker-image">
+        <settings />
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration name="docker-compose.kafka: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+      <deployment type="docker-compose.yml">
+        <settings>
+          <option name="services">
+            <list>
+              <option value="kafka" />
+            </list>
+          </option>
+          <option name="sourceFilePath" value="docker-compose/docker-compose.yml" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration name="docker-compose/kafka.yml: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+      <deployment type="docker-compose.yml">
+        <settings>
+          <option name="sourceFilePath" value="docker-compose/kafka.yml" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration name="Ngrok Run" type="ngrok-deploy" factoryName="Ngrok" server-name="Ngrok">
+      <deployment type="Ngrok">
+        <settings />
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Docker.docker-compose.kafka: Compose Deployment" />
+      <item itemvalue="Docker.docker-compose/kafka.yml: Compose Deployment" />
+      <item itemvalue="HTTP Request.generated-requests | #2" />
+      <item itemvalue="Spring Boot.AdminApplication" />
+      <item itemvalue="Spring Boot.AuthApplication" />
+      <item itemvalue="Spring Boot.ChatApplication" />
+      <item itemvalue="Spring Boot.GatewayApplication" />
+      <item itemvalue="Spring Boot.MediaApplication" />
+      <item itemvalue="Spring Boot.OrderApplication" />
+      <item itemvalue="Spring Boot.OrderV2Application" />
+      <item itemvalue="Spring Boot.ProductApplication" />
+      <item itemvalue="Spring Boot.PromotionApplication" />
+      <item itemvalue="Spring Boot.ShippingApplication" />
+      <item itemvalue="Spring Boot.SocketApplication" />
+      <item itemvalue="Spring Boot.StoreApplication" />
+      <item itemvalue="Spring Boot.UserApplication" />
+      <item itemvalue="Spring Boot.VideoApplication" />
+      <item itemvalue="Spring Boot.VoucherApplication" />
+      <item itemvalue="Spring Boot.NotificationApplication" />
+    </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.main" />
+        <item itemvalue="Spring Boot.NotificationApplication" />
+        <item itemvalue="HTTP Request.generated-requests | #2" />
+        <item itemvalue="Docker.docker-compose/kafka.yml: Compose Deployment" />
+        <item itemvalue="Docker.docker-compose.kafka: Compose Deployment" />
       </list>
     </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-0fc6c617c4bd-9a18a617cbe4-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-243.22562.220" />
+        <option value="bundled-jdk-9823dce3aa75-a94e463ab2e7-intellij.indexing.shared.core-IU-243.26053.27" />
+        <option value="bundled-js-predefined-d6986cc7102b-1632447f56bf-JavaScript-IU-243.26053.27" />
       </set>
     </attachedChunks>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="e497bfdc-cb36-41df-9637-902bd5f4ac6f" name="Changes" comment="" />
-      <created>1744770301762</created>
+      <changelist id="8511a043-84fa-4453-aa98-86e4a52287ca" name="Changes" comment="" />
+      <created>1729011670117</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1744770301762</updated>
-      <workItem from="1744770302620" duration="7165000" />
-      <workItem from="1744778890934" duration="84000" />
+      <updated>1729011670117</updated>
+      <workItem from="1729011672318" duration="3223000" />
+      <workItem from="1729039769867" duration="8000" />
+      <workItem from="1729240194037" duration="5448000" />
+      <workItem from="1729250847695" duration="18116000" />
+      <workItem from="1729304112727" duration="609000" />
+      <workItem from="1729428449264" duration="1150000" />
+      <workItem from="1729429827419" duration="8866000" />
+      <workItem from="1729499662606" duration="8000" />
+      <workItem from="1729827719194" duration="773000" />
+      <workItem from="1729859517057" duration="8224000" />
+      <workItem from="1729998886684" duration="10614000" />
+      <workItem from="1730026193697" duration="2928000" />
+      <workItem from="1730029924026" duration="1671000" />
+      <workItem from="1730032873340" duration="546000" />
+      <workItem from="1730033801748" duration="7093000" />
+      <workItem from="1730050104625" duration="1349000" />
+      <workItem from="1730128661564" duration="157000" />
+      <workItem from="1730129272566" duration="784000" />
+      <workItem from="1730134994639" duration="1067000" />
+      <workItem from="1730137085040" duration="3872000" />
+      <workItem from="1730184328711" duration="9967000" />
+      <workItem from="1730194898719" duration="972000" />
+      <workItem from="1730197495208" duration="826000" />
+      <workItem from="1730205561077" duration="11716000" />
+      <workItem from="1730289091155" duration="6000" />
+      <workItem from="1730348133986" duration="946000" />
+      <workItem from="1730351078064" duration="1058000" />
+      <workItem from="1730352187919" duration="1132000" />
+      <workItem from="1730362767293" duration="524000" />
+      <workItem from="1730386567874" duration="1862000" />
+      <workItem from="1730393260579" duration="10000" />
+      <workItem from="1731242011029" duration="1419000" />
+      <workItem from="1731262340535" duration="1226000" />
+      <workItem from="1731320980754" duration="1669000" />
+      <workItem from="1731417078179" duration="2184000" />
+      <workItem from="1731498001718" duration="7338000" />
+      <workItem from="1731570937893" duration="3000" />
+      <workItem from="1732596424586" duration="19432000" />
+      <workItem from="1732616813291" duration="8000" />
+      <workItem from="1732669457601" duration="64000" />
+      <workItem from="1732728335292" duration="1969000" />
+      <workItem from="1732754634674" duration="10624000" />
+      <workItem from="1732806052004" duration="13000" />
+      <workItem from="1733639496739" duration="1164000" />
+      <workItem from="1733761329468" duration="115000" />
+      <workItem from="1733811891504" duration="2559000" />
+      <workItem from="1733814490539" duration="9351000" />
+      <workItem from="1733833938309" duration="1187000" />
+      <workItem from="1733835665198" duration="43000" />
+      <workItem from="1733837801278" duration="3308000" />
+      <workItem from="1733902015903" duration="41000" />
+      <workItem from="1734020951714" duration="437000" />
+      <workItem from="1734084533267" duration="5112000" />
+      <workItem from="1734092454631" duration="10175000" />
+      <workItem from="1734109354318" duration="5113000" />
+      <workItem from="1734140377899" duration="21188000" />
+      <workItem from="1734182847881" duration="595000" />
+      <workItem from="1734243896831" duration="10759000" />
+      <workItem from="1734272768888" duration="17055000" />
+      <workItem from="1734356269117" duration="18829000" />
+      <workItem from="1734437121058" duration="10641000" />
+      <workItem from="1734501821808" duration="17971000" />
+      <workItem from="1734526555069" duration="11669000" />
+      <workItem from="1734568126770" duration="4418000" />
+      <workItem from="1734573226223" duration="1250000" />
+      <workItem from="1734575142218" duration="1159000" />
+      <workItem from="1734612076018" duration="186000" />
+      <workItem from="1734614107419" duration="138000" />
+      <workItem from="1734619112869" duration="1243000" />
+      <workItem from="1734630021602" duration="64000" />
+      <workItem from="1734667506659" duration="7501000" />
+      <workItem from="1734717140140" duration="855000" />
+      <workItem from="1734718754820" duration="18000" />
+      <workItem from="1734722104916" duration="176000" />
+      <workItem from="1734756088024" duration="201000" />
+      <workItem from="1734759058543" duration="83000" />
+      <workItem from="1734760132446" duration="189000" />
+      <workItem from="1734761731532" duration="150000" />
+      <workItem from="1734791382412" duration="160000" />
+      <workItem from="1734845865254" duration="1253000" />
+      <workItem from="1734863772294" duration="2363000" />
+      <workItem from="1734868928818" duration="5854000" />
+      <workItem from="1734916175406" duration="1583000" />
+      <workItem from="1734919880723" duration="5537000" />
+      <workItem from="1734928563952" duration="69000" />
+      <workItem from="1734934628764" duration="145000" />
+      <workItem from="1734962126597" duration="1100000" />
+      <workItem from="1734963279362" duration="16278000" />
+      <workItem from="1735029527014" duration="1231000" />
+      <workItem from="1735037013864" duration="26000" />
+      <workItem from="1735060698917" duration="1174000" />
+      <workItem from="1735061890992" duration="2030000" />
+      <workItem from="1735063948624" duration="3989000" />
+      <workItem from="1735105233127" duration="290000" />
+      <workItem from="1735105537405" duration="5280000" />
+      <workItem from="1735110854105" duration="136000" />
+      <workItem from="1735111004460" duration="2975000" />
+      <workItem from="1735115906233" duration="2743000" />
+      <workItem from="1735121732323" duration="579000" />
+      <workItem from="1735126521409" duration="754000" />
+      <workItem from="1735134933355" duration="5070000" />
+      <workItem from="1735143102003" duration="302000" />
+      <workItem from="1735144790990" duration="6194000" />
+      <workItem from="1735181092209" duration="8180000" />
+      <workItem from="1735199043106" duration="11862000" />
+      <workItem from="1735229857914" duration="1802000" />
+      <workItem from="1735235902088" duration="437000" />
+      <workItem from="1735272321464" duration="1204000" />
+      <workItem from="1735273545078" duration="3437000" />
+      <workItem from="1735284676685" duration="10055000" />
+      <workItem from="1735304837526" duration="1940000" />
+      <workItem from="1735306806699" duration="55000" />
+      <workItem from="1735306878334" duration="172000" />
+      <workItem from="1735307068341" duration="2499000" />
+      <workItem from="1735309598702" duration="7384000" />
+      <workItem from="1735321453119" duration="3309000" />
+      <workItem from="1735324833745" duration="744000" />
+      <workItem from="1735362636461" duration="13329000" />
+      <workItem from="1735390788263" duration="6718000" />
+      <workItem from="1735405647213" duration="9000" />
+      <workItem from="1735441919749" duration="23686000" />
+      <workItem from="1735467419028" duration="50000" />
+      <workItem from="1735545315312" duration="8120000" />
+      <workItem from="1735565660702" duration="42000" />
+      <workItem from="1735567249299" duration="314000" />
+      <workItem from="1735570745269" duration="9367000" />
+      <workItem from="1735614458957" duration="15046000" />
+      <workItem from="1735701378398" duration="163000" />
+      <workItem from="1735701566458" duration="5548000" />
+      <workItem from="1735709937597" duration="95000" />
+      <workItem from="1735716009074" duration="745000" />
+      <workItem from="1735747894596" duration="4271000" />
+      <workItem from="1735786166545" duration="13898000" />
+      <workItem from="1735804882209" duration="9638000" />
+      <workItem from="1735827886109" duration="2204000" />
+      <workItem from="1735831133740" duration="11700000" />
+      <workItem from="1735887291083" duration="8228000" />
+      <workItem from="1735896868776" duration="5977000" />
+      <workItem from="1735922466303" duration="77000" />
+      <workItem from="1735923255532" duration="5498000" />
+      <workItem from="1735968198817" duration="15473000" />
+      <workItem from="1735984224042" duration="818000" />
+      <workItem from="1735998702593" duration="167000" />
+      <workItem from="1735998881433" duration="55000" />
+      <workItem from="1736052804060" duration="10885000" />
+      <workItem from="1736068444794" duration="574000" />
+      <workItem from="1736069046513" duration="8988000" />
+      <workItem from="1736089638879" duration="7442000" />
+      <workItem from="1736169320218" duration="749000" />
+      <workItem from="1736255617917" duration="18000" />
+      <workItem from="1736585393748" duration="47000" />
+      <workItem from="1736586204725" duration="2130000" />
+      <workItem from="1736592966487" duration="119000" />
+      <workItem from="1736593232148" duration="3361000" />
+      <workItem from="1736618516552" duration="4156000" />
+      <workItem from="1736625304952" duration="967000" />
+      <workItem from="1736646908172" duration="2281000" />
+      <workItem from="1736652480960" duration="25000" />
+      <workItem from="1736652660205" duration="416000" />
+      <workItem from="1736653814717" duration="7377000" />
+      <workItem from="1736859840121" duration="3286000" />
+      <workItem from="1736872732746" duration="11000" />
+      <workItem from="1736877614502" duration="1766000" />
+      <workItem from="1736908695927" duration="6749000" />
+      <workItem from="1736953491823" duration="14887000" />
+      <workItem from="1736992029650" duration="7255000" />
+      <workItem from="1737020801121" duration="6839000" />
+      <workItem from="1737027698122" duration="681000" />
+      <workItem from="1737028396854" duration="1058000" />
+      <workItem from="1737029472778" duration="171000" />
+      <workItem from="1737029653976" duration="300000" />
+      <workItem from="1737029966486" duration="29000" />
+      <workItem from="1737030005523" duration="423000" />
+      <workItem from="1737185551965" duration="16230000" />
+      <workItem from="1737214057777" duration="792000" />
+      <workItem from="1737215011663" duration="11749000" />
+      <workItem from="1737252833380" duration="3089000" />
+      <workItem from="1737278577305" duration="6267000" />
+      <workItem from="1737303608556" duration="8490000" />
+      <workItem from="1737481874161" duration="32000" />
+      <workItem from="1737528376756" duration="734000" />
+      <workItem from="1737561189171" duration="1874000" />
+      <workItem from="1737733707672" duration="3986000" />
+      <workItem from="1737763635947" duration="2063000" />
+      <workItem from="1737776995027" duration="4283000" />
+      <workItem from="1737822021528" duration="6448000" />
+      <workItem from="1737957441204" duration="273000" />
+      <workItem from="1737959279261" duration="327000" />
+      <workItem from="1737962174289" duration="44000" />
+      <workItem from="1738053107509" duration="3584000" />
+      <workItem from="1738072443399" duration="2834000" />
+      <workItem from="1738079172122" duration="441000" />
+      <workItem from="1738090566806" duration="9000" />
+      <workItem from="1738120693143" duration="3680000" />
+      <workItem from="1738124964666" duration="1499000" />
+      <workItem from="1738130689403" duration="12276000" />
+      <workItem from="1738212922661" duration="1692000" />
+      <workItem from="1738219917410" duration="732000" />
+      <workItem from="1738229426823" duration="1526000" />
+      <workItem from="1738253276129" duration="2212000" />
+      <workItem from="1738427673982" duration="836000" />
+      <workItem from="1738428580237" duration="3707000" />
+      <workItem from="1738434465787" duration="3611000" />
+      <workItem from="1738480593257" duration="3131000" />
+      <workItem from="1738488267636" duration="2831000" />
+      <workItem from="1738494808868" duration="4213000" />
+      <workItem from="1738515580379" duration="15000" />
+      <workItem from="1738574067076" duration="2428000" />
+      <workItem from="1738650671786" duration="30000" />
+      <workItem from="1738658424333" duration="1719000" />
+      <workItem from="1738683395301" duration="405000" />
+      <workItem from="1738777575206" duration="3607000" />
+      <workItem from="1738811964309" duration="1251000" />
+      <workItem from="1738820904784" duration="3000" />
+      <workItem from="1738856397937" duration="1291000" />
+      <workItem from="1738865747728" duration="10000" />
+      <workItem from="1738865948623" duration="647000" />
+      <workItem from="1738913205574" duration="5483000" />
+      <workItem from="1738918790495" duration="11314000" />
+      <workItem from="1738943287974" duration="3760000" />
+      <workItem from="1738948401906" duration="346000" />
+      <workItem from="1738949137655" duration="518000" />
+      <workItem from="1738949684156" duration="4205000" />
+      <workItem from="1738982967217" duration="5263000" />
+      <workItem from="1739032864185" duration="3285000" />
+      <workItem from="1739084681329" duration="8876000" />
+      <workItem from="1739094412084" duration="643000" />
+      <workItem from="1739096145270" duration="2876000" />
+      <workItem from="1739173773149" duration="6492000" />
+      <workItem from="1739183561346" duration="2953000" />
+      <workItem from="1739208099424" duration="7784000" />
+      <workItem from="1739237061367" duration="8193000" />
+      <workItem from="1739246201717" duration="9000" />
+      <workItem from="1739261292928" duration="13335000" />
+      <workItem from="1739290654864" duration="12914000" />
+      <workItem from="1739325916199" duration="18563000" />
+      <workItem from="1739525922873" duration="4440000" />
+      <workItem from="1739544422783" duration="725000" />
+      <workItem from="1739552879351" duration="633000" />
+      <workItem from="1739710094346" duration="8658000" />
+      <workItem from="1739725154538" duration="11173000" />
+      <workItem from="1739797574620" duration="15424000" />
+      <workItem from="1739820675916" duration="15000" />
+      <workItem from="1739904699951" duration="457000" />
+      <workItem from="1739953692803" duration="15177000" />
+      <workItem from="1739974624230" duration="2234000" />
+      <workItem from="1740030057013" duration="13078000" />
+      <workItem from="1740109964830" duration="306000" />
+      <workItem from="1740234405485" duration="714000" />
+      <workItem from="1740236440660" duration="4000" />
+      <workItem from="1740237329236" duration="9644000" />
+      <workItem from="1740279032000" duration="6926000" />
+      <workItem from="1740392955247" duration="21000" />
+      <workItem from="1740405028906" duration="7384000" />
+      <workItem from="1740488614191" duration="13058000" />
+      <workItem from="1740505454809" duration="718000" />
+      <workItem from="1740533101812" duration="998000" />
+      <workItem from="1740534756340" duration="10840000" />
+      <workItem from="1740583753039" duration="15459000" />
+      <workItem from="1740637311732" duration="13114000" />
+      <workItem from="1740667982700" duration="16802000" />
+      <workItem from="1740721906168" duration="448000" />
+      <workItem from="1740746568700" duration="3887000" />
+      <workItem from="1740759671492" duration="987000" />
+      <workItem from="1740837078675" duration="17389000" />
+      <workItem from="1741061597108" duration="732000" />
+      <workItem from="1741066384759" duration="8623000" />
+      <workItem from="1741082248312" duration="1196000" />
+      <workItem from="1741141719627" duration="9087000" />
+      <workItem from="1741162314120" duration="9128000" />
+      <workItem from="1741188518875" duration="20000" />
+      <workItem from="1741598583205" duration="5960000" />
+      <workItem from="1741618136640" duration="42000" />
+      <workItem from="1741625060154" duration="11782000" />
+      <workItem from="1741658346685" duration="11221000" />
+      <workItem from="1741680864765" duration="6807000" />
+      <workItem from="1741687773598" duration="1902000" />
+      <workItem from="1741689710538" duration="3746000" />
+      <workItem from="1741695926046" duration="1330000" />
+      <workItem from="1741699595156" duration="2939000" />
+      <workItem from="1741702654218" duration="510000" />
+      <workItem from="1741714699891" duration="10535000" />
+      <workItem from="1741743603324" duration="655000" />
+      <workItem from="1741753643575" duration="2435000" />
+      <workItem from="1741776507690" duration="15999000" />
+      <workItem from="1741797974744" duration="6828000" />
+      <workItem from="1741834728241" duration="12406000" />
+      <workItem from="1741851878179" duration="1015000" />
+      <workItem from="1741854224075" duration="1059000" />
+      <workItem from="1741855441656" duration="1645000" />
+      <workItem from="1741866570604" duration="331000" />
+      <workItem from="1741872971479" duration="3453000" />
+      <workItem from="1741935529270" duration="531000" />
+      <workItem from="1742026719456" duration="14956000" />
+      <workItem from="1742042244029" duration="143000" />
+      <workItem from="1742042405357" duration="230000" />
+      <workItem from="1742045077521" duration="3049000" />
+      <workItem from="1742219855712" duration="2562000" />
+      <workItem from="1742226960757" duration="40000" />
+      <workItem from="1742233605437" duration="5665000" />
+      <workItem from="1742269691826" duration="6400000" />
+      <workItem from="1742725686355" duration="54000" />
+      <workItem from="1742791596889" duration="8835000" />
+      <workItem from="1742821295032" duration="20564000" />
+      <workItem from="1742848169972" duration="368000" />
+      <workItem from="1742883111411" duration="9719000" />
+      <workItem from="1742914905994" duration="1805000" />
+      <workItem from="1742918022317" duration="8675000" />
+      <workItem from="1742956872924" duration="7679000" />
+      <workItem from="1742969904526" duration="598000" />
+      <workItem from="1742980194870" duration="1173000" />
+      <workItem from="1742995235002" duration="1756000" />
+      <workItem from="1743009640054" duration="5530000" />
+      <workItem from="1743059353607" duration="11142000" />
+      <workItem from="1743101989474" duration="5308000" />
+      <workItem from="1743123531418" duration="3360000" />
+      <workItem from="1743176664394" duration="3384000" />
+      <workItem from="1743180126454" duration="4285000" />
+      <workItem from="1743427912312" duration="603000" />
+      <workItem from="1743431762909" duration="47000" />
+      <workItem from="1743695517023" duration="612000" />
+      <workItem from="1744050630861" duration="3405000" />
+      <workItem from="1744095810650" duration="10340000" />
+      <workItem from="1744115952679" duration="15536000" />
+      <workItem from="1744132648533" duration="5000" />
+      <workItem from="1744353514024" duration="2654000" />
+      <workItem from="1744361433426" duration="1378000" />
+      <workItem from="1744378432927" duration="1904000" />
+      <workItem from="1744434789950" duration="222000" />
+      <workItem from="1744554017886" duration="13435000" />
+      <workItem from="1744572153810" duration="179000" />
+      <workItem from="1744572363969" duration="441000" />
+      <workItem from="1744597955683" duration="13490000" />
+      <workItem from="1744620880300" duration="381000" />
+      <workItem from="1744621341995" duration="365000" />
+      <workItem from="1744648487897" duration="3840000" />
+      <workItem from="1744653438169" duration="1363000" />
+      <workItem from="1744654910500" duration="227000" />
+      <workItem from="1744679193737" duration="7444000" />
+      <workItem from="1744707076503" duration="12003000" />
+      <workItem from="1744722465426" duration="10205000" />
+      <workItem from="1744765625049" duration="3982000" />
+      <workItem from="1744770635396" duration="1750000" />
+      <workItem from="1744774702241" duration="65000" />
+      <workItem from="1744778160491" duration="976000" />
     </task>
+    <task id="LOCAL-00001" summary="Create Cart entities&#10;Create Cart, CartItem, CartItemSku, CartItemPromotion entity">
+      <option name="closed" value="true" />
+      <created>1737777798743</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1737777798743</updated>
+    </task>
+    <task id="LOCAL-00002" summary="resolve merge conflicts">
+      <option name="closed" value="true" />
+      <created>1738230820321</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1738230820321</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Add get all store voucher endpoint &#10;- Create get all store voucher endpoint for user &#10;- Secure seller voucher endpoint">
+      <option name="closed" value="true" />
+      <created>1742887335530</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1742887335530</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Ensures shipping order exists before retrieval&#10;&#10;Checks for the existence of a shipping order before attempting to retrieve it, preventing potential errors and improving data integrity.&#10;&#10;Also, refactors the shipping order retrieval process to update and persist the shipping order information whenever it is accessed, ensuring that the data is always up-to-date.">
+      <option name="closed" value="true" />
+      <created>1744709787640</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1744709787640</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
-  <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Product_analysis_worker$BaseEvent.coverage" NAME="BaseEvent Coverage Results" MODIFIED="1744770552063" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/events" />
-    <SUITE FILE_PATH="coverage/Product_analysis_worker$main.coverage" NAME="main Coverage Results" MODIFIED="1744776469512" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="dependencySupport" implementationName="java:org.springframework.security:spring-security-core" />
+    <option featureType="dependencySupport" implementationName="javascript:npm:react" />
+    <option featureType="dependencySupport" implementationName="java:org.springframework:spring-core" />
+    <option featureType="com.intellij.configurationType" implementationName="ngrok-deploy" />
+    <option featureType="dependencySupport" implementationName="java:org.apache.kafka:kafka_2.13" />
+    <option featureType="dependencySupport" implementationName="java:jakarta.validation:jakarta.validation-api" />
+    <option featureType="dependencySupport" implementationName="javascript:npm:tailwindcss" />
+    <option featureType="dependencySupport" implementationName="javascript:npm:vite" />
+    <option featureType="dependencySupport" implementationName="java:io.projectreactor:reactor-core" />
+    <option featureType="dependencySupport" implementationName="java:org.springframework.data:spring-data-commons" />
+    <option featureType="dependencySupport" implementationName="java:org.springframework.cloud:spring-cloud-context" />
+    <option featureType="dependencySupport" implementationName="java:org.hibernate.validator:hibernate-validator" />
+    <option featureType="dependencySupport" implementationName="java:org.springframework:spring-webmvc" />
+    <option featureType="dependencySupport" implementationName="java:org.projectlombok:lombok" />
+    <option featureType="dependencySupport" implementationName="java:org.springframework:spring-websocket" />
+    <option featureType="com.intellij.fileTypeFactory" implementationName="*.env" />
+    <option featureType="dependencySupport" implementationName="java:jakarta.persistence:jakarta.persistence-api" />
+    <option featureType="dependencySupport" implementationName="java:io.reactivex.rxjava3:rxjava" />
+    <option featureType="dependencySupport" implementationName="java:org.thymeleaf:thymeleaf" />
+    <option featureType="dependencySupport" implementationName="java:org.springframework:spring-messaging" />
+    <option featureType="dependencySupport" implementationName="java:org.springframework.boot:spring-boot" />
+    <option featureType="dependencySupport" implementationName="javascript:npm:postcss" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="OPEN_GENERIC_TABS">
+      <map>
+        <entry key="51f4cbf7-35c0-483e-8016-d8ca550eb4f1" value="TOOL_WINDOW" />
+      </map>
+    </option>
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="User">
+          <value>
+            <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="*" />
+                </option>
+              </RecentGroup>
+            </list>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="TAB_STATES">
+      <map>
+        <entry key="51f4cbf7-35c0-483e-8016-d8ca550eb4f1">
+          <value>
+            <State />
+          </value>
+        </entry>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ID_WIDTH">
+                <map>
+                  <entry key="Table.Default.Author.ColumnIdWidth" value="155" />
+                  <entry key="Table.Default.Date.ColumnIdWidth" value="155" />
+                </map>
+              </option>
+              <option name="CUSTOM_BOOLEAN_PROPERTIES">
+                <map>
+                  <entry key="Show.Git.Branches" value="false" />
+                </map>
+              </option>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="test/deployment" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="Create Cart entities&#10;Create Cart, CartItem, CartItemSku, CartItemPromotion entity" />
+    <MESSAGE value="Adds admin account creation functionality&#10;&#10;Creates `AdminProperties` for configuring admin account credentials.&#10;Adds `AdminAuthService` and implementation for creating admin accounts.&#10;Modifies `ApplicationConfig` to run account creation on startup.&#10;Removes redundant admin registration endpoint." />
+    <MESSAGE value="resolve merge conflicts" />
+    <MESSAGE value="Add get all store voucher endpoint &#10;- Create get all store voucher endpoint for user &#10;- Secure seller voucher endpoint" />
+    <MESSAGE value="Ensures shipping order exists before retrieval&#10;&#10;Checks for the existence of a shipping order before attempting to retrieve it, preventing potential errors and improving data integrity.&#10;&#10;Also, refactors the shipping order retrieval process to update and persist the shipping order information whenever it is accessed, ensuring that the data is always up-to-date." />
+    <option name="LAST_COMMIT_MESSAGE" value="Ensures shipping order exists before retrieval&#10;&#10;Checks for the existence of a shipping order before attempting to retrieve it, preventing potential errors and improving data integrity.&#10;&#10;Also, refactors the shipping order retrieval process to update and persist the shipping order information whenever it is accessed, ensuring that the data is always up-to-date." />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/api/Product/src/main/java/com/lemoo/product/dto/response/CategoryResponse.java</url>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="org.springframework.beans.factory.BeanDefinitionStoreException" package="org.springframework.beans.factory" />
+          <option name="timeStamp" value="2" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+    <watches-manager>
+      <configuration name="SpringBootApplicationConfigurationType">
+        <watch expression="mediaIds.contains(media.getId())" language="JAVA" />
+        <watch expression="media.getId()" language="JAVA" />
+      </configuration>
+    </watches-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

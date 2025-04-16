@@ -22,11 +22,13 @@
         <option value="$PROJECT_DIR$/api/Socket/pom.xml" />
         <option value="$PROJECT_DIR$/api/Order_v2/pom.xml" />
         <option value="$PROJECT_DIR$/api/Shipping/Notification/pom.xml" />
+        <option value="$PROJECT_DIR$/api/Search/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
       <set>
         <option value="$PROJECT_DIR$/api/Chats/pom.xml" />
+        <option value="$PROJECT_DIR$/api/Search/pom.xml" />
         <option value="$PROJECT_DIR$/api/Voucher/pom.xml" />
       </set>
     </option>

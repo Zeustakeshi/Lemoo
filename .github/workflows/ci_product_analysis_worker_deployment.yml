@@ -1,0 +1,37 @@
+name: product_analysis_worker_deployment
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'api/Product-analysis-worker/**'
+      - '.github/workflows/ci_product_analysis_worker_deployment.yml'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        working-directory: ./api/Product-analysis-worker
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Build the Docker image
+        working-directory: ./api/Product-analysis-worker
+        run: docker build . --file Dockerfile --tag zeustakeshi/lemoo-product-analysis-worker:latest
+
+      - name: Login to Docker Hub
+        run: |
+          docker login -u "zeustakeshi" -p ${{ secrets.DOCKER_HUB_TOKEN }}
+
+      - name: Push Docker image
+        run: |
+          docker push zeustakeshi/lemoo-product-analysis-worker:latest

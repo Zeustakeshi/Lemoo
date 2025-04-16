@@ -5,10 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8511a043-84fa-4453-aa98-86e4a52287ca" name="Changes" comment="Ensures shipping order exists before retrieval&#10;&#10;Checks for the existence of a shipping order before attempting to retrieve it, preventing potential errors and improving data integrity.&#10;&#10;Also, refactors the shipping order retrieval process to update and persist the shipping order information whenever it is accessed, ensuring that the data is always up-to-date.">
-      <change beforePath="$PROJECT_DIR$/../../.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../.idea/encodings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.github/workflows/ci_search_service_deployment.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/Search/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/Search/requirements.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,7 +32,6 @@
         <option value="Kubernetes Deployment" />
         <option value="Interface" />
         <option value="Class" />
-        <option value="Python Script" />
       </list>
     </option>
   </component>
@@ -70,10 +68,10 @@
     <branch-grouping />
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="fix/api/shipping-service/fix-createShippingOrder-topicName" />
+        <entry key="$PROJECT_DIR$" value="dev" />
       </map>
     </option>
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
@@ -115,6 +113,20 @@
         &quot;number&quot;: 351
       },
       &quot;lastSeen&quot;: 1744571513808
+    },
+    {
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOM8Rav86SxdFM&quot;,
+        &quot;number&quot;: 414
+      },
+      &quot;lastSeen&quot;: 1744790859312
+    },
+    {
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOM8Rav86Sy_HX&quot;,
+        &quot;number&quot;: 418
+      },
+      &quot;lastSeen&quot;: 1744791329910
     }
   ]
 }</component>
@@ -128,23 +140,23 @@
                 <list>
                   <RecentBranch>
                     <option name="branchName" value="dev" />
-                    <option name="lastUsedInstant" value="1744787854" />
+                    <option name="lastUsedInstant" value="1744827934" />
+                  </RecentBranch>
+                  <RecentBranch>
+                    <option name="branchName" value="feature/api/search-service/product-search" />
+                    <option name="lastUsedInstant" value="1744827827" />
+                  </RecentBranch>
+                  <RecentBranch>
+                    <option name="branchName" value="main" />
+                    <option name="lastUsedInstant" value="1744791468" />
+                  </RecentBranch>
+                  <RecentBranch>
+                    <option name="branchName" value="fix/api/product-analysis-worker/fix-event-mapper" />
+                    <option name="lastUsedInstant" value="1744790577" />
                   </RecentBranch>
                   <RecentBranch>
                     <option name="branchName" value="fix/api/product-analysis-worker/fix-project-dependency" />
                     <option name="lastUsedInstant" value="1744783374" />
-                  </RecentBranch>
-                  <RecentBranch>
-                    <option name="branchName" value="feature/api/product-analysis-service/setup-product-analysis-ci" />
-                    <option name="lastUsedInstant" value="1744778857" />
-                  </RecentBranch>
-                  <RecentBranch>
-                    <option name="branchName" value="feature/api/analyze-product-flow" />
-                    <option name="lastUsedInstant" value="1744778465" />
-                  </RecentBranch>
-                  <RecentBranch>
-                    <option name="branchName" value="fix/api/product-service/update-field-product-reserve-event" />
-                    <option name="lastUsedInstant" value="1744738954" />
                   </RecentBranch>
                 </list>
               </option>
@@ -202,112 +214,112 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
-    &quot;Docker.Docker Image.executor&quot;: &quot;Run&quot;,
-    &quot;Docker.docker-compose.kafka: Compose Deployment.executor&quot;: &quot;Run&quot;,
-    &quot;Docker.docker-compose/kafka.yml: Compose Deployment.executor&quot;: &quot;Run&quot;,
-    &quot;Docker.docker-compose: Compose Deployment.executor&quot;: &quot;Run&quot;,
-    &quot;HTTP Request.generated-requests | #2.executor&quot;: &quot;Run&quot;,
-    &quot;Maven.Admin [org.apache.maven.plugins:maven-clean-plugin:3.4.0:clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.Admin [org.apache.maven.plugins:maven-clean-plugin:3.4.0:help].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.Auth [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.Auth [com.diffplug.spotless:spotless-maven-plugin:2.43.0:apply].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.Auth [org.apache.maven.plugins:maven-clean-plugin:3.3.2:clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.Chat [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.Chat [com.diffplug.spotless:spotless-maven-plugin:2.43.0:apply].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.Chat [org.apache.maven.plugins:maven-clean-plugin:3.3.2:clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.Gateway [com.diffplug.spotless:spotless-maven-plugin:2.43.0:apply].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.Gateway [org.apache.maven.plugins:maven-clean-plugin:3.3.2:clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.Media [com.diffplug.spotless:spotless-maven-plugin:2.43.0:apply].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.Notification [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.Notification [com.diffplug.spotless:spotless-maven-plugin:2.43.0:apply].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.Order [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.Order [org.apache.maven.plugins:maven-clean-plugin:3.4.0:clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.Order_v2 [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.Order_v2 [com.diffplug.spotless:spotless-maven-plugin:2.43.0:apply].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.Product [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.Product [com.diffplug.spotless:spotless-maven-plugin:2.43.0:apply].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.Product [compile].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.Product [org.apache.maven.plugins:maven-clean-plugin:3.4.0:clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.Product [package].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.Promotion [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.Promotion [com.diffplug.spotless:spotless-maven-plugin:2.43.0:apply].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.Promotion [org.apache.maven.plugins:maven-clean-plugin:3.4.0:clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.Promotion [package].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.Shipping [compile].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.Shipping [org.apache.maven.plugins:maven-clean-plugin:3.4.0:clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.Shipping [org.apache.maven.plugins:maven-install-plugin:3.1.3:help].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.Shipping [org.apache.maven.plugins:maven-install-plugin:3.1.3:install].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.Shipping [package].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.Store [com.diffplug.spotless:spotless-maven-plugin:2.43.0:apply].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.Store [com.diffplug.spotless:spotless-maven-plugin:2.43.0:check].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.Store [org.apache.maven.plugins:maven-clean-plugin:3.3.2:clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.User [com.diffplug.spotless:spotless-maven-plugin:2.43.0:apply].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.Video [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.Video [com.diffplug.spotless:spotless-maven-plugin:2.43.0:apply].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.Video [com.diffplug.spotless:spotless-maven-plugin:2.43.0:check].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.Video [org.apache.maven.plugins:maven-clean-plugin:3.4.0:clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.Voucher [com.diffplug.spotless:spotless-maven-plugin:2.43.0:apply].executor&quot;: &quot;Run&quot;,
-    &quot;Ngrok.Ngrok Run.executor&quot;: &quot;Run&quot;,
-    &quot;Node.js.console.js.executor&quot;: &quot;Run&quot;,
-    &quot;Python.main.executor&quot;: &quot;Run&quot;,
-    &quot;Python.test.executor&quot;: &quot;Run&quot;,
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;SONARLINT_PRECOMMIT_ANALYSIS&quot;: &quot;true&quot;,
-    &quot;Spring Boot.AdminApplication.executor&quot;: &quot;Debug&quot;,
-    &quot;Spring Boot.AuthApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.ChatApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.GatewayApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.MediaApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.NotificationApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.OrderApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.OrderV2Application.executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.ProductApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.PromotionApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.ShippingApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.SocketApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.StoreApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.UserApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.VideoApplication.executor&quot;: &quot;Run&quot;,
-    &quot;database.data.extractors.current.export.id&quot;: &quot;JSON-Groovy.json.groovy&quot;,
-    &quot;extract.method.default.visibility&quot;: &quot;private&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;dev&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;jbrsdk-17&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/Workspace/java/Lemoo/deployment-private/k8s/app&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.26157406&quot;,
-    &quot;rearrange.code.on.save&quot;: &quot;true&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;run.configurations.included.in.services&quot;: &quot;true&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;D:\\Workspace\\java\\Lemoo\\ui\\admin\\node_modules\\typescript\\lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "DefaultHtmlFileTemplate": "HTML File",
+    "Docker.Docker Image.executor": "Run",
+    "Docker.docker-compose.kafka: Compose Deployment.executor": "Run",
+    "Docker.docker-compose/kafka.yml: Compose Deployment.executor": "Run",
+    "Docker.docker-compose: Compose Deployment.executor": "Run",
+    "HTTP Request.generated-requests | #2.executor": "Run",
+    "Maven.Admin [org.apache.maven.plugins:maven-clean-plugin:3.4.0:clean].executor": "Run",
+    "Maven.Admin [org.apache.maven.plugins:maven-clean-plugin:3.4.0:help].executor": "Run",
+    "Maven.Auth [clean].executor": "Run",
+    "Maven.Auth [com.diffplug.spotless:spotless-maven-plugin:2.43.0:apply].executor": "Run",
+    "Maven.Auth [org.apache.maven.plugins:maven-clean-plugin:3.3.2:clean].executor": "Run",
+    "Maven.Chat [clean].executor": "Run",
+    "Maven.Chat [com.diffplug.spotless:spotless-maven-plugin:2.43.0:apply].executor": "Run",
+    "Maven.Chat [org.apache.maven.plugins:maven-clean-plugin:3.3.2:clean].executor": "Run",
+    "Maven.Gateway [com.diffplug.spotless:spotless-maven-plugin:2.43.0:apply].executor": "Run",
+    "Maven.Gateway [org.apache.maven.plugins:maven-clean-plugin:3.3.2:clean].executor": "Run",
+    "Maven.Media [com.diffplug.spotless:spotless-maven-plugin:2.43.0:apply].executor": "Run",
+    "Maven.Notification [clean].executor": "Run",
+    "Maven.Notification [com.diffplug.spotless:spotless-maven-plugin:2.43.0:apply].executor": "Run",
+    "Maven.Order [clean].executor": "Run",
+    "Maven.Order [org.apache.maven.plugins:maven-clean-plugin:3.4.0:clean].executor": "Run",
+    "Maven.Order_v2 [clean].executor": "Run",
+    "Maven.Order_v2 [com.diffplug.spotless:spotless-maven-plugin:2.43.0:apply].executor": "Run",
+    "Maven.Product [clean].executor": "Run",
+    "Maven.Product [com.diffplug.spotless:spotless-maven-plugin:2.43.0:apply].executor": "Run",
+    "Maven.Product [compile].executor": "Run",
+    "Maven.Product [org.apache.maven.plugins:maven-clean-plugin:3.4.0:clean].executor": "Run",
+    "Maven.Product [package].executor": "Run",
+    "Maven.Promotion [clean].executor": "Run",
+    "Maven.Promotion [com.diffplug.spotless:spotless-maven-plugin:2.43.0:apply].executor": "Run",
+    "Maven.Promotion [org.apache.maven.plugins:maven-clean-plugin:3.4.0:clean].executor": "Run",
+    "Maven.Promotion [package].executor": "Run",
+    "Maven.Shipping [compile].executor": "Run",
+    "Maven.Shipping [org.apache.maven.plugins:maven-clean-plugin:3.4.0:clean].executor": "Run",
+    "Maven.Shipping [org.apache.maven.plugins:maven-install-plugin:3.1.3:help].executor": "Run",
+    "Maven.Shipping [org.apache.maven.plugins:maven-install-plugin:3.1.3:install].executor": "Run",
+    "Maven.Shipping [package].executor": "Run",
+    "Maven.Store [com.diffplug.spotless:spotless-maven-plugin:2.43.0:apply].executor": "Run",
+    "Maven.Store [com.diffplug.spotless:spotless-maven-plugin:2.43.0:check].executor": "Run",
+    "Maven.Store [org.apache.maven.plugins:maven-clean-plugin:3.3.2:clean].executor": "Run",
+    "Maven.User [com.diffplug.spotless:spotless-maven-plugin:2.43.0:apply].executor": "Run",
+    "Maven.Video [clean].executor": "Run",
+    "Maven.Video [com.diffplug.spotless:spotless-maven-plugin:2.43.0:apply].executor": "Run",
+    "Maven.Video [com.diffplug.spotless:spotless-maven-plugin:2.43.0:check].executor": "Run",
+    "Maven.Video [org.apache.maven.plugins:maven-clean-plugin:3.4.0:clean].executor": "Run",
+    "Maven.Voucher [com.diffplug.spotless:spotless-maven-plugin:2.43.0:apply].executor": "Run",
+    "Ngrok.Ngrok Run.executor": "Run",
+    "Node.js.console.js.executor": "Run",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "SONARLINT_PRECOMMIT_ANALYSIS": "true",
+    "Spring Boot.AdminApplication.executor": "Debug",
+    "Spring Boot.AuthApplication.executor": "Run",
+    "Spring Boot.ChatApplication.executor": "Run",
+    "Spring Boot.GatewayApplication.executor": "Run",
+    "Spring Boot.MediaApplication.executor": "Run",
+    "Spring Boot.NotificationApplication.executor": "Run",
+    "Spring Boot.OrderApplication.executor": "Run",
+    "Spring Boot.OrderV2Application.executor": "Run",
+    "Spring Boot.ProductApplication.executor": "Run",
+    "Spring Boot.PromotionApplication.executor": "Run",
+    "Spring Boot.SearchApplication.executor": "Debug",
+    "Spring Boot.ShippingApplication.executor": "Run",
+    "Spring Boot.SocketApplication.executor": "Run",
+    "Spring Boot.StoreApplication.executor": "Run",
+    "Spring Boot.UserApplication.executor": "Run",
+    "Spring Boot.VideoApplication.executor": "Run",
+    "database.data.extractors.current.export.id": "JSON-Groovy.json.groovy",
+    "extract.method.default.visibility": "private",
+    "git-widget-placeholder": "dev",
+    "ignore.virus.scanning.warn.message": "true",
+    "jdk.selected.JAVA_MODULE": "jbrsdk-17",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/Workspace/java/Lemoo/.github/workflows",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.26157406",
+    "rearrange.code.on.save": "true",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "run.configurations.included.in.services": "true",
+    "service.view.auto.scroll.to.source": "true",
+    "settings.editor.selected.configurable": "preferences.fileTypes",
+    "ts.external.directory.path": "D:\\Workspace\\java\\Lemoo\\ui\\admin\\node_modules\\typescript\\lib",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;postgresql&quot;,
-      &quot;mongo&quot;,
-      &quot;redis&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "postgresql",
+      "mongo",
+      "redis"
     ]
   }
-}</component>
+}]]></component>
   <component name="ReactorSettings">
     <option name="notificationShown" value="true" />
   </component>
@@ -319,9 +331,9 @@
       <recent name="com.lemoo.video.service" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Workspace\java\Lemoo\.github\workflows" />
       <recent name="D:\Workspace\java\Lemoo\deployment-private\k8s\app" />
       <recent name="D:\Workspace\java\Lemoo\api\Product-analysis-worker" />
-      <recent name="D:\Workspace\java\Lemoo\.github\workflows" />
       <recent name="D:\Workspace\java\Lemoo\api\Shipping\src\main\java\com\lemoo\shipping\dto\common" />
       <recent name="D:\Workspace\java\Lemoo\api\Shipping\src\main\java\com\lemoo\shipping\service\impl" />
     </key>
@@ -361,54 +373,8 @@
     </option>
     <option name="openRunningConfigInTab" value="true" />
   </component>
-  <component name="RunManager" selected="Python.main">
+  <component name="RunManager" selected="Spring Boot.SearchApplication">
     <configuration name="generated-requests | #2" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="2" runType="Run single request">
-      <method v="2" />
-    </configuration>
-    <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="Product-analysis-worker" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="test" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="Product-analysis-worker" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/consumer" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/consumer/test.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
     <configuration name="AdminApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
@@ -470,6 +436,25 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="NotificationApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <option name="envFilePaths">
+        <option value="$PROJECT_DIR$/env/notification-service.env" />
+      </option>
+      <module name="Notification" />
+      <selectedOptions>
+        <option name="environmentVariables" />
+      </selectedOptions>
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.lemoo.notification.NotificationApplication" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.lemoo.notification.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="OrderApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <option name="envFilePaths">
         <option value="$PROJECT_DIR$/env/order-service.env" />
@@ -518,6 +503,13 @@
         <option name="environmentVariables" />
       </selectedOptions>
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.lemoo.promotion.PromotionApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SearchApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="Search" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.lemoo.search.SearchApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -637,23 +629,38 @@
       <item itemvalue="Docker.docker-compose.kafka: Compose Deployment" />
       <item itemvalue="Docker.docker-compose/kafka.yml: Compose Deployment" />
       <item itemvalue="HTTP Request.generated-requests | #2" />
-      <item itemvalue="Python.test" />
-      <item itemvalue="Python.main" />
+      <item itemvalue="Spring Boot.SearchApplication" />
+      <item itemvalue="Spring Boot.AdminApplication" />
+      <item itemvalue="Spring Boot.AuthApplication" />
+      <item itemvalue="Spring Boot.ChatApplication" />
+      <item itemvalue="Spring Boot.GatewayApplication" />
+      <item itemvalue="Spring Boot.MediaApplication" />
+      <item itemvalue="Spring Boot.OrderApplication" />
+      <item itemvalue="Spring Boot.OrderV2Application" />
+      <item itemvalue="Spring Boot.ProductApplication" />
+      <item itemvalue="Spring Boot.PromotionApplication" />
+      <item itemvalue="Spring Boot.ShippingApplication" />
+      <item itemvalue="Spring Boot.SocketApplication" />
+      <item itemvalue="Spring Boot.StoreApplication" />
+      <item itemvalue="Spring Boot.UserApplication" />
+      <item itemvalue="Spring Boot.VideoApplication" />
+      <item itemvalue="Spring Boot.VoucherApplication" />
+      <item itemvalue="Spring Boot.NotificationApplication" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.main" />
-        <item itemvalue="Python.test" />
-        <item itemvalue="Docker.docker-compose.kafka: Compose Deployment" />
+        <item itemvalue="Spring Boot.NotificationApplication" />
         <item itemvalue="HTTP Request.generated-requests | #2" />
         <item itemvalue="Docker.docker-compose/kafka.yml: Compose Deployment" />
+        <item itemvalue="Docker.docker-compose.kafka: Compose Deployment" />
       </list>
     </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-0fc6c617c4bd-9a18a617cbe4-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-243.22562.220" />
+        <option value="bundled-jdk-9823dce3aa75-a94e463ab2e7-intellij.indexing.shared.core-IU-243.26053.27" />
+        <option value="bundled-js-predefined-d6986cc7102b-1632447f56bf-JavaScript-IU-243.26053.27" />
       </set>
     </attachedChunks>
   </component>
@@ -1010,10 +1017,9 @@
       <workItem from="1744770635396" duration="1750000" />
       <workItem from="1744774702241" duration="65000" />
       <workItem from="1744778160491" duration="2094000" />
-      <workItem from="1744783213587" duration="5742000" />
-      <workItem from="1744792882368" duration="501000" />
-      <workItem from="1744794203008" duration="1058000" />
-      <workItem from="1744819616015" duration="706000" />
+      <workItem from="1744783213587" duration="8551000" />
+      <workItem from="1744795653101" duration="319000" />
+      <workItem from="1744815646100" duration="12081000" />
     </task>
     <task id="LOCAL-00001" summary="Create Cart entities&#10;Create Cart, CartItem, CartItemSku, CartItemPromotion entity">
       <option name="closed" value="true" />
@@ -1146,19 +1152,27 @@
     <option name="LAST_COMMIT_MESSAGE" value="Ensures shipping order exists before retrieval&#10;&#10;Checks for the existence of a shipping order before attempting to retrieve it, preventing potential errors and improving data integrity.&#10;&#10;Also, refactors the shipping order retrieval process to update and persist the shipping order information whenever it is accessed, ensuring that the data is always up-to-date." />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/api/Product/src/main/java/com/lemoo/product/dto/response/CategoryResponse.java</url>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="org.springframework.beans.factory.BeanDefinitionStoreException" package="org.springframework.beans.factory" />
+          <option name="timeStamp" value="2" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <watches-manager>
       <configuration name="SpringBootApplicationConfigurationType">
-        <watch expression="mediaIds.contains(media.getId())" />
-        <watch expression="media.getId()" />
+        <watch expression="mediaIds.contains(media.getId())" language="JAVA" />
+        <watch expression="media.getId()" language="JAVA" />
       </configuration>
     </watches-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
     <select />
-  </component>
-  <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Product_analysis_worker$main.coverage" NAME="main Coverage Results" MODIFIED="1744795207774" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/Product_analysis_worker$test.coverage" NAME="test Coverage Results" MODIFIED="1744794321982" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/consumer" />
   </component>
 </project>

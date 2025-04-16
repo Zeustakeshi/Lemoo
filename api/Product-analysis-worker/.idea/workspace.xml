@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8511a043-84fa-4453-aa98-86e4a52287ca" name="Changes" comment="Ensures shipping order exists before retrieval&#10;&#10;Checks for the existence of a shipping order before attempting to retrieve it, preventing potential errors and improving data integrity.&#10;&#10;Also, refactors the shipping order retrieval process to update and persist the shipping order information whenever it is accessed, ensuring that the data is always up-to-date.">
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-    </list>
+    <list default="true" id="8511a043-84fa-4453-aa98-86e4a52287ca" name="Changes" comment="Ensures shipping order exists before retrieval&#10;&#10;Checks for the existence of a shipping order before attempting to retrieve it, preventing potential errors and improving data integrity.&#10;&#10;Also, refactors the shipping order retrieval process to update and persist the shipping order information whenever it is accessed, ensuring that the data is always up-to-date." />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -69,7 +67,7 @@
         <entry key="$PROJECT_DIR$" value="fix/api/shipping-service/fix-createShippingOrder-topicName" />
       </map>
     </option>
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
@@ -123,12 +121,16 @@
               <option name="branches">
                 <list>
                   <RecentBranch>
-                    <option name="branchName" value="feature/api/product-analysis-service/setup-product-analysis-ci" />
-                    <option name="lastUsedInstant" value="1744778857" />
+                    <option name="branchName" value="fix/api/product-analysis-worker/fix-project-dependency" />
+                    <option name="lastUsedInstant" value="1744783374" />
                   </RecentBranch>
                   <RecentBranch>
                     <option name="branchName" value="dev" />
-                    <option name="lastUsedInstant" value="1744778799" />
+                    <option name="lastUsedInstant" value="1744779666" />
+                  </RecentBranch>
+                  <RecentBranch>
+                    <option name="branchName" value="feature/api/product-analysis-service/setup-product-analysis-ci" />
+                    <option name="lastUsedInstant" value="1744778857" />
                   </RecentBranch>
                   <RecentBranch>
                     <option name="branchName" value="feature/api/analyze-product-flow" />
@@ -137,10 +139,6 @@
                   <RecentBranch>
                     <option name="branchName" value="fix/api/product-service/update-field-product-reserve-event" />
                     <option name="lastUsedInstant" value="1744738954" />
-                  </RecentBranch>
-                  <RecentBranch>
-                    <option name="branchName" value="feature/api/order-service/remove-cart-item" />
-                    <option name="lastUsedInstant" value="1744737344" />
                   </RecentBranch>
                 </list>
               </option>
@@ -355,7 +353,7 @@
     </option>
     <option name="openRunningConfigInTab" value="true" />
   </component>
-  <component name="RunManager" selected="Docker.docker-compose.kafka: Compose Deployment">
+  <component name="RunManager" selected="Spring Boot.ShippingApplication">
     <configuration name="generated-requests | #2" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="2" runType="Run single request">
       <method v="2" />
     </configuration>
@@ -604,9 +602,26 @@
       <item itemvalue="Docker.docker-compose.kafka: Compose Deployment" />
       <item itemvalue="Docker.docker-compose/kafka.yml: Compose Deployment" />
       <item itemvalue="HTTP Request.generated-requests | #2" />
+      <item itemvalue="Spring Boot.AdminApplication" />
+      <item itemvalue="Spring Boot.AuthApplication" />
+      <item itemvalue="Spring Boot.ChatApplication" />
+      <item itemvalue="Spring Boot.GatewayApplication" />
+      <item itemvalue="Spring Boot.MediaApplication" />
+      <item itemvalue="Spring Boot.OrderApplication" />
+      <item itemvalue="Spring Boot.OrderV2Application" />
+      <item itemvalue="Spring Boot.ProductApplication" />
+      <item itemvalue="Spring Boot.PromotionApplication" />
+      <item itemvalue="Spring Boot.ShippingApplication" />
+      <item itemvalue="Spring Boot.SocketApplication" />
+      <item itemvalue="Spring Boot.StoreApplication" />
+      <item itemvalue="Spring Boot.UserApplication" />
+      <item itemvalue="Spring Boot.VideoApplication" />
+      <item itemvalue="Spring Boot.VoucherApplication" />
+      <item itemvalue="Spring Boot.NotificationApplication" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Spring Boot.NotificationApplication" />
         <item itemvalue="HTTP Request.generated-requests | #2" />
         <item itemvalue="Docker.docker-compose/kafka.yml: Compose Deployment" />
         <item itemvalue="Docker.docker-compose.kafka: Compose Deployment" />
@@ -616,7 +631,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-0fc6c617c4bd-9a18a617cbe4-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-243.22562.220" />
+        <option value="bundled-jdk-9823dce3aa75-a94e463ab2e7-intellij.indexing.shared.core-IU-243.26053.27" />
+        <option value="bundled-js-predefined-d6986cc7102b-1632447f56bf-JavaScript-IU-243.26053.27" />
       </set>
     </attachedChunks>
   </component>
@@ -972,9 +988,8 @@
       <workItem from="1744765625049" duration="3982000" />
       <workItem from="1744770635396" duration="1750000" />
       <workItem from="1744774702241" duration="65000" />
-      <workItem from="1744778160491" duration="976000" />
-      <workItem from="1744783200716" duration="12000" />
-      <workItem from="1744784308655" duration="83000" />
+      <workItem from="1744778160491" duration="2094000" />
+      <workItem from="1744783213587" duration="913000" />
     </task>
     <task id="LOCAL-00001" summary="Create Cart entities&#10;Create Cart, CartItem, CartItemSku, CartItemPromotion entity">
       <option name="closed" value="true" />
@@ -1107,10 +1122,22 @@
     <option name="LAST_COMMIT_MESSAGE" value="Ensures shipping order exists before retrieval&#10;&#10;Checks for the existence of a shipping order before attempting to retrieve it, preventing potential errors and improving data integrity.&#10;&#10;Also, refactors the shipping order retrieval process to update and persist the shipping order information whenever it is accessed, ensuring that the data is always up-to-date." />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/api/Product/src/main/java/com/lemoo/product/dto/response/CategoryResponse.java</url>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="org.springframework.beans.factory.BeanDefinitionStoreException" package="org.springframework.beans.factory" />
+          <option name="timeStamp" value="2" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <watches-manager>
       <configuration name="SpringBootApplicationConfigurationType">
-        <watch expression="mediaIds.contains(media.getId())" />
-        <watch expression="media.getId()" />
+        <watch expression="mediaIds.contains(media.getId())" language="JAVA" />
+        <watch expression="media.getId()" language="JAVA" />
       </configuration>
     </watches-manager>
   </component>

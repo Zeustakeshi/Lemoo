@@ -3,6 +3,7 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/.github/workflows/ci_admin_service_deployment.yml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/.github/workflows/ci_order_service_deployment.yml" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/.github/workflows/ci_product_analysis_worker_deployment.yml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/.github/workflows/ci_shipping_service_deployment.yml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/api/Admin/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/api/Admin/src/main/resources" charset="UTF-8" />
@@ -15,6 +16,7 @@
     <file url="file://$PROJECT_DIR$/api/Order/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/api/Order_v2/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/api/Order_v2/src/main/resources/application.yml" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/api/Product-analysis-worker/requirements.txt" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/api/Product/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/api/Promotion/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/api/Promotion/src/main/resources/application.yml" charset="UTF-8" />

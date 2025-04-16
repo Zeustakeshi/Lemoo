@@ -9,10 +9,13 @@ package com.lemoo.product.service.impl;
 
 import com.lemoo.product.client.StoreClient;
 import com.lemoo.product.dto.request.VerifyStoreRequest;
+import com.lemoo.product.dto.response.StoreResponse;
 import com.lemoo.product.exception.ForbiddenException;
+import com.lemoo.product.mapper.StoreMapper;
 import com.lemoo.product.service.StoreService;
 import lombok.RequiredArgsConstructor;
 import org.redisson.api.RBucket;
+import org.redisson.api.RMap;
 import org.redisson.api.RedissonClient;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -25,6 +28,21 @@ public class StoreServiceImpl implements StoreService {
 
     private final StoreClient storeClient;
     private final RedissonClient redisson;
+    private final StoreMapper storeMapper;
+
+    @Override
+    public StoreResponse getStoreInfo(String storeId) {
+        RMap<String, String> rMap = redisson.getMap(generateStoreKey(storeId));
+        StoreResponse store;
+        if (rMap.isExists()) {
+            store = storeMapper.toStoreResponse(rMap.readAllMap());
+        } else {
+            store = storeClient.getStoreInfo(storeId).getData();
+            rMap.putAll(storeMapper.toStoreMap(store));
+        }
+        rMap.expire(Duration.ofHours(2));
+        return store;
+    }
 
     @Override
     public void verifyStore(String accountId, String storeId) {
@@ -50,5 +68,9 @@ public class StoreServiceImpl implements StoreService {
 
     private String generateStoreOwnerVerifyKey(String storeId) {
         return "store:" + storeId + ":owner";
+    }
+
+    private String generateStoreKey(String storeId) {
+        return "store:" + storeId;
     }
 }

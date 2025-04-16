@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="e497bfdc-cb36-41df-9637-902bd5f4ac6f" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/Product-analysis-worker.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/consumer/product_analysis_consumer.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/event/BaseEvent.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/event/ProductAnalysisEvent.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/event/ProductAnalysisResultEvent.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/handler/product_analysis_handler.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/helper/embedding_helper.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/helper/vector_store_helper.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/producer/product_producer.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Product/src/main/java/com/lemoo/product/dto/response/StoreResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Product/src/main/java/com/lemoo/product/event/consumer/ProductAnalysisConsumer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Product/src/main/java/com/lemoo/product/event/eventModel/ProductAnalysisEvent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Product/src/main/java/com/lemoo/product/event/eventModel/ProductAnalysisResultEvent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Product/src/main/java/com/lemoo/product/event/producer/ProductAnalysisProducer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Product/src/main/java/com/lemoo/product/mapper/StoreMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Product/src/main/java/com/lemoo/product/service/ProductAnalysisService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Product/src/main/java/com/lemoo/product/service/impl/ProductAnalysisServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../docker-compose/qdrant-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Product/src/main/java/com/lemoo/product/client/StoreClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Product/src/main/java/com/lemoo/product/client/StoreClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Product/src/main/java/com/lemoo/product/service/StoreService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Product/src/main/java/com/lemoo/product/service/StoreService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Product/src/main/java/com/lemoo/product/service/impl/ProductEvaluationServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Product/src/main/java/com/lemoo/product/service/impl/ProductEvaluationServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Product/src/main/java/com/lemoo/product/service/impl/StoreServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Product/src/main/java/com/lemoo/product/service/impl/StoreServiceImpl.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FormatOnSaveOptions">
+    <option name="myRunOnSave" value="true" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "customColor": "",
+  "associatedIndex": 0
+}]]></component>
+  <component name="ProjectId" id="2vnA7w0sgIGkWAuTmaYKOvk5Y7p" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.BaseEvent.executor": "Run",
+    "Python.main.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "feature/api/analyze-product-flow",
+    "ignore.virus.scanning.warn.message": "true",
+    "project.structure.last.edited": "SDKs",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.26157406",
+    "settings.editor.selected.configurable": "actions.on.save"
+  }
+}]]></component>
+  <component name="RunManager">
+    <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Product-analysis-worker" />
+      <option name="ENV_FILES" value="$PROJECT_DIR$/../../env/product-analytics-worker.env" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.main" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-python-sdk-0fc6c617c4bd-9a18a617cbe4-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-243.22562.220" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="e497bfdc-cb36-41df-9637-902bd5f4ac6f" name="Changes" comment="" />
+      <created>1744770301762</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1744770301762</updated>
+      <workItem from="1744770302620" duration="7158000" />
+    </task>
+    <servers />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/Product_analysis_worker$BaseEvent.coverage" NAME="BaseEvent Coverage Results" MODIFIED="1744770552063" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/events" />
+    <SUITE FILE_PATH="coverage/Product_analysis_worker$main.coverage" NAME="main Coverage Results" MODIFIED="1744776469512" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+  </component>
+</project>

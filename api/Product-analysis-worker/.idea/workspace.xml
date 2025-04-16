@@ -4,38 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e497bfdc-cb36-41df-9637-902bd5f4ac6f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/Product-analysis-worker.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/consumer/product_analysis_consumer.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/event/BaseEvent.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/event/ProductAnalysisEvent.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/event/ProductAnalysisResultEvent.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/handler/product_analysis_handler.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/helper/embedding_helper.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/helper/vector_store_helper.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/producer/product_producer.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Product/src/main/java/com/lemoo/product/dto/response/StoreResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Product/src/main/java/com/lemoo/product/event/consumer/ProductAnalysisConsumer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Product/src/main/java/com/lemoo/product/event/eventModel/ProductAnalysisEvent.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Product/src/main/java/com/lemoo/product/event/eventModel/ProductAnalysisResultEvent.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Product/src/main/java/com/lemoo/product/event/producer/ProductAnalysisProducer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Product/src/main/java/com/lemoo/product/mapper/StoreMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Product/src/main/java/com/lemoo/product/service/ProductAnalysisService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Product/src/main/java/com/lemoo/product/service/impl/ProductAnalysisServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../docker-compose/qdrant-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Product/src/main/java/com/lemoo/product/client/StoreClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Product/src/main/java/com/lemoo/product/client/StoreClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Product/src/main/java/com/lemoo/product/service/StoreService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Product/src/main/java/com/lemoo/product/service/StoreService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Product/src/main/java/com/lemoo/product/service/impl/ProductEvaluationServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Product/src/main/java/com/lemoo/product/service/impl/ProductEvaluationServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Product/src/main/java/com/lemoo/product/service/impl/StoreServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Product/src/main/java/com/lemoo/product/service/impl/StoreServiceImpl.java" afterDir="false" />
-    </list>
+    <list default="true" id="e497bfdc-cb36-41df-9637-902bd5f4ac6f" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -56,20 +25,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python.BaseEvent.executor&quot;: &quot;Run&quot;,
-    &quot;Python.main.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;feature/api/analyze-product-flow&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;SDKs&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.26157406&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;actions.on.save&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.BaseEvent.executor": "Run",
+    "Python.main.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "feature/api/product-analysis-service/setup-product-analysis-ci",
+    "ignore.virus.scanning.warn.message": "true",
+    "project.structure.last.edited": "SDKs",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.26157406",
+    "settings.editor.selected.configurable": "actions.on.save"
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Product-analysis-worker" />
@@ -116,6 +86,7 @@
       <option name="presentableId" value="Default" />
       <updated>1744770301762</updated>
       <workItem from="1744770302620" duration="7165000" />
+      <workItem from="1744778890934" duration="84000" />
     </task>
     <servers />
   </component>

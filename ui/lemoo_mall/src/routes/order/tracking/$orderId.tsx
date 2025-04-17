@@ -4,35 +4,34 @@ import { useQuery } from "@tanstack/react-query";
 import { createFileRoute, useRouter } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/order/tracking/$orderId")({
-  component: RouteComponent,
+    component: RouteComponent,
 });
 
 function RouteComponent() {
-  const { orderId } = Route.useParams();
+    const { orderId } = Route.useParams();
 
-  // const router = useRouter();
+    const router = useRouter();
 
-  // const { data, error, isLoading } = useQuery({
-  //     queryKey: ["shipping-order", orderId],
-  //     queryFn: () => getShippingInfoByOrderId(orderId),
-  //     retry: false,
-  // });
+    const { data, error, isLoading } = useQuery({
+        queryKey: ["shipping-order", orderId],
+        queryFn: () => getShippingInfoByOrderId(orderId),
+        retry: false,
+    });
 
-  // if (error) {
-  //     router.navigate({
-  //         to: `/order/my-order?error=${error}`,
-  //     });
-  //     return;
-  // }
+    if (error) {
+        router.navigate({
+            to: `/order/my-order?error=${error}`,
+        });
+        return;
+    }
 
-  // if (!data || isLoading) {
-  //     return <div>Đang tải ....</div>;
-  // }
+    if (!data || isLoading) {
+        return <div>Đang tải ....</div>;
+    }
 
-  // return <div>{JSON.stringify(data)}</div>;
-  return (
-    <div>
-      <OrderTracking />
-    </div>
-  );
+    return (
+        <div>
+            <OrderTracking shippingOrder={data} />
+        </div>
+    );
 }

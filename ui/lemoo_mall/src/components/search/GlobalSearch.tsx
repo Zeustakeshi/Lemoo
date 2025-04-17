@@ -3,9 +3,11 @@ import { SearchHistoryModel } from "@/db/models/search.model";
 import useClickOutSide from "@/hooks/useClickOutSide";
 import useDebounce from "@/hooks/useDebounce";
 import { cn } from "@/lib/utils";
+import { RootState } from "@/store/store";
 import { useNavigate } from "@tanstack/react-router";
 import { History, Search } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { Button } from "../ui/button";
 import VoiceSearch from "./VoiceSearch";
 
@@ -14,6 +16,7 @@ type Props = {
 };
 
 const GlobalSearch = ({ className }: Props) => {
+    const { searchLoading } = useSelector((state: RootState) => state.search);
     const [showSuggestion, setShowSuggestion] = useState<boolean>(false);
     const [searchValue, setSearchValue] = useState<string>("");
     const [searchSuggestions, setSearchSuggesetions] = useState<string[]>([]);
@@ -51,11 +54,11 @@ const GlobalSearch = ({ className }: Props) => {
     };
 
     const handleFocusSearch = async () => {
-        setShowSuggestion(true);
+        // setShowSuggestion(true);
         if (!searchValue.trim()) {
             // get search suggestion from local db
-            const histories = await db.searchHistories.toArray();
-            setSearchHistories(histories);
+            // const histories = await db.searchHistories.toArray();
+            // setSearchHistories(histories);
         } else {
             //  get search suggestion by search value
         }
@@ -83,8 +86,18 @@ const GlobalSearch = ({ className }: Props) => {
                         className="bg-transparent border-none outline-none flex-1 p-4 py-3 dark:text-white"
                         placeholder="Bạn muốn tìm gì?"
                     ></input>
-                    <Button className="dark:text-white" size="icon">
-                        <Search />
+                    <Button
+                        className="dark:text-white flex justify-center items-center"
+                        size="icon"
+                    >
+                        {!searchLoading && <Search />}
+                        {searchLoading && (
+                            <img
+                                className="size-[30px]"
+                                src="./ai_search_animation.gif"
+                                alt=""
+                            />
+                        )}
                     </Button>
                     {showSuggestion && (
                         <div className=" absolute overflow-hidden top-[120%] left-[50%] -translate-x-[50%] z-20  w-[100%] h-min max-h-[500px] overflow-y-auto custom-scroll bg-white dark:bg-slate-900 shadow-xl  rounded-xl">

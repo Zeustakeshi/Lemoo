@@ -5,7 +5,7 @@ from langchain_qdrant import QdrantVectorStore
 from qdrant_client import QdrantClient
 from qdrant_client.models import Distance, VectorParams
 
-from src.main.python.app.configs.embedding_config import get_embeddings
+from .embedding_config import get_embeddings
 
 vector_store = None
 vector_store_lock = Lock()

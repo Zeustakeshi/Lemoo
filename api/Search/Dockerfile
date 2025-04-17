@@ -13,4 +13,4 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 
 ENV PYTHONUNBUFFERED=1
-CMD ["python", "/app/src/main/python/app/main.py"]
+CMD ["python", "-m", "src.main.python.app.main"]

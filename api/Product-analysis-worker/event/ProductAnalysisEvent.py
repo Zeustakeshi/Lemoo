@@ -11,10 +11,11 @@ class ProductAnalysisEvent(BaseEvent):
         self.skus = skus
 
     class ProductSku:
-        def __init__(self, sku_code=None, name=None, price=None, variants=None):
+        def __init__(self, sku_code=None, name=None, price=None, variants=None, image=None):
             self.sku_code = sku_code
             self.name = name
             self.price = price
+            self.image = image
             self.variants = variants if variants is not None else {}
 
     class Store:

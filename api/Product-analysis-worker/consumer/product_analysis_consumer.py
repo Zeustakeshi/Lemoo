@@ -43,6 +43,7 @@ def consume_product_analysis():
                         name=sku.get("name"),
                         price=sku.get("price"),
                         variants=sku.get("variants", {})
+                        image=sku.get("image")
                     ) for sku in skus_data
                 }
             )

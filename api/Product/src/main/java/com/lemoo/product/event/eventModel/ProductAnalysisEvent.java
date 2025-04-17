@@ -34,6 +34,7 @@ public class ProductAnalysisEvent extends Event {
         private String skuCode;
         private String name;
         private Long price;
+        private String image;
         private Map<String, String> variants;
     }
 

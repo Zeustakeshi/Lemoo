@@ -2,21 +2,20 @@ from datetime import datetime
 from typing import Generic, TypeVar, Any
 
 import pytz
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 T = TypeVar('T')
 
 
 class ApiResponse(BaseModel, Generic[T]):
-    is_success: bool
+    is_success: bool = Field(..., alias='isSuccess')
     data: T | None = None
     errors: Any | None = None
     timestamp: str
 
     class Config:
         exclude_none = True
-        alias_generator = lambda x: x.replace('_', '')
-        allow_population_by_field_name = True
+        validate_by_name = True
         json_encoders = {
             datetime: lambda v: v.isoformat()
         }

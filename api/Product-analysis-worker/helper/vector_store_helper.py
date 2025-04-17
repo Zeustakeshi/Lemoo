@@ -33,6 +33,7 @@ def create_document(product_event: ProductAnalysisEvent, sku: ProductAnalysisEve
         "product_id": product_event.product_id,
         "sku_code": sku.sku_code,
         "sku_name": sku.name,
+        "image": sku.image,
         "price": sku.price,
         "variants": sku.variants,
         "store_id": product_event.store.id if product_event.store else None,

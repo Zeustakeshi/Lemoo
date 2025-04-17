@@ -87,7 +87,7 @@ def search_product(query: str) -> list[ProductSearchResponse]:
             id=doc.metadata.get("product_id"),
             name=doc.page_content.split(",")[0].split(":")[1].strip(),
             price=doc.metadata.get("price"),
-            image="",
+            image=doc.metadata.get("image"),
             sku_code=doc.metadata.get("sku_code"),
             sku_name=doc.metadata.get("sku_name"),
             store_id=doc.metadata.get("store_id"),

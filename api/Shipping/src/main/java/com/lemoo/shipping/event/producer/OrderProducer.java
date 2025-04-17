@@ -8,6 +8,7 @@
 package com.lemoo.shipping.event.producer;
 
 import com.lemoo.shipping.event.model.CreateShippingOrderResultEvent;
+import com.lemoo.shipping.event.model.UpdateOrderShippingStatusEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
@@ -23,5 +24,9 @@ public class OrderProducer {
 
     public void createShippingOrderSuccess(CreateShippingOrderResultEvent event) {
         kafkaTemplate.send("shipping-service.shipping.create.success", event);
+    }
+
+    public void updateOrderShippingStatus(UpdateOrderShippingStatusEvent event) {
+        kafkaTemplate.send("shipping-service.shipping.status.update", event);
     }
 }

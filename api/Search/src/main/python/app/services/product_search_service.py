@@ -6,9 +6,9 @@ from google.genai import types
 from langgraph.constants import START, END
 from langgraph.graph import StateGraph
 
-from src.main.python.app.configs.vectordb_config import get_vector_store
-from src.main.python.app.models.response.ProductSearchResponse import ProductSearchResponse
-from src.main.python.app.models.state.ProductSearchState import ProductSearchState
+from ..configs.vectordb_config import get_vector_store
+from ..models.response.ProductSearchResponse import ProductSearchResponse
+from ..models.state.ProductSearchState import ProductSearchState
 
 generate_content_config = types.GenerateContentConfig(
     response_mime_type="application/json",

@@ -53,6 +53,7 @@ public class ProductAnalysisServiceImpl implements ProductAnalysisService {
         Set<ProductAnalysisEvent.ProductSku> skus = productSkus.stream().map(sku ->
                 ProductAnalysisEvent.ProductSku.builder()
                         .name(sku.getName())
+                        .image(sku.getImage().getUrl())
                         .price(sku.getPrice())
                         .skuCode(sku.getSkuCode())
                         .variants(sku.getVariants())

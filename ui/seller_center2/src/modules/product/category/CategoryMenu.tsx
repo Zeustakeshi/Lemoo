@@ -8,14 +8,16 @@ type CategoryMenuProps = {
 };
 
 const GetCategory = async () => {
-    const response: any = await api.get("/categories");
+    const response: any = await api.get("/categories?limit=100");
     const categories = response?.content || [];
     console.log("Danh mục từ API:", categories);
     return categories;
 };
 // Hàm gọi API lấy danh mục con
 const GetChildCategories = async (categoryId: string) => {
-    const response: any = await api.get(`/categories?parent=${categoryId}`);
+    const response: any = await api.get(
+        `/categories?parent=${categoryId}&limit=100`
+    );
     const categoriesChil = response?.content || [];
     return categoriesChil;
 };

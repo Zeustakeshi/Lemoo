@@ -1,15 +1,20 @@
+import { ProductSearchResponse } from "@/common/type/search.type";
 import { cn } from "@/lib/utils";
 import ProductSearchCard from "../modules/product/ProductSearchCard";
 
 type Props = {
     className?: string;
+    products: ProductSearchResponse[];
 };
 
-const SearchResult = ({ className }: Props) => {
+const SearchResult = ({ products, className }: Props) => {
     return (
-        <div className={cn("h-full grid grid-cols-4", className)}>
-            {Array.from({ length: 20 }).map((_, index) => (
-                <ProductSearchCard key={index}></ProductSearchCard>
+        <div className={cn("h-full grid grid-cols-6", className)}>
+            {products.map((product, index) => (
+                <ProductSearchCard
+                    product={product}
+                    key={index}
+                ></ProductSearchCard>
             ))}
         </div>
     );

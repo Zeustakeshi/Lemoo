@@ -1,3 +1,4 @@
+import { ProductSearchResponse } from "@/common/type/search.type";
 import ProductCard, {
     ProductCardBody,
     ProductCardImage,
@@ -6,21 +7,18 @@ import ProductCard, {
     ProductCardTitle,
 } from "@/components/product/ProductCard";
 
-type Props = {};
+type Props = { product: ProductSearchResponse };
 
-const ProductSearchCard = ({}: Props) => {
+const ProductSearchCard = ({ product }: Props) => {
     return (
-        <ProductCard productId="1">
-            <ProductCardImage url="https://img.lazcdn.com/g/p/deb8e84d2577bd99eee8a589e9908af0.png_400x400q80.png_.avif" />
+        <ProductCard productId={product.id}>
+            <ProductCardImage url={product.image} />
             <ProductCardBody>
-                <ProductCardTitle>
-                    Thùng Sữa chua uống Probi Ít Đường chai 130ml -24 chai/Thùng
-                    Yogurt
-                </ProductCardTitle>
+                <ProductCardTitle>{product.name}</ProductCardTitle>
                 <ProductCardRatting value={3.3} ratingsCount={200} />
                 <ProductCardPrice
-                    originPrice={10000}
-                    promotionPrice={9000}
+                    originPrice={product.price}
+                    promotionPrice={product.price}
                 ></ProductCardPrice>
             </ProductCardBody>
         </ProductCard>

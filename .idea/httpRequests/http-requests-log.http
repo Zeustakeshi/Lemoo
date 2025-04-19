@@ -1,3 +1,10 @@
+GET http://localhost:8002/ai/chat/stream?message=Ugt5Y7Ff
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3.5
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+###
+
 POST http://localhost:4006/notifications/init
 Content-Type: application/json
 Content-Length: 108

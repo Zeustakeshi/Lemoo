@@ -23,6 +23,8 @@
         <option value="$PROJECT_DIR$/api/Order_v2/pom.xml" />
         <option value="$PROJECT_DIR$/api/Shipping/Notification/pom.xml" />
         <option value="$PROJECT_DIR$/api/Search/pom.xml" />
+        <option value="$PROJECT_DIR$/api/Chat_ai_mcp_server/pom.xml" />
+        <option value="$PROJECT_DIR$/api/Chat_ai/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">

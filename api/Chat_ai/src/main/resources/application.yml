@@ -23,3 +23,8 @@ server:
   port: 8002
   servlet:
     context-path: /ai
+services:
+  auth-service: ${AUTH_SERVICE_URL:http://localhost:8082/auth}
+
+cache:
+  redis_url: ${REDIS_URL}

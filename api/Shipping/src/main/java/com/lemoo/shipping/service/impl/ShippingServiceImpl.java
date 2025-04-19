@@ -8,6 +8,7 @@
 package com.lemoo.shipping.service.impl;
 
 import com.lemoo.shipping.client.GhnClient;
+import com.lemoo.shipping.common.enums.ShippingOrderStatus;
 import com.lemoo.shipping.dto.common.AuthenticatedAccount;
 import com.lemoo.shipping.dto.common.ShippingOrderItem;
 import com.lemoo.shipping.dto.request.NewShippingOrderRequest;
@@ -17,6 +18,8 @@ import com.lemoo.shipping.dto.response.SkuResponse;
 import com.lemoo.shipping.dto.response.UserResponse;
 import com.lemoo.shipping.entity.ShippingAddress;
 import com.lemoo.shipping.entity.ShippingOrder;
+import com.lemoo.shipping.event.model.UpdateOrderShippingStatusEvent;
+import com.lemoo.shipping.event.producer.OrderProducer;
 import com.lemoo.shipping.exception.NotfoundException;
 import com.lemoo.shipping.mapper.ShippingOrderMapper;
 import com.lemoo.shipping.repository.ShippingAddressRepository;
@@ -40,6 +43,7 @@ public class ShippingServiceImpl implements ShippingService {
     private final GhnClient ghnClient;
     private final ShippingOrderMapper shippingOrderMapper;
     private final ShippingOrderRepository shippingOrderRepository;
+    private final OrderProducer orderProducer;
 
     @Override
     public ShippingOrderResponse getShippingOrderByOrderId(String orderId, AuthenticatedAccount account) {
@@ -119,6 +123,33 @@ public class ShippingServiceImpl implements ShippingService {
         shippingOrderMapper.updateShippingOrder(shippingOrderResponse, shippingOrder);
         shippingOrder.setOrderId(orderId);
         shippingOrder.setUserId(userId);
+        updateOrderStatus(shippingOrder);
+
         return shippingOrderRepository.save(shippingOrder);
+    }
+
+    private void updateOrderStatus(ShippingOrder shippingOrder) {
+
+        var event = UpdateOrderShippingStatusEvent.builder()
+                .orderId(shippingOrder.getOrderId())
+                .userId(shippingOrder.getUserId())
+                .build();
+
+        if (shippingOrder.getStatus() == ShippingOrderStatus.DELIVERED
+                || shippingOrder.getStatus() == ShippingOrderStatus.RETURNED) {
+            event.setMessage("Shipping success!");
+            event.setShippingStatus(UpdateOrderShippingStatusEvent.ShippingStatus.DELIVERED);
+            orderProducer.updateOrderShippingStatus(event);
+        } else if (shippingOrder.getStatus() == ShippingOrderStatus.DELIVERY_FAIL
+                || shippingOrder.getStatus() == ShippingOrderStatus.RETURN_FAIL
+                || shippingOrder.getStatus() == ShippingOrderStatus.LOST
+                || shippingOrder.getStatus() == ShippingOrderStatus.DAMAGE) {
+            event.setMessage("Shipping failed!");
+            event.setShippingStatus(UpdateOrderShippingStatusEvent.ShippingStatus.FAILED_DELIVERY);
+            orderProducer.updateOrderShippingStatus(event);
+        } else {
+            event.setMessage("Shipping....");
+            event.setShippingStatus(UpdateOrderShippingStatusEvent.ShippingStatus.IN_TRANSIT);
+        }
     }
 }

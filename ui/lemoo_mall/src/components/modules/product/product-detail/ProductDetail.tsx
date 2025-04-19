@@ -4,11 +4,10 @@ import Ratting from "@/components/ui/ratting";
 import VoucherList from "@/components/voucher/VoucherList";
 import { formatMoneyVND } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
-import { useParams } from "@tanstack/react-router";
+import { useNavigate, useParams } from "@tanstack/react-router";
 import { Star } from "lucide-react";
 import { useEffect, useState } from "react";
 import ProductImage from "./ProductImage";
-
 import {
   discountCodesData,
   maxRatingData,
@@ -20,15 +19,33 @@ import { CartItemType, SkuType } from "@/common/type/cart.type";
 import { AppDispatch } from "@/store/store";
 import { useDispatch } from "react-redux";
 import { addCartItem } from "@/store/cart/cartSlice";
+import { getStoreOverviewById } from "@/api/store.api";
 
 const ProductDetail = () => {
+  const navigation = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const { productId }: { productId: string } = useParams({ strict: false });
-  const { data } = useQuery({
+
+  // Query để lấy chi tiết sản phẩm
+  const { data: productData } = useQuery({
     queryKey: [`product-detail`, productId],
     queryFn: async () => await getProductDetail(productId),
   });
-  console.log("Dữ liệu API: ", data);
+
+  // Query để lấy thông tin cửa hàng
+  const { data: storeData, isLoading: isStoreLoading } = useQuery({
+    queryKey: [`store-detail`, productData?.storeId],
+    queryFn: async () => {
+      if (productData?.storeId) {
+        return await getStoreOverviewById(productData.storeId);
+      }
+      return null;
+    },
+    enabled: !!productData?.storeId, // Chỉ gọi API khi storeId tồn tại
+  });
+
+  console.log("Dữ liệu API sản phẩm: ", productData);
+  console.log("Dữ liệu API cửa hàng: ", storeData);
 
   const productRating = productRatingData;
   const maxRating = maxRatingData;
@@ -41,21 +58,21 @@ const ProductDetail = () => {
   const listImage = [] as string[];
 
   useEffect(() => {
-    if (data) {
-      if (data?.skus?.length > 0) {
-        data.skus.forEach((item: any) => {
+    if (productData) {
+      if (productData?.skus?.length > 0) {
+        productData.skus.forEach((item: any) => {
           listImage.push(item.image);
           setSelectSku({
-            id: data?.skus[0]?.lemooSku ?? "",
-            price: data?.skus[0]?.originPrice ?? 0,
-            discount: data?.skus[0]?.promotionPrice ?? 0,
+            id: productData?.skus[0]?.lemooSku ?? "",
+            price: productData?.skus[0]?.originPrice ?? 0,
+            discount: productData?.skus[0]?.promotionPrice ?? 0,
           });
         });
-        console.log("Dữ liệu detail: ", data);
+        console.log("Dữ liệu chi tiết sản phẩm: ", productData);
         setDataImage(listImage);
       }
     }
-  }, [data]);
+  }, [productData]);
 
   const handleIncrease = () => setQuantity((prev) => prev + 1);
   const handleDecrease = () => {
@@ -65,15 +82,15 @@ const ProductDetail = () => {
   // Thêm vào giỏ hàng
   const addToCart = async () => {
     const dataCart: CartItemType = {
-      id: data?.id ?? "",
-      name: data?.name ?? "",
-      storeId: data?.storeId ?? "",
+      id: productData?.id ?? "",
+      name: productData?.name ?? "",
+      storeId: productData?.storeId ?? "",
       skus: [
         {
           lemooSku: selectSku?.id ?? "",
           nameSku: selectSku?.productName ?? "",
-          productId: data?.id ?? "",
-          image: data?.images?.[0] ?? "",
+          productId: productData?.id ?? "",
+          image: productData?.images?.[0] ?? "",
           quantity: quantity,
           price: selectSku?.discount ?? selectSku?.price ?? 0,
         },
@@ -89,9 +106,17 @@ const ProductDetail = () => {
     }
   };
 
+  // Xử lý chuyển hướng đến trang cửa hàng
+  const handleStore = async () => {
+    if (!productData?.storeId) {
+      console.error("storeId không tồn tại");
+      return;
+    }
+    navigation({ to: `/store/${productData.storeId}` });
+  };
+
   return (
     <div className="w-full p-6 bg-gray-50">
-      {/* Responsive grid: 1 cột trên mobile, 12 cột trên md trở lên */}
       <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
         {/* --- Product Image Section --- */}
         <section
@@ -106,10 +131,9 @@ const ProductDetail = () => {
           className="col-span-1 md:col-span-5 bg-white rounded-2xl shadow-lg p-8 flex flex-col gap-6"
           aria-label="Thông tin chi tiết sản phẩm"
         >
-          {/* Tên sản phẩm */}
-          <h1 className="text-2xl font-semibold text-gray-800">{data?.name}</h1>
-
-          {/* Giá sản phẩm ---PHẢI ĐỘNG */}
+          <h1 className="text-2xl font-semibold text-gray-800">
+            {productData?.name}
+          </h1>
           <div className="text-2xl font-semibold">
             {selectSku ? (
               selectSku.discount ? (
@@ -128,7 +152,6 @@ const ProductDetail = () => {
               ""
             )}
           </div>
-
           <div className="flex items-center gap-4">
             <span className="font-semibold">Số lượng:</span>
             <div className="flex items-center border rounded-lg">
@@ -154,18 +177,14 @@ const ProductDetail = () => {
               </Button>
             </div>
           </div>
-
-          {/* Đánh giá sản phẩm */}
           <Ratting
-            value={data?.ratting ?? 0}
+            value={productData?.ratting ?? 0}
             readOnly
             className="my-1"
             size={100}
-          ></Ratting>
-
-          {/* Biến thể – lựa chọn kích thước */}
+          />
           <div className="flex flex-wrap gap-2" aria-label="Chọn kích thước">
-            {data?.skus.map((item) => (
+            {productData?.skus.map((item) => (
               <Button
                 key={item.id}
                 variant="outline"
@@ -183,8 +202,6 @@ const ProductDetail = () => {
               </Button>
             ))}
           </div>
-
-          {/* Nút hành động */}
           <div className="flex flex-col gap-2">
             <Button className="px-6 py-3 bg-gray-700 text-white font-semibold rounded-3xl hover:bg-blue-600 transition duration-300">
               Mua Ngay
@@ -197,10 +214,9 @@ const ProductDetail = () => {
               Thêm Vào Giỏ
             </Button>
           </div>
-
-          {/* Mô tả sản phẩm */}
           <article className="text-gray-600">
-            <span className="font-semibold">Mô tả:</span> {data?.description}
+            <span className="font-semibold">Mô tả:</span>{" "}
+            {productData?.description}
           </article>
         </section>
 
@@ -214,32 +230,41 @@ const ProductDetail = () => {
             <div className="flex items-center gap-4">
               <img
                 className="w-12 h-12 rounded-full"
-                src="https://i.pinimg.com/736x/bb/84/e8/bb84e8891c5b8aea249381b5d7c936e5.jpg"
+                src={
+                  storeData?.logo ||
+                  "https://i.pinimg.com/736x/bb/84/e8/bb84e8891c5b8aea249381b5d7c936e5.jpg"
+                }
                 alt="Logo Shop"
               />
               <div>
-                <p className="font-semibold">{data?.storeId}</p>
-                <p className="text-sm text-gray-500">lượt theo dõi | sao</p>
+                <p className="font-semibold">
+                  {storeData?.name || productData?.storeId}
+                </p>
+                <p className="text-sm text-gray-500">
+                  {isStoreLoading
+                    ? "Đang tải..."
+                    : `${storeData?.follower || 0} lượt theo dõi `}
+                </p>
               </div>
             </div>
             <div className="flex gap-2 mt-4 md:mt-0">
-              <Button variant="outline">Xem Shop</Button>
+              <Button onClick={handleStore} variant="outline">
+                Xem Shop
+              </Button>
               <Button>Chat Ngay</Button>
             </div>
           </div>
 
           {/* Product Information & Discount Codes Section */}
           <div className="flex flex-col md:flex-row gap-4">
-            {/* Product Information */}
             <div className="md:w-2/3 p-4 border rounded-2xl shadow-sm bg-white">
               <h2 className="text-lg font-semibold">MÔ TẢ SẢN PHẨM</h2>
-              <p className="text-gray-600 mt-2">{data?.description}</p>
+              <p className="text-gray-600 mt-2">{productData?.description}</p>
             </div>
-            {/* Discount Codes */}
             <div className="md:w-1/3 p-4 border rounded-2xl shadow-sm bg-white">
               <div className="flex flex-col gap-4 overflow-auto max-h-60 mt-2">
                 {discountCodes.map((item, index) => (
-                  <VoucherList key={index}></VoucherList>
+                  <VoucherList key={index} />
                 ))}
               </div>
             </div>
@@ -247,7 +272,7 @@ const ProductDetail = () => {
 
           {/* Reviews Section */}
           <div className="p-4 border rounded-2xl shadow-sm bg-white">
-            <h2 className="text-lg font-semibold">ĐÁNH GIÁ SẢN PHẨM </h2>
+            <h2 className="text-lg font-semibold">ĐÁNH GIÁ SẢN PHẨM</h2>
             <div className="mt-4 space-y-4">
               {[1, 2, 3].map((review) => (
                 <div key={review} className="border-b pb-4">
@@ -325,7 +350,8 @@ const ProductDetail = () => {
             ))}
           </div>
         </section>
-        {/* --- Recommend --- */}
+
+        {/* --- Recommend Section --- */}
         <section
           className="col-span-1 md:col-span-12 mt-8"
           aria-label="Sản phẩm liên quan"
@@ -367,6 +393,7 @@ const ProductDetail = () => {
           </div>
         </section>
       </div>
+
       {/* --- Button to Load More Products --- */}
       <div className="flex items-center justify-center mt-5">
         <button className="px-16 py-2 border shadow-lg bg-slate-50">

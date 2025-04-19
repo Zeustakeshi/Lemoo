@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: chat_ai_service
+  ai:
+    mcp:
+      client:
+        sse:
+          connections:
+            chat_ai_mcp_server:
+              url: ${CHAT_AI_MCP_SERVER:http://localhost:8001}
+        enabled: true
+        request-timeout: 60s
+    openai:
+      chat:
+        completions-path: /v1beta/openai/chat/completions
+        base-url: https://generativelanguage.googleapis.com
+        options:
+          model: gemini-2.0-flash
+          stream-usage: true
+        api-key: ${GEMINI_API_KEY}
+      api-key: ${GEMINI_API_KEY}
+server:
+  port: 8002
+  servlet:
+    context-path: /ai

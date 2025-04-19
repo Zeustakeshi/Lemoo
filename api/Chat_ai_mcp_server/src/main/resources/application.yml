@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: chat_ai_mcp_server
+  main:
+    web-application-type: servlet
+    banner-mode: off
+  ai:
+    mcp:
+      server:
+        name: chat_ai_mcp_server
+        version: 1.0.0
+        enabled: true
+        type: sync
+server:
+  port: 8001

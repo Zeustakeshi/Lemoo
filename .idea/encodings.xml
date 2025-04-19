@@ -10,6 +10,8 @@
     <file url="file://$PROJECT_DIR$/api/Auth/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/api/Auth/src/main/resources/application.yml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/api/Chat/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/api/Chat_ai/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/api/Chat_ai_mcp_server/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/api/Gateway/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/api/Media/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/api/Notification/src/main/java" charset="UTF-8" />

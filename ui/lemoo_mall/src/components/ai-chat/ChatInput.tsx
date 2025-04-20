@@ -30,17 +30,22 @@ const ChatInput = (props: Props) => {
                     message,
                 })
             );
-            const { data } = await askAi(message);
+            setMessage("");
 
+            const data = await askAi(message);
             dispatch(
                 addChatMessage({
                     actor: "ai",
                     message: data,
                 })
             );
-            setMessage("");
         } catch (error: any) {
-            console.log({ error });
+            dispatch(
+                addChatMessage({
+                    actor: "ai",
+                    message: "Đã có lỗi xảy ra vui lòng thử lại sau",
+                })
+            );
         }
     };
 

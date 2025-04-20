@@ -23,11 +23,11 @@ jobs:
         run: mvn clean package
       - name: Build the Docker image
         working-directory: ./api/Chat_ai
-        run: docker build . --file Dockerfile --tag zeustakeshi/lemoo-chat-ai-service:latest
+        run: docker build . --file Dockerfile --tag zeustakeshi/lemoo-ai-chat-service:latest
       - name: login Dockerhub
         run: |
           docker login -u "zeustakeshi" -p ${{ secrets.DOCKER_HUB_TOKEN }}
-          docker push zeustakeshi/lemoo-chat-ai-service:latest
+          docker push zeustakeshi/lemoo-ai-chat-service:latest
           
           
           

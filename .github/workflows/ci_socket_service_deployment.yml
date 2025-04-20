@@ -2,7 +2,7 @@ name: socket_service_deployment
 on:
   pull_request:
     branches:
-      - main
+      - dev
     paths:
       - 'api/Socket/**'
       - '.github/workflows/ci_socket_service_deployment.yml'

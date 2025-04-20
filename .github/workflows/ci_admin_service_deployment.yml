@@ -2,7 +2,7 @@ name: admin_service_deployment
 on:
   pull_request:
     branches:
-      - main
+      - dev
     paths:
       - 'api/Admin/**'
       - '.github/workflows/ci_admin_service_deployment.yml'

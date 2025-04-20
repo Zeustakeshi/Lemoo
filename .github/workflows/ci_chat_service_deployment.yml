@@ -2,7 +2,7 @@ name: chat_service_deployment
 on:
   pull_request:
     branches:
-      - main
+      - dev
     paths:
       - 'api/Chat/**'
       - '.github/workflows/ci_chat_service_deployment.yml'

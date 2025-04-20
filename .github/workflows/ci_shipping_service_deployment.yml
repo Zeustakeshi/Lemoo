@@ -2,7 +2,7 @@ name: shipping_service_deployment
 on:
   pull_request:
     branches:
-      - main
+      - dev
     paths:
       - 'api/Shipping/**'
       - '.github/workflows/ci_shipping_service_deployment.yml'

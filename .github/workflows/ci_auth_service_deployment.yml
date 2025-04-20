@@ -2,7 +2,7 @@ name: auth_service_deployment
 on:
   pull_request:
     branches:
-      - main
+      - dev
     paths:
       - 'api/Auth/**'
       - '.github/workflows/ci_auth_service_deployment.yml'

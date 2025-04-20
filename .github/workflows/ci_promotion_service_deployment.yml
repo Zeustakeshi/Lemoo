@@ -2,7 +2,7 @@ name: promotion_service_deployment
 on:
   pull_request:
     branches:
-      - main
+      - dev
     paths:
       - 'api/Promotion/**'
       - '.github/workflows/ci_promotion_service_deployment.yml'

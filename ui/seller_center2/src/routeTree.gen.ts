@@ -16,9 +16,11 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as ProfileImport } from './routes/profile'
 import { Route as IndexImport } from './routes/index'
 import { Route as NotificationsIndexImport } from './routes/notifications/index'
+import { Route as AddressIndexImport } from './routes/address/index'
 import { Route as StoreStoreImport } from './routes/store/_store'
 import { Route as ProductProductImport } from './routes/product/_product'
 import { Route as OrderOrderImport } from './routes/order/_order'
+import { Route as AddressUpdateaddressImport } from './routes/address/update_address'
 import { Route as PromotionVouchersIndexImport } from './routes/promotion/vouchers/index'
 import { Route as StoreStoreDashboardImport } from './routes/store/_store.dashboard'
 import { Route as StoreStoreCreateImport } from './routes/store/_store.create'
@@ -74,6 +76,12 @@ const NotificationsIndexRoute = NotificationsIndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const AddressIndexRoute = AddressIndexImport.update({
+  id: '/address/',
+  path: '/address/',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const StoreStoreRoute = StoreStoreImport.update({
   id: '/_store',
   getParentRoute: () => StoreRoute,
@@ -87,6 +95,12 @@ const ProductProductRoute = ProductProductImport.update({
 const OrderOrderRoute = OrderOrderImport.update({
   id: '/_order',
   getParentRoute: () => OrderRoute,
+} as any)
+
+const AddressUpdateaddressRoute = AddressUpdateaddressImport.update({
+  id: '/address/update_address',
+  path: '/address/update_address',
+  getParentRoute: () => rootRoute,
 } as any)
 
 const PromotionVouchersIndexRoute = PromotionVouchersIndexImport.update({
@@ -171,6 +185,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProfileImport
       parentRoute: typeof rootRoute
     }
+    '/address/update_address': {
+      id: '/address/update_address'
+      path: '/address/update_address'
+      fullPath: '/address/update_address'
+      preLoaderRoute: typeof AddressUpdateaddressImport
+      parentRoute: typeof rootRoute
+    }
     '/order': {
       id: '/order'
       path: '/order'
@@ -212,6 +233,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/store'
       preLoaderRoute: typeof StoreStoreImport
       parentRoute: typeof StoreRoute
+    }
+    '/address/': {
+      id: '/address/'
+      path: '/address'
+      fullPath: '/address'
+      preLoaderRoute: typeof AddressIndexImport
+      parentRoute: typeof rootRoute
     }
     '/notifications/': {
       id: '/notifications/'
@@ -369,9 +397,11 @@ const StoreRouteWithChildren = StoreRoute._addFileChildren(StoreRouteChildren)
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/profile': typeof ProfileRoute
+  '/address/update_address': typeof AddressUpdateaddressRoute
   '/order': typeof OrderOrderRouteWithChildren
   '/product': typeof ProductProductRouteWithChildren
   '/store': typeof StoreStoreRouteWithChildren
+  '/address': typeof AddressIndexRoute
   '/notifications': typeof NotificationsIndexRoute
   '/order/manage': typeof OrderOrderManageRoute
   '/product/addProduct': typeof ProductProductAddProductRoute
@@ -388,9 +418,11 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/profile': typeof ProfileRoute
+  '/address/update_address': typeof AddressUpdateaddressRoute
   '/order': typeof OrderOrderRouteWithChildren
   '/product': typeof ProductProductRouteWithChildren
   '/store': typeof StoreStoreRouteWithChildren
+  '/address': typeof AddressIndexRoute
   '/notifications': typeof NotificationsIndexRoute
   '/order/manage': typeof OrderOrderManageRoute
   '/product/addProduct': typeof ProductProductAddProductRoute
@@ -408,12 +440,14 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/profile': typeof ProfileRoute
+  '/address/update_address': typeof AddressUpdateaddressRoute
   '/order': typeof OrderRouteWithChildren
   '/order/_order': typeof OrderOrderRouteWithChildren
   '/product': typeof ProductRouteWithChildren
   '/product/_product': typeof ProductProductRouteWithChildren
   '/store': typeof StoreRouteWithChildren
   '/store/_store': typeof StoreStoreRouteWithChildren
+  '/address/': typeof AddressIndexRoute
   '/notifications/': typeof NotificationsIndexRoute
   '/order/_order/manage': typeof OrderOrderManageRoute
   '/product/_product/addProduct': typeof ProductProductAddProductRoute
@@ -432,9 +466,11 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/profile'
+    | '/address/update_address'
     | '/order'
     | '/product'
     | '/store'
+    | '/address'
     | '/notifications'
     | '/order/manage'
     | '/product/addProduct'
@@ -450,9 +486,11 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/profile'
+    | '/address/update_address'
     | '/order'
     | '/product'
     | '/store'
+    | '/address'
     | '/notifications'
     | '/order/manage'
     | '/product/addProduct'
@@ -468,12 +506,14 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/profile'
+    | '/address/update_address'
     | '/order'
     | '/order/_order'
     | '/product'
     | '/product/_product'
     | '/store'
     | '/store/_store'
+    | '/address/'
     | '/notifications/'
     | '/order/_order/manage'
     | '/product/_product/addProduct'
@@ -491,9 +531,11 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ProfileRoute: typeof ProfileRoute
+  AddressUpdateaddressRoute: typeof AddressUpdateaddressRoute
   OrderRoute: typeof OrderRouteWithChildren
   ProductRoute: typeof ProductRouteWithChildren
   StoreRoute: typeof StoreRouteWithChildren
+  AddressIndexRoute: typeof AddressIndexRoute
   NotificationsIndexRoute: typeof NotificationsIndexRoute
   PromotionVouchersIndexRoute: typeof PromotionVouchersIndexRoute
   PromotionVouchersRegularNewRoute: typeof PromotionVouchersRegularNewRoute
@@ -505,9 +547,11 @@ export interface RootRouteChildren {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ProfileRoute: ProfileRoute,
+  AddressUpdateaddressRoute: AddressUpdateaddressRoute,
   OrderRoute: OrderRouteWithChildren,
   ProductRoute: ProductRouteWithChildren,
   StoreRoute: StoreRouteWithChildren,
+  AddressIndexRoute: AddressIndexRoute,
   NotificationsIndexRoute: NotificationsIndexRoute,
   PromotionVouchersIndexRoute: PromotionVouchersIndexRoute,
   PromotionVouchersRegularNewRoute: PromotionVouchersRegularNewRoute,
@@ -530,9 +574,11 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/profile",
+        "/address/update_address",
         "/order",
         "/product",
         "/store",
+        "/address/",
         "/notifications/",
         "/promotion/vouchers/",
         "/promotion/vouchers/regular/new",
@@ -546,6 +592,9 @@ export const routeTree = rootRoute
     },
     "/profile": {
       "filePath": "profile.tsx"
+    },
+    "/address/update_address": {
+      "filePath": "address/update_address.tsx"
     },
     "/order": {
       "filePath": "order",
@@ -587,6 +636,9 @@ export const routeTree = rootRoute
         "/store/_store/create",
         "/store/_store/dashboard"
       ]
+    },
+    "/address/": {
+      "filePath": "address/index.tsx"
     },
     "/notifications/": {
       "filePath": "notifications/index.tsx"

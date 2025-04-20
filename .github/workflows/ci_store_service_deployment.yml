@@ -2,7 +2,7 @@ name: store_service_deployment
 on:
   pull_request:
     branches:
-      - main
+      - dev
     paths:
       - 'api/Store/**'
       - '.github/workflows/ci_store_service_deployment.yml'

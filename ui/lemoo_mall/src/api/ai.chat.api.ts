@@ -1,7 +1,7 @@
-import axios from "axios";
+import { api } from "@/lib/api";
 
-export const askAi = async (message: string) => {
-    return axios.get("http://localhost:8002/ai/chat", {
-        params: { message },
+export const askAi = async (message: string): Promise<string> => {
+    return api.post("/ai/chat/ask", {
+        message,
     });
 };

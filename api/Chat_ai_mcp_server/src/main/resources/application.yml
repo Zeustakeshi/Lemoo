@@ -13,3 +13,6 @@ spring:
         type: sync
 server:
   port: 8001
+
+services:
+  search-service: ${SEARCH_SERVICE_URL:http://localhost:8000/search}

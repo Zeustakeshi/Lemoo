@@ -4,9 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { api } from "@/lib/api";
 import toast from "react-hot-toast";
 import { useNavigate } from "@tanstack/react-router";
-import { updateCustomer } from "@/store/customer/customerSclice";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "@/store/store";
+
 import { useState, useEffect } from "react";
 import {
   Select,
@@ -18,7 +16,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { customerInfo } from "@/lib/customerInfo";
+import { sellerInfo } from "@/api/address.api";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/redux/store";
+import { updateAddress } from "@/redux/address/addressSclice";
+import { Store } from "@/common/type/store.type";
+import { getUserInfo } from "@/api/user.api";
 
 // Định nghĩa schema mới khớp với định dạng mong muốn
 const addressSchema = z.object({
@@ -43,7 +46,7 @@ const addressSchema = z.object({
 });
 type AddressFormInputs = z.infer<typeof addressSchema>;
 
-const AddressCustomer = () => {
+const AddressSeller = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigation = useNavigate();
   const {
@@ -76,7 +79,6 @@ const AddressCustomer = () => {
     const fetchProvinces = async () => {
       try {
         const response = await api.get("/shipping/address/provinces");
-        console.log(response);
         setProvinces(response); // Giả định response.data là [{ code, name }, ...]
       } catch (error) {
         toast.error("Không thể tải danh sách tỉnh/thành phố");
@@ -115,10 +117,21 @@ const AddressCustomer = () => {
 
   const onSubmit = async (data: AddressFormInputs) => {
     try {
-      await api.post("/shipping/my-address", data);
+      const store = await getUserInfo();
+      console.log("store id", store.id);
+      if (!store?.id) {
+        throw new Error("Không tìm thấy thông tin cửa hàng");
+      }
+      await api.post("/shipping/store/address", data, {
+        headers: {
+          "x-store-id": store.id,
+        },
+      });
       console.log("Dữ liệu đăng ký địa chỉ:", data);
-      const customerAdress = await customerInfo();
-      dispatch(updateCustomer(customerAdress));
+      const sellerAddress = await sellerInfo();
+      if (sellerAddress) {
+        dispatch(updateAddress(sellerAddress));
+      }
       navigation({ to: "/order" });
       toast.success("Đã thêm địa chỉ thành công");
     } catch (error) {
@@ -313,4 +326,4 @@ const AddressCustomer = () => {
   );
 };
 
-export default AddressCustomer;
+export default AddressSeller;

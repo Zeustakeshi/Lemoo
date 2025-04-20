@@ -5,7 +5,7 @@ on:
       - main
     paths:
       - 'api/Chat_ai_mcp_server/**'
-      - 'ci_chat_ai_mcp_server_deployment.yml'
+      - '.github/workflows/ci_chat_ai_mcp_server_deployment.yml'
 jobs:
   build:
     runs-on: ubuntu-latest

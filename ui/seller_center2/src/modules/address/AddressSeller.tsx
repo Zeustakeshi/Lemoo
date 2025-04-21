@@ -16,12 +16,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { sellerInfo } from "@/api/address.api";
+import { sellerAdressInfo } from "@/api/address.api";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/redux/store";
 import { updateAddress } from "@/redux/address/addressSclice";
-import { Store } from "@/common/type/store.type";
-import { getUserInfo } from "@/api/user.api";
+import { storeInfoApi } from "@/api/storeInfo.api";
 
 // Định nghĩa schema mới khớp với định dạng mong muốn
 const addressSchema = z.object({
@@ -79,7 +78,7 @@ const AddressSeller = () => {
     const fetchProvinces = async () => {
       try {
         const response = await api.get("/shipping/address/provinces");
-        setProvinces(response); // Giả định response.data là [{ code, name }, ...]
+        setProvinces(response);
       } catch (error) {
         toast.error("Không thể tải danh sách tỉnh/thành phố");
       }
@@ -117,8 +116,7 @@ const AddressSeller = () => {
 
   const onSubmit = async (data: AddressFormInputs) => {
     try {
-      const store = await getUserInfo();
-      console.log("store id", store.id);
+      const store = await storeInfoApi();
       if (!store?.id) {
         throw new Error("Không tìm thấy thông tin cửa hàng");
       }
@@ -128,11 +126,11 @@ const AddressSeller = () => {
         },
       });
       console.log("Dữ liệu đăng ký địa chỉ:", data);
-      const sellerAddress = await sellerInfo();
+      const sellerAddress = await sellerAdressInfo(store.id);
       if (sellerAddress) {
         dispatch(updateAddress(sellerAddress));
       }
-      navigation({ to: "/order" });
+      navigation({ to: "/" });
       toast.success("Đã thêm địa chỉ thành công");
     } catch (error) {
       console.error("Error submitting address:", error);
@@ -145,7 +143,7 @@ const AddressSeller = () => {
       <h2 className="text-xl font-bold mb-4">Nhập Thông Tin Địa Chỉ</h2>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div>
-          <Label>Tên Người Nhận</Label>
+          <Label>Tên Cửa Hàng</Label>
           <Input
             {...register("recipientName")}
             placeholder="Nhập tên người nhận"

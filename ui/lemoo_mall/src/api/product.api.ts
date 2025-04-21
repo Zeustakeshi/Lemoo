@@ -1,7 +1,7 @@
 import { Pageable } from "@/common/type/page.type";
 import {
     ProductFeatureType,
-    TypeProdcutDetail,
+    TypeProductDetail,
 } from "@/common/type/product.type";
 import { api } from "@/lib/api";
 
@@ -15,6 +15,6 @@ export const getProductFeature = async (
 
 export const getProductDetail = async (
     productId: string
-): Promise<TypeProdcutDetail> => {
+): Promise<TypeProductDetail> => {
     return await api.get(`/products/buyer/${productId}`);
 };

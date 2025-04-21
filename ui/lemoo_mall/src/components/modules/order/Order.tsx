@@ -3,7 +3,7 @@ import { OrderType } from "@/common/type/order.type";
 import { DataVoucher } from "@/common/type/voucher.type";
 import { api } from "@/lib/api";
 import { RootState } from "@/store/store";
-import { useNavigate, useRouter } from "@tanstack/react-router";
+import { useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -21,7 +21,7 @@ type PaymentMethod = {
 };
 
 const paymentMethods: PaymentMethod[] = [
-    { id: "MOMO", name: "Ví MoMo", icon: "💰" },
+    { id: "momo", name: "Ví MoMo", icon: "💰" },
     { id: "COD", name: "Thanh toán khi nhận hàng", icon: "📦" },
 ];
 
@@ -41,8 +41,6 @@ const Order = () => {
     const [vouchers, setVouchers] = useState<DataVoucher>();
     const [discountCode, setDiscountCode] = useState("ABC");
     const [paymentMethod, setPaymentMethod] = useState("COD");
-
-    const router = useRouter();
 
     // Initialize form with all items selected by default
     const { control, handleSubmit, setValue } = useForm<OrderFormData>({
@@ -131,8 +129,10 @@ const Order = () => {
         };
 
         try {
-            await api.post<OrderType>("/orders", dataOrder);
-            router.navigate({ to: "/order/my-order" });
+            const responseOrder = await api.post<OrderType>(
+                "/orders",
+                dataOrder
+            );
             toast.success("Đặt hàng thành công!");
         } catch (error) {
             toast.error("Hãy kiểm tra lại thông tin đơn hàng và thử lại.");

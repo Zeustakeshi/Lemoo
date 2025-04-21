@@ -16,6 +16,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RoomRepository extends MongoRepository<Room, String> {
 
-	@Query("{ 'members' : ?0 }")
-	Page<Room> findAllByAccountInMember(String accountId, Pageable pageable);
+    @Query("{ 'members' : ?0 }")
+    Page<Room> findAllByAccountInMember(String accountId, Pageable pageable);
 }

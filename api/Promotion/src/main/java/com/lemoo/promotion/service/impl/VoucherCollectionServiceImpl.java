@@ -58,6 +58,12 @@ public class VoucherCollectionServiceImpl implements VoucherCollectionService {
     }
 
     @Override
+    public CollectedVoucher findByIdAndUserId(String voucherId, String userId) {
+        return collectedVoucherRepository.findByUserIdAndVoucherId(userId, voucherId)
+                .orElseThrow(() -> new NotfoundException("Voucher not found."));
+    }
+
+    @Override
     public PageableResponse<UserVoucherResponse> getAllVoucherByStoreId(String storeId, int page, int limit) {
 
         PageRequest request = PageRequest.of(page, limit, Sort.by(Sort.Direction.DESC, "updatedAt"));
@@ -102,7 +108,7 @@ public class VoucherCollectionServiceImpl implements VoucherCollectionService {
 
     @Override
     @Transactional
-    public void updateUserVoucherQuantity(String userId, Set<String> vouchers) throws Exception {
+    public void updateUserVoucherQuantity(String userId, Set<String> vouchers, int amount) throws Exception {
         List<CollectedVoucher> collectedVouchers = collectedVoucherRepository.findAllByUserIdAndVoucherIdIn(userId, vouchers);
 
         for (CollectedVoucher voucher : collectedVouchers) {
@@ -110,7 +116,7 @@ public class VoucherCollectionServiceImpl implements VoucherCollectionService {
             if (quantity <= 0) {
                 throw new Exception("The voucher quantity is inadequate for use.");
             }
-            voucher.setQuantity(quantity - 1);
+            voucher.setQuantity(quantity - amount);
         }
 
         collectedVoucherRepository.saveAll(collectedVouchers);

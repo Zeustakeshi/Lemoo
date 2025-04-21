@@ -33,6 +33,9 @@ public class ChatServiceImpl implements ChatService {
         String conversationId = chatMemoryService.getConversationId(account.getUserId());
 
         String response = chatClient.prompt()
+                .system("user id: " + account.getUserId())
+                .system("user accountId: " + account.getId())
+                .system("user email: " + account.getEmail())
                 .user(request.getMessage())
                 .messages(chatMemoryService.getAllMessages(conversationId))
                 .call().content();

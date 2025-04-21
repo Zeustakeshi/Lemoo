@@ -33,7 +33,7 @@ public class OrderConsumer {
                 .build();
 
         try {
-            voucherCollectionService.updateUserVoucherQuantity(event.getUserId(), event.getVouchers());
+            voucherCollectionService.updateUserVoucherQuantity(event.getUserId(), event.getVouchers(), 1);
             orderProducer.applyVoucherSuccess(resultEvent);
         } catch (Exception exception) {
             resultEvent.setMessage(exception.getMessage());

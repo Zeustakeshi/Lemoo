@@ -21,5 +21,5 @@ public interface RoomService {
     RoomDetailResponse getRoomDetail(String roomId, AuthenticatedAccount account);
 
     Room findRoomById(String roomId);
-    
+
 }

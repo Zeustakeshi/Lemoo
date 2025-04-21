@@ -10,11 +10,14 @@ import com.lemoo.promotion.dto.common.AuthenticatedAccount;
 import com.lemoo.promotion.dto.response.CollectedVoucherResponse;
 import com.lemoo.promotion.dto.response.PageableResponse;
 import com.lemoo.promotion.dto.response.UserVoucherResponse;
+import com.lemoo.promotion.entity.CollectedVoucher;
 
 import java.util.Set;
 
 public interface VoucherCollectionService {
     Boolean isCollectedVoucher(String userId, String voucherId);
+
+    CollectedVoucher findByIdAndUserId(String voucherId, String userId);
 
     PageableResponse<UserVoucherResponse> getAllVoucherByStoreId(String storeId, int page, int limit);
 
@@ -22,7 +25,7 @@ public interface VoucherCollectionService {
 
     PageableResponse<CollectedVoucherResponse> getAllCollectedVoucher(AuthenticatedAccount account, int page, int limit);
 
-    void updateUserVoucherQuantity(String userId, Set<String> vouchers) throws Exception;
+    void updateUserVoucherQuantity(String userId, Set<String> vouchers, int amount) throws Exception;
 
     void compensateVoucher(String userId, Set<String> vouchers) throws Exception;
 }

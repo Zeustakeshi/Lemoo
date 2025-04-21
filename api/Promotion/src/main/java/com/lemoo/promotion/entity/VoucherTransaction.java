@@ -19,7 +19,7 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
-public class VoucherTransaction extends BaseVoucher {
+public class VoucherTransaction extends BaseEntity {
     private String voucherId;
     private String ownerId;
     private String targetId;

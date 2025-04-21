@@ -1,7 +1,7 @@
 /**
  * Dữ liệu trả về từ api
  */
-export type TypeProdcutDetail = {
+export type TypeProductDetail = {
     /**
      * Mô tả sản phẩm
      */

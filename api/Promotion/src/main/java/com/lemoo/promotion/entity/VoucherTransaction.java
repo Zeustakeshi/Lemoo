@@ -8,13 +8,17 @@
 package com.lemoo.promotion.entity;
 
 import com.lemoo.promotion.common.enums.VoucherTransactionStatus;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
+@SuperBuilder
 public class VoucherTransaction extends BaseVoucher {
     private String voucherId;
     private String ownerId;

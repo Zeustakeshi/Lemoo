@@ -16,3 +16,4 @@ server:
 services:
   search-service: ${SEARCH_SERVICE_URL:http://localhost:8000/search}
   order-service: ${ORDER_SERVICE_URL:http://localhost:4002/orders}
+  shipping-service: ${SHIPPING_SERVICE_URL:http://localhost:4003/shipping}

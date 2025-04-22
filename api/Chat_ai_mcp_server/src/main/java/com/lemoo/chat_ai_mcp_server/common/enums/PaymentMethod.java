@@ -5,7 +5,7 @@
  * */
 
 
-package com.lemoo.chat_ai_mcp_server.common;
+package com.lemoo.chat_ai_mcp_server.common.enums;
 
 public enum PaymentMethod {
     /**

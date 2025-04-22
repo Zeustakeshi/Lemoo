@@ -1,4 +1,5 @@
 import { askAi } from "@/api/ai.chat.api";
+import { MessageType } from "@/common/enum/chat.ai.enum";
 import { cn } from "@/lib/utils";
 import { addChatMessage } from "@/store/chat_ai/chatAiSlice";
 import { ArrowUp } from "lucide-react";
@@ -26,8 +27,8 @@ const ChatInput = (props: Props) => {
         try {
             dispatch(
                 addChatMessage({
-                    actor: "user",
-                    message,
+                    type: MessageType.USER,
+                    content: message,
                 })
             );
             setMessage("");
@@ -35,15 +36,15 @@ const ChatInput = (props: Props) => {
             const data = await askAi(message);
             dispatch(
                 addChatMessage({
-                    actor: "ai",
-                    message: data,
+                    type: MessageType.ASSISTANT,
+                    content: data,
                 })
             );
         } catch (error: any) {
             dispatch(
                 addChatMessage({
-                    actor: "ai",
-                    message: "Đã có lỗi xảy ra vui lòng thử lại sau",
+                    type: MessageType.ASSISTANT,
+                    content: "Đã có lỗi xảy ra vui lòng thử lại sau",
                 })
             );
         }

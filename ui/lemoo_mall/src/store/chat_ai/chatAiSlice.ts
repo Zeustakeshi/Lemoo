@@ -19,9 +19,12 @@ export const ChatAiSlice = createSlice({
         addChatMessage(state, action: PayloadAction<ChatMessageType>) {
             state.messages.push(action.payload);
         },
+        addChatMessageRange(state, action: PayloadAction<ChatMessageType[]>) {
+            state.messages = [...state.messages, ...action.payload];
+        },
     },
 });
 
-export const { addChatMessage } = ChatAiSlice.actions;
+export const { addChatMessage, addChatMessageRange } = ChatAiSlice.actions;
 
 export default ChatAiSlice.reducer;

@@ -13,7 +13,6 @@ spring:
         type: sync
 server:
   port: 8001
-
 services:
   search-service: ${SEARCH_SERVICE_URL:http://localhost:8000/search}
-  order-service: ${ORDER_SERVICE_URL:http://localhost:8080/order}
+  order-service: ${ORDER_SERVICE_URL:http://localhost:4002/orders}

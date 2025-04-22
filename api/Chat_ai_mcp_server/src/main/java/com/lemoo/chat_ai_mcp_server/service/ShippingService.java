@@ -19,7 +19,7 @@ public class ShippingService {
     private final ShippingClient shippingClient;
 
     @Tool(
-            name = "getUserShippingAddresses",
+            name = "getUserAddresses",
             description = "Retrieves a list of all shipping addresses associated with a user by calling the shipping service API. Requires the user's unique identifier as input."
     )
     public ApiResponse<?> getAllShippingAddress(String userId) {

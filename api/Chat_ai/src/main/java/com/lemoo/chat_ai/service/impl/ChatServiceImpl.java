@@ -31,12 +31,18 @@ public class ChatServiceImpl implements ChatService {
     @Override
     public String askLemooAi(AuthenticatedAccount account, AskAiRequest request) {
         String conversationId = chatMemoryService.getConversationId(account.getUserId());
-
-        String response = chatClient.prompt()
-                .system("user id: " + account.getUserId())
-                .system("user accountId: " + account.getId())
-                .system("user email: " + account.getEmail())
-                .user(request.getMessage())
+        String response = chatClient
+                .prompt("""
+                        This is the user's information:
+                        userId: {},
+                        accountId: {},
+                        email: {}
+                        Use this information strictly for context to personalize the response. 
+                        Do NOT include or expose userId, accountId, or email in the response. 
+                        Do NOT use any information provided in the user's question unless explicitly instructed. 
+                        Respond only based on the user's message and the provided context.
+                        """.formatted(account.getUserId(), account.getId(), account.getEmail()))
+                .user("User question: " + request.getMessage())
                 .messages(chatMemoryService.getAllMessages(conversationId))
                 .call().content();
 

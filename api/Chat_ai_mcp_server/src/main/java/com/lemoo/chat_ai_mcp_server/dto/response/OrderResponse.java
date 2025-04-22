@@ -7,8 +7,8 @@
 
 package com.lemoo.chat_ai_mcp_server.dto.response;
 
-import com.lemoo.chat_ai_mcp_server.common.OrderStatus;
-import com.lemoo.chat_ai_mcp_server.common.PaymentMethod;
+import com.lemoo.chat_ai_mcp_server.common.enums.OrderStatus;
+import com.lemoo.chat_ai_mcp_server.common.enums.PaymentMethod;
 import lombok.Builder;
 import lombok.Data;
 

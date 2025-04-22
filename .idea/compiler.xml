@@ -49,15 +49,15 @@
         <module name="Socket" />
         <module name="Notification" />
       </profile>
-      <profile name="Annotation profile for Chat_ai" enabled="true">
+      <profile name="Annotation profile for Chat_ai_mcp_server" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.36/lombok-1.18.36.jar" />
         </processorPath>
-        <module name="Chat_ai" />
         <module name="Chat_ai_mcp_server" />
+        <module name="Chat_ai" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>

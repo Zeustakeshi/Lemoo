@@ -5,7 +5,7 @@
  * */
 
 
-package com.lemoo.chat_ai_mcp_server.common;
+package com.lemoo.chat_ai_mcp_server.common.enums;
 
 /**
  * Represents the possible statuses of an order in an e-commerce system.

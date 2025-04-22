@@ -8,6 +8,7 @@
 package com.lemoo.chat_ai_mcp_server.service;
 
 import com.lemoo.chat_ai_mcp_server.client.ShippingClient;
+import com.lemoo.chat_ai_mcp_server.dto.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.tool.annotation.Tool;
 import org.springframework.stereotype.Service;
@@ -21,9 +22,9 @@ public class ShippingService {
             name = "getAllUserShippingAddress",
             description = "Retrieves a list of all shipping addresses associated with a user by calling the shipping service API. Requires the user's unique identifier as input."
     )
-    public Object getAllShippingAddress(String userId) {
-        return shippingClient.getAllShippingAddress(userId);
+    public ApiResponse<?> getAllShippingAddress(String userId) {
+        return ApiResponse.success(shippingClient.getAllShippingAddress(userId));
     }
 
-  
+
 }

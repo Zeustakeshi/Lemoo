@@ -32,6 +32,8 @@ public interface ProductRepository extends MongoRepository<Product, String> {
 
     Page<Product> findAllByStatus(ProductStatus status, Pageable pageable);
 
+    Page<Product> findAllByStoreIdAndStatus(String storeId, ProductStatus status, Pageable pageable);
+
     @Query(value = "{ '_id': { '$in': ?0 }, 'status': 'LIVE' }", count = true)
     long countActiveProducts(Set<String> productIds);
 }

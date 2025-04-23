@@ -47,7 +47,6 @@ public class ProductRecommendServiceTestImpl implements ProductRecommendService 
                 .map(product ->
                         CompletableFuture.supplyAsync(() -> {
                             ProductFeatureResponse productResponse = sellerProductMapper.toProductFeatureResponse(product);
-
                             Query query = new Query();
                             query.addCriteria(Criteria.where("productId").is(product.getId()));
                             query.limit(1);
@@ -56,7 +55,9 @@ public class ProductRecommendServiceTestImpl implements ProductRecommendService 
                             if (firstSku == null) {
                                 throw new NotfoundException("Sku not found");
                             }
-
+                            if (productResponse.getThumbnail() == null) {
+                                productResponse.setThumbnail(firstSku.getImage().getUrl());
+                            }
                             productResponse.setRattingCount(10000L);
                             productResponse.setRatting(4.5);
                             productResponse.setOriginPrice(firstSku.getPrice());

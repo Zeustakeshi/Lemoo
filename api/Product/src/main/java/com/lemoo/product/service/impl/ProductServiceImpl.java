@@ -70,7 +70,7 @@ public class ProductServiceImpl implements ProductService {
         PageRequest request = PageRequest.of(page, limit, Sort.Direction.DESC, "createdAt");
         Page<Product> products = productRepository.findAllByStoreIdAndStatus(storeId, ProductStatus.LIVE, request);
 
-        Page<ProductResponse> productFeatureResponses = products
+        Page<ProductResponse> productResponses = products
                 .map(product ->
                         CompletableFuture.supplyAsync(() -> {
                             ProductResponse productResponse = productMapper.toProductResponse(product);
@@ -93,6 +93,6 @@ public class ProductServiceImpl implements ProductService {
                         })
                 ).map(CompletableFuture::join);
 
-        return pageMapper.toPageableResponse(productFeatureResponses);
+        return pageMapper.toPageableResponse(productResponses);
     }
 }

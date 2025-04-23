@@ -1,18 +1,18 @@
 import { getAllOrder, handleOrderAction, OrderAction } from "@/api/order.api";
 import { Button } from "@/components/ui/button";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
 } from "@/components/ui/table";
 import { useQuery } from "@tanstack/react-query";
 
@@ -106,134 +106,172 @@ import toast from "react-hot-toast";
 // ];
 
 const OrderTable = ({ status }: { status: string }) => {
-  const storeId = JSON.parse(sessionStorage.getItem("storeInfo") || "{}");
+    const storeId = JSON.parse(sessionStorage.getItem("storeInfo") || "{}");
 
-  console.log("storeId", storeId);
-  const { data } = useQuery({
-    queryKey: ["orders"],
-    queryFn: async () => await getAllOrder(storeId.id, status),
-  });
+    console.log("storeId", storeId);
+    const { data } = useQuery({
+        queryKey: ["orders"],
+        queryFn: async () => await getAllOrder(storeId.id, status),
+    });
 
-  console.log("Danh Sách Order", data);
+    console.log("Danh Sách Order", data);
 
-  const updateOrderStatus = async (id: string, action: OrderAction) => {
-    // Gọi API để cập nhật trạng thái đơn hàng
-    const respones = await handleOrderAction(id, storeId.id, action);
-    console.log("Update order response", respones);
-    if (respones) {
-      toast.success("Cập nhật trạng thái đơn hàng thành công");
-    } else {
-      console.error("Failed to update order status", respones);
-    }
-  };
+    const updateOrderStatus = async (id: string, action: OrderAction) => {
+        // Gọi API để cập nhật trạng thái đơn hàng
+        const respones = await handleOrderAction(id, storeId.id, action);
+        console.log("Update order response", respones);
+        if (respones) {
+            toast.success("Cập nhật trạng thái đơn hàng thành công");
+        } else {
+            console.error("Failed to update order status", respones);
+        }
+    };
 
-  return (
-    <Table>
-      <TableHeader>
-        <TableRow>
-          <TableHead> </TableHead>
-          <TableHead>Sản Phẩm</TableHead>
-          <TableHead>Giảm Giá</TableHead>
-          <TableHead>Giá</TableHead>
-          <TableHead>Số Lượng</TableHead>
-          <TableHead>Ngày Đặt</TableHead>
-          <TableHead>Tổng cộng</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {data?.content?.map((order) => (
-          <>
-            <div className="flex items-center justify-center space-x-3 p-2 m-2 border rounded-lg">
-              <h1 className="font-semibold">Mã đơn hàng: </h1>
-              <span>{order.id}</span>
-            </div>
-            {order.items.map((item) => (
-              <TableRow key={item.lemooSku}>
-                <TableCell>
-                  <img
-                    src={item.image}
-                    alt={item.lemooSku}
-                    className="w-12 h-12"
-                  />
-                </TableCell>
+    return (
+        <Table>
+            <TableHeader>
+                <TableRow>
+                    <TableHead> </TableHead>
+                    <TableHead>Sản Phẩm</TableHead>
+                    <TableHead>Giảm Giá</TableHead>
+                    <TableHead>Giá</TableHead>
+                    <TableHead>Số Lượng</TableHead>
+                    <TableHead>Ngày Đặt</TableHead>
+                    <TableHead>Tổng cộng</TableHead>
+                </TableRow>
+            </TableHeader>
+            <TableBody>
+                {data?.content?.map((order) => (
+                    <>
+                        <div className="flex items-center justify-center space-x-3 p-2 m-2 border rounded-lg">
+                            <h1 className="font-semibold">Mã đơn hàng: </h1>
+                            <span>{order.id}</span>
+                        </div>
+                        {order.items.map((item) => (
+                            <TableRow key={item.lemooSku}>
+                                <TableCell>
+                                    <img
+                                        src={item.image}
+                                        alt={item.lemooSku}
+                                        className="w-12 h-12"
+                                    />
+                                </TableCell>
 
-                <TableCell>{item.lemooSku}</TableCell>
-                <TableCell>{order.vouchers}</TableCell>
-                <TableCell>${item.price}</TableCell>
-                <TableCell>{item.quantity}</TableCell>
-                <TableCell>{order.orderDate}</TableCell>
-                <TableCell>${item.quantity * item.price}</TableCell>
+                                <TableCell>{item.lemooSku}</TableCell>
+                                <TableCell>{order.vouchers}</TableCell>
+                                <TableCell>${item.price}</TableCell>
+                                <TableCell>{item.quantity}</TableCell>
+                                <TableCell>{order.orderDate}</TableCell>
+                                <TableCell>
+                                    ${item.quantity * item.price}
+                                </TableCell>
 
-                {status === "PENDING" && (
-                  <TableCell>
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button variant="outline">xác nhận</Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent>
-                        <DropdownMenuItem
-                          onClick={() => updateOrderStatus(order.id, "confirm")}
-                        >
-                          Xác nhận đơn hàng
-                        </DropdownMenuItem>
-                        <DropdownMenuItem
-                          onClick={() => updateOrderStatus(order.id, "cancel")}
-                        >
-                          Từ chối
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </TableCell>
-                )}
-                {status === "CONFIRMED" && (
-                  <TableCell>
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button variant="outline">xác nhận</Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent>
-                        <DropdownMenuItem
-                          onClick={() => updateOrderStatus(order.id, "packed")}
-                        >
-                          Đã đóng gói
-                        </DropdownMenuItem>
-                        <DropdownMenuItem
-                          onClick={() => updateOrderStatus(order.id, "cancel")}
-                        >
-                          Từ chối
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </TableCell>
-                )}
-                {status === "PACKED" && (
-                  <TableCell>
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button variant="outline">xác nhận</Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent>
-                        <DropdownMenuItem
-                          onClick={() => updateOrderStatus(order.id, "packed")}
-                        >
-                          Đã ship
-                        </DropdownMenuItem>
-                        <DropdownMenuItem
-                          onClick={() => updateOrderStatus(order.id, "cancel")}
-                        >
-                          Hủy
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </TableCell>
-                )}
-              </TableRow>
-            ))}
-          </>
-        ))}
-      </TableBody>
-    </Table>
-  );
+                                {status === "PENDING" && (
+                                    <TableCell>
+                                        <DropdownMenu>
+                                            <DropdownMenuTrigger asChild>
+                                                <Button variant="outline">
+                                                    xác nhận
+                                                </Button>
+                                            </DropdownMenuTrigger>
+                                            <DropdownMenuContent>
+                                                <DropdownMenuItem
+                                                    onClick={() =>
+                                                        updateOrderStatus(
+                                                            order.id,
+                                                            "confirm"
+                                                        )
+                                                    }
+                                                >
+                                                    Xác nhận đơn hàng
+                                                </DropdownMenuItem>
+                                                <DropdownMenuItem
+                                                    onClick={() =>
+                                                        updateOrderStatus(
+                                                            order.id,
+                                                            "cancel"
+                                                        )
+                                                    }
+                                                >
+                                                    Từ chối
+                                                </DropdownMenuItem>
+                                            </DropdownMenuContent>
+                                        </DropdownMenu>
+                                    </TableCell>
+                                )}
+                                {status === "CONFIRMED" && (
+                                    <TableCell>
+                                        <DropdownMenu>
+                                            <DropdownMenuTrigger asChild>
+                                                <Button variant="outline">
+                                                    xác nhận
+                                                </Button>
+                                            </DropdownMenuTrigger>
+                                            <DropdownMenuContent>
+                                                <DropdownMenuItem
+                                                    onClick={() =>
+                                                        updateOrderStatus(
+                                                            order.id,
+                                                            "packed"
+                                                        )
+                                                    }
+                                                >
+                                                    Đã đóng gói
+                                                </DropdownMenuItem>
+                                                <DropdownMenuItem
+                                                    onClick={() =>
+                                                        updateOrderStatus(
+                                                            order.id,
+                                                            "cancel"
+                                                        )
+                                                    }
+                                                >
+                                                    Từ chối
+                                                </DropdownMenuItem>
+                                            </DropdownMenuContent>
+                                        </DropdownMenu>
+                                    </TableCell>
+                                )}
+                                {status === "PACKED" && (
+                                    <TableCell>
+                                        <DropdownMenu>
+                                            <DropdownMenuTrigger asChild>
+                                                <Button variant="outline">
+                                                    xác nhận
+                                                </Button>
+                                            </DropdownMenuTrigger>
+                                            <DropdownMenuContent>
+                                                <DropdownMenuItem
+                                                    onClick={() =>
+                                                        updateOrderStatus(
+                                                            order.id,
+                                                            "packed"
+                                                        )
+                                                    }
+                                                >
+                                                    Đã ship
+                                                </DropdownMenuItem>
+                                                <DropdownMenuItem
+                                                    onClick={() =>
+                                                        updateOrderStatus(
+                                                            order.id,
+                                                            "cancel"
+                                                        )
+                                                    }
+                                                >
+                                                    Hủy
+                                                </DropdownMenuItem>
+                                            </DropdownMenuContent>
+                                        </DropdownMenu>
+                                    </TableCell>
+                                )}
+                            </TableRow>
+                        ))}
+                    </>
+                ))}
+            </TableBody>
+        </Table>
+    );
 };
 
 export default OrderTable;

@@ -10,7 +10,6 @@ package com.lemoo.product.service.impl;
 import com.lemoo.product.common.enums.ProductStatus;
 import com.lemoo.product.dto.response.PageableResponse;
 import com.lemoo.product.dto.response.ProductDetailResponse;
-import com.lemoo.product.dto.response.ProductFeatureResponse;
 import com.lemoo.product.dto.response.ProductResponse;
 import com.lemoo.product.entity.Product;
 import com.lemoo.product.entity.ProductSku;
@@ -71,10 +70,10 @@ public class ProductServiceImpl implements ProductService {
         PageRequest request = PageRequest.of(page, limit, Sort.Direction.DESC, "createdAt");
         Page<Product> products = productRepository.findAllByStoreIdAndStatus(storeId, ProductStatus.LIVE, request);
 
-        Page<ProductFeatureResponse> productFeatureResponses = products
+        Page<ProductResponse> productFeatureResponses = products
                 .map(product ->
                         CompletableFuture.supplyAsync(() -> {
-                            ProductFeatureResponse productResponse = sellerProductMapper.toProductFeatureResponse(product);
+                            ProductResponse productResponse = productMapper.toProductResponse(product);
 
                             Query query = new Query();
                             query.addCriteria(Criteria.where("productId").is(product.getId()));

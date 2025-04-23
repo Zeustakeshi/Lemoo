@@ -7,20 +7,12 @@
 
 package com.lemoo.product.dto.response;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.EqualsAndHashCode;
 
-@AllArgsConstructor
-@NoArgsConstructor
+
+@EqualsAndHashCode(callSuper = true)
 @Data
-public class ProductFeatureResponse {
-    private String id;
-    private String name;
-    private String thumbnail;
-    private Long originPrice;
-    private Long promotionPrice;
-    private Long totalSold;
-    private Double ratting;
-    private Long rattingCount;
+public class ProductFeatureResponse extends ProductResponse {
+
 }

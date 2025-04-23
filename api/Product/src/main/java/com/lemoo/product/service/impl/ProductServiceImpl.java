@@ -8,7 +8,6 @@
 package com.lemoo.product.service.impl;
 
 import com.lemoo.product.common.enums.ProductStatus;
-import com.lemoo.product.dto.common.AuthenticatedAccount;
 import com.lemoo.product.dto.response.PageableResponse;
 import com.lemoo.product.dto.response.ProductDetailResponse;
 import com.lemoo.product.dto.response.ProductFeatureResponse;
@@ -68,7 +67,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public PageableResponse<ProductResponse> getProductByStoreId(String storeId, int page, int limit, AuthenticatedAccount account) {
+    public PageableResponse<ProductResponse> getProductByStoreId(String storeId, int page, int limit) {
         PageRequest request = PageRequest.of(page, limit, Sort.Direction.DESC, "createdAt");
         Page<Product> products = productRepository.findAllByStoreIdAndStatus(storeId, ProductStatus.LIVE, request);
 

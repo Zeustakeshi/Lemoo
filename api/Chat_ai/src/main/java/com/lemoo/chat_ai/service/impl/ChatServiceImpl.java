@@ -33,17 +33,9 @@ public class ChatServiceImpl implements ChatService {
         String conversationId = chatMemoryService.getConversationId(account.getUserId());
         String response = chatClient
                 .prompt()
-                .system("""
-                        This is the user's information:
-                        userId: {},
-                        accountId: {},
-                        email: {}
-                        Use this information strictly for context to personalize the response. 
-                        Do NOT include or expose userId, accountId, or email in the response. 
-                        Do NOT use any information provided in the user's question unless explicitly instructed. 
-                        Respond only based on the user's message and the provided context.
-                        """.formatted(account.getUserId(), account.getId(), account.getEmail()))
-                .user(request.getMessage())
+                .user(
+                        "userId: " + account.getUserId() + " email" + account.getEmail() + " User message" +
+                                request.getMessage())
                 .messages(chatMemoryService.getAllMessages(conversationId))
                 .call().content();
 

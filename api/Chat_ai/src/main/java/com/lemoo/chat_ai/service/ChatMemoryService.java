@@ -11,6 +11,9 @@ import org.springframework.ai.chat.messages.Message;
 import java.util.List;
 
 public interface ChatMemoryService {
+
+    boolean isExistedChatSession(String conversationId);
+
     void addMessage(String conversationId, Message message);
 
     List<Message> getAllMessages(String conversationId);

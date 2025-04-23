@@ -32,7 +32,8 @@ public class ChatServiceImpl implements ChatService {
     public String askLemooAi(AuthenticatedAccount account, AskAiRequest request) {
         String conversationId = chatMemoryService.getConversationId(account.getUserId());
         String response = chatClient
-                .prompt("""
+                .prompt()
+                .system("""
                         This is the user's information:
                         userId: {},
                         accountId: {},
@@ -42,7 +43,7 @@ public class ChatServiceImpl implements ChatService {
                         Do NOT use any information provided in the user's question unless explicitly instructed. 
                         Respond only based on the user's message and the provided context.
                         """.formatted(account.getUserId(), account.getId(), account.getEmail()))
-                .user("User question: " + request.getMessage())
+                .user(request.getMessage())
                 .messages(chatMemoryService.getAllMessages(conversationId))
                 .call().content();
 

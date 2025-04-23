@@ -7,6 +7,7 @@ export const Route = createRootRoute({
 });
 
 function RootComponent() {
+    const store = sessionStorage.getItem("storeInfo");
     return (
         <div className="min-h-screen flex bg-gray-50">
             <SidebarLeft></SidebarLeft>
@@ -14,7 +15,7 @@ function RootComponent() {
             <main className="flex-1 bg-gray-100 p-6">
                 <Outlet />
             </main>
-            <SidebarRight></SidebarRight>
+            {store && <SidebarRight></SidebarRight>}
         </div>
     );
 }

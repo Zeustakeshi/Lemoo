@@ -17,6 +17,7 @@ import com.lemoo.order_v2.service.InternalOrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -28,7 +29,7 @@ public class InternalOrderServiceImpl implements InternalOrderService {
 
     @Override
     public PageableResponse<OrderResponse> getAllOrders(String userId, int page, int limit) {
-        PageRequest pageRequest = PageRequest.of(page, limit);
+        PageRequest pageRequest = PageRequest.of(page, limit, Sort.Direction.DESC, "updatedAt");
         Page<Order> orders = orderRepository.findAllByUserId(userId, pageRequest);
         Page<OrderResponse> orderItemResponses = orders.map(orderMapper::toOrderResponse);
         return pageMapper.toPageableResponse(orderItemResponses);

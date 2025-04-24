@@ -35,6 +35,12 @@ const ProductDetail = () => {
                         {/* Shop Section */}
                         <StoreSection />
                     </section>
+                    <div
+                        className="col-span-12"
+                        dangerouslySetInnerHTML={{
+                            __html: productData.description,
+                        }}
+                    />
                 </div>
             </div>
         </ProductDetailProvider>

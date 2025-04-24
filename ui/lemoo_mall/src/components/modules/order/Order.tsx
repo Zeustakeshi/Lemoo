@@ -3,7 +3,7 @@ import { OrderType } from "@/common/type/order.type";
 import { DataVoucher } from "@/common/type/voucher.type";
 import { api } from "@/lib/api";
 import { RootState } from "@/store/store";
-import { useNavigate } from "@tanstack/react-router";
+import { useNavigate, useRouter } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -54,6 +54,8 @@ const Order = () => {
             ),
         },
     });
+
+    const router = useRouter();
 
     useEffect(() => {
         setProducts(orderInfo);
@@ -134,6 +136,7 @@ const Order = () => {
                 dataOrder
             );
             toast.success("Đặt hàng thành công!");
+            router.navigate({ to: "/order/my-order" });
         } catch (error) {
             toast.error("Hãy kiểm tra lại thông tin đơn hàng và thử lại.");
             console.error("Error placing order:", error);

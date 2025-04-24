@@ -20,6 +20,7 @@ const ChatContainer = ({}: Props) => {
     const { data } = useQuery({
         queryKey: ["get-ai-chat-messages"],
         queryFn: getChatMessages,
+        gcTime: 10000,
     });
 
     const dispatch = useDispatch();

@@ -11,7 +11,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@FeignClient(name = "search-service", url = "http://localhost:8000/search")
+@FeignClient(name = "search-service", url = "${services.search-service}")
 public interface SearchClient {
 
     @GetMapping

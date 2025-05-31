@@ -1,13 +1,8 @@
 import { Category } from "@/common/type/category/category.type";
 import { DataMedia, FormDataAddProduct } from "@/common/type/formAddProduct";
-import { Upload } from "@mui/icons-material";
-import {
-    Button,
-    FormControl,
-    InputLabel,
-    OutlinedInput,
-    Select,
-} from "@mui/material";
+import { Close } from "@mui/icons-material";
+import { Button, FormControl, Select } from "@mui/material";
+import { Upload } from "lucide-react";
 import { useState } from "react";
 import { Control, UseFormRegister } from "react-hook-form";
 import CategoryMenu from "./category/CategoryMenu";
@@ -26,10 +21,6 @@ interface BasicInfoSectionProps {
     setSelectedProductImages: React.Dispatch<React.SetStateAction<DataMedia[]>>;
 }
 
-/**
- * Component BasicInfoSection
- * Component chứa các thông tin cơ bản của sản phẩm, bao gồm tên sản phẩm, danh mục, ảnh sản phẩm và ảnh quảng cáo.
- */
 const BasicInfoSection: React.FC<BasicInfoSectionProps> = ({
     register,
     control,
@@ -40,131 +31,133 @@ const BasicInfoSection: React.FC<BasicInfoSectionProps> = ({
     selectedProductImages,
     setSelectedProductImages,
 }) => {
-    // State để quản lý trạng thái hiển thị của modal tải ảnh nhỏ
-    const [openModalSmallImage, setOpenModalSmallImage] =
-        useState<boolean>(false);
-    // State để quản lý trạng thái hiển thị của modal tải ảnh sản phẩm
-    const [openModalProductImage, setOpenModalProductImage] =
-        useState<boolean>(false);
+    const [openModalSmallImage, setOpenModalSmallImage] = useState(false);
+    const [openModalProductImage, setOpenModalProductImage] = useState(false);
 
-    /**
-     * Hàm xử lý khi người dùng chọn một danh mục.
-     * @param categories - Danh mục được chọn.
-     * @returns {void}
-     */
-    const handleCategorySelect = (categories: Category): void =>
+    const handleCategorySelect = (categories: Category) =>
         setSelectedCategories(categories);
-    /**
-     * Hàm xử lý khi người dùng chọn một ảnh quảng cáo.
-     * @param image - Ảnh quảng cáo được chọn.
-     * @returns {void}
-     */
-    const handleSelectImage = (image: DataMedia): void =>
-        setSelectedImage(image);
-    /**
-     * Hàm xử lý khi người dùng chọn một hoặc nhiều ảnh sản phẩm.
-     * @param images - Mảng các ảnh sản phẩm được chọn.
-     * @returns {void}
-     */
-    const handleSelectImageProduct = (images: DataMedia[]): void =>
+    const handleSelectImage = (image: DataMedia) => setSelectedImage(image);
+    const handleSelectImageProduct = (images: DataMedia[]) =>
         setSelectedProductImages((prev) => [...prev, ...images]);
+    const removeProductImage = (index: number) =>
+        setSelectedProductImages((prev) => prev.filter((_, i) => i !== index));
 
     return (
-        <div className="border bg-slate-100 rounded-lg min-h-[200px] w-full sm:w-11/12 lg:w-11/12 mx-auto my-2 flex flex-col space-y-5 p-5">
-            {/* Tiêu đề của section */}
-            <div className="m-2">
-                <h2 className="font-medium text-xl">Thông tin cơ bản</h2>
-            </div>
-            {/* Trường nhập tên sản phẩm */}
-            <div className="flex flex-col space-y-3">
-                <label htmlFor="name">Tên sản phẩm</label>
+        <div className="bg-white rounded-lg shadow-sm p-6 space-y-6">
+            <h2 className="text-xl font-semibold text-gray-800">
+                Thông tin cơ bản
+            </h2>
+
+            {/* Product Name */}
+            <div className="space-y-2">
+                <label
+                    htmlFor="name"
+                    className="block text-sm font-medium text-gray-700"
+                >
+                    Tên sản phẩm <span className="text-red-500">*</span>
+                </label>
                 <input
-                    className="w-full sm:w-3/4 lg:w-2/3 border-2 border-gray-400 rounded-lg p-2"
-                    type="text"
                     id="name"
-                    {...register("name")}
+                    className="w-full rounded-md border-gray-300 p-3 focus:ring-2 focus:ring-blue-500"
+                    placeholder="Nhập tên sản phẩm..."
+                    {...register("name", {
+                        required: "Tên sản phẩm là bắt buộc",
+                    })}
                 />
             </div>
-            {/* Select danh mục sản phẩm */}
-            <FormControl sx={{ width: 830 }}>
-                <InputLabel>Danh Mục</InputLabel>
-                <Select input={<OutlinedInput label="Danh Mục" />}>
-                    {/* Menu danh mục, cho phép người dùng chọn danh mục */}
-                    <CategoryMenu onSelectCategory={handleCategorySelect} />
-                </Select>
-            </FormControl>
-            {/* Hiển thị danh mục đã chọn */}
-            <div className="p-1 flex items-center space-x-2">
-                <span className="font-semibold text-gray-500">Danh mục: </span>
-                <span className="bg-gray-200 px-4 rounded-lg">
-                    {selectedCategories?.name ?? "....."}
-                </span>
+
+            {/* Category Selector */}
+            <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700">
+                    Danh mục
+                </label>
+                <FormControl fullWidth>
+                    <Select
+                        value={selectedCategories?.id || ""}
+                        onChange={(e) => {
+                            const category = categories.find(
+                                (c) => c.id === e.target.value
+                            );
+                            if (category) handleCategorySelect(category);
+                        }}
+                        displayEmpty
+                        renderValue={(value) =>
+                            selectedCategories?.name || "Chọn danh mục..."
+                        }
+                    >
+                        <CategoryMenu onSelectCategory={handleCategorySelect} />
+                    </Select>
+                </FormControl>
             </div>
-            {/* Ảnh sản phẩm */}
-            <div className="flex flex-col space-y-3">
-                <div className="m-1 flex items-center space-x-2">
-                    <label>Ảnh sản phẩm</label>
-                    {/* NoteAddProduct là một component hiển thị ghi chú hoặc hướng dẫn */}
-                    <NoteAddProduct content="..." />
-                </div>
-                {/* Button để mở modal tải ảnh sản phẩm */}
+
+            {/* Product Images */}
+            <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700">
+                    Ảnh sản phẩm{" "}
+                    <NoteAddProduct content="Tối đa 8 ảnh, định dạng JPG/PNG." />
+                </label>
                 <Button
-                    variant="contained"
+                    variant="outlined"
+                    startIcon={<Upload />}
                     onClick={() => setOpenModalProductImage(true)}
                 >
-                    Tải Lên <Upload fontSize="small" />
+                    Tải lên
                 </Button>
-                {/* Modal tải ảnh sản phẩm */}
                 <UpImageProducts
                     onSelectProductImage={handleSelectImageProduct}
                     isOpen={openModalProductImage}
                     onClose={() => setOpenModalProductImage(false)}
                 />
-                {/* Hiển thị ảnh sản phẩm đã chọn */}
-                <div className="flex items-center space-x-4">
+                <div className="flex space-x-4 overflow-x-auto py-2">
                     {selectedProductImages.map((preview, index) => (
-                        <div key={index} className="relative w-24 h-24">
+                        <div
+                            key={index}
+                            className="relative w-24 h-24 flex-shrink-0"
+                        >
                             <img
                                 src={preview.url}
                                 alt={`Preview ${index + 1}`}
-                                className="w-full h-full object-cover rounded-lg border"
+                                className="w-full h-full object-cover rounded-md border"
                             />
+                            <button
+                                className="absolute top-0 right-0 bg-red-500 text-white rounded-full p-1"
+                                onClick={() => removeProductImage(index)}
+                            >
+                                <Close fontSize="small" />
+                            </button>
                         </div>
                     ))}
                 </div>
             </div>
-            {/* Ảnh quảng cáo */}
-            <div className="flex flex-col space-y-3"></div>
-            <div className="m-1 flex items-center space-x-2">
-                <label>Hình ảnh quảng cáo cho người mua</label>
-                {/* NoteAddProduct là một component hiển thị ghi chú hoặc hướng dẫn */}
-                <NoteAddProduct content="..." />
-            </div>
-            <div className="grid grid-cols-4 gap-4">
-                {/* Hiển thị ảnh quảng cáo đã chọn */}
+
+            {/* Small Image */}
+            <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700">
+                    Hình ảnh quảng cáo{" "}
+                    <NoteAddProduct content="Ảnh chính hiển thị trong danh sách sản phẩm." />
+                </label>
+                <Button
+                    variant="outlined"
+                    startIcon={<Upload />}
+                    onClick={() => setOpenModalSmallImage(true)}
+                >
+                    Tải lên
+                </Button>
+                <UpSmallImage
+                    onSelectImage={handleSelectImage}
+                    isOpen={openModalSmallImage}
+                    onClose={() => setOpenModalSmallImage(false)}
+                />
                 {selectedImage && (
                     <div className="relative w-24 h-24">
                         <img
                             src={selectedImage.url}
-                            alt="small img"
-                            className="w-full h-full object-cover rounded-lg border"
+                            alt="Small Image"
+                            className="w-full h-full object-cover rounded-md border"
                         />
                     </div>
                 )}
             </div>
-            {/* Button để mở modal tải ảnh quảng cáo */}
-            <Button
-                variant="contained"
-                onClick={() => setOpenModalSmallImage(true)}
-            >
-                Tải Lên <Upload fontSize="small" />
-            </Button>
-            {/* Modal tải ảnh quảng cáo */}
-            <UpSmallImage
-                onSelectImage={handleSelectImage}
-                isOpen={openModalSmallImage}
-                onClose={() => setOpenModalSmallImage(false)}
-            />
         </div>
     );
 };

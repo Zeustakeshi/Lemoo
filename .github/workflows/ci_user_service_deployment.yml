@@ -2,7 +2,7 @@ name: user_service_deployment
 on:
   pull_request:
     branches:
-      - main
+      - dev
     paths:
       - 'api/User/**'
       - '.github/workflows/ci_user_service_deployment.yml'

@@ -7,6 +7,7 @@
 package com.lemoo.product.mapper;
 
 import com.lemoo.product.dto.response.ProductDetailResponse;
+import com.lemoo.product.dto.response.ProductResponse;
 import com.lemoo.product.entity.Product;
 import com.lemoo.product.entity.ProductMedia;
 import org.mapstruct.Mapper;
@@ -18,6 +19,8 @@ public interface ProductMapper {
     @Mapping(target = "skus", ignore = true)
     ProductDetailResponse toProductDetailResponse(Product product);
 
+    @Mapping(target = "thumbnail", source = "product.smallImage.url")
+    ProductResponse toProductResponse(Product product);
 
     default String mapMediaToString(ProductMedia media) {
         return media != null ? media.getUrl() : null;

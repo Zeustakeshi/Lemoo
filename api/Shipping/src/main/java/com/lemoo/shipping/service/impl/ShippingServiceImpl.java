@@ -71,7 +71,7 @@ public class ShippingServiceImpl implements ShippingService {
 
         var shippingOrderRequest = NewShippingOrderRequest.builder()
                 .from_name(user.getName())
-                .from_ward_code("440307")
+                .from_ward_code("90740")
                 .to_address(shippingAddress.getAddress().getProvince().getName())
                 .to_ward_code(shippingAddress.getAddress().getWard().getCode())
                 .to_district_name(shippingAddress.getAddress().getDistrict().getName())

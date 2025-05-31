@@ -2,10 +2,10 @@ name: chat_ai_service_deployment
 on:
   pull_request:
     branches:
-      - main
+      - dev
     paths:
       - 'api/Chat_ai/**'
-      - 'ci_chat_ai_service_deployment.yml'
+      - '.github/workflows/ci_chat_ai_service_deployment.yml'
 jobs:
   build:
     runs-on: ubuntu-latest

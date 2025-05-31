@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.messages.AssistantMessage;
 import org.springframework.ai.chat.messages.Message;
+import org.springframework.ai.chat.messages.SystemMessage;
 import org.springframework.ai.chat.messages.UserMessage;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -32,8 +33,17 @@ public class ChatServiceImpl implements ChatService {
     public String askLemooAi(AuthenticatedAccount account, AskAiRequest request) {
         String conversationId = chatMemoryService.getConversationId(account.getUserId());
 
-        String response = chatClient.prompt()
-                .user(request.getMessage())
+        if (!chatMemoryService.isExistedChatSession(conversationId)) {
+            chatMemoryService.addMessage(conversationId,
+                    new SystemMessage("userId: " + account.getUserId() + " userEmail: " + account.getEmail())
+            );
+        }
+
+        String response = chatClient
+                .prompt()
+                .user(
+                        "userId: " + account.getUserId() + " email" + account.getEmail() + " User message" +
+                                request.getMessage())
                 .messages(chatMemoryService.getAllMessages(conversationId))
                 .call().content();
 

@@ -1,6 +1,10 @@
 import { RootState } from "@/store/store";
 
-import { useSelector } from "react-redux";
+import { getChatMessages } from "@/api/ai.chat.api";
+import { addChatMessageRange } from "@/store/chat_ai/chatAiSlice";
+import { useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import ChatHeader from "./ChatHeader";
 import ChatInput from "./ChatInput";
 import ChatMessage from "./ChatMessage";
@@ -13,6 +17,18 @@ type Props = {
 const ChatContainer = ({}: Props) => {
     const { messages } = useSelector((state: RootState) => state.chatAi);
 
+    const { data } = useQuery({
+        queryKey: ["get-ai-chat-messages"],
+        queryFn: getChatMessages,
+        gcTime: 10000,
+    });
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (!data) return;
+        dispatch(addChatMessageRange(data));
+    }, [data]);
     return (
         <div className="p-3 flex flex-col absolute h-[600px] w-[500px] bg-white shadow-2xl bottom-0 right-0 rounded-xl">
             <ChatHeader></ChatHeader>

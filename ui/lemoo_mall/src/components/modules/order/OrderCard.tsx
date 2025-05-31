@@ -47,15 +47,17 @@ const OrderCard = ({
                         {orderId}
                     </span>
                 </p>
-                <Button
-                    onClick={() =>
-                        router.navigate({
-                            to: `/order/tracking/${orderId}`,
-                        })
-                    }
-                >
-                    Theo dõi đơn hàng
-                </Button>
+                {status !== OrderStatus.PENDING && (
+                    <Button
+                        onClick={() =>
+                            router.navigate({
+                                to: `/order/tracking/${orderId}`,
+                            })
+                        }
+                    >
+                        Theo dõi đơn hàng
+                    </Button>
+                )}
             </div>
 
             {store && (

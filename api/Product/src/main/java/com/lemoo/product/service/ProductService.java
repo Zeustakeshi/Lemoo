@@ -7,8 +7,12 @@
 
 package com.lemoo.product.service;
 
+import com.lemoo.product.dto.response.PageableResponse;
 import com.lemoo.product.dto.response.ProductDetailResponse;
+import com.lemoo.product.dto.response.ProductResponse;
 
 public interface ProductService {
     ProductDetailResponse getProductById(String productId);
+
+    PageableResponse<ProductResponse> getProductByStoreId(String storeId, int page, int limit);
 }

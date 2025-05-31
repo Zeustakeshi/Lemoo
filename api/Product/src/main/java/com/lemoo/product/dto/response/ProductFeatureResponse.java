@@ -7,13 +7,12 @@
 
 package com.lemoo.product.dto.response;
 
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
-@NoArgsConstructor
+
 @Data
+@Builder
 public class ProductFeatureResponse {
     private String id;
     private String name;

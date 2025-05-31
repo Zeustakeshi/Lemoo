@@ -8,7 +8,9 @@
 package com.lemoo.chat.service.impl;
 
 import com.lemoo.chat.common.enums.MessageStatus;
+import com.lemoo.chat.common.enums.MessageType;
 import com.lemoo.chat.dto.common.AuthenticatedAccount;
+import com.lemoo.chat.dto.common.VoucherTransaction;
 import com.lemoo.chat.dto.response.MessageResponse;
 import com.lemoo.chat.dto.response.PageableResponse;
 import com.lemoo.chat.entity.Message;
@@ -23,6 +25,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 @Service
@@ -53,6 +56,28 @@ public class MessageServiceImpl implements MessageService {
         notificationService.sendNewMessageNotification(text, roomId, senderId);
         socketService.sendRealtimeMessage(message);
 
+    }
+
+    @Override
+    public void createVoucherMessage(String senderId, String targetId, VoucherTransaction voucherTransaction) {
+        String roomId = voucherTransaction.getRoomId();
+        Room room = roomService.findRoomById(roomId);
+        roomValidatorService.validateRoomAccessPermission(room, senderId);
+        Message message = messageRepository.save(Message
+                .builder()
+                .roomId(roomId)
+                .status(MessageStatus.SENT)
+                .type(MessageType.VOUCHER)
+                .senderId(senderId)
+                .text("New share voucher")
+                .payload(Map.of(
+                        "voucherId", voucherTransaction.getVoucherId(),
+                        "transactionId", voucherTransaction.getTransactionId()
+                ))
+                .build()
+        );
+        notificationService.sendNewMessageNotification(message.getText(), roomId, senderId);
+        socketService.sendRealtimeMessage(message);
     }
 
     @Override

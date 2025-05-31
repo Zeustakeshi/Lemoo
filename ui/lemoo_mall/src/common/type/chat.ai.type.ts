@@ -1,4 +1,6 @@
+import { MessageType } from "../enum/chat.ai.enum";
+
 export type ChatMessageType = {
-    actor: "ai" | "user";
-    message: string;
+    type: MessageType;
+    content: string;
 };

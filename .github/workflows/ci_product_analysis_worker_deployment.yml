@@ -2,7 +2,7 @@ name: product_analysis_worker_deployment
 on:
   pull_request:
     branches:
-      - main
+      - dev
     paths:
       - 'api/Product-analysis-worker/**'
       - '.github/workflows/ci_product_analysis_worker_deployment.yml'

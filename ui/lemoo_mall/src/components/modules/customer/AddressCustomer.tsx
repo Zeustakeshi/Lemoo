@@ -75,7 +75,7 @@ const AddressCustomer = () => {
   useEffect(() => {
     const fetchProvinces = async () => {
       try {
-        const response = await api.get("/shipping/provinces");
+        const response = await api.get("/shipping/address/provinces");
         console.log(response);
         setProvinces(response); // Giả định response.data là [{ code, name }, ...]
       } catch (error) {
@@ -88,7 +88,7 @@ const AddressCustomer = () => {
   // Fetch districts based on selected province
   const fetchDistricts = async (provinceCode: string) => {
     try {
-      const response = await api.get("/shipping/districts", {
+      const response = await api.get("/shipping/address/districts", {
         params: { provinceCode }, // Sử dụng params thay vì body cho GET request
       });
       setDistricts(response); // Giả định response.data là [{ code, name }, ...]
@@ -103,7 +103,7 @@ const AddressCustomer = () => {
   // Fetch wards based on selected district
   const fetchWards = async (districtCode: string) => {
     try {
-      const response = await api.get("/shipping/wards", {
+      const response = await api.get("/shipping/address/wards", {
         params: { districtCode }, // Sử dụng params thay vì body cho GET request
       });
       setWards(response); // Giả định response.data là [{ code, name }, ...]

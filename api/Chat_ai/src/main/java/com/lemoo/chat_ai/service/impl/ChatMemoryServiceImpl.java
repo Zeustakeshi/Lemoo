@@ -22,6 +22,13 @@ import java.util.List;
 public class ChatMemoryServiceImpl implements ChatMemoryService {
     private final RedissonClient redisson;
 
+
+    @Override
+    public boolean isExistedChatSession(String conversationId) {
+        RList<Message> rList = redisson.getList(conversationId);
+        return rList.isExists();
+    }
+
     @Override
     public void addMessage(String conversationId, Message message) {
         RList<Message> rList = redisson.getList(conversationId);

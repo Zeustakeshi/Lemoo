@@ -33,6 +33,8 @@ public class SocketServiceImpl implements SocketService {
                         .message(message.getText())
                         .roomId(message.getRoomId())
                         .messageId(message.getId())
+                        .messageType(message.getType())
+                        .payload(message.getPayload())
                         .sender(sender)
                         .build())
         );

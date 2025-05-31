@@ -9,18 +9,20 @@ import { useQuery } from "@tanstack/react-query";
 import Autoplay from "embla-carousel-autoplay";
 import ProductFeatureCard from "./ProductFeatureCard";
 
-type Props = {};
+type Props = {
+    title?: string;
+};
 
-const ProductFeature = ({}: Props) => {
+const ProductFeature = ({ title = "Sản phẩm nổi bật" }: Props) => {
     const { data } = useQuery({
         queryKey: ["get product feature"],
-        queryFn: async () => await getProductFeature(10),
+        queryFn: async () => await getProductFeature(100),
     });
 
     return (
         <div>
             <div className="w-full flex justify-between items-center mb-3">
-                <h4 className="text-xl font-semibold ">Sản phẩm nổi bật</h4>
+                <h4 className="text-xl font-semibold ">{title}</h4>
                 <Button variant="link">Xem tất cả</Button>
             </div>
             <div className="">

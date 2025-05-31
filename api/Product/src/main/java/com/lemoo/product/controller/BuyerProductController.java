@@ -10,10 +10,7 @@ package com.lemoo.product.controller;
 import com.lemoo.product.dto.response.ApiResponse;
 import com.lemoo.product.service.ProductService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/buyer")
@@ -26,5 +23,14 @@ public class BuyerProductController {
             @PathVariable("productId") String productId
     ) {
         return ApiResponse.success(productService.getProductById(productId));
+    }
+
+    @GetMapping("/store/{storeId}")
+    public ApiResponse<?> getProductByStoreId(
+            @PathVariable("storeId") String storeId,
+            @RequestParam(value = "page", required = false, defaultValue = "0") int page,
+            @RequestParam(value = "limit", required = false, defaultValue = "20") int limit
+    ) {
+        return ApiResponse.success(productService.getProductByStoreId(storeId, page, limit));
     }
 }

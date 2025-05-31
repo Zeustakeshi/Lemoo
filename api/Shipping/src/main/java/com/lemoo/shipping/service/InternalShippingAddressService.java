@@ -8,6 +8,11 @@ package com.lemoo.shipping.service;
 
 import com.lemoo.shipping.dto.response.InternalShippingAddressResponse;
 
-public interface InternalShippingService {
+import java.util.List;
+
+public interface InternalShippingAddressService {
     InternalShippingAddressResponse getShippingAddressByIdAndUserId(String addressId, String userId);
+
+
+    List<InternalShippingAddressResponse> getAllShippingAddress(String userId);
 }

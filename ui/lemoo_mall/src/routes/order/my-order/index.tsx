@@ -28,17 +28,23 @@ function RouteComponent() {
         <div className="my-5">
             <h1 className="text-2xl font-semibold">Đơn hàng của tôi</h1>
             <div className="my-5">
-                {data.content.map((orderItem) => (
-                    <OrderCard
-                        key={orderItem.id}
-                        items={orderItem.items}
-                        orderDate={orderItem.orderDate}
-                        orderId={orderItem.id}
-                        status={orderItem.status}
-                        storeId={orderItem.storeId}
-                        total={orderItem.total}
-                    ></OrderCard>
-                ))}
+                {data.content
+                    ?.sort(
+                        (o1, o2) =>
+                            new Date(o2.orderDate).getTime() -
+                            new Date(o1.orderDate).getTime()
+                    )
+                    .map((orderItem) => (
+                        <OrderCard
+                            key={orderItem.id}
+                            items={orderItem.items}
+                            orderDate={orderItem.orderDate}
+                            orderId={orderItem.id}
+                            status={orderItem.status}
+                            storeId={orderItem.storeId}
+                            total={orderItem.total}
+                        ></OrderCard>
+                    ))}
             </div>
         </div>
     );

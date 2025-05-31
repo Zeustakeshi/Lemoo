@@ -2,7 +2,7 @@ name: product_service_deployment
 on:
   pull_request:
     branches:
-      - main
+      - dev
     paths:
       - 'api/Product/**'
       - '.github/workflows/ci_product_service_deployment.yml'

@@ -7,8 +7,11 @@
 
 package com.lemoo.chat.event.event.model;
 
+import com.lemoo.chat.common.enums.MessageType;
 import com.lemoo.chat.dto.response.UserResponse;
 import lombok.*;
+
+import java.util.Map;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -19,5 +22,7 @@ public class SendRealtimeMessageEvent extends Event {
     private String roomId;
     private UserResponse sender;
     private String message;
+    private MessageType messageType;
+    private Map<String, String> payload;
     private String messageId;
 }

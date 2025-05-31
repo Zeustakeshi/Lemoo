@@ -2,7 +2,7 @@ name: search_service_deployment
 on:
   pull_request:
     branches:
-      - main
+      - dev
     paths:
       - 'api/Search/**'
       - 'ci_search_service_deployment.yml'

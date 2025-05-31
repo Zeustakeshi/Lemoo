@@ -36,6 +36,7 @@ public class SecurityConfig {
                 .exceptionHandling(handler -> handler.authenticationEntryPoint(authenticationEntryPoint)
                         .accessDeniedHandler(accessDeniedHandler))
                 .authorizeHttpRequests(request -> request
+                        .requestMatchers("/orders/internal/**").permitAll()
                         .requestMatchers("/orders/seller/**").hasRole("SELLER")
                         .anyRequest().authenticated())
                 .oauth2ResourceServer(

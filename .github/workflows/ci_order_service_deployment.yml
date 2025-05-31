@@ -2,7 +2,7 @@ name: order_service_deployment
 on:
   pull_request:
     branches:
-      - main
+      - dev
     paths:
       - 'api/Order_v2/**'
       - '.github/workflows/ci_order_service_deployment.yml'

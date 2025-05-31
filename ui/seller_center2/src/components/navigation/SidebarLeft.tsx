@@ -1,3 +1,4 @@
+import { Status, Store } from "@/common/type/store.type";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { Link, useRouter } from "@tanstack/react-router";
 import { useState } from "react";
@@ -5,6 +6,12 @@ import LogoLemo from "../../assets/LeMooEco.svg";
 type Props = {};
 
 const SidebarLeft = (props: Props) => {
+    const [store, setStore] = useState<Store | null>(() => {
+        const storeString = sessionStorage.getItem("storeInfo");
+        if (!storeString) return null;
+        return JSON.parse(storeString);
+    });
+
     return (
         <aside className="w-64 bg-white shadow-md flex flex-col h-[100svh] sticky top-0">
             <div className="p-6 border-b border-gray-300 flex flex-col items-center">
@@ -19,47 +26,58 @@ const SidebarLeft = (props: Props) => {
                 <span className="text-yellow-600 text-lg">Seller Center</span>
             </div>
             {/* Navigation */}
-            <nav className="flex-1 p-4">
-                <ul className="space-y-4">
-                    <SideBarItem to="/" label="Trang chủ"></SideBarItem>
-                    <SideBarItem
-                        label="Quản lý cửa hàng"
-                        subItems={[
-                            {
-                                label: "Dashboard",
-                                to: "/store/dashboard",
-                            },
-                        ]}
-                    ></SideBarItem>
-                    <SideBarItem
-                        label="Quản lý sản phẩm"
-                        subItems={[
-                            {
-                                label: "Danh sách sản phẩm",
-                                to: "/product/manage",
-                            },
-                            {
-                                label: "Thêm sản phẩm",
-                                to: "/product/addProduct",
-                            },
-                        ]}
-                    />
+            {store &&
+                store.status !== Status.PENDING &&
+                store.status !== Status.DELETED &&
+                store.status !== Status.NOT_ACTIVE && (
+                    <nav className="flex-1 p-4">
+                        <ul className="space-y-4">
+                            <SideBarItem to="/" label="Trang chủ"></SideBarItem>
+                            <SideBarItem
+                                label="Quản lý cửa hàng"
+                                subItems={[
+                                    {
+                                        label: "Dashboard",
+                                        to: "/store/dashboard",
+                                    },
+                                ]}
+                            ></SideBarItem>
+                            <SideBarItem
+                                label="Quản lý sản phẩm"
+                                subItems={[
+                                    {
+                                        label: "Danh sách sản phẩm",
+                                        to: "/product/manage",
+                                    },
+                                    {
+                                        label: "Thêm sản phẩm",
+                                        to: "/product/addProduct",
+                                    },
+                                ]}
+                            />
 
-                    <SideBarItem
-                        label="Kênh Maketing"
-                        subItems={[
-                            {
-                                label: "Công cụ khuyến mãi",
-                                to: "/promotion/vouchers",
-                            },
-                        ]}
-                    ></SideBarItem>
-                    <SideBarItem
-                        to="/store/create"
-                        label="Store Create"
-                    ></SideBarItem>
-                </ul>
-            </nav>
+                            <SideBarItem
+                                label="Quản lý đơn hàng"
+                                subItems={[
+                                    {
+                                        label: "Danh sách đơn hàng",
+                                        to: "/order/manage",
+                                    },
+                                ]}
+                            />
+
+                            <SideBarItem
+                                label="Kênh Maketing"
+                                subItems={[
+                                    {
+                                        label: "Công cụ khuyến mãi",
+                                        to: "/promotion/vouchers",
+                                    },
+                                ]}
+                            ></SideBarItem>
+                        </ul>
+                    </nav>
+                )}
         </aside>
     );
 };

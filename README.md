@@ -1,10 +1,10 @@
-# ?? Lemoo ? Community-Powered E-Commerce Platform
+# 🛍️ Lemoo — Community-Powered E-Commerce Platform
 
 > A modern, microservices-based e-commerce platform that combines seamless online shopping with rich social interaction, AI-powered search, and real-time community features.
 
 ---
 
-## ? Table of Contents
+## 📌 Table of Contents
 
 - [Overview](#overview)
 - [Key Features](#key-features)
@@ -30,44 +30,44 @@
 
 Lemoo is a full-featured e-commerce ecosystem built from the ground up on a **microservices architecture**, designed to handle massive scale while delivering a personalized, community-driven shopping experience.
 
-Unlike traditional e-commerce platforms that focus purely on transactions, Lemoo blends **social commerce** into the core product ? users can connect as friends, share vouchers, chat in real-time, and get AI-powered shopping recommendations, all within a single integrated ecosystem.
+Unlike traditional e-commerce platforms that focus purely on transactions, Lemoo blends **social commerce** into the core product — users can connect as friends, share vouchers, chat in real-time, and get AI-powered shopping recommendations, all within a single integrated ecosystem.
 
 
 ---
 
 ## Key Features
 
-### ? Shopping
+### 🛒 Shopping
 - Personalized product recommendations
 - Shopping cart management
 - Voucher collection and redemption
-- Order placement and real-time order tracking (pending ? processing ? shipping ? delivered)
+- Order placement and real-time order tracking (pending → processing → shipping → delivered)
 
-### ? AI-Powered Search
+### 🔍 AI-Powered Search
 - **Natural language search**: describe what you're looking for in plain Vietnamese or English
 - **Semantic vector search** using Google Text-Embedding-004 + Qdrant
 - Traditional keyword search with filtering
 
-### ? AI Shopping Assistant
+### 🤖 AI Shopping Assistant
 - Integrated LLM chatbot (Gemini 2.0 Flash) for personalized shopping advice
 - Budget-based product planning (e.g. *"I have 2 million VND, what massage chair should I buy?"*)
 - Order tracking and voucher management via natural language
 - Built on the **Model Context Protocol (MCP)** for structured tool-calling into backend services
 
-### ? Community & Social
+### 👥 Community & Social
 - Real-time 1-on-1 and group messaging
 - Friend discovery and requests
 - Voucher sharing between friends
 - Notification center for order and product events
 
-### ? Seller Tools (Lemoo Seller Center)
+### 🏪 Seller Tools (Lemoo Seller Center)
 - Product creation with variant management (SKU, size, color, images)
 - Inventory and pricing management
 - Promotion/voucher campaign creation
 - Order fulfillment and shipping status management
 - AI-assisted product listing evaluation (auto-moderation)
 
-### ?? Admin
+### 🛡️ Admin
 - Store approval workflow (approve / reject with notifications)
 - Product moderation (manual + AI-assisted auto-approval)
 - System monitoring via Kubernetes Dashboard, Kafka UI, Redis Insight
@@ -129,10 +129,10 @@ The Lemoo ecosystem is divided into three primary layers: the **Client Layer**, 
 <img src="./images/high-level-design-diagram.png">
 
 **Client Applications:**
-- **Lemoo Mall** ? buyer-facing storefront with search, cart, and order tracking
-- **Lemoo Chat** ? social layer: friends, direct messaging, voucher sharing, AI chat
-- **Lemoo Seller Center** ? seller dashboard for product, order, promotion management
-- **Lemoo Admin** ? back-office for store/product approval and system monitoring
+- **Lemoo Mall** — buyer-facing storefront with search, cart, and order tracking
+- **Lemoo Chat** — social layer: friends, direct messaging, voucher sharing, AI chat
+- **Lemoo Seller Center** — seller dashboard for product, order, promotion management
+- **Lemoo Admin** — back-office for store/product approval and system monitoring
 
 **Lemoo SSO** provides single sign-on across all four apps via OAuth 2.0, so users authenticate once and move freely between surfaces.
 
@@ -142,21 +142,21 @@ The Lemoo ecosystem is divided into three primary layers: the **Client Layer**, 
 
 The authentication system uses a **token-based, gateway-enforced** model:
 
-1. **Login via SSO** ? Auth Service validates credentials ? issues JWT access token
+1. **Login via SSO** → Auth Service validates credentials → issues JWT access token
 2. **Every API request** passes through the **API Gateway**, which validates the token
-3. If the token is missing or invalid ? `HTTP 401 Unauthorized`
+3. If the token is missing or invalid → `HTTP 401 Unauthorized`
 4. Internal resource services call Auth Service's `/auth/internal/token_key` endpoint to decode the token and extract the user's roles
-5. If the user lacks required permissions ? `HTTP 403 Forbidden`
+5. If the user lacks required permissions → `HTTP 403 Forbidden`
 
-<!-- INSERT: H�nh 3.2 - S? ?? ??ng nh?p qua SSO v� Auth Service -->
+<!-- INSERT: Hình 3.2 - Sơ đồ đăng nhập qua SSO và Auth Service -->
 <img src="./images/sso_auth_service.png" alt="sso_auth_service">
 
-<!-- INSERT: H�nh 3.3 - S? ?? x�c th?c token trong h? th?ng ph�n t�n -->
+<!-- INSERT: Hình 3.3 - Sơ đồ xác thực token trong hệ thống phân tán -->
 
 <img src="./images/token_authorization.png" alt="token_authorization">
 
 
-This design means **no service trusts the client directly** ? all authorization is verified internally, ensuring clean separation of concerns and a strong security posture.
+This design means **no service trusts the client directly** — all authorization is verified internally, ensuring clean separation of concerns and a strong security posture.
 
 ---
 
@@ -189,7 +189,7 @@ When a seller creates a product, it goes through a multi-stage asynchronous pipe
 **Key design decisions:**
 - LLM-based auto-moderation reduces admin workload significantly
 - Vector embeddings are generated at creation time, so AI search is always up-to-date
-- All steps are fully decoupled via Kafka ? Product Service never blocks on evaluation
+- All steps are fully decoupled via Kafka — Product Service never blocks on evaluation
 
 ---
 
@@ -202,7 +202,7 @@ Order processing is the most complex workflow in Lemoo, coordinating multiple se
 
 **Why Saga over 2PC?**
 
-Traditional two-phase commit (2PC) requires global resource locks across services ? this kills throughput at scale. Saga breaks the transaction into local transactions per service, with **compensating transactions** that roll back only what's needed if a step fails. Combined with Kafka as the event bus, this approach supports 10 million orders per minute without bottlenecks.
+Traditional two-phase commit (2PC) requires global resource locks across services — this kills throughput at scale. Saga breaks the transaction into local transactions per service, with **compensating transactions** that roll back only what's needed if a step fails. Combined with Kafka as the event bus, this approach supports 10 million orders per minute without bottlenecks.
 
 ---
 
@@ -210,20 +210,20 @@ Traditional two-phase commit (2PC) requires global resource locks across service
 
 In high-concurrency scenarios, multiple order requests may target the same product SKU or promotion code simultaneously. Without synchronization, this leads to:
 
-- **Race conditions** ? two requests both read stock = 1, both proceed, stock goes to -1
-- **Overselling** ? more units sold than available
-- **Promotion overuse** ? voucher used more times than its configured limit
+- **Race conditions** — two requests both read stock = 1, both proceed, stock goes to -1
+- **Overselling** — more units sold than available
+- **Promotion overuse** — voucher used more times than its configured limit
 
 Lemoo solves this using **Redis distributed locks via Redisson**:
 
 
-<!-- INSERT: H�nh 3.9 - ?nh minh h?a c? ch? kh�a ph�n t�n -->
+<!-- INSERT: Hình 3.9 - Ảnh minh họa cơ chế khóa phân tán -->
 <img src="images/distributed_lock.png" alt="distributed_lock">
 
 **Inventory lock key**: `lock:product:<productId>`
 **Promotion lock key**: `lock:promotion:<promotionId>`
 
-Redis also serves as a **distributed cache layer** (via Redis Cluster) for frequently accessed data like product listings, voucher metadata, and session state ? significantly reducing load on PostgreSQL and MongoDB.
+Redis also serves as a **distributed cache layer** (via Redis Cluster) for frequently accessed data like product listings, voucher metadata, and session state — significantly reducing load on PostgreSQL and MongoDB.
 
 ---
 
@@ -232,11 +232,11 @@ Redis also serves as a **distributed cache layer** (via Redis Cluster) for frequ
 The chat system is built on **WebSocket + Kafka** to achieve low-latency message delivery at scale:
 
 
-<!-- INSERT: H�nh 3.10 - S? ?? thi?t k? h? th?ng chat realtime v?i socket -->
+<!-- INSERT: Hình 3.10 - Sơ đồ thiết kế hệ thống chat realtime với socket -->
 <img src="images/realtime_chat.png" alt="realtime_chat">
 
 **Design choices:**
-- **MongoDB** is used for chat storage ? its flexible document model and high write throughput fit chat history perfectly
+- **MongoDB** is used for chat storage — its flexible document model and high write throughput fit chat history perfectly
 - **Kafka** decouples the Socket Service from Chat Service, allowing each to scale independently
 - Target message delivery latency: **< 100ms** under high load
 
@@ -255,7 +255,7 @@ The AI layer uses **Model Context Protocol (MCP)** to give the LLM structured, r
 | Order MCP Server | Order Service | "Where is my order?" |
 | Voucher MCP Server | Promotion Service | "Do I have any vouchers for this shop?" |
 
-<!-- INSERT: H�nh 3.11 - H? th?ng AI chat s? d?ng MCP server -->
+<!-- INSERT: Hình 3.11 - Hệ thống AI chat sử dụng MCP server -->
 <img src="images/AI_search_mcp.png" alt="AI_search_mcp">
 
 This architecture means the AI can answer complex, multi-step queries like:
@@ -272,9 +272,9 @@ Every push to the main branch triggers an automated GitHub Actions pipeline:
 
 <img src="images/ci_cd_pipeline.png" alt="ci_cd_pipeline">
 
-<!-- INSERT: H�nh 3.12 - Quy tr�nh CI/CD v?i Github Actions v� Kubernetes -->
+<!-- INSERT: Hình 3.12 - Quy trình CI/CD với Github Actions và Kubernetes -->
 
-<!-- INSERT: H�nh 4.7 - Giao di?n qu?n l� CI qua Github Actions -->
+<!-- INSERT: Hình 4.7 - Giao diện quản lý CI qua Github Actions -->
 
 
 
@@ -296,21 +296,21 @@ Every push to the main branch triggers an automated GitHub Actions pipeline:
 
 **Homepage**
 
-<!-- INSERT: H�nh 4.10 - Giao di?n trang ch? Lemoo Mall -->
+<!-- INSERT: Hình 4.10 - Giao diện trang chủ Lemoo Mall -->
 <img src="images/ui/ui_shop_dashboard.png"/>
 ---
 
 **Product Detail Page**
 
-<!-- INSERT: H�nh 4.12 - Giao di?n chi ti?t s?n ph?m -->
+<!-- INSERT: Hình 4.12 - Giao diện chi tiết sản phẩm -->
 <img src="images/ui/ui_product_detail.png"/>
 ---
 
 ### AI Chat Assistant
 
-<!-- INSERT: H�nh 4.11 - Giao di?n chat AI -->
+<!-- INSERT: Hình 4.11 - Giao diện chat AI -->
 <img src="images/ui/ui_ai_chat.png"/>
-*Example conversation: User asks for a massage chair recommendation within budget ? the AI searches the platform, finds matching products, and suggests the best fit.*
+*Example conversation: User asks for a massage chair recommendation within budget — the AI searches the platform, finds matching products, and suggests the best fit.*
 
 ---
 
@@ -338,7 +338,7 @@ Every push to the main branch triggers an automated GitHub Actions pipeline:
 
 **Store Registration**
 
-<!-- INSERT: H�nh 4.18 - Giao di?n ??ng k� b�n h�ng -->
+<!-- INSERT: Hình 4.18 - Giao diện đăng ký bán hàng -->
 <img src="images/ui/ui_seller_create.png"/>
 ---
 
@@ -350,11 +350,11 @@ Every push to the main branch triggers an automated GitHub Actions pipeline:
 
 **Real-Time Chat**
 
-<!-- INSERT: H�nh 4.26 - Giao di?n chat -->
+<!-- INSERT: Hình 4.26 - Giao diện chat -->
 <img src="images/ui/ui_chat.png"/>
 **Notification Center**
 
-<!-- INSERT: H�nh 4.23 - Giao di?n trung t�m th�ng b�o -->
+<!-- INSERT: Hình 4.23 - Giao diện trung tâm thông báo -->
 
 ---
 
@@ -372,17 +372,17 @@ Every push to the main branch triggers an automated GitHub Actions pipeline:
 
 **Redis Cache Monitoring**
 
-<!-- INSERT: H�nh 4.5 - Giao di?n qu?n l� Redis qua Redis Insight -->
+<!-- INSERT: Hình 4.5 - Giao diện quản lý Redis qua Redis Insight -->
 <img src="images/redis_dashboard.png"/>
 ---
 
 
 ## License
 
-This project is licensed under the MIT License ? see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
 
 ---
 
 <p align="center">
-  Built with ?? by the Lemoo Team
+  Built with ❤️ by the Lemoo Team
 </p>
